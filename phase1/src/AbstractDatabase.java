@@ -2,6 +2,7 @@ import java.util.HashMap;
 
 public abstract class AbstractDatabase {
   HashMap<Long, Object> data;
+  private long currID = 0;
 
   public void populateDataFromText() {
     return;
@@ -19,7 +20,10 @@ public abstract class AbstractDatabase {
     return this.data.get(id);
   }
 
-  public abstract void addItem();
+  public void addItem(Object item) {
+    this.data.put(new Long(this.currID), item);
+    this.currID += 1;
+  }
 
   public void removeItemByID(Long id) {
     this.data.remove(id);
@@ -29,5 +33,9 @@ public abstract class AbstractDatabase {
     for (Long id : this.data.keySet()) {
       System.out.println("[" + id.toString() + "] " + this.data.get(id).toString() + "\n");
     }
+  }
+
+  public HashMap<Long, Object> getData() {
+    return this.data;
   }
 }

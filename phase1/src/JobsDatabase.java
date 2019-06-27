@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class JobsDatabase extends AbstractDatabase{
@@ -18,18 +19,8 @@ public class JobsDatabase extends AbstractDatabase{
         super.printAll();
     }
 
-    @Override
-    public void addItem(){
-        //TODO: this function will be replaced by addItem(JobPosting jobPosting)
-        }
-
-    public void addItem(long id, JobPosting jobPosting){
-        //TODO: this method should be written in the super class
-        data.put(id,jobPosting);
-    }
-
-    public void createNewJobPostings(String title, String description){
-        addItem(JobPosting.getNumberOfJobs(), new JobPosting(title, description));
+    public void createNewJobPostings(String title, String description, LocalDate expiryDate){
+        addItem(new JobPosting(title, description, expiryDate));
     }
 
     public void removeJobPosting(Long id){

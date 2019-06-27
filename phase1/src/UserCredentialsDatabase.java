@@ -1,14 +1,14 @@
 import java.util.HashMap;
-public class UserCredentialsDatabase extends AbstractDatabase {
+import java.util.ArrayList;
+public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   public UserCredentials getUserByID(Long id) {
-    return (UserCredentials) super.getItemByID(id);
+    return super.getItemByID(id);
   }
   
   public UserCredentials getUserByCredentials(String userName, String password) {
-    HashMap<Long, Object> data = super.getData();
-    for (Long id : data.keySet()) {
-      UserCredentials user = getUserByID(id);
+    ArrayList<UserCredentials> userList = super.getListOfItems();
+    for (UserCredentials user : userList) {
       if (user.getUserName() == userName && user.getPassword() == password) {
         return user;
       }
@@ -16,8 +16,20 @@ public class UserCredentialsDatabase extends AbstractDatabase {
     return null;
   }
 
+  public boolean userExists(String username) {
+    ArrayList<UserCredentials> userList = super.getListOfItems();
+    for (UserCredentials user : userList) {
+      if (user.getUserName().equals(username)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public void addUsers(String userName, String password, String accountType) {
-    super.addItem(new UserCredentials(userName, password, accountType));
+    if (!userExists(userName)) {
+      super.addItem(new UserCredentials(userName, password, accountType));
+    }
   }
 
   public void removeUserByID(Long id) {

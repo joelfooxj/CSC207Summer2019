@@ -1,31 +1,26 @@
 import java.util.HashMap;
-public class UserCredentialsDatabase extends AbstractDatabase {
+import java.util.ArrayList;
+public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   public UserCredentials getUserByID(Long id) {
-    return (UserCredentials) super.getItemByID(id);
+    return super.getItemByID(id);
   }
   
   public UserCredentials getUserByCredentials(String userName, String password) {
-    Long ids = super.getCurrID();
-    for (Long i = 0L; i < ids; i++) {
-      UserCredentials user = getUserByID(i);
-      if (user != null) {
-        if (user.getUserName() == userName && user.getPassword() == password) {
-          return user;
-        }
+    ArrayList<UserCredentials> userList = super.getListOfItems();
+    for (UserCredentials user : userList) {
+      if (user.getUserName() == userName && user.getPassword() == password) {
+        return user;
       }
     }
     return null;
   }
 
   public boolean userExists(String username) {
-    Long ids = super.getCurrID();
-    for (Long i = 0L; i < ids; i++) {
-      UserCredentials user = getUserByID(i);
-      if (user != null) {
-        if (user.getUserName().equals(username)) {
-          return true;
-        }
+    ArrayList<UserCredentials> userList = super.getListOfItems();
+    for (UserCredentials user : userList) {
+      if (user.getUserName().equals(username)) {
+        return true;
       }
     }
     return false;

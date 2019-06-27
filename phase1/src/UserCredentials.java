@@ -1,12 +1,12 @@
 public class UserCredentials {
   private String userName;
   private String password;
-  private String accountType;
+  private String userType;
 
-  public UserCredentials(String userName, String password, String accountType) {
+  public UserCredentials(String userName, String password, String userType) {
     this.userName = userName;
     this.password = password;
-    this.accountType = accountType;
+    this.userType = userType;
   }
 
   public String getUserName() {
@@ -15,5 +15,9 @@ public class UserCredentials {
 
   public String getPassword() {
     return this.password;
+  }
+
+  public String getUserType() {
+    return this.userType;
   }
 }

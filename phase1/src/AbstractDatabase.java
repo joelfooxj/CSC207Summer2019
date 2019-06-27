@@ -17,7 +17,10 @@ public abstract class AbstractDatabase {
   }
 
   public Object getItemByID(Long id) {
-    return this.data.get(id);
+    if (this.data.containsKey(id)) {
+      return this.data.get(id);
+    }
+    return null;
   }
 
   public void addItem(Object item) {
@@ -37,5 +40,9 @@ public abstract class AbstractDatabase {
 
   public HashMap<Long, Object> getData() {
     return this.data;
+  }
+
+  public long getCurrID() {
+    return this.currID;
   }
 }

@@ -1,15 +1,27 @@
 public class Application {
     private long applicationID;
-    private long jobID;
     private long applicantID;
+    private long jobID;
     private long firmID;
-    private int numInterview;
+
+    private int numInterview = 0;
     private long interviewerID;
+
+    //Not sure how to use this
+    private boolean passedInterview;
+
     private String cvPath;
     private String clPath;
 
     public Application(long id){
-        this.applicantID = id;
+        this.applicationID = id;
+    }
+
+    public Application(long applicationID, long applicantID, long jobID, long firmID){
+        this.applicationID = applicationID;
+        this.applicantID = applicantID;
+        this.jobID = jobID;
+        this.firmID = firmID;
     }
 
     public long getApplicationID() {

@@ -4,10 +4,11 @@ import java.util.Scanner;
 
 public class UserInterface{
 
-    private static Scanner sc = new Scanner(System.in);
     private static ApplicationsDatabase appsDb = new ApplicationsDatabase();
     private static JobsDatabase jobsDb = new JobsDatabase();
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
+
+    private static Scanner sc = new Scanner(System.in);
     private static String applicantUserType = "Applicant";
     private static String interviewerUserType = "Interviewer";
     private static String hrUserType = "HR";
@@ -42,6 +43,8 @@ public class UserInterface{
                     " or " + hrUserType +"): ");
             String accountType = sc.nextLine();
 
+
+
             usersDb.addUser(userName, password, accountType);
             System.out.println("Sign up successful. Please login with your account");
             return getUser();
@@ -69,25 +72,37 @@ public class UserInterface{
     }
     public static void main(String[] args) {
 
-
         while (true) {
+            // a methods that gets the date from the user
             LocalDate sessionDate = getDate();
+
+            // a method that handles sign ups & log ins
             UserCredentials user = getUser();
+
+            // polymorphism => all Command Handler objects are of time CommandHandler
             CommandHandler commandHandler;
+
+            // set the value of CommandHandler based on the user type
             if (user.getUserType().equals(applicantUserType)){
-                commandHandler = new ApplicantCommandHandler(appsDb, jobsDb, usersDb);
+                commandHandler = new ApplicantCommandHandler(appsDb, jobsDb, user);
                 displayUserNotifications(user);
+
             } else if (user.getUserType().equals(interviewerUserType)){
-                commandHandler = new EmployerCommandHandler(appsDb, jobsDb, usersDb);
+                commandHandler = new InterviewerCommandHandler(appsDb, jobsDb, usersDb, user);
+
             } else if (user.getUserType().equals(hrUserType)){
-                commandHandler = new hrCommandHandler(appsDb, jobsDb, usersDb);
+                commandHandler = new hrCommandHandler(appsDb, jobsDb, user, usersDb, sessionDate);
+            } else {
+                System.out.println("Invalid user type");
+                continue;
             }
 
+            // a loop that prints the commands & execute them
             String command = "";
             while (!command.equals("Exit")){
                 commandHandler.printCommandList();
                 command = sc.nextLine();
-                commandHandler.handleCommand(userInput);
+                commandHandler.handleCommand(command);
             }
 
         }

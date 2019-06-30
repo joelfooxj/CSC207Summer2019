@@ -1,5 +1,6 @@
 public class Application {
     private long applicationID;
+    //Do we need applicant ID or applicant object?
     private long applicantID;
     private long jobID;
     private long firmID;

@@ -19,6 +19,17 @@ public class ApplicationDatabase extends AbstractDatabase{
         applicationDatabase.remove(removeID);
     }
 
+    //Since each application ID is unique, this returns 1 application object
+    public Application getApplicationByApplicationID(long applicationID){
+        for(int i = 0; i<applicationDatabase.size();i++){
+            Application item = applicationDatabase.get(i);
+            if (item.getApplicationID() == applicationID){
+                return item;
+            }
+        }
+        return null;
+    }
+
     //Get a list of applications by its applicant ID
     public List<Application> getApplicationByApplicantID(long applicantID){
         List<Application> applicationList = new ArrayList<Application>();
@@ -56,16 +67,18 @@ public class ApplicationDatabase extends AbstractDatabase{
     }
 
     //The 3 print methods
+    //print a String which adds all the toString of applications with that applicant ID
     public void printApplicationsByApplicantID(long applicantID){
         StringBuilder allApplication = new StringBuilder();
         for (int i = 0;i<applicationDatabase.size();i++){
             Application item = applicationDatabase.get(i);
             if (item.getApplicantID() == applicantID)
-            allApplication.append(item.toString());
+            allApplication.append(item.toString()+";  ");
         }
         System.out.println(allApplication);
     }
 
+    //print a String …… job ID
     public void printApplicationsByJobID(long jobID){
         StringBuilder allApplication = new StringBuilder();
         for (int i = 0;i < applicationDatabase.size();i++){
@@ -76,6 +89,7 @@ public class ApplicationDatabase extends AbstractDatabase{
         System.out.println(allApplication);
     }
 
+    //print a String …… firmID
     public void printApplicationsByFirmID(long firmID){
         StringBuilder allApplication = new StringBuilder();
         for (int i = 0;i<applicationDatabase.size();i++){

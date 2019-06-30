@@ -13,7 +13,7 @@ public class InputFormatting {
      * correction is made.
      *
      * Usage:
-     * Long inputLong = (Long) InputFormatting.inputWrapper("long", new ArrayList(Arrays.asList(1,2,3));
+     * Long inputLong = (Long) InputFormatting.inputWrapper("long", Arrays.asList(1,2,3));
      *
      * This will check for a Long type, will raise an exception otherwise.
      * This will check for inputs 1, 2, 3 - any other input will loop input until the one of those inputs are selected.

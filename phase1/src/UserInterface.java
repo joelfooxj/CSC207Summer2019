@@ -43,8 +43,6 @@ public class UserInterface{
                     " or " + hrUserType +"): ");
             String accountType = sc.nextLine();
 
-
-
             usersDb.addUser(userName, password, accountType);
             System.out.println("Sign up successful. Please login with your account");
             return getUser();
@@ -77,7 +75,7 @@ public class UserInterface{
             LocalDate sessionDate = getDate();
 
             // a method that handles sign ups & log ins
-            UserCredentials user = getUser();
+            UserCredentials currentUser = getUser();
 
             // polymorphism => all Command Handler objects are of time CommandHandler
             CommandHandler commandHandler;

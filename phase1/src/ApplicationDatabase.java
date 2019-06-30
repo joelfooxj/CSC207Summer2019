@@ -55,6 +55,10 @@ public class ApplicationDatabase extends AbstractDatabase{
         return applicationList;
     }
 
+    public void printApplicationsByApplicantID(String username, long firmId){
+        // applicant ids are the username
+    }
+
     //The 3 print methods
     public void printApplicationsByApplicantID(long applicantID){
         StringBuilder allApplication = new StringBuilder();
@@ -84,5 +88,10 @@ public class ApplicationDatabase extends AbstractDatabase{
                 allApplication.append(item.toString());
         }
         System.out.println(allApplication);
+    }
+
+    public void printOpenApplicationsByJobID(long jobId) {
+        // prints applications that are not closed (filled/expired)
+        // this will be called when the HR wants to set up an interview
     }
 }

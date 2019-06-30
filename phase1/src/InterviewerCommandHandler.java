@@ -16,7 +16,7 @@ public class InterviewerCommandHandler extends CommandHandler {
     private List<Application> assignedApps;
 
 
-    public InterviewerCommandHandler(ApplicationsDatabase appsDb, JobsDatabase jobsDb, UserCredentialsDatabase usersDb,
+    public InterviewerCommandHandler(ApplicationDatabase appsDb, JobsDatabase jobsDb, UserCredentialsDatabase usersDb,
                                      String interviewerID){
         super(appsDb, jobsDb, usersDb);
         this.interviewerID = interviewerID;

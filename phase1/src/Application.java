@@ -101,4 +101,18 @@ public class Application {
                 ", the path to the CV is " + cvPath +  " and the cover letter path is "+ clPath
                 ;
     }
+
+    public Object getResume() {
+        // to be discussed
+        return null;
+    }
+
+    public Object getCoverLetter() {
+        // to be discussed
+        return null;
+    }
+
+    public void setUpInterview(String targetInterviewerId) {
+        // to be discussed
+    }
 }

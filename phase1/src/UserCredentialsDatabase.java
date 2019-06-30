@@ -35,4 +35,16 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
   public void removeUserByID(Long id) {
     super.removeItemByID(id);
   }
+
+    public void addUser(String userName, String password, String accountType) {
+      // add a user of type applicant (no need for firm id or account tyoe
+    }
+
+  public void addUser(String userName, String password, String accountType, String firmId) {
+    // add a user of type interviewer or HR
+  }
+
+  public void printInterviewersByFirmID(long firmId) {
+
+  }
 }

@@ -16,19 +16,19 @@ public class JobPosting {
     private int numLabourRequired = 1;
     private boolean isOpen = true;
 
-    public JobPosting(String jobTitle, String jobDescription, LocalDate expiryDate){
+    public JobPosting(String jobTitle, String jobDescription, LocalDate publishDate, LocalDate expiryDate){
         jobid = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         //should the publish date be based on the actual date today? or should it be modifiable for testing purposes?
-        this.publishDate = LocalDate.now();
+        this.publishDate = publishDate;
         this.expiryDate = expiryDate;
     }
 
     //how do we check if a job has been filled?
     public boolean isOpen(){
-        return isOpen;
+        return isOpen && !isExpired();
     }
 
     private boolean isExpired(){
@@ -42,7 +42,7 @@ public class JobPosting {
     }
     //what's the difference between isOpen() and isFilled()?
     private void isFilled(){
-        //TODO: write
+        //what does this do
     }
 
 }

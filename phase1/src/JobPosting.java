@@ -45,4 +45,9 @@ public class JobPosting {
         //what does this do
     }
 
+    @Override
+    public String toString(){
+        // [jobId] JobTitle + ": " + JobDescription
+    }
+
 }

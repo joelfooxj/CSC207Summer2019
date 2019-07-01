@@ -1,11 +1,12 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HrCommandHandler extends CommandHandler {
 
     protected UserCredentialsDatabase usersDb;
     protected LocalDate sessionDate;
-    public HrCommandHandler(ApplicationsDatabase appsDb,
+    public HrCommandHandler(ApplicationDatabase appsDb,
                             JobsDatabase jobsDb,
                             UserCredentials currentUser,
                             UserCredentialsDatabase usersDb,
@@ -31,7 +32,8 @@ public class HrCommandHandler extends CommandHandler {
 
         // get the applicant ID (username)
         System.out.println("Please choose an applicant: ");
-        appsDb.printApplicantsByFirmId(user.getFirmId());
+        appsDb.printApplicationsByFirmID(this.currentUser.getFirmId());
+
         String targetApplicant = sc.nextLine();
 
         // Prompt the HR user an option
@@ -42,7 +44,7 @@ public class HrCommandHandler extends CommandHandler {
         String userCommand = sc.nextLine();
 
         if (userCommand.equals("1")){
-            appsDb.printApplicationsByUserId(targetApplicant, user.getFirmId());
+            appsDb.printApplicationsByApplicantID(targetApplicant, this.currentUser.getFirmId());
             return;
         }
 
@@ -51,8 +53,10 @@ public class HrCommandHandler extends CommandHandler {
         // The target applicant may have different Resumes and cover letter
         // prompt the HR all the applications by this individual
         System.out.println("Please select an application: ");
-        appsDb.printApplicationsByUserId(targetApplicant, user.getFirmId());
-        Application targetApplication = appsDb.getItemById(sc.nextLong());
+
+        appsDb.printApplicationsByApplicantID(targetApplicant, this.currentUser.getFirmId());
+
+        Application targetApplication = (Application) this.appsDb.getItemByID(sc.nextLong());
 
         // get the resume or cover letter of the chose application
         if(userCommand.equals("2")){
@@ -62,13 +66,38 @@ public class HrCommandHandler extends CommandHandler {
         }
     }
 
+    private void handleApplicantsPerJobCommand(){
+        System.out.println("Please select a job: ");
+        this.jobsDb.printJobsByFirmId(this.currentUser.getFirmId());
+        //jobsDb.getJobsByFirmId();
+        long jobId = sc.nextLong();
+        this.appsDb.printApplicationsByJobID(jobId);
+    }
+
+    private void handleIntervieweeMatchingCommand(){
+        System.out.println("Please select a job: ");
+        this.jobsDb.printJobsByFirmId(this.currentUser.getFirmId());
+        //jobsDb.getJobsByFirmId();
+        long jobId = sc.nextLong();
+        System.out.println("Please select an application to interview");
+        this.appsDb.printOpenApplicationsByJobID(jobId);
+        Application targetApplication = (Application) this.appsDb.getItemByID(sc.nextLong());
+
+        System.out.println("Please select an interviwer: ");
+        this.usersDb.printInterviewersByFirmID(this.currentUser.getFirmId());
+        String targetInterviewerId = sc.nextLine();
+        targetApplication.setUpInterview(targetInterviewerId);
+    }
 
     void printCommandList(){
         System.out.println("[1] Create a new job post");
         System.out.println("[2] View applicants information");
         System.out.println("[3] View applicants for a particular job");
+        System.out.println("[4] View applicants for a particular job");
 
     }
+
+
 
     void handleCommand(String commandId){
         if (commandId.equals("1")){
@@ -76,8 +105,9 @@ public class HrCommandHandler extends CommandHandler {
         } else if (commandId.equals("2")){
             handleApplicantInfo();
         } else if(commandId.equals("3")){
-            // TODO: not yet implemented
-
+            handleApplicantsPerJobCommand();
+        } else if (commandId.equals("4")){
+            handleIntervieweeMatchingCommand();
         }
     }
 }

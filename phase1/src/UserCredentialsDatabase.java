@@ -28,6 +28,7 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   public void removeUserByID(Long id) {
     super.removeItemByID(id);
+    //super.saveChanges(super.getData(),"UserCredentials.bin");
   }
 
   public void addUser(String userName, String password, String accountType) {

@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 
@@ -40,6 +41,7 @@ public class InterviewerCommandHandler extends CommandHandler {
     }
 
     public void viewInterviewees(){
+        System.out.println("Here are your assigned interviewees: ");
         for (Application app:this.assignedApps){
             System.out.println(app);
         }
@@ -59,6 +61,29 @@ public class InterviewerCommandHandler extends CommandHandler {
         System.out.println("[1] View all assigned interviewees.\n");
         System.out.println("[2] Recommend an application.\n");
     }
+
+    public void tempCommand(String commandID) {
+        HashMap<String, Runnable> options = new HashMap<>();
+        options.put("1", () -> this.viewInterviewees());
+        options.put("2", () -> this.recommendUI());
+//        {
+//            System.out.println("Enter the applicant number to be recommended: ");
+//            try {
+//                Long inputApplicatID = (Long) InputFormatting.inputWrapper("string", null);
+//                recommendApplication(inputApplicatID);
+//            } catch (EscapeLoopException ex) {}
+//        });
+        options.get(commandID).run();
+    }
+
+    public void recommendUI() {
+        System.out.println("Enter the applicant number to be recommended: ");
+            try {
+                Long inputApplicatID = (Long) InputFormatting.inputWrapper("string", null);
+                recommendApplication(inputApplicatID);
+            } catch (EscapeLoopException ex) {}
+    }
+
 
     @Override
     public void handleCommand(String commandID){

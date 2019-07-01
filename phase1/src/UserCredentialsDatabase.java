@@ -26,25 +26,24 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
     return false;
   }
 
-  public void addUsers(String userName, String password, String accountType) {
-    if (!userExists(userName)) {
-      super.addItem(new UserCredentials(userName, password, accountType));
-    }
-  }
-
   public void removeUserByID(Long id) {
     super.removeItemByID(id);
   }
 
-    public void addUser(String userName, String password, String accountType) {
-      // add a user of type applicant (no need for firm id or account tyoe
-    }
+  public void addUser(String userName, String password, String accountType) {
+    super.addItem(new UserCredentials(userName, password, accountType));
+  }
 
-  public void addUser(String userName, String password, String accountType, String firmId) {
-    // add a user of type interviewer or HR
+  public void addUser(String userName, String password, String accountType, long firmId) {
+    super.addItem(new UserCredentials(userName, password, accountType, firmId));
   }
 
   public void printInterviewersByFirmID(long firmId) {
-
+    for (Long i = 0L; i < super.getCurrID(); i++) {
+      UserCredentials item = super.getItemByID(i);
+        if (item != null && item.getUserType().equals("Interviewer") && item.getFirmId() == firmId) {
+          System.out.println("[" + i.toString() + "] " + item.toString() + "\n");
+      }
+    }
   }
 }

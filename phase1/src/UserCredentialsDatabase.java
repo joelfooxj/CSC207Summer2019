@@ -4,12 +4,23 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   public UserCredentials getUserByID(Long id) {
     return super.getItemByID(id);
-  }
-  
-  public UserCredentials getUserByCredentials(String userName, String password) {
+  } 
+
+  public UserCredentials getUserByCredentials(String userName) {
     ArrayList<UserCredentials> userList = super.getListOfItems();
     for (UserCredentials user : userList) {
-      if (user.getUserName() == userName && user.getPassword() == password) {
+      if (user.getUserName().equals(userName)) {
+        return user;
+      }
+    }
+    return null;
+  }
+
+
+  public UserCredentials getUserByCredentials(String userName, String password) {
+    UserCredentials user = this.getUserByCredentials(userName);
+    if (user != null) {
+      if (user.getPassword().equals(password)) {
         return user;
       }
     }
@@ -37,6 +48,15 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   public void addUser(String userName, String password, String accountType, long firmId) {
     super.addItem(new UserCredentials(userName, password, accountType, firmId));
+  }
+
+  public Long getUserID(UserCredentials user) {
+    for (Long i = 0L; i < super.getCurrID(); i++) {
+      if (super.getItemByID(i) == user) {
+        return i;
+      }
+    }
+    return null;
   }
 
   public void printInterviewersByFirmID(long firmId) {

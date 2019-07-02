@@ -12,7 +12,7 @@ public class Application {
     private long interviewerID;
 
     //Not sure how to use this
-    private boolean recommend;
+    private int passedInterviewNum;
 
     private String cvPath;
     private String clPath;
@@ -21,6 +21,8 @@ public class Application {
     private Temporal closedDate;
 
     private boolean isOpen = true;
+
+    public Application(){}
 
     public Application(long id){
         this.applicationID = id;
@@ -95,6 +97,14 @@ public class Application {
 
     public void setClPath(String clPath) {
         this.clPath = clPath;
+    }
+
+    public void recommend(){
+        this.passedInterviewNum += 1;
+    }
+
+    public int getPassedInterviewNum() {
+        return passedInterviewNum;
     }
 
     @Override

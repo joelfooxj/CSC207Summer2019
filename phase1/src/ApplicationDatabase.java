@@ -2,50 +2,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ApplicationDatabase extends AbstractDatabase{
-    private HashMap<Long, Application> applicationDatabase;
-    private int total = applicationDatabase.size();
+public class ApplicationDatabase extends AbstractDatabase<Application>{
+    //private HashMap<Long, Application> applicationDatabase;
+    //private int total = super().size();
 
     public ApplicationDatabase() {
-        applicationDatabase = new HashMap<>();
     }
 
     // Form in bracket is (application ID, application object)
     public void addApplication(Application application){
-        applicationDatabase.put(application.getApplicationID(), application);
-        total += 1;
+        super.addItem(application);
     }
 
     //Add an application which contains applicant and job info
     public void addApplication(long applicantID, long jobID){
-        Application newApplication = new Application((long)this.total);
+        Application newApplication = new Application();
         newApplication.setApplicantID(applicantID);
         newApplication.setJobID(jobID);
-        applicationDatabase.put((long)this.total, newApplication);
-        total += 1;
+        super.addItem(newApplication);
     }
 
     //This ID must be application ID
     public void removeItemByID(long removeID){
-        applicationDatabase.remove(removeID);
+        super.removeItemByID(removeID);
     }
 
     //Since each application ID is unique, this returns 1 application object
     public Application getApplicationByApplicationID(long applicationID){
-        for(int i = 0; i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
-            if (item.getApplicationID() == applicationID){
-                return item;
-            }
-        }
-        return null;
+        return super.getItemByID(applicationID);
     }
 
     //Get a list of applications by its applicant ID
     public List<Application> getApplicationByApplicantID(long applicantID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(int i = 0; i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for(Long i = 0L; i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getApplicantID() == applicantID){
                 applicationList.add(item);
             }
@@ -56,8 +47,8 @@ public class ApplicationDatabase extends AbstractDatabase{
     //Get a list of applications by its Job ID
     public List<Application> getApplicationByJobID(long jobID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(int i = 0; i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for(Long i = 0L; i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getJobID() == jobID){
                 applicationList.add(item);
             }
@@ -68,8 +59,8 @@ public class ApplicationDatabase extends AbstractDatabase{
     //Get a list of applications by its Firm ID
     public List<Application> getApplicationByFirmID(long firmID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(int i = 0; i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for(Long i = 0L; i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getFirmID() == firmID){
                 applicationList.add(item);
             }
@@ -80,8 +71,8 @@ public class ApplicationDatabase extends AbstractDatabase{
     //Get a list of applications by its interviewerID
     public List<Application> getApplicationByInterviewerID(long interviewerID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(int i = 0; i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for(Long i = 0L; i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getInterviewerID() == interviewerID){
                 applicationList.add(item);
             }
@@ -97,8 +88,8 @@ public class ApplicationDatabase extends AbstractDatabase{
     //print a String which adds all the toString of applications with that applicant ID
     public void printApplicationsByApplicantID(long applicantID){
         StringBuilder allApplication = new StringBuilder();
-        for (int i = 0;i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for (Long i = 0L;i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getApplicantID() == applicantID)
             allApplication.append(item.toString()+";  ");
         }
@@ -108,8 +99,8 @@ public class ApplicationDatabase extends AbstractDatabase{
     //print a String …… job ID
     public void printApplicationsByJobID(long jobID){
         StringBuilder allApplication = new StringBuilder();
-        for (int i = 0;i < applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for (long i = 0L;i < super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getJobID() == jobID)
                 allApplication.append(item.toString()+"; ");
         }
@@ -119,8 +110,8 @@ public class ApplicationDatabase extends AbstractDatabase{
     //print a String …… firmID
     public void printApplicationsByFirmID(long firmID){
         StringBuilder allApplication = new StringBuilder();
-        for (int i = 0;i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for (Long i = 0L;i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getFirmID() == firmID)
                 allApplication.append(item.toString()+"; ");
         }
@@ -130,9 +121,19 @@ public class ApplicationDatabase extends AbstractDatabase{
     //print a String …… interviewer ID
     public void printApplicationsByInterviewerID(long interviewerID){
         StringBuilder allApplication = new StringBuilder();
-        for (int i = 0;i<applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
+        for (Long i = 0L;i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
             if (item.getInterviewerID() == interviewerID)
+                allApplication.append(item.toString()+"; ");
+        }
+        System.out.println(allApplication);
+    }
+
+    public void printPassedApplications(long jobID){
+        StringBuilder allApplication = new StringBuilder();
+        for (Long i = 0L;i<super.getCurrID();i++){
+            Application item = super.getItemByID(i);
+            if (item.getJobID() == jobID && item.getPassedInterviewNum()==4 )
                 allApplication.append(item.toString()+"; ");
         }
         System.out.println(allApplication);
@@ -142,9 +143,9 @@ public class ApplicationDatabase extends AbstractDatabase{
     // this will be called when the HR wants to set up an interview
     public void printOpenApplicationsByJobID(long jobID) {
         StringBuilder allApplication = new StringBuilder();
-        for (int i = 0;i < applicationDatabase.size();i++){
-            Application item = applicationDatabase.get(i);
-            if (item.getJobID() == jobID && item.isOpen() == true)
+        for (Long i = 0L;i < super.getCurrID();i++){
+            Application item = super.getItemByID(i);
+            if (item.getJobID() == jobID && item.isOpen())
                 allApplication.append(item.toString() +"; ");
         }
         System.out.println(allApplication);

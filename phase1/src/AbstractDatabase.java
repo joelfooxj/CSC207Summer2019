@@ -6,14 +6,14 @@ public abstract class AbstractDatabase<T> implements Serializable {
     HashMap<Long, T> data;
     private long currID = 0;
 
-    public Object loadData(String fileName) throws IOException, ClassNotFoundException {
+    public void readDatabase(String fileName) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
-        return ois.readObject();
+        this.data = (HashMap<Long, T>) ois.readObject();
     }
 
-    public void saveChanges(Object obj, String fileName) throws IOException {
+    public void saveDatabase(String fileName) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
-        oos.writeObject(obj);
+        oos.writeObject(this.data);
     }
 
     public T getItemByID(Long id) {

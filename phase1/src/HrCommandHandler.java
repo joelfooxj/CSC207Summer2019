@@ -1,6 +1,8 @@
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class HrCommandHandler extends CommandHandler {
 
@@ -24,7 +26,7 @@ public class HrCommandHandler extends CommandHandler {
         String jobTitle = sc.nextLine();
         System.out.println("Enter the job description");
         String jobDescription = sc.nextLine();
-        this.jobsDb.addJob(jobTitle, jobDescription, this.sessionDate);
+        this.jobsDb.addJob(jobTitle, jobDescription, currentUser.getFirmId(), this.sessionDate);
         System.out.println("Job post created successfully");
     }
 
@@ -74,7 +76,7 @@ public class HrCommandHandler extends CommandHandler {
         this.appsDb.printApplicationsByJobID(jobId);
     }
 
-    private void handleIntervieweeMatchingCommand(){
+    private void handleIntervieweeMatching(){
         System.out.println("Please select a job: ");
         this.jobsDb.printJobsByFirmId(this.currentUser.getFirmId());
         //jobsDb.getJobsByFirmId();
@@ -89,25 +91,36 @@ public class HrCommandHandler extends CommandHandler {
         targetApplication.setUpInterview(targetInterviewerId);
     }
 
-    void printCommandList(){
-        System.out.println("[1] Create a new job post");
-        System.out.println("[2] View applicants information");
-        System.out.println("[3] View applicants for a particular job");
-        System.out.println("[4] View applicants for a particular job");
 
-    }
+    void handleCommands(String commandId){
 
+        HashMap<String, Runnable> mainHrCommands = new HashMap<>();
+        mainHrCommands.put("1", () -> this.handleJobCreation());
+        mainHrCommands.put("2", () -> this.handleApplicantInfo());
+        mainHrCommands.put("3", () -> this.handleApplicantsPerJobCommand());
+        mainHrCommands.put("4", () -> this.handleIntervieweeMatching());
 
+        String command = "";
+        while (!command.equals("Exit")){
 
-    void handleCommand(String commandId){
-        if (commandId.equals("1")){
-            handleJobCreation();
-        } else if (commandId.equals("2")){
-            handleApplicantInfo();
-        } else if(commandId.equals("3")){
-            handleApplicantsPerJobCommand();
-        } else if (commandId.equals("4")){
-            handleIntervieweeMatchingCommand();
+            System.out.println("[1] Create a new job post");
+            System.out.println("[2] View applicants information");
+            System.out.println("[3] View applicants for a particular job");
+            System.out.println("[4] View applicants for a particular job");
+
+            try {
+                command = (String) InputFormatting.inputWrapper("string", new ArrayList(mainHrCommands.keySet()));
+                mainHrCommands.get(command).run();
+            }
+            catch (EscapeLoopException ex) {
+            }
         }
+
+        try {
+            this.saveAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

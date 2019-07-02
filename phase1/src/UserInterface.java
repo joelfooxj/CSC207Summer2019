@@ -99,14 +99,8 @@ public class UserInterface{
                 System.out.println("Invalid user type");
                 continue;
             }
+            commandHandler.handleCommands();
 
-            // a loop that prints the commands & execute them
-            String command = "";
-            while (!command.equals("Exit")){
-                commandHandler.printCommandList();
-                command = sc.nextLine();
-                commandHandler.handleCommand(command);
-            }
 
         }
 

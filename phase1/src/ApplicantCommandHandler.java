@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
@@ -10,34 +11,122 @@ public class ApplicantCommandHandler extends CommandHandler{
      * This class should call methods from the database and attended classes
      */
 
-    // Common methods
-    // listAvailableCommands()
     private long applicantID;
     private LocalDate creationDate;
-    private ApplicationDatabase appsDb;
-    private UserCredentialsDatabase usersDb;
     private List<Application> allApps;
-    //TODO: set a global reference date here or something
-    private LocalDate someDate = LocalDate.of(2019, 06, 10);
+    private LocalDate sessionDate = UserInterface.getSessionDate();
 
-    public ApplicantCommandHandler(ApplicationDatabase appsDb, JobPostingDatabase jobsDb, UserCredentialsDatabase usersDb,
-                                   UserCredentials user){
-
-        super(appsDb, jobsDb, usersDb);
+    public ApplicantCommandHandler(ApplicationDatabase appsDb, JobsDatabase jobsDb, UserCredentials user){
+        super(appsDb, jobsDb, user);
         this.applicantID = user.getApplicantID();
         this.creationDate = user.getCreationDate();
         this.allApps = this.getApplications();
         deleteCVAndCoverLetter();
+        while(true){
+            printCommandList();
+            String inputString = (String) InputFormatting.inputWrapper(
+                    "string",
+                    Arrays.asList("1", "2", "3", "4", "5");
+            if (inputString.equals("Exit")){
+                break;
+            } else { handleCommands(inputString); }
+        }
     }
 
     @Override
     public void printCommandList(){
-
+        System.out.println("Select one of the following options: ");
+        System.out.println("[1] View open job postings.");
+        System.out.println("[2] Apply for job.");
+        System.out.println("[3] View all of your open applications.");
+        System.out.println("[4] View an option for an open application.");
+        System.out.println("[5] View the history of this account.");
+        System.out.println("[Exit] to exit the program.");
     }
 
     @Override
-    public void handleCommand(String commandID){
+    public void handleCommands(String commandID){
+        HashMap<String, Runnable> menu = new HashMap<>();
+        menu.put("1", () -> {
+            System.out.println("Here the open jobs postings: ");
+            this.viewJobPostings();
+        });
+        menu.put("2", () -> {
+            System.out.println("Enter the ID of the Job to apply for: ");
+            Long inputLong = (Long) InputFormatting.inputWrapper(
+                    "long",null);
+            this.applyForJob(inputLong);
+        });
+        menu.put("3", () -> {
+            System.out.println("Here are all open applications: ");
+            this.viewOpenApplications();
+        });
+        menu.put("4", () -> {
+            System.out.println("Enter the Application ID to be viewed: ");
+            Long inputLong = (Long) InputFormatting.inputWrapper(
+                    "long",null);
+            Application inputApp = this.getApplicationByApplicationID(inputLong, this.getOpenApplications());
+            while(true){
+                printApplicationCommands(inputApp);
+                String inputString = (String) InputFormatting.inputWrapper(
+                        "string",
+                        Arrays.asList("1", "2", "3", "4"));
+                if (inputString.equals("Exit")){
+                    break;
+                } else { applicationHandle(inputString, inputApp); }
+            }
+        });
+        menu.put("5", () -> {
+            System.out.println("Here is the history of this account: ");
+            this.getHistory();
+        });
+        menu.get(commandID).run();
+    }
 
+    private void printApplicationCommands(Application inputApp){
+        System.out.println("The current status of this interview is: " + inputApp.status());
+        System.out.println("\nSelect one of the following options for this application: ");
+        System.out.println("[1] Withdraw from this application.");
+        System.out.println("[2] View/Set CV");
+        System.out.println("[3] View/Set Cover Letter");
+        System.out.println("[Exit] to exit to the main menu.");
+    }
+
+    private void applicationHandle(String appCommand, Application inputApp){
+        HashMap<String, Runnable> appMenu = new HashMap<>();
+        appMenu.put("1", () -> {
+            inputApp.setOpen(false);
+            System.out.println("You have withdrawn from the application.");
+        });
+        appMenu.put("2", () -> {
+            System.out.println("Type [view] to view the CV for this application, " +
+                    "\n or [new] to upload a new CV.");
+            String inputString = (String) InputFormatting.inputWrapper(
+                    "string",
+                    Arrays.asList("view", "new"));
+            if (inputString.equals("view")){
+                System.out.println(inputApp.getCvPath());
+            } else {
+                System.out.println("Enter new CV path: ");
+                String newCVPath = (String) InputFormatting.inputWrapper("string", null);
+                inputApp.setCvPath(newCVPath);
+            }
+        });
+        appMenu.put("3", () -> {
+            System.out.println("Type [view] to view the cover letter for this application, " +
+                    "\n or [new] to upload a new cover letter.");
+            String inputString = (String) InputFormatting.inputWrapper(
+                    "string",
+                    Arrays.asList("view", "new"));
+            if (inputString.equals("view")){
+                System.out.println(inputApp.getClPath());
+            } else {
+                System.out.println("Enter new cover letter path: ");
+                String newCLPath = (String) InputFormatting.inputWrapper("string", null);
+                inputApp.setClPath(newCLPath);
+            }
+        });
+        appMenu.get(appCommand).run();
     }
 
     private List<Application> getApplications(){
@@ -45,7 +134,7 @@ public class ApplicantCommandHandler extends CommandHandler{
     }
 
     private List<Application> getOpenApplications(){
-        List<Application> openApps;
+        List<Application> openApps = new ArrayList<>();
         for (Application app:this.allApps){
             if (app.isOpen()){
                 openApps.add(app);
@@ -55,9 +144,9 @@ public class ApplicantCommandHandler extends CommandHandler{
     }
 
     private List<Application> getClosedApplications(){
-        List<Application> closedApps;
+        List<Application> closedApps = new ArrayList<>();
         for (Application app:this.allApps){
-            if (app.isClosed()){
+            if (!app.isOpen()){
                 closedApps.add(app);
             }
         }
@@ -70,6 +159,7 @@ public class ApplicantCommandHandler extends CommandHandler{
                 return app;
             }
         }
+        return null;
     }
 
     public void viewOpenApplications(){
@@ -82,8 +172,8 @@ public class ApplicantCommandHandler extends CommandHandler{
     /**
      * Should be able to view the jobID
      */
-    public void viewJobPosting(){
-        jobsDb.viewOpenJobs();
+    public void viewJobPostings(){
+        jobsDb.printJobPostings();
     }
 
     public void applyForJob(Long jobID){
@@ -91,54 +181,20 @@ public class ApplicantCommandHandler extends CommandHandler{
         this.getApplications();
     }
 
-    public void withdrawFromJob(Long appID){
-        List<Application> openApps = this.getOpenApplications();
-        this.getApplicationByApplicationID(appID, openApps).setClosed();
-    }
 
-    //TODO: Needs common text parser/reader
-    public void readApplicationCoverLetter(Long AppID){
-        String clPath;
-        clPath = this.getApplicationByApplicationID(AppID, this.allApps).getClPath();
-        if (clPath != null){
-            //parse and output txt file here
-        }
-    }
-
-    //TODO: Needs common text parser/reader
-    public void readApplicationCV(Long AppID){
-        String cvPath;
-        cvPath = this.getApplicationByApplicationID(AppID, this.allApps).getCvPath();
-        if (cvPath != null){
-            //parse and output txt file here
-        }
-    }
-
-    public void setApplicationCV(Long AppID){
-        String inCV = "some path here";
-        this.getApplicationByApplicationID(AppID, this.allApps).setCvPath(inCV);
-    }
-
-    public void setApplicationCoverLetter(Long AppID){
-        String inCL = "";
-        this.getApplicationByApplicationID(AppID, this.allApps).setClPath(inCL);
-    }
-
-    public void getHistory{
+    public void getHistory(){
         System.out.println("The creation date of this account is: " + this.creationDate);
         System.out.println("These are your applications that are now closed: ");
         for (Application app:this.getClosedApplications()){
             System.out.println(app);
         }
-
         System.out.println("These are your applications that are open: ");
         for (Application app:this.getOpenApplications()){
             System.out.println(app);
         }
-
         long minDaysBetween = 0;
         for (Application app:this.getClosedApplications()) {
-            long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), someDate);
+            long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), sessionDate);
             if (minDaysBetween == 0) {
                 minDaysBetween = daysBetween;
             } else if (minDaysBetween >= daysBetween) {
@@ -150,7 +206,7 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     public void deleteCVAndCoverLetter(){
         for (Application app:this.getClosedApplications()){
-            if (ChronoUnit.DAYS.between(someDate, app.getClosedDate()) > 30){
+            if (ChronoUnit.DAYS.between(sessionDate, app.getClosedDate()) > 30){
                 app.setClPath(null);
                 app.setCvPath(null);
             }

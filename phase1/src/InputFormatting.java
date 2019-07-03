@@ -20,17 +20,12 @@ public class InputFormatting {
      * This will check for '~' character to raise EscapeLoopException which should be used to escape to main menus.
      *
      */
-    public static Object inputWrapper(String returnType, List<? extends Object> compareList)
-            throws EscapeLoopException {
+    public static Object inputWrapper(String returnType, List<? extends Object> compareList){
         while (true) {
             String inString = mainScanner.nextLine().trim();
-            if (inString.equals("~")) {
-                throw new EscapeLoopException();
-            }
-            List<Integer> IntegerList;
-            List<Double> DoubleList;
-            List<String> StringList;
-            List<Long> LongList;
+//            if (inString.equals("~")) {
+//                throw new EscapeLoopException();
+//            }
             try {
                 switch (returnType) {
                     case "long":
@@ -38,7 +33,7 @@ public class InputFormatting {
                         if (compareList == null) {
                             return outLong;
                         }
-                        LongList = (List<Long>) compareList;
+                        List<Long> LongList = (List<Long>) compareList;
                         if (LongList.contains(outLong)) {
                             return outLong;
                         }
@@ -48,7 +43,7 @@ public class InputFormatting {
                         if (compareList == null) {
                             return outInt;
                         }
-                        IntegerList = (List<Integer>) compareList;
+                        List<Integer> IntegerList = (List<Integer>) compareList;
                         if (IntegerList.contains(outInt)) {
                             return outInt;
                         }
@@ -58,7 +53,7 @@ public class InputFormatting {
                         if (compareList == null) {
                             return outDouble;
                         }
-                        DoubleList = (List<Double>) compareList;
+                        List<Double> DoubleList = (List<Double>) compareList;
                         if (DoubleList.contains(outDouble)) {
                             return outDouble;
                         }
@@ -67,7 +62,7 @@ public class InputFormatting {
                         if (compareList == null) {
                             return inString;
                         }
-                        StringList = (List<String>) compareList;
+                        List<String> StringList = (List<String>) compareList;
                         if (StringList.contains(inString)) {
                             return inString;
                         }
@@ -84,10 +79,6 @@ public class InputFormatting {
 /**
  * EscapeLoopException is for escaping to main menus of
  * the login menu, member menu and staff menu.
-
  */
-class EscapeLoopException extends Exception {
-}
-
-
-
+//class EscapeLoopException extends Exception {
+//}

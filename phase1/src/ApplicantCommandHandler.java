@@ -14,12 +14,13 @@ public class ApplicantCommandHandler extends CommandHandler{
     private long applicantID;
     private LocalDate creationDate;
     private List<Application> allApps;
-    private LocalDate sessionDate = UserInterface.getSessionDate();
+    private LocalDate sessionDate;
 
     public ApplicantCommandHandler(ApplicationDatabase appsDb, JobsDatabase jobsDb, UserCredentials user){
         super(appsDb, jobsDb, user);
         this.applicantID = user.getApplicantID();
         this.creationDate = user.getCreationDate();
+        this.sessionDate = UserInterface.getSessionDate();
         this.allApps = this.getApplications();
         deleteCVAndCoverLetter();
         while(true){
@@ -48,7 +49,7 @@ public class ApplicantCommandHandler extends CommandHandler{
     public void handleCommands(String commandID){
         HashMap<String, Runnable> menu = new HashMap<>();
         menu.put("1", () -> {
-            System.out.println("Here the open jobs postings: ");
+            System.out.println("Here are the open jobs postings: ");
             this.viewJobPostings();
         });
         menu.put("2", () -> {
@@ -178,7 +179,8 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     public void applyForJob(Long jobID){
         appsDb.addApplication(this.applicantID, jobID);
-        this.getApplications();
+        //updates allApps
+        this.allApps = this.getApplications();
     }
 
 

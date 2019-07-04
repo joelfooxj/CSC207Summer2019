@@ -5,8 +5,10 @@ import java.util.Arrays;
 public class InterviewerCommandHandler extends CommandHandler{
     private Long interviewerID;
     private List<Application> assignedApps;
+    private List<Application> recommendedApps;
 
-    //TODO: Add error check that prevents interviewer from recommending an application twice.
+    // TODO: Add error check that prevents interviewer from recommending an application twice in the same session
+
 
     public InterviewerCommandHandler(ApplicationDatabase appsDb, JobsDatabase jobsDb, UserCredentials user){
         super(appsDb, jobsDb, user);
@@ -27,7 +29,7 @@ public class InterviewerCommandHandler extends CommandHandler{
         return appsDb.getApplicationByInterviewerID(this.interviewerID);
     }
 
-    public void viewInterviewees(){
+    public void printInterviewees(){
         for (Application app:this.assignedApps){
             System.out.println(app);
         }
@@ -35,8 +37,10 @@ public class InterviewerCommandHandler extends CommandHandler{
 
     public void recommendApplication(Long ApplicationID){
         for (Application app:this.assignedApps){
-            if(app.getApplicationID() == ApplicationID){
+            if(app.getApplicationID() == ApplicationID && !this.recommendedApps.contains(app)){
                 app.recommend();
+                this.recommendedApps.add(app);
+                return;
             }
         }
     }
@@ -48,12 +52,11 @@ public class InterviewerCommandHandler extends CommandHandler{
         System.out.println("[Exit] To exit the program.\n");
     }
 
-    @Override
     void handleCommands(String commandID){
         HashMap<String, Runnable> menu = new HashMap<>();
         menu.put("1", () -> {
             System.out.println("Here are your assigned interviewees: ");
-            viewInterviewees();
+            printInterviewees();
         });
         menu.put("2", () -> {
             System.out.println("Enter the applicant number to be recommended: ");

@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ApplicationDatabase extends AbstractDatabase<Application>{
@@ -10,11 +9,13 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     }
 
     // Form in bracket is (application ID, application object)
+    // Dependency Inversion
     public void addApplication(Application application){
         super.addItem(application);
     }
 
     //Add an application which contains applicant and job info
+    // Not a dependency inversion
     public void addApplication(long applicantID, long jobID){
         Application newApplication = new Application();
         newApplication.setApplicantID(applicantID);

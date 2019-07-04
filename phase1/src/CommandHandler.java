@@ -27,7 +27,7 @@ public abstract class CommandHandler {
         }
     }
 
-    abstract void handleCommands();
+    abstract void handleCommands(String commandID);
 
     protected void saveAll() throws IOException {
         appsDb.saveDatabase(this.applicationsDbPath);

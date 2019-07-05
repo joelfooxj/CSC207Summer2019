@@ -1,5 +1,4 @@
 import java.time.temporal.Temporal;
-import java.util.Date;
 
 public class Application {
     private long applicationID;
@@ -8,7 +7,7 @@ public class Application {
     private long jobID;
     private long firmID;
 
-    private int numInterview = 0;
+    private int numInterview;
     private long interviewerID;
 
     //Not sure how to use this
@@ -142,6 +141,17 @@ public class Application {
 
     public void setClosedDate(Temporal closeDate) {
         this.closedDate = closeDate;
+    }
+
+    public String status(){
+        switch (passedInterviewNum){
+            case 1: return "Passed Phone Interview";
+            case 2: return "Passed 1st in-person interview";
+            case 3: return "Passed 2nd in-person interview";
+            case 4: return "In consideration";
+            default: return "Status Error";
+        }
+
     }
 
     public Object getResume() {

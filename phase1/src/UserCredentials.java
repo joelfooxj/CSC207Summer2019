@@ -34,4 +34,9 @@ public class UserCredentials {
   public long getFirmId(){
     return firmId;
   }
+
+  @Override
+  public String toString() {
+    return "Username: " + this.userName;
+  }
 }

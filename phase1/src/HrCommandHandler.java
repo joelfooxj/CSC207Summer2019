@@ -108,12 +108,8 @@ public class HrCommandHandler extends CommandHandler {
             System.out.println("[3] View applicants for a particular job");
             System.out.println("[4] View applicants for a particular job");
 
-            try {
-                command = (String) InputFormatting.inputWrapper("string", new ArrayList(mainHrCommands.keySet()));
-                mainHrCommands.get(command).run();
-            }
-            catch (EscapeLoopException ex) {
-            }
+            command = (String) InputFormatting.inputWrapper("string", new ArrayList(mainHrCommands.keySet()));
+            mainHrCommands.get(command).run();
         }
 
         try {

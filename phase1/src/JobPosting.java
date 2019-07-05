@@ -6,10 +6,10 @@ public class JobPosting implements Serializable {
     //question: is numberOfJobs redundant? Should I just copy it from the JobsDatabase currID?
     private static long numberOfJobs = 0;
 
-    private Long jobid;
+    private Long jobId;
     private String jobTitle;
-    private String jobDescription;
-    private Object jobRequirements;
+    private String jobDetails;
+    private long firmid;
 
     private LocalDate publishDate;
     private LocalDate expiryDate;
@@ -17,12 +17,12 @@ public class JobPosting implements Serializable {
     private int numLabourRequired = 1;
     private boolean isFilled = false;
 
-    public JobPosting(String jobTitle, String jobDescription, String jobRequirements, LocalDate publishDate, LocalDate expiryDate){
-        jobid = numberOfJobs;
+    public JobPosting(String jobTitle, String jobDetails, long firmId, LocalDate publishDate, LocalDate expiryDate){
+        jobId = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = jobTitle;
-        this.jobDescription = jobDescription;
-        this.jobRequirements = jobRequirements;
+        this.jobDetails = jobDetails;
+        this.firmid = firmId;
         this.publishDate = publishDate;
         this.expiryDate = expiryDate;
     }
@@ -52,23 +52,13 @@ public class JobPosting implements Serializable {
 
     @Override
     public String toString(){
-        return jobid + ", " + jobTitle + ": " + jobDescription;
+        return "[" + jobId + "], " + jobTitle + ": " + jobDetails;
     }
 
     public String getDetail(){
-        return "Job ID: " + jobid + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
-                jobDescription + "\n" + "Job Requirements: " + jobRequirements + "\n" +
-                "Positions Available: " + numLabourRequired + "\n" + "Date Published: " + publishDate + "\n" +
-                "Expiry Date: " + expiryDate + "\n";
-    }
-
-    public static void main(String[] args) {
-        JobsDatabase jd = new JobsDatabase();
-        jd.createNewJobPostings("Janitor","Clean stuff up","Experience cleaning", LocalDate.now(),
-                LocalDate.of(2019,10,20));
-        JobPosting job1 = jd.getJobPostingByID((long) 0);
-        System.out.println(job1);
-        System.out.println(job1.getDetail());
+        return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
+                jobDetails + "\n" + "Positions Available: " + numLabourRequired + "\n" +
+                "Date Published: " + publishDate + "\n" + "Expiry Date: " + expiryDate + "\n";
     }
 
 }

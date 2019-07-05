@@ -7,13 +7,13 @@ public class UserInterface{
     private static ApplicationDatabase appsDb = new ApplicationDatabase();
     private static JobsDatabase jobsDb = new JobsDatabase();
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
-
+    private static LocalDate sessionDate;
     private static Scanner sc = new Scanner(System.in);
     private static String applicantUserType = "Applicant";
     private static String interviewerUserType = "Interviewer";
     private static String hrUserType = "HR";
 
-    private static LocalDate getDate(){
+    private static LocalDate setDate(){
         // get the current date
         System.out.print("What year is it? ");
         int year = sc.nextInt();
@@ -23,6 +23,10 @@ public class UserInterface{
         int day = sc.nextInt();
         sc.nextLine();
         return LocalDate.of(year, month, day);
+    }
+
+    public static LocalDate getDate(){
+        return sessionDate;
     }
 
     private static UserCredentials getUser(){
@@ -77,7 +81,7 @@ public class UserInterface{
 
         while (true) {
             // a methods that gets the date from the user
-            LocalDate sessionDate = getDate();
+            sessionDate = setDate();
 
             // a method that handles sign ups & log ins
             UserCredentials currentUser = getUser();

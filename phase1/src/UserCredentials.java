@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class UserCredentials {
   private String userName;
   private String password;
@@ -39,4 +41,14 @@ public class UserCredentials {
   public String toString() {
     return "Username: " + this.userName;
   }
+
+  //TODO: Use UserInterface.getDate() in constructor to set creation date
+  public LocalDate getCreationDate() {
+
+  }
+
+
+  public long getApplicantID() {
+  }
+
 }

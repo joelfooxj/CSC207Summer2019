@@ -20,21 +20,29 @@ public class ApplicantCommandHandler extends CommandHandler{
         super(appsDb, jobsDb, user);
         this.applicantID = user.getApplicantID();
         this.creationDate = user.getCreationDate();
-        this.sessionDate = UserInterface.getSessionDate();
+        this.sessionDate = UserInterface.getDate();
         this.allApps = this.getApplications();
         deleteCVAndCoverLetter();
         while(true){
             printCommandList();
             String inputString = (String) InputFormatting.inputWrapper(
                     "string",
-                    Arrays.asList("1", "2", "3", "4", "5");
+                    Arrays.asList("1", "2", "3", "4", "5"));
             if (inputString.equals("Exit")){
                 break;
             } else { handleCommands(inputString); }
         }
     }
 
-    @Override
+    /**
+     * Idea:
+     * 1. method to create and return the command-map
+     * 2. method to print the command-map
+     *      - pass in parameter s.t. if true, return string rep
+     *      - else call internal method
+     * 3. method to call runnable
+     */
+
     public void printCommandList(){
         System.out.println("Select one of the following options: ");
         System.out.println("[1] View open job postings.");
@@ -183,7 +191,6 @@ public class ApplicantCommandHandler extends CommandHandler{
         this.allApps = this.getApplications();
     }
 
-
     public void getHistory(){
         System.out.println("The creation date of this account is: " + this.creationDate);
         System.out.println("These are your applications that are now closed: ");
@@ -206,7 +213,11 @@ public class ApplicantCommandHandler extends CommandHandler{
         System.out.println("It's been " + minDaysBetween + " since your last closed application.");
     }
 
-    public void deleteCVAndCoverLetter(){
+    /**
+     * This method will set the Cl and CV of all closed applications
+     * to null after being closed for 30 days.
+     */
+    private void deleteCVAndCoverLetter(){
         for (Application app:this.getClosedApplications()){
             if (ChronoUnit.DAYS.between(sessionDate, app.getClosedDate()) > 30){
                 app.setClPath(null);
@@ -214,4 +225,5 @@ public class ApplicantCommandHandler extends CommandHandler{
             }
         }
     }
+
 }

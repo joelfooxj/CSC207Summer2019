@@ -8,6 +8,8 @@ public class HrCommandHandler extends CommandHandler {
 
     protected UserCredentialsDatabase usersDb;
     protected LocalDate sessionDate;
+    protected int JOBLIFESPAN = 30;
+
     public HrCommandHandler(ApplicationDatabase appsDb,
                             JobsDatabase jobsDb,
                             UserCredentials currentUser,
@@ -23,10 +25,11 @@ public class HrCommandHandler extends CommandHandler {
 
     private void handleJobCreation(){
         System.out.println("Enter the job title: ");
-        String jobTitle = sc.nextLine();
+        String jobTitle = (String) InputFormatting.inputWrapper("string", null); // todo
         System.out.println("Enter the job description");
-        String jobDescription = sc.nextLine();
-        this.jobsDb.addJob(jobTitle, jobDescription, currentUser.getFirmId(), this.sessionDate);
+        String jobDescription = (String) InputFormatting.inputWrapper("string", null); // todo
+        LocalDate expiryDate = UserInterface.getDate().plusDays(JOBLIFESPAN);
+        UserInterface.getJobsDb().addJob(jobTitle, jobDescription, currentUser.getFirmId(), UserInterface.getDate(), expiryDate);
         System.out.println("Job post created successfully");
     }
 
@@ -34,19 +37,20 @@ public class HrCommandHandler extends CommandHandler {
 
         // get the applicant ID (username)
         System.out.println("Please choose an applicant: ");
-        appsDb.printApplicationsByFirmID(this.currentUser.getFirmId());
 
-        String targetApplicant = sc.nextLine();
+        UserInterface.getAppsDb().printApplicationsByFirmID(this.currentUser.getFirmId());
+
+        Long targetApplicant = (long) InputFormatting.inputWrapper("long", null); // todo
 
         // Prompt the HR user an option
         System.out.println("Please choose an option: ");
         System.out.println("[1] View jobs applied for");
         System.out.println("[2] View Resume");
         System.out.println("[3] View Cover letter");
-        String userCommand = sc.nextLine();
+        String userCommand = (String) InputFormatting.inputWrapper("string", null); // todo
 
         if (userCommand.equals("1")){
-            appsDb.printApplicationsByApplicantID(targetApplicant, this.currentUser.getFirmId());
+            UserInterface.getAppsDb().printApplicationsByApplicantID(targetApplicant, this.currentUser.getFirmId());
             return;
         }
 
@@ -56,9 +60,10 @@ public class HrCommandHandler extends CommandHandler {
         // prompt the HR all the applications by this individual
         System.out.println("Please select an application: ");
 
-        appsDb.printApplicationsByApplicantID(targetApplicant, this.currentUser.getFirmId());
+        UserInterface.getAppsDb().printApplicationsByApplicantID(targetApplicant, this.currentUser.getFirmId());
 
-        Application targetApplication = (Application) this.appsDb.getItemByID(sc.nextLong());
+        long targetApplicationId = (long) InputFormatting.inputWrapper("long", null); // todo
+        Application targetApplication = (Application) UserInterface.getAppsDb().getItemByID(targetApplicationId);
 
         // get the resume or cover letter of the chose application
         if(userCommand.equals("2")){
@@ -70,29 +75,30 @@ public class HrCommandHandler extends CommandHandler {
 
     private void handleApplicantsPerJobCommand(){
         System.out.println("Please select a job: ");
-        this.jobsDb.printJobsByFirmId(this.currentUser.getFirmId());
-        //jobsDb.getJobsByFirmId();
-        long jobId = sc.nextLong();
-        this.appsDb.printApplicationsByJobID(jobId);
+        UserInterface.getJobsDb().printJobsByFirmId(this.currentUser.getFirmId());
+        long jobId = (long) InputFormatting.inputWrapper("long", null); // todo
+        UserInterface.getAppsDb().printApplicationsByJobID(jobId);
     }
 
     private void handleIntervieweeMatching(){
         System.out.println("Please select a job: ");
-        this.jobsDb.printJobsByFirmId(this.currentUser.getFirmId());
-        //jobsDb.getJobsByFirmId();
-        long jobId = sc.nextLong();
+        UserInterface.getJobsDb().printJobsByFirmId(this.currentUser.getFirmId());
+        long jobId = (long) InputFormatting.inputWrapper("long", null); // todo
         System.out.println("Please select an application to interview");
-        this.appsDb.printOpenApplicationsByJobID(jobId);
-        Application targetApplication = (Application) this.appsDb.getItemByID(sc.nextLong());
+        UserInterface.getAppsDb().printOpenApplicationsByJobID(jobId);
+        long applicationId = (long) InputFormatting.inputWrapper("long", null); // todo
+
+        Application targetApplication = (Application) UserInterface.getAppsDb().getItemByID(applicationId);
 
         System.out.println("Please select an interviwer: ");
-        this.usersDb.printInterviewersByFirmID(this.currentUser.getFirmId());
-        String targetInterviewerId = sc.nextLine();
+        UserInterface.getUsersDb().printInterviewersByFirmID(this.currentUser.getFirmId());
+
+        long targetInterviewerId = (long) InputFormatting.inputWrapper("long", null); // todo
         targetApplication.setUpInterview(targetInterviewerId);
     }
 
 
-    void handleCommands(String commandId){
+    void handleCommands(){
 
         HashMap<String, Runnable> mainHrCommands = new HashMap<>();
         mainHrCommands.put("1", () -> this.handleJobCreation());

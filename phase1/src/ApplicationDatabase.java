@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         return applicationList;
     }
 
-    public void printApplicationsByApplicantID(String username, long firmId){
+    public void printApplicationsByApplicantID(long applicationId, long firmId){
         // applicant ids are the username
     }
 
@@ -150,5 +151,8 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
                 allApplication.append(item.toString() +"; ");
         }
         System.out.println(allApplication);
+    }
+
+    public void updateDb(LocalDate sessionDate) {
     }
 }

@@ -12,7 +12,7 @@ public class JobsDatabase extends AbstractDatabase implements java.io.Serializab
         super.printAll();
     }
 
-    public void addJob(String title, String details, String requirements, long firmId, LocalDate postedDate, LocalDate expiryDate){
+    public void addJob(String title, String details, long firmId, LocalDate postedDate, LocalDate expiryDate){
         addItem(new JobPosting(title, details, firmId, postedDate, expiryDate));
     }
 
@@ -39,4 +39,6 @@ public class JobsDatabase extends AbstractDatabase implements java.io.Serializab
         System.out.println(getJobPostingByID(firmId));
     }
 
+    public void updateDb(LocalDate sessionDate) {
+    }
 }

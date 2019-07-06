@@ -53,7 +53,6 @@ public class ApplicantCommandHandler extends CommandHandler{
         System.out.println("[Exit] to exit the program.");
     }
 
-    @Override
     public void handleCommands(String commandID){
         HashMap<String, Runnable> menu = new HashMap<>();
         menu.put("1", () -> {
@@ -224,6 +223,10 @@ public class ApplicantCommandHandler extends CommandHandler{
                 app.setCvPath(null);
             }
         }
+    }
+
+    public void handleCommands(){
+
     }
 
 }

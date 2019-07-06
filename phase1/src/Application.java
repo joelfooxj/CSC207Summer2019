@@ -164,7 +164,7 @@ public class Application {
         return null;
     }
 
-    public void setUpInterview(String targetInterviewerId) {
+    public void setUpInterview(long targetInterviewerId) {
         // to be discussed
     }
 }

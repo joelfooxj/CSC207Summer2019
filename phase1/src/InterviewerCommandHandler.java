@@ -65,4 +65,9 @@ public class InterviewerCommandHandler extends CommandHandler{
         });
         menu.get(commandID).run();
     }
+
+    void handleCommands(){
+
+    }
+
 }

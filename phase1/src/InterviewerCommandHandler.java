@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 
-public class InterviewerCommandHandler extends CommandHandler{
+public class InterviewerCommandHandler implements CommandHandler{
     private Long interviewerID;
     private List<Application> assignedApps;
     private List<Application> recommendedApps;

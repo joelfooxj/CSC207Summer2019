@@ -9,8 +9,6 @@ public class HrCommandHandler implements CommandHandler {
     protected int JOBLIFESPAN = 30;
 
 
-
-
     private void handleJobCreation(){
         System.out.println("Enter the job title: ");
         String jobTitle = (String) InputFormatting.inputWrapper("string", null); // todo

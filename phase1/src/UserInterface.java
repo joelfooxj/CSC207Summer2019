@@ -21,6 +21,7 @@ public class UserInterface {
     protected static String applicationsDbPath = "Applications.bin";
     protected static String jobsDbPath = "Jobs.bin";
     protected static String usersDbPath = "Users.bin";
+    protected static String firmDbPath = "Firms.bin";
 
     private static LocalDate setDate(){
         // get the current date
@@ -116,12 +117,14 @@ public class UserInterface {
         appsDb.saveDatabase(applicationsDbPath);
         jobsDb.saveDatabase(jobsDbPath);
         usersDb.saveDatabase(usersDbPath);
+        firmsDb.saveDatabase(firmDbPath);
     }
 
     protected static void readAll() throws IOException, ClassNotFoundException {
         appsDb.readDatabase(applicationsDbPath);
         jobsDb.readDatabase(jobsDbPath);
         usersDb.readDatabase(usersDbPath);
+        firmsDb.readDatabase(firmDbPath);
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -141,7 +144,6 @@ public class UserInterface {
             CommandHandler commandHandler;
 
 
-
             // set the value of CommandHandler based on the user type
             if (currentUser.getUserType().equals(applicantUserType)){
                 commandHandler = new ApplicantCommandHandler(appsDb, jobsDb, currentUser);
@@ -156,7 +158,9 @@ public class UserInterface {
                 System.out.println("Invalid user type");
                 continue;
             }
+
             commandHandler.handleCommands();
+
             saveAll();
 
 

@@ -10,6 +10,9 @@ public class UserInterface {
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
     private static FirmDatabase firmsDb = new FirmDatabase();
 
+
+
+    private static UserCredentials currentUser;
     private static LocalDate sessionDate;
     private static String applicantUserType = "Applicant";
     private static String interviewerUserType = "Interviewer";
@@ -105,6 +108,10 @@ public class UserInterface {
         return usersDb;
     }
 
+    public static UserCredentials getCurrentUser() {
+        return currentUser;
+    }
+
     protected static void saveAll() throws IOException {
         appsDb.saveDatabase(applicationsDbPath);
         jobsDb.saveDatabase(jobsDbPath);
@@ -127,13 +134,12 @@ public class UserInterface {
             jobsDb.updateDb(sessionDate);
             appsDb.updateDb(sessionDate);
             // a method that handles sign ups & log ins
-            UserCredentials currentUser = getUser();
+            currentUser = getUser();
 
             System.out.println(currentUser);
             // polymorphism => all Command Handler objects are of time CommandHandler
             CommandHandler commandHandler;
 
-            commandHandler = new HrCommandHandler(appsDb, jobsDb, currentUser, usersDb, sessionDate);
 
 
             // set the value of CommandHandler based on the user type
@@ -145,15 +151,15 @@ public class UserInterface {
                 commandHandler = new InterviewerCommandHandler(appsDb, jobsDb, currentUser);
 
             } else if (currentUser.getUserType().equals(hrUserType)){
-                commandHandler = new HrCommandHandler(appsDb, jobsDb, currentUser, usersDb, sessionDate);
+                commandHandler = new HrCommandHandler();
             } else {
                 System.out.println("Invalid user type");
                 continue;
             }
-
-
             commandHandler.handleCommands();
             saveAll();
+
+
 
 
         }

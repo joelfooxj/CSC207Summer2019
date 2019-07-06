@@ -5,6 +5,8 @@ public class UserCredentials {
   private String password;
   private String userType;
   private long firmId;
+  private long applicantId;
+  private LocalDate creationDate;
 
   // for the HR & interviwers
   public UserCredentials(String userName, String password, String userType, long firmId) {
@@ -15,10 +17,12 @@ public class UserCredentials {
   }
 
   // for the applicants
-  public UserCredentials(String userName, String password, String userType) {
+  public UserCredentials(String userName, String password, String userType, LocalDate creationDate, long applicantId) {
     this.userName = userName;
     this.password = password;
     this.userType = userType;
+    this.creationDate = creationDate;
+    this.applicantId = applicantId;
   }
 
   public String getUserName() {
@@ -44,11 +48,12 @@ public class UserCredentials {
 
   //TODO: Use UserInterface.getDate() in constructor to set creation date
   public LocalDate getCreationDate() {
-
+    return this.creationDate;
   }
 
 
   public long getApplicantID() {
+    return this.applicantId;
   }
 
 }

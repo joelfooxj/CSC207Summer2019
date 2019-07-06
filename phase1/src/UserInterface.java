@@ -6,11 +6,10 @@ import java.time.LocalDate;
 public class UserInterface {
 
     private static ApplicationDatabase appsDb = new ApplicationDatabase();
-
-
-
     private static JobsDatabase jobsDb = new JobsDatabase();
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
+    private static FirmDatabase firmsDb = new FirmDatabase();
+
     private static LocalDate sessionDate;
     private static String applicantUserType = "Applicant";
     private static String interviewerUserType = "Interviewer";
@@ -59,9 +58,14 @@ public class UserInterface {
             if (accountType.equals(applicantUserType)){
                 usersDb.addUser(userName, password, accountType, sessionDate);
             } else {
-                System.out.println("Please enter your firm ID: ");
-                String firmId = (String) InputFormatting.inputWrapper("string", null);
-                usersDb.addUser(userName, password, accountType, Long.parseLong(firmId));
+                System.out.println("Please enter your firm name: ");
+
+                String firmName = (String) InputFormatting.inputWrapper("string", null);
+                if (firmsDb.getFirmByFirmName(firmName) == null){
+                    firmsDb.addFirm(firmName);
+                }
+                long firmId = firmsDb.getFirmByFirmName(firmName).getFirmId();
+                usersDb.addUser(userName, password, accountType, firmId);
             }
 
             System.out.println("Sign up successful. Please login with your account");
@@ -113,19 +117,15 @@ public class UserInterface {
         usersDb.readDatabase(usersDbPath);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         while (true) {
             // a methods that gets the date from the user
             sessionDate = setDate();
+            readAll();
 
-            try {
-                readAll();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            jobsDb.updateDb(sessionDate);
+            appsDb.updateDb(sessionDate);
             // a method that handles sign ups & log ins
             UserCredentials currentUser = getUser();
 
@@ -150,10 +150,10 @@ public class UserInterface {
                 System.out.println("Invalid user type");
                 continue;
             }
-            jobsDb.updateDb(sessionDate);
-            appsDb.updateDb(sessionDate);
+
 
             commandHandler.handleCommands();
+            saveAll();
 
 
         }

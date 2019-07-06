@@ -112,7 +112,7 @@ public class HrCommandHandler extends CommandHandler {
             System.out.println("[1] Create a new job post");
             System.out.println("[2] View applicants information");
             System.out.println("[3] View applicants for a particular job");
-            System.out.println("[4] View applicants for a particular job");
+            System.out.println("[4] Set up an interview");
 
             command = (String) InputFormatting.inputWrapper("string", new ArrayList(mainHrCommands.keySet()));
             mainHrCommands.get(command).run();

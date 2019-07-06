@@ -118,11 +118,5 @@ public class HrCommandHandler extends CommandHandler {
             mainHrCommands.get(command).run();
         }
 
-        try {
-            this.saveAll();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 }

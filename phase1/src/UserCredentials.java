@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class UserCredentials {
+public class UserCredentials implements Serializable {
   private String userName;
   private String password;
   private String userType;

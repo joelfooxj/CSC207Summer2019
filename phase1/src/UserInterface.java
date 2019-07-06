@@ -1,40 +1,33 @@
+import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Scanner;
 
 
-public class UserInterface{
+public class UserInterface {
 
     private static ApplicationDatabase appsDb = new ApplicationDatabase();
 
-    public static ApplicationDatabase getAppsDb() {
-        return appsDb;
-    }
 
-    public static JobsDatabase getJobsDb() {
-        return jobsDb;
-    }
-
-    public static UserCredentialsDatabase getUsersDb() {
-        return usersDb;
-    }
 
     private static JobsDatabase jobsDb = new JobsDatabase();
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
     private static LocalDate sessionDate;
-    private static Scanner sc = new Scanner(System.in);
     private static String applicantUserType = "Applicant";
     private static String interviewerUserType = "Interviewer";
     private static String hrUserType = "HR";
 
+    protected static String applicationsDbPath = "Applications.bin";
+    protected static String jobsDbPath = "Jobs.bin";
+    protected static String usersDbPath = "Users.bin";
+
     private static LocalDate setDate(){
         // get the current date
         System.out.print("What year is it? ");
-        int year = sc.nextInt();
+        int year = (int) InputFormatting.inputWrapper("int", null); // todo
         System.out.print("What month is it? ");
-        int month = sc.nextInt();
+        int month = (int) InputFormatting.inputWrapper("int", null); // todo
         System.out.print("What day is it? ");
-        int day = sc.nextInt();
-        sc.nextLine();
+        int day = (int) InputFormatting.inputWrapper("int", null); // todo
         return LocalDate.of(year, month, day);
     }
 
@@ -45,30 +38,29 @@ public class UserInterface{
     private static UserCredentials getUser(){
         System.out.println("If you are already registered, please enter your username. Otherwise, please type <register>: ");
         String userName;
-        String userInput = sc.nextLine();
+        String userInput = (String) InputFormatting.inputWrapper("string", null);
 
         // register the user if they entered register
         if (userInput.equals("register")){
             System.out.println("Please fill up the form below");
             System.out.println("Username: ");
-            userName = sc.nextLine();
-            System.out.println(usersDb.userExists(userName));
+            userName = (String) InputFormatting.inputWrapper("string", null);
             if (usersDb.userExists(userName)) {
                 System.out.println("That user already exists, try a different username.");
                 return getUser();
             }
             System.out.println("Password: ");
-            String password = sc.nextLine();
+            String password = (String) InputFormatting.inputWrapper("string", null);
 
             System.out.println("Account type (" + applicantUserType +
                     ", "+ interviewerUserType +
                     " or " + hrUserType +"): ");
-            String accountType = sc.nextLine();
+            String accountType = (String) InputFormatting.inputWrapper("string", null);
             if (accountType.equals(applicantUserType)){
                 usersDb.addUser(userName, password, accountType, sessionDate);
             } else {
                 System.out.println("Please enter your firm ID: ");
-                String firmId = sc.nextLine();
+                String firmId = (String) InputFormatting.inputWrapper("string", null);
                 usersDb.addUser(userName, password, accountType, Long.parseLong(firmId));
             }
 
@@ -79,7 +71,7 @@ public class UserInterface{
         }
 
         System.out.println("Password: ");
-        String password = sc.nextLine();
+        String password = (String) InputFormatting.inputWrapper("string", null);
 
         UserCredentials targetUser = usersDb.getUserByCredentials(userName, password);
         if (targetUser == null){
@@ -96,37 +88,72 @@ public class UserInterface{
         // checks for user notifications...
         return;
     }
+
+    public static ApplicationDatabase getAppsDb() {
+        return appsDb;
+    }
+
+    public static JobsDatabase getJobsDb() {
+        return jobsDb;
+    }
+
+    public static UserCredentialsDatabase getUsersDb() {
+        return usersDb;
+    }
+
+    protected static void saveAll() throws IOException {
+        appsDb.saveDatabase(applicationsDbPath);
+        jobsDb.saveDatabase(jobsDbPath);
+        usersDb.saveDatabase(usersDbPath);
+    }
+
+    protected static void readAll() throws IOException, ClassNotFoundException {
+        appsDb.readDatabase(applicationsDbPath);
+        jobsDb.readDatabase(jobsDbPath);
+        usersDb.readDatabase(usersDbPath);
+    }
+
     public static void main(String[] args) {
 
         while (true) {
             // a methods that gets the date from the user
             sessionDate = setDate();
 
+            try {
+                readAll();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             // a method that handles sign ups & log ins
             UserCredentials currentUser = getUser();
+
             System.out.println(currentUser);
-
             // polymorphism => all Command Handler objects are of time CommandHandler
-            //CommandHandler commandHandler;
+            CommandHandler commandHandler;
 
-//            // set the value of CommandHandler based on the user type
-//            if (currentUser.getUserType().equals(applicantUserType)){
-//                commandHandler = new ApplicantCommandHandler(appsDb, jobsDb, currentUser);
-//                displayUserNotifications(currentUser);
-//
-//            } else if (currentUser.getUserType().equals(interviewerUserType)){
-//                commandHandler = new InterviewerCommandHandler(appsDb, jobsDb, usersDb, currentUser);
-//
-//            } else if (currentUser.getUserType().equals(hrUserType)){
-//                commandHandler = new HrCommandHandler(appsDb, jobsDb, currentUser, usersDb, sessionDate);
-//            } else {
-//                System.out.println("Invalid user type");
-//                continue;
-//            }
-//            jobsDb.updateDb(sessionDate);
-//            appsDb.updateDb(sessionDate);
-//
-//            commandHandler.handleCommands();
+            commandHandler = new HrCommandHandler(appsDb, jobsDb, currentUser, usersDb, sessionDate);
+
+
+            // set the value of CommandHandler based on the user type
+            if (currentUser.getUserType().equals(applicantUserType)){
+                commandHandler = new ApplicantCommandHandler(appsDb, jobsDb, currentUser);
+                displayUserNotifications(currentUser);
+
+            } else if (currentUser.getUserType().equals(interviewerUserType)){
+                commandHandler = new InterviewerCommandHandler(appsDb, jobsDb, currentUser);
+
+            } else if (currentUser.getUserType().equals(hrUserType)){
+                commandHandler = new HrCommandHandler(appsDb, jobsDb, currentUser, usersDb, sessionDate);
+            } else {
+                System.out.println("Invalid user type");
+                continue;
+            }
+            jobsDb.updateDb(sessionDate);
+            appsDb.updateDb(sessionDate);
+
+            commandHandler.handleCommands();
 
 
         }

@@ -51,7 +51,7 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   // for interviewers and hr coordinators
   public void addUser(String userName, String password, String accountType, long firmId) {
-    super.addItem(new UserCredentials(userName, password, accountType, firmId));
+    super.addItem(new UserCredentials(userName, password, accountType, firmId, super.getCurrID()));
   }
 
   public Long getUserID(UserCredentials user) {

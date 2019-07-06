@@ -18,7 +18,7 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     public ApplicantCommandHandler(ApplicationDatabase appsDb, JobsDatabase jobsDb, UserCredentials user){
         super(appsDb, jobsDb, user);
-        this.applicantID = user.getApplicantID();
+        this.applicantID = user.getUserID();
         this.creationDate = user.getCreationDate();
         this.sessionDate = UserInterface.getDate();
         this.allApps = this.getApplications();

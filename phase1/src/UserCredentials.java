@@ -5,24 +5,25 @@ public class UserCredentials {
   private String password;
   private String userType;
   private long firmId;
-  private long applicantId;
+  private long userId;
   private LocalDate creationDate;
 
   // for the HR & interviwers
-  public UserCredentials(String userName, String password, String userType, long firmId) {
+  public UserCredentials(String userName, String password, String userType, long firmId, long userId) {
     this.userName = userName;
     this.password = password;
     this.userType = userType;
     this.firmId = firmId;
+    this.userId = userId;
   }
 
   // for the applicants
-  public UserCredentials(String userName, String password, String userType, LocalDate creationDate, long applicantId) {
+  public UserCredentials(String userName, String password, String userType, LocalDate creationDate, long userId) {
     this.userName = userName;
     this.password = password;
     this.userType = userType;
     this.creationDate = creationDate;
-    this.applicantId = applicantId;
+    this.userId = userId;
   }
 
   public String getUserName() {
@@ -52,8 +53,8 @@ public class UserCredentials {
   }
 
 
-  public long getApplicantID() {
-    return this.applicantId;
+  public long getUserID() {
+    return this.userId;
   }
 
 }

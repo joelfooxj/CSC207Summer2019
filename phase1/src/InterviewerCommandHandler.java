@@ -12,7 +12,7 @@ public class InterviewerCommandHandler extends CommandHandler{
 
     public InterviewerCommandHandler(ApplicationDatabase appsDb, JobsDatabase jobsDb, UserCredentials user){
         super(appsDb, jobsDb, user);
-        this.interviewerID = user.getInterviewID();
+        this.interviewerID = user.getUserID();
         this.assignedApps = this.getApplications();
         while(true){
             printCommandList();

@@ -39,6 +39,10 @@ public class UserInterface{
             System.out.print("Please fill up the form below");
             System.out.print("Username: ");
             userName = sc.nextLine();
+            if (usersDb.userExists(userName)) {
+                System.out.println("That user already exists, try a different username.");
+                return getUser();
+            }
             System.out.print("Password: ");
             String password = sc.nextLine();
 
@@ -47,11 +51,11 @@ public class UserInterface{
                     " or " + hrUserType +"): ");
             String accountType = sc.nextLine();
             if (accountType.equals(applicantUserType)){
-                usersDb.addUser(userName, password, accountType);
+                usersDb.addUser(userName, password, accountType, sessionDate);
             } else {
                 System.out.println("Please enter your firm ID: ");
                 String firmId = sc.nextLine();
-                usersDb.addUser(userName, password, accountType, firmId);
+                usersDb.addUser(userName, password, accountType, Long.parseLong(firmId));
             }
 
             System.out.println("Sign up successful. Please login with your account");

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
@@ -7,35 +8,28 @@ public class InterviewerCommandHandler implements CommandHandler{
     private List<Application> assignedApps;
     private List<Application> recommendedApps;
 
-    // TODO: Add error check that prevents interviewer from recommending an application twice in the same session
-
-
-    public InterviewerCommandHandler(ApplicationDatabase appsDb, JobsDatabase jobsDb, UserCredentials user){
-        super(appsDb, jobsDb, user);
+    public InterviewerCommandHandler(UserCredentials user){
         this.interviewerID = user.getUserID();
         this.assignedApps = this.getApplications();
-        while(true){
-            printCommandList();
-            String inputString = (String) InputFormatting.inputWrapper(
-                    "string",
-                    Arrays.asList("1", "2"));
-            if (inputString.equals("Exit")){
-                 break;
-            } else { handleCommands(inputString); }
-        }
+        this.recommendedApps = new ArrayList<>();
     }
 
     private List<Application> getApplications(){
-        return appsDb.getApplicationByInterviewerID(this.interviewerID);
+        return UserInterface.getAppsDb().getApplicationByInterviewerID(this.interviewerID);
     }
 
-    public void printInterviewees(){
+    private void printInterviewees(){
         for (Application app:this.assignedApps){
             System.out.println(app);
         }
     }
 
-    public void recommendApplication(Long ApplicationID){
+    /**
+     * If application is already recommended, will do nothing
+     * Interviewers can only recommend each application once per session.
+     * @param ApplicationID: ID of the application to be recommended.
+     */
+    private void recommendApplication(Long ApplicationID){
         for (Application app:this.assignedApps){
             if(app.getApplicationID() == ApplicationID && !this.recommendedApps.contains(app)){
                 app.recommend();
@@ -45,15 +39,9 @@ public class InterviewerCommandHandler implements CommandHandler{
         }
     }
 
-    public void printCommandList(){
-        System.out.println("Select one of the following options: \n");
-        System.out.println("[1] View all assigned interviewees.\n");
-        System.out.println("[2] Recommend an application.\n");
-        System.out.println("[Exit] To exit the program.\n");
-    }
-
-    void handleCommands(String commandID){
+    public void handleCommands(){
         HashMap<String, Runnable> menu = new HashMap<>();
+
         menu.put("1", () -> {
             System.out.println("Here are your assigned interviewees: ");
             printInterviewees();
@@ -63,11 +51,18 @@ public class InterviewerCommandHandler implements CommandHandler{
             Long inputApplicantID = (Long) InputFormatting.inputWrapper("long", null);
             recommendApplication(inputApplicantID);
         });
-        menu.get(commandID).run();
+        menu.put("Exit", () -> System.out.println("Returning to login"));
+
+        String commandInput = "";
+        while(!commandInput.equals("Exit")){
+            System.out.println("Select one of the following options:");
+            System.out.println("[1] View all assigned interviewees.");
+            System.out.println("[2] Recommend an application.");
+            System.out.println("[Exit] To exit the program.");
+            commandInput = (String) InputFormatting.inputWrapper(
+                    "string",
+                    new ArrayList<>(menu.keySet()));
+            menu.get(commandInput).run();
+        }
     }
-
-    void handleCommands(){
-
-    }
-
 }

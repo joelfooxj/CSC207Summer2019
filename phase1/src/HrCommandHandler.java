@@ -104,7 +104,7 @@ public class HrCommandHandler implements CommandHandler {
             System.out.println("[3] View applicants for a particular job");
             System.out.println("[4] Set up an interview");
 
-            command = (String) InputFormatting.inputWrapper("string", new ArrayList(mainHrCommands.keySet()));
+            command = (String) InputFormatting.inputWrapper("string", new ArrayList<>(mainHrCommands.keySet()));
             mainHrCommands.get(command).run();
         }
 

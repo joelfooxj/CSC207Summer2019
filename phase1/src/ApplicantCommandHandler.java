@@ -124,7 +124,7 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     // App Database has this method
     private List<Application> getAllApplications(){
-        return UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID);
+        return UserInterface.getAppsDb().getApplicationsByApplicantID(this.applicantID);
     }
 
     // App Database has this method
@@ -186,7 +186,7 @@ public class ApplicantCommandHandler implements CommandHandler{
      */
     // TODO: Confirm intent of this feature
     private void deleteCVAndCoverLetter(){
-        for (Application app:UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID)){
+        for (Application app:this.getAllApplications()){
             if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30 && !app.isOpen()){
                 app.setClPath(null);
                 app.setCvPath(null);

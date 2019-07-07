@@ -34,7 +34,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     }
 
     //Get a list of applications by its applicant ID
-    public List<Application> getApplicationByApplicantID(long applicantID){
+    public List<Application> getApplicationsByApplicantID(long applicantID){
         List<Application> applicationList = new ArrayList<Application>();
         for(Long i = 0L; i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
@@ -92,7 +92,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         for (Long i = 0L;i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getApplicantID() == applicantID)
-            allApplication.append(item.toString()+";  ");
+            allApplication.append(item.toString()+"\n\n");
         }
         System.out.println(allApplication);
     }

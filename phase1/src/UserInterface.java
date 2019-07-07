@@ -113,6 +113,8 @@ public class UserInterface {
         return currentUser;
     }
 
+    public static LocalDate getSessionDate() { return sessionDate; }
+
     protected static void saveAll() throws IOException {
         appsDb.saveDatabase(applicationsDbPath);
         jobsDb.saveDatabase(jobsDbPath);
@@ -132,10 +134,14 @@ public class UserInterface {
         while (true) {
             // a methods that gets the date from the user
             sessionDate = setDate();
-            readAll();
+            try {
+                readAll();
+            } catch (IOException ex) {
+                saveAll();
+            }
 
             jobsDb.updateDb(sessionDate);
-            appsDb.updateDb(sessionDate);
+            //appsDb.updateDb(sessionDate);
             // a method that handles sign ups & log ins
             currentUser = getUser();
 

@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.temporal.Temporal;
 
 public class Application {
@@ -16,8 +17,8 @@ public class Application {
     private String cvPath;
     private String clPath;
 
-    private Temporal creationDate;
-    private Temporal closedDate;
+    private LocalDate creationDate;
+    private LocalDate closedDate;
 
     private boolean isOpen = true;
 
@@ -27,11 +28,12 @@ public class Application {
         this.applicationID = id;
     }
 
-    public Application(long applicationID, long applicantID, long jobID, long firmID){
+    public Application(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
         this.applicationID = applicationID;
         this.applicantID = applicantID;
         this.jobID = jobID;
         this.firmID = firmID;
+        this.creationDate = creationDate;
     }
 
     public long getApplicationID() {
@@ -119,11 +121,11 @@ public class Application {
                 ;
     }
 
-    public Temporal getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Temporal creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -135,11 +137,11 @@ public class Application {
         isOpen = open;
     }
 
-    public Temporal getClosedDate() {
+    public LocalDate getClosedDate() {
         return closedDate;
     }
 
-    public void setClosedDate(Temporal closeDate) {
+    public void setClosedDate(LocalDate closeDate) {
         this.closedDate = closeDate;
     }
 

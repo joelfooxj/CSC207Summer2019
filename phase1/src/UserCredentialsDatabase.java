@@ -71,4 +71,14 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
       }
     }
   }
+
+  public void printApplicants() {
+    StringBuilder ret = new StringBuilder();
+    for (Long i = 0L; i < super.getCurrID(); i++) {
+      if (getItemByID(i) != null && getItemByID(i).getUserType().equals(UserInterface.getApplicantUserType())) {
+        ret.append("[" + i.toString() + "] " + getItemByID(i).toString());
+      }
+    }
+    System.out.println(ret);
+  }
 }

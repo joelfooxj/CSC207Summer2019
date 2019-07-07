@@ -23,9 +23,9 @@ public class HrCommandHandler implements CommandHandler {
     private void handleApplicantInfo(){
 
         // get the applicant ID (username)
+        UserInterface.getUsersDb().printApplicants();
         System.out.println("Please choose an applicant: ");
-
-        UserInterface.getAppsDb().printApplicationsByFirmID(UserInterface.getCurrentUser().getFirmId());
+        //UserInterface.getAppsDb().printApplicationsByFirmID(UserInterface.getCurrentUser().getFirmId());
 
         Long targetApplicant = (long) InputFormatting.inputWrapper("long", null); // todo
 
@@ -95,6 +95,7 @@ public class HrCommandHandler implements CommandHandler {
         mainHrCommands.put("2", () -> this.handleApplicantInfo());
         mainHrCommands.put("3", () -> this.handleApplicantsPerJobCommand());
         mainHrCommands.put("4", () -> this.handleIntervieweeMatching());
+        mainHrCommands.put("Exit", () -> {});
 
         String command = "";
         while (!command.equals("Exit")){

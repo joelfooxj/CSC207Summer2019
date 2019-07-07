@@ -51,10 +51,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             this.getHistory();
         });
         menu.put("Exit", () -> System.out.println("Returning to login"));
-
-        String inputCommand = (String) InputFormatting.inputWrapper(
-                "string",
-                new ArrayList<>(menu.keySet()));
+        String inputCommand = "";
         while(!inputCommand.equals("Exit")){
             System.out.println("Select one of the following options: ");
             System.out.println("[1] View open job postings.");
@@ -63,6 +60,9 @@ public class ApplicantCommandHandler implements CommandHandler{
             System.out.println("[4] View options for an open application.");
             System.out.println("[5] View the history of this account.");
             System.out.println("[Exit] to exit the program.");
+            inputCommand = (String) InputFormatting.inputWrapper(
+                    "string",
+                    new ArrayList<>(menu.keySet()));
             menu.get(inputCommand).run();
         }
     }

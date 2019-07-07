@@ -146,11 +146,11 @@ public class UserInterface {
 
             // set the value of CommandHandler based on the user type
             if (currentUser.getUserType().equals(applicantUserType)){
-                commandHandler = new ApplicantCommandHandler(appsDb, jobsDb, currentUser);
+                commandHandler = new ApplicantCommandHandler(currentUser);
                 displayUserNotifications(currentUser);
 
             } else if (currentUser.getUserType().equals(interviewerUserType)){
-                commandHandler = new InterviewerCommandHandler(appsDb, jobsDb, currentUser);
+                commandHandler = new InterviewerCommandHandler(currentUser);
 
             } else if (currentUser.getUserType().equals(hrUserType)){
                 commandHandler = new HrCommandHandler();

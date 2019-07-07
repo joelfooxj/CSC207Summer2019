@@ -13,12 +13,10 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     private long applicantID;
     private LocalDate creationDate;
-    private HashMap<Long, Application> allApps;
 
     public ApplicantCommandHandler(UserCredentials user){
         this.applicantID = user.getUserID();
         this.creationDate = user.getCreationDate();
-        this.allApps = this.getApplications();
         deleteCVAndCoverLetter();
     }
 
@@ -30,9 +28,10 @@ public class ApplicantCommandHandler implements CommandHandler{
         });
         menu.put("2", () -> {
             System.out.println("Enter the ID of the Job to apply for: ");
-            Long inputLong = (Long) InputFormatting.inputWrapper(
-                    "long",null);
-            this.applyForJob(inputLong);
+            Long inputJobID = (Long) InputFormatting.inputWrapper(
+                    "long",
+                    UserInterface.getJobsDb().getOpenJobIDs());
+            UserInterface.getAppsDb().addApplication(this.applicantID, inputJobID);
         });
         menu.put("3", () -> {
             System.out.println("Here are all open applications: ");
@@ -40,11 +39,10 @@ public class ApplicantCommandHandler implements CommandHandler{
         });
         menu.put("4", () -> {
             System.out.println("Enter the Application ID to be viewed: ");
-            Long inputLong = (Long) InputFormatting.inputWrapper(
+            Long inputApplicationID = (Long) InputFormatting.inputWrapper(
                     "long",
-                    new ArrayList<>(this.allApps.keySet()));
-            Application inputApp = this.getApplicationByApplicationID(inputLong, this.getOpenApplications());
-            this.singleAppHandle(inputApp);
+                    new ArrayList<>(this.getAllApplicationIDs()));
+            this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
         });
         menu.put("5", () -> {
             System.out.println("Here is the history of this account: ");
@@ -83,7 +81,9 @@ public class ApplicantCommandHandler implements CommandHandler{
                 System.out.println(inputApp.getCvPath());
             } else {
                 System.out.println("Enter new CV path: ");
-                String newCVPath = (String) InputFormatting.inputWrapper("string", null);
+                String newCVPath = (String) InputFormatting.inputWrapper(
+                        "string",
+                        null);
                 inputApp.setCvPath(newCVPath);
             }
         });
@@ -97,7 +97,9 @@ public class ApplicantCommandHandler implements CommandHandler{
                 System.out.println(inputApp.getClPath());
             } else {
                 System.out.println("Enter new cover letter path: ");
-                String newCLPath = (String) InputFormatting.inputWrapper("string", null);
+                String newCLPath = (String) InputFormatting.inputWrapper(
+                        "string",
+                        null);
                 inputApp.setClPath(newCLPath);
             }
         });
@@ -118,48 +120,23 @@ public class ApplicantCommandHandler implements CommandHandler{
         }
     }
 
-    private HashMap<Long, Application> getApplications(){
-        List<Application> inputApps = UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID);
-        HashMap<Long, Application> retHashMap = new HashMap<>();
-        for(Application app: inputApps){
-            retHashMap.put(app.getApplicationID(), app);
-        }
-        return retHashMap;
+    private List<Application> getAllApplications(){
+        return UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID);
     }
 
-    private List<Application> getOpenApplications(){
-        List<Application> openApps = new ArrayList<>();
-        for (Application app:this.allApps.values()){
-            if (app.isOpen()){
-                openApps.add(app);
-            }
+    private List<Long> getAllApplicationIDs(){
+        List<Long> retLongList = new ArrayList<>();
+        for (Application app:this.getAllApplications()){
+            retLongList.add(app.getApplicationID());
         }
-        return openApps;
-    }
-
-    private List<Application> getClosedApplications(){
-        List<Application> closedApps = new ArrayList<>();
-        for (Application app:this.allApps.values()){
-            if (!app.isOpen()){
-                closedApps.add(app);
-            }
-        }
-        return closedApps;
-    }
-
-    private Application getApplicationByApplicationID(Long appID, List<Application> inApps){
-        for (Application app:inApps){
-            if (app.getApplicationID() == appID){
-                return app;
-            }
-        }
-        return null;
+        return retLongList;
     }
 
     private void viewOpenApplications(){
-        System.out.println("This is are your current Open applications: ");
-        for (Application app:this.getOpenApplications()){
-            System.out.println(app);
+        for (Application app:this.getAllApplications()){
+            if (app.isOpen()) {
+                System.out.println(app);
+            }
         }
     }
 
@@ -170,29 +147,29 @@ public class ApplicantCommandHandler implements CommandHandler{
         UserInterface.getJobsDb().printJobPostings();
     }
 
-    private void applyForJob(Long jobID){
-        UserInterface.getAppsDb().addApplication(this.applicantID, jobID);
-        //updates allApps
-        this.allApps = this.getApplications();
-    }
-
     private void getHistory(){
         System.out.println("The creation date of this account is: " + this.creationDate);
         System.out.println("These are your applications that are now closed: ");
-        for (Application app:this.getClosedApplications()){
-            System.out.println(app);
+        for (Application app:this.getAllApplications()){
+            if(!app.isOpen()) {
+                System.out.println(app);
+            }
         }
         System.out.println("These are your applications that are open: ");
-        for (Application app:this.getOpenApplications()){
-            System.out.println(app);
+        for (Application app:this.getAllApplications()){
+            if(app.isOpen()) {
+                System.out.println(app);
+            }
         }
         long minDaysBetween = 0;
-        for (Application app:this.getClosedApplications()) {
-            long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), UserInterface.getDate());
-            if (minDaysBetween == 0) {
-                minDaysBetween = daysBetween;
-            } else if (minDaysBetween >= daysBetween) {
-                minDaysBetween = daysBetween;
+        for (Application app:this.getAllApplications()) {
+            if(!app.isOpen()){
+                long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), UserInterface.getDate());
+                if (minDaysBetween == 0) {
+                    minDaysBetween = daysBetween;
+                } else if (minDaysBetween >= daysBetween) {
+                    minDaysBetween = daysBetween;
+                }
             }
         }
         System.out.println("It's been " + minDaysBetween + " since your last closed application.");
@@ -204,12 +181,11 @@ public class ApplicantCommandHandler implements CommandHandler{
      */
     // TODO: Confirm intent of this feature
     private void deleteCVAndCoverLetter(){
-        for (Application app:this.getClosedApplications()){
-            if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30){
+        for (Application app:UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID)){
+            if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30 && !app.isOpen()){
                 app.setClPath(null);
                 app.setCvPath(null);
             }
         }
     }
-
 }

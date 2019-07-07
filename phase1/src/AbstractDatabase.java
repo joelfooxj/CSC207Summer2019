@@ -1,9 +1,10 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ArrayList;
 
 public abstract class AbstractDatabase<T> implements Serializable {
-    HashMap<Long, T> data;
+    HashMap<Long, T> data = new HashMap<Long, T>();
     private long currID = 0;
 
     public void readDatabase(String fileName) throws IOException, ClassNotFoundException {
@@ -53,4 +54,5 @@ public abstract class AbstractDatabase<T> implements Serializable {
     public long getCurrID() {
         return this.currID;
     }
+
 }

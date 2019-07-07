@@ -1,22 +1,30 @@
-public class UserCredentials {
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class UserCredentials implements Serializable {
   private String userName;
   private String password;
   private String userType;
   private long firmId;
+  private long userId;
+  private LocalDate creationDate;
 
   // for the HR & interviwers
-  public UserCredentials(String userName, String password, String userType, long firmId) {
+  public UserCredentials(String userName, String password, String userType, long firmId, long userId) {
     this.userName = userName;
     this.password = password;
     this.userType = userType;
     this.firmId = firmId;
+    this.userId = userId;
   }
 
   // for the applicants
-  public UserCredentials(String userName, String password, String userType) {
+  public UserCredentials(String userName, String password, String userType, LocalDate creationDate, long userId) {
     this.userName = userName;
     this.password = password;
     this.userType = userType;
+    this.creationDate = creationDate;
+    this.userId = userId;
   }
 
   public String getUserName() {
@@ -39,4 +47,15 @@ public class UserCredentials {
   public String toString() {
     return "Username: " + this.userName;
   }
+
+  //TODO: Use UserInterface.getDate() in constructor to set creation date
+  public LocalDate getCreationDate() {
+    return this.creationDate;
+  }
+
+
+  public long getUserID() {
+    return this.userId;
+  }
+
 }

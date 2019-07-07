@@ -1,3 +1,5 @@
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ArrayList;
 public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
@@ -42,12 +44,14 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
     //super.saveChanges(super.getData(),"UserCredentials.bin");
   }
 
-  public void addUser(String userName, String password, String accountType) {
-    super.addItem(new UserCredentials(userName, password, accountType));
+  // for applicants
+  public void addUser(String userName, String password, String accountType, LocalDate creationDate) {
+    super.addItem(new UserCredentials(userName, password, accountType, creationDate, super.getCurrID()));
   }
 
+  // for interviewers and hr coordinators
   public void addUser(String userName, String password, String accountType, long firmId) {
-    super.addItem(new UserCredentials(userName, password, accountType, firmId));
+    super.addItem(new UserCredentials(userName, password, accountType, firmId, super.getCurrID()));
   }
 
   public Long getUserID(UserCredentials user) {

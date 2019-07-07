@@ -1,34 +1,35 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class JobPosting {
+public class JobPosting implements Serializable {
 
     //question: is numberOfJobs redundant? Should I just copy it from the JobsDatabase currID?
     private static long numberOfJobs = 0;
 
-    private Long jobid;
+    private Long jobId;
     private String jobTitle;
-    private String jobDescription;
-    private Object jobRequirements;
+    private String jobDetails;
+    private long firmid;
 
     private LocalDate publishDate;
     private LocalDate expiryDate;
     //TODO: allow numLabourRequired to be changeable
     private int numLabourRequired = 1;
-    private boolean isOpen = true;
+    private boolean isFilled = false;
 
-    public JobPosting(String jobTitle, String jobDescription, LocalDate publishDate, LocalDate expiryDate){
-        jobid = numberOfJobs;
+    public JobPosting(String jobTitle, String jobDetails, long firmId, LocalDate publishDate, LocalDate expiryDate){
+        jobId = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = jobTitle;
-        this.jobDescription = jobDescription;
-        //should the publish date be based on the actual date today? or should it be modifiable for testing purposes?
+        this.jobDetails = jobDetails;
+        this.firmid = firmId;
         this.publishDate = publishDate;
         this.expiryDate = expiryDate;
     }
 
     //how do we check if a job has been filled?
     public boolean isOpen(){
-        return isOpen && !isExpired();
+        return isFilled() && !isExpired();
     }
 
     private boolean isExpired(){
@@ -41,13 +42,23 @@ public class JobPosting {
         }
     }
     //what's the difference between isOpen() and isFilled()?
-    private void isFilled(){
-        //what does this do
+    private boolean isFilled(){
+        return isFilled;
+    }
+
+    public void setAsFilled(){
+        isFilled = true;
     }
 
     @Override
     public String toString(){
-        // [jobId] JobTitle + ": " + JobDescription
+        return "[" + jobId + "], " + jobTitle + ": " + jobDetails;
+    }
+
+    public String getDetail(){
+        return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
+                jobDetails + "\n" + "Positions Available: " + numLabourRequired + "\n" +
+                "Date Published: " + publishDate + "\n" + "Expiry Date: " + expiryDate + "\n";
     }
 
 }

@@ -16,8 +16,13 @@ public class Application {
     private LocalDate creationDate;
     private LocalDate closedDate;
 
+    // The application is closed in the following conditions
+    // 1. the passed interview Num reaches 4
+    // 2. it's hired
     private boolean isOpen = true;
+    private boolean isHired;
 
+    // for each application creation, you need all these 5 parameters
     public Application(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
         this.applicationID = applicationID;
         this.applicantID = applicantID;
@@ -85,7 +90,7 @@ public class Application {
     @Override
     public String toString() {
         return
-                "[ " + applicationID +" ]: "+
+                "[" + applicationID +"]: "+
                 "jobID: " + jobID +
                 ", applicantID: " + applicantID +
                 ", firmID: " + firmID +
@@ -124,7 +129,6 @@ public class Application {
             case 4: return "In consideration";
             default: return "Status Error";
         }
-
     }
 
     public Object getResume() {
@@ -137,5 +141,14 @@ public class Application {
 
     public void setUpInterview(long targetInterviewerId) {
         this.interviewerID = targetInterviewerId;
+    }
+
+    public void hire(){
+        this.isHired = true;
+        this.isOpen = false;
+    }
+
+    public boolean isHired(){
+        return this.isHired;
     }
 }

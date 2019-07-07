@@ -3,9 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationDatabase extends AbstractDatabase<Application>{
-    //private HashMap<Long, Application> applicationDatabase;
-    //private int total = super().size();
-
     public ApplicationDatabase() {
     }
 
@@ -143,11 +140,12 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
 
     // prints applications that are not closed (filled/expired)
     // this will be called when the HR wants to set up an interview
+    // An application is open when it is open and the person hasn't been hired yet
     public void printOpenApplicationsByJobID(long jobID) {
         StringBuilder allApplication = new StringBuilder();
         for (Long i = 0L;i < super.getCurrID();i++){
             Application item = super.getItemByID(i);
-            if (item.getJobID() == jobID && item.isOpen())
+            if (item.getJobID() == jobID && item.isOpen() && !item.isHired())
                 allApplication.append(item.toString() +"; ");
         }
         System.out.println(allApplication);

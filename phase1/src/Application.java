@@ -1,17 +1,13 @@
 import java.time.LocalDate;
-import java.time.temporal.Temporal;
 
 public class Application {
     private long applicationID;
-    //Do we need applicant ID or applicant object?
     private long applicantID;
     private long jobID;
     private long firmID;
 
-    private int numInterview;
     private long interviewerID;
 
-    //Not sure how to use this
     private int passedInterviewNum;
 
     private String cvPath;
@@ -21,12 +17,6 @@ public class Application {
     private LocalDate closedDate;
 
     private boolean isOpen = true;
-
-    public Application(){}
-
-    public Application(long id){
-        this.applicationID = id;
-    }
 
     public Application(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
         this.applicationID = applicationID;
@@ -50,10 +40,6 @@ public class Application {
 
     public long getFirmID() {
         return firmID;
-    }
-
-    public int getNumInterview() {
-        return numInterview;
     }
 
     public long getInterviewerID() {
@@ -80,18 +66,6 @@ public class Application {
         this.applicantID = applicantID;
     }
 
-    public void setFirmID(long firmID) {
-        this.firmID = firmID;
-    }
-
-    public void setNumInterview(int numInterview) {
-        this.numInterview = numInterview;
-    }
-
-    public void setInterviewerID(long interviewerID) {
-        this.interviewerID = interviewerID;
-    }
-
     public void setCvPath(String cvPath) {
         this.cvPath = cvPath;
     }
@@ -111,14 +85,11 @@ public class Application {
     @Override
     public String toString() {
         return
-                " applicationID: " + applicationID +
-                ", jobID: " + jobID +
+                "[ " + applicationID +" ]: "+
+                "jobID: " + jobID +
                 ", applicantID: " + applicantID +
-                ", firmID: " + firmID + "\n"+
-                ", number of interviews taken " + numInterview +
-                ", the next interviewer has ID " + interviewerID + "\n"+
-                ", the path to the CV is " + cvPath +  " and the cover letter path is "+ clPath
-                ;
+                ", firmID: " + firmID +
+                        "the interviewer ID is "+interviewerID;
     }
 
     public LocalDate getCreationDate() {
@@ -157,16 +128,14 @@ public class Application {
     }
 
     public Object getResume() {
-        // to be discussed
         return null;
     }
 
     public Object getCoverLetter() {
-        // to be discussed
         return null;
     }
 
     public void setUpInterview(long targetInterviewerId) {
-        // to be discussed
+        this.interviewerID = targetInterviewerId;
     }
 }

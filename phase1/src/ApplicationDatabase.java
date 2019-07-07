@@ -17,8 +17,8 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
 
     //Add an application which contains applicant and job info
     // Not a dependency inversion
-    public void addApplication(long applicantID, long jobID){
-        Application newApplication = new Application();
+    public void addApplication(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
+        Application newApplication = new Application(applicationID, applicantID, jobID, firmID, creationDate);
         newApplication.setApplicantID(applicantID);
         newApplication.setJobID(jobID);
         super.addItem(newApplication);

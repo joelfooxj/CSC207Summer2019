@@ -31,7 +31,9 @@ public class ApplicantCommandHandler implements CommandHandler{
             Long inputJobID = (Long) InputFormatting.inputWrapper(
                     "long",
                     UserInterface.getJobsDb().getOpenJobIDs());
-            UserInterface.getAppsDb().addApplication(this.applicantID, inputJobID);
+
+            //Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID)
+            //UserInterface.getAppsDb().addApplication(this.applicantID, inputJobID, );
         });
         menu.put("3", () -> {
             System.out.println("Here are all open applications: ");

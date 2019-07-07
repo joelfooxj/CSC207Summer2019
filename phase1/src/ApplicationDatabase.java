@@ -180,8 +180,4 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         return retLongList;
     }
 
-    public HashMap<Long, Application> getAppsDb(){
-        return super.getData();
-    }
-
 }

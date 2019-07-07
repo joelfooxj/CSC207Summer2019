@@ -29,7 +29,7 @@ public class JobPosting implements Serializable {
 
     //how do we check if a job has been filled?
     public boolean isOpen(){
-        return isFilled() && !isExpired();
+        return !isFilled() && !isExpired();
     }
 
     private boolean isExpired(){

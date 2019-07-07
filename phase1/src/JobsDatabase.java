@@ -38,7 +38,7 @@ public class JobsDatabase extends AbstractDatabase<JobPosting> implements java.i
 
     public ArrayList<Long> getOpenJobIDs(){
         ArrayList<Long> jobPostingIds = new ArrayList<>();
-        for(int i = 0; i < data.size(); i++){
+        for(int i = 0; i < super.getCurrID(); i++){
             JobPosting jobPosting = getJobPostingByID((long) i);
             if(jobPosting.isOpen()){
                 jobPostingIds.add(jobPosting.getJobId());
@@ -49,4 +49,5 @@ public class JobsDatabase extends AbstractDatabase<JobPosting> implements java.i
 
     public void updateDb(LocalDate sessionDate) {
     }
+
 }

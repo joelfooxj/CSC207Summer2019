@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ApplicationDatabase extends AbstractDatabase<Application>{
@@ -14,8 +15,9 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
 
     //Add an application which contains applicant and job info
     // Not a dependency inversion
-    public void addApplication(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
-        Application newApplication = new Application(applicationID, applicantID, jobID, firmID, creationDate);
+    public void addApplication(long applicantID, long jobID, long firmID, LocalDate creationDate){
+        super.getCurrID();
+        Application newApplication = new Application(super.getCurrID(), applicantID, jobID, firmID, creationDate);
         newApplication.setApplicantID(applicantID);
         newApplication.setJobID(jobID);
         super.addItem(newApplication);
@@ -151,6 +153,35 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         System.out.println(allApplication);
     }
 
-    public void updateDb(LocalDate sessionDate) {
+    // I check isOpen() and isHired().  Note if the hire() method is called, isOpen() will be false
+    public List getOpenApplicationIDList(){
+        List<Long> idList = new ArrayList<>();
+        for (Application app:this.getAllApplications()){
+            if (app.isOpen()) {
+                idList.add(app.getApplicationID());
+            }
+        }
+        return idList;
     }
+
+    public List<Application> getAllApplications(){
+        List<Application> applicationList = new ArrayList<>();
+        for (Long i = 0L; i<super.getCurrID();i++){
+            applicationList.add(data.get(i));
+        }
+        return applicationList;
+    }
+
+    public List<Long> getAllApplicationIDs(){
+        List<Long> retLongList = new ArrayList<>();
+        for (Application app:this.getAllApplications()){
+            retLongList.add(app.getApplicationID());
+        }
+        return retLongList;
+    }
+
+    public HashMap<Long, Application> getAppsDb(){
+        return super.getData();
+    }
+
 }

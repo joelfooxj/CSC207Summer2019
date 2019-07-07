@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Application {
+public class Application implements Serializable {
     private long applicationID;
     private long applicantID;
     private long jobID;

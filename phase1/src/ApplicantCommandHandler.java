@@ -120,10 +120,12 @@ public class ApplicantCommandHandler implements CommandHandler{
         }
     }
 
+    // App Database has this method
     private List<Application> getAllApplications(){
         return UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID);
     }
 
+    // App Database has this method
     private List<Long> getAllApplicationIDs(){
         List<Long> retLongList = new ArrayList<>();
         for (Application app:this.getAllApplications()){
@@ -132,6 +134,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         return retLongList;
     }
 
+    // App Database has this method printOpenApplications()
     private void viewOpenApplications(){
         for (Application app:this.getAllApplications()){
             if (app.isOpen()) {

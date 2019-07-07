@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -10,6 +11,11 @@ public abstract class AbstractDatabase<T> implements Serializable {
     public void readDatabase(String fileName) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
         this.data = (HashMap<Long, T>) ois.readObject();
+        if (this.data.isEmpty()) {
+            this.currID = 0;
+        } else {
+            this.currID = Collections.max(this.data.keySet()) + 1;
+        }
     }
 
     public void saveDatabase(String fileName) throws IOException {

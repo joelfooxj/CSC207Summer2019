@@ -55,6 +55,14 @@ public class JobPosting implements Serializable {
         return "[" + jobId + "], " + jobTitle + ": " + jobDetails;
     }
 
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public long getFirmid() {
+        return firmid;
+    }
+
     public String getDetail(){
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
                 jobDetails + "\n" + "Positions Available: " + numLabourRequired + "\n" +

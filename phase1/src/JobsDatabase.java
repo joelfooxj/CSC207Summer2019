@@ -2,11 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class JobsDatabase extends AbstractDatabase implements java.io.Serializable{
-
-    protected JobsDatabase(){
-        data = new HashMap<Long,JobPosting>();
-    }
+public class JobsDatabase extends AbstractDatabase<JobPosting> implements java.io.Serializable{
 
     public void printJobPostings(){
         super.printAll();
@@ -17,18 +13,19 @@ public class JobsDatabase extends AbstractDatabase implements java.io.Serializab
     }
 
     public JobPosting getJobPostingByID(Long id){
-        return (JobPosting) super.getItemByID(id);
+        return super.getItemByID(id);
     }
 
     public void removeJobPosting(Long id){
         super.removeItemByID(id);
     }
 
+
     private ArrayList<JobPosting> getJobPostingsByFirm(long firmId){
         ArrayList<JobPosting> jobPostings = new ArrayList<>();
-        for(int i = 0; i < data.size(); i++){
-            JobPosting jobPosting = (JobPosting) getItemByID(firmId);
-            if(jobPosting != null){
+        for(int i = 0; i < super.getCurrID(); i++){
+            JobPosting jobPosting = getItemByID((long) i);
+            if(jobPosting != null && jobPosting.getFirmid() == firmId){
                 jobPostings.add(jobPosting);
             }
         }
@@ -37,6 +34,17 @@ public class JobsDatabase extends AbstractDatabase implements java.io.Serializab
 
     public void printJobsByFirmId(long firmId){
         System.out.println(getJobPostingByID(firmId));
+    }
+
+    public ArrayList<Long> getOpenJobIDs(){
+        ArrayList<Long> jobPostingIds = new ArrayList<>();
+        for(int i = 0; i < data.size(); i++){
+            JobPosting jobPosting = getJobPostingByID((long) i);
+            if(jobPosting.isOpen()){
+                jobPostingIds.add(jobPosting.getJobId());
+            }
+        }
+        return jobPostingIds;
     }
 
     public void updateDb(LocalDate sessionDate) {

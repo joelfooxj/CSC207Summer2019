@@ -133,15 +133,30 @@ public class UserInterface {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-
+        System.out.print("Do you want to import the default test setup? (y/n): ");
+        String response = (String) InputFormatting.inputWrapper("string", Arrays.asList("y", "n"));
+        if (response.equals("y")) {
+            applicationsDbPath = "TestApplications.bin";
+            jobsDbPath = "TestJobs.bin";
+            usersDbPath = "TestUsers.bin";
+            firmDbPath = "TestFirms.bin";
+        }
+        try {
+            readAll();
+        } catch (IOException ex) {
+            saveAll();
+        }
+        System.out.print("Do you want to overwrite the default test setup? (y/n): ");
+        response = (String) InputFormatting.inputWrapper("string", Arrays.asList("y", "n"));
+        if (response.equals("n")) {
+            applicationsDbPath = "Applications.bin";
+            jobsDbPath = "Jobs.bin";
+            usersDbPath = "Users.bin";
+            firmDbPath = "Firms.bin";
+        }
         while (true) {
             // a methods that gets the date from the user
             sessionDate = setDate();
-            try {
-                readAll();
-            } catch (IOException ex) {
-                saveAll();
-            }
 
             jobsDb.updateDb(sessionDate);
             //appsDb.updateDb(sessionDate);

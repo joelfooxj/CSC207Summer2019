@@ -10,8 +10,6 @@ public class UserInterface {
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
     private static FirmDatabase firmsDb = new FirmDatabase();
 
-
-
     private static UserCredentials currentUser;
     private static LocalDate sessionDate;
     private static String applicantUserType = "Applicant";
@@ -168,10 +166,6 @@ public class UserInterface {
             commandHandler.handleCommands();
 
             saveAll();
-
-
-
-
         }
 
     }

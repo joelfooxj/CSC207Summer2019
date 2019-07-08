@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ApplicationDatabase extends AbstractDatabase<Application>{
@@ -86,7 +85,12 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     }
 
     public void printApplicationsByApplicantID(long applicationId, long firmId){
-        // applicant ids are the username
+        for (Long i = 0L; i<=super.getCurrID();i++){
+            Application item = super.getItemByID(i);
+            if (item.getApplicantID() == applicationId && item.getFirmID()==firmId){
+                System.out.println(item.toString());
+            }
+        }
     }
 
     //The 5 print methods
@@ -96,7 +100,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         for (Long i = 0L;i<=super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getApplicantID() == applicantID)
-            allApplication.append(item.toString()+"\n\n");
+                allApplication.append(item.toString()+"\n\n");
         }
         System.out.println(allApplication);
     }
@@ -185,3 +189,4 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     }
 
 }
+

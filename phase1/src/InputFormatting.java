@@ -22,10 +22,12 @@ public class InputFormatting {
      */
     public static Object inputWrapper(String returnType, List<? extends Object> compareList){
         while (true) {
+            System.out.println("Note: Type '~' to escape this input.");
             String inString = mainScanner.nextLine().trim();
-//            if (inString.equals("~")) {
-//                throw new EscapeLoopException();
-//            }
+            if (inString.equals("~")) {
+                System.out.println("No valid input entered. Exiting input.");
+                return "";
+            }
             try {
                 switch (returnType) {
                     case "long":

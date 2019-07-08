@@ -133,15 +133,39 @@ public class UserInterface {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-
+        String fileSeparator = System.getProperty("file.separator");
+        String pathToSource = "phase1" + fileSeparator + "src" + fileSeparator;
+        System.out.print("Do you want to import the default test setup? (y/n): ");
+        String response = (String) InputFormatting.inputWrapper("string", Arrays.asList("y", "n"));
+        if (response.equals("y")) {
+            applicationsDbPath =  pathToSource + "TestApplications.bin";
+            jobsDbPath = pathToSource + "TestJobs.bin";
+            usersDbPath = pathToSource + "TestUsers.bin";
+            firmDbPath = pathToSource + "TestFirms.bin";
+        } else {
+            applicationsDbPath = pathToSource + "Applications.bin";
+            jobsDbPath = pathToSource + "Jobs.bin";
+            usersDbPath = pathToSource + "Users.bin";
+            firmDbPath = pathToSource + "Firms.bin";
+        }
+        try {
+            readAll();
+        } catch (IOException ex) {
+            saveAll();
+        }
+        if (response.equals("y")) {
+            System.out.print("Do you want to overwrite the default test setup? (y/n): ");
+            response = (String) InputFormatting.inputWrapper("string", Arrays.asList("y", "n"));
+            if (response.equals("n")) {
+                applicationsDbPath = "Applications.bin";
+                jobsDbPath = "Jobs.bin";
+                usersDbPath = "Users.bin";
+                firmDbPath = "Firms.bin";
+            }
+        }
         while (true) {
             // a methods that gets the date from the user
             sessionDate = setDate();
-            try {
-                readAll();
-            } catch (IOException ex) {
-                saveAll();
-            }
 
             jobsDb.updateDb(sessionDate);
             //appsDb.updateDb(sessionDate);

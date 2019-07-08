@@ -12,8 +12,10 @@ public class HrCommandHandler implements CommandHandler {
     private void handleJobCreation(){
         System.out.println("Enter the job title: ");
         String jobTitle = (String) InputFormatting.inputWrapper("string", null); // todo
+        if (jobTitle == null) {return;}
         System.out.println("Enter the job description");
         String jobDescription = (String) InputFormatting.inputWrapper("string", null); // todo
+        if (jobDescription == null) {return;}
         LocalDate expiryDate = UserInterface.getDate().plusDays(JOBLIFESPAN);
         long firmId = UserInterface.getCurrentUser().getFirmId();
         UserInterface.getJobsDb().addJob(jobTitle, jobDescription, firmId, UserInterface.getDate(), expiryDate);
@@ -27,14 +29,15 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Please choose an applicant: ");
         //UserInterface.getAppsDb().printApplicationsByFirmID(UserInterface.getCurrentUser().getFirmId());
 
-        Long targetApplicant = (long) InputFormatting.inputWrapper("long", null); // todo
-
+        Long targetApplicant = (Long) InputFormatting.inputWrapper("long", null); // todo
+        if (targetApplicant == null) {return;}
         // Prompt the HR user an option
         System.out.println("Please choose an option: ");
         System.out.println("[1] View jobs applied for");
         System.out.println("[2] View Resume");
         System.out.println("[3] View Cover letter");
         String userCommand = (String) InputFormatting.inputWrapper("string", null); // todo
+        if (userCommand == null) {return;}
         long firmId = UserInterface.getCurrentUser().getFirmId();
         if (userCommand.equals("1")){
 
@@ -65,7 +68,8 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Please select a job: ");
         long firmId = UserInterface.getCurrentUser().getFirmId();
         UserInterface.getJobsDb().printJobsByFirmId(firmId);
-        long jobId = (long) InputFormatting.inputWrapper("long", null); // todo
+        Long jobId = (Long) InputFormatting.inputWrapper("long", null); // todo
+        if (jobId == null) {return;}
         UserInterface.getAppsDb().printApplicationsByJobID(jobId);
     }
 
@@ -73,17 +77,16 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Please select a job: ");
         long firmId = UserInterface.getCurrentUser().getFirmId();
         UserInterface.getJobsDb().printJobsByFirmId(firmId);
-        long jobId = (long) InputFormatting.inputWrapper("long", null); // todo
+        Long jobId = (Long) InputFormatting.inputWrapper("long", null); // todo
+        if (jobId == null) {return;}
         System.out.println("Please select an application to interview");
         UserInterface.getAppsDb().printOpenApplicationsByJobID(jobId);
-        long applicationId = (long) InputFormatting.inputWrapper("long", null); // todo
-
+        Long applicationId = (Long) InputFormatting.inputWrapper("long", null); // todo
+        if (applicationId == null) {return;}
         Application targetApplication = (Application) UserInterface.getAppsDb().getItemByID(applicationId);
-
         System.out.println("Please select an interviwer: ");
         UserInterface.getUsersDb().printInterviewersByFirmID(firmId);
-
-        long targetInterviewerId = (long) InputFormatting.inputWrapper("long", null); // todo
+        Long targetInterviewerId = (Long) InputFormatting.inputWrapper("long", null); // todo
         targetApplication.setUpInterview(targetInterviewerId);
     }
 
@@ -106,7 +109,9 @@ public class HrCommandHandler implements CommandHandler {
             System.out.println("[4] Set up an interview");
 
             command = (String) InputFormatting.inputWrapper("string", new ArrayList<>(mainHrCommands.keySet()));
-            mainHrCommands.get(command).run();
+            if (command != null) {
+                mainHrCommands.get(command).run();
+            }
         }
 
     }

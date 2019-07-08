@@ -1,16 +1,31 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public abstract class AbstractDatabase<T> implements Serializable {
+public abstract class AbstractDatabase<T> {
     HashMap<Long, T> data = new HashMap<Long, T>();
     private long currID = 0;
+
+    //added to deal with case when database is empty
+    public boolean isEmpty(){
+        if(data.isEmpty()){
+            return true;
+        }
+        return false;
+    }
 
     public void readDatabase(String fileName) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
         this.data = (HashMap<Long, T>) ois.readObject();
+        if (data.isEmpty()) {
+            this.currID = 0;
+        } else {
+            this.currID = Collections.max(this.data.keySet()) + 1;
+        }
     }
+
 
     public void saveDatabase(String fileName) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));

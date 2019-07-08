@@ -1,4 +1,6 @@
-public class Firm {
+import java.io.Serializable;
+
+public class Firm implements Serializable {
     private long firmId;
     private String firmName;
 

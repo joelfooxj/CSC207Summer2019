@@ -51,10 +51,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             this.getHistory();
         });
         menu.put("Exit", () -> System.out.println("Returning to login"));
-
-        String inputCommand = (String) InputFormatting.inputWrapper(
-                "string",
-                new ArrayList<>(menu.keySet()));
+        String inputCommand = "";
         while(!inputCommand.equals("Exit")){
             System.out.println("Select one of the following options: ");
             System.out.println("[1] View open job postings.");
@@ -63,6 +60,9 @@ public class ApplicantCommandHandler implements CommandHandler{
             System.out.println("[4] View options for an open application.");
             System.out.println("[5] View the history of this account.");
             System.out.println("[Exit] to exit the program.");
+            inputCommand = (String) InputFormatting.inputWrapper(
+                    "string",
+                    new ArrayList<>(menu.keySet()));
             menu.get(inputCommand).run();
         }
     }
@@ -124,7 +124,7 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     // App Database has this method
     private List<Application> getAllApplications(){
-        return UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID);
+        return UserInterface.getAppsDb().getApplicationsByApplicantID(this.applicantID);
     }
 
     // App Database has this method
@@ -186,7 +186,7 @@ public class ApplicantCommandHandler implements CommandHandler{
      */
     // TODO: Confirm intent of this feature
     private void deleteCVAndCoverLetter(){
-        for (Application app:UserInterface.getAppsDb().getApplicationByApplicantID(this.applicantID)){
+        for (Application app:this.getAllApplications()){
             if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30 && !app.isOpen()){
                 app.setClPath(null);
                 app.setCvPath(null);

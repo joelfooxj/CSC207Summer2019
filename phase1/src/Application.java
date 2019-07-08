@@ -91,11 +91,11 @@ public class Application implements Serializable {
     @Override
     public String toString() {
         return
-                "[" + applicationID +"]: "+
-                "jobID: " + jobID +
-                ", applicantID: " + applicantID +
-                ", firmID: " + firmID +
-                        "the interviewer ID is "+interviewerID;
+                "[" + applicationID +"]: "+ applicationID +
+                "\njobID: " + jobID +
+                "\napplicantID: " + applicantID +
+                "\nfirmID: " + firmID +
+                        "\ninterviewer ID: "+interviewerID;
     }
 
     public LocalDate getCreationDate() {

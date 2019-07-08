@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class UserInterface {
@@ -111,6 +114,8 @@ public class UserInterface {
         return currentUser;
     }
 
+    public static String getApplicantUserType() { return applicantUserType; }
+
     public static LocalDate getSessionDate() { return sessionDate; }
 
     protected static void saveAll() throws IOException {
@@ -162,13 +167,14 @@ public class UserInterface {
                 System.out.println("Invalid user type");
                 continue;
             }
-
             commandHandler.handleCommands();
-
             saveAll();
+            System.out.println("Do you want to exit the program? (y/n): ");
+            List<String> exitOptions = Arrays.asList("y", "n");
+            String answer = (String) InputFormatting.inputWrapper("string", exitOptions);
+            if (answer.equals("y")) {
+                return;
+            }
         }
-
     }
-
-
 }

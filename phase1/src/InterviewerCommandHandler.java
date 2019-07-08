@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Arrays;
 
 public class InterviewerCommandHandler implements CommandHandler{
     private Long interviewerID;
@@ -53,7 +52,7 @@ public class InterviewerCommandHandler implements CommandHandler{
             Long inputApplicantID = (Long) InputFormatting.inputWrapper(
                     "long",
                     new ArrayList<>(this.getApplications().keySet()));
-            recommendApplication(inputApplicantID);
+            if (inputApplicantID != null) { recommendApplication(inputApplicantID); }
         });
         menu.put("Exit", () -> System.out.println("Returning to login"));
 
@@ -66,7 +65,7 @@ public class InterviewerCommandHandler implements CommandHandler{
             commandInput = (String) InputFormatting.inputWrapper(
                     "string",
                     new ArrayList<>(menu.keySet()));
-            menu.get(commandInput).run();
+            if (commandInput != null){ menu.get(commandInput).run(); }
         }
     }
 }

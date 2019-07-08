@@ -24,27 +24,49 @@ public class ApplicantCommandHandler implements CommandHandler{
         HashMap<String, Runnable> menu = new HashMap<>();
         menu.put("1", () -> {
             System.out.println("Here are the open jobs postings: ");
-            this.viewJobPostings();
+            if (UserInterface.getJobsDb().isEmpty()) {
+                System.out.println("-> There are no job postings, returning to menu.");
+            } else {this.viewJobPostings();}
         });
         menu.put("2", () -> {
             System.out.println("Enter the ID of the Job to apply for: ");
-            Long inputJobID = (Long) InputFormatting.inputWrapper(
-                    "long",
-                    UserInterface.getJobsDb().getOpenJobIDs());
-
-            Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID).getFirmid();
-            UserInterface.getAppsDb().addApplication(this.applicantID, inputJobID, inputFirmID, UserInterface.getSessionDate());
+            if (UserInterface.getJobsDb().isEmpty()) {
+                System.out.println("-> There are no job postings, returning to menu.");
+            } else {
+                Long inputJobID = (Long) InputFormatting.inputWrapper(
+                        "long",
+                        UserInterface.getJobsDb().getOpenJobIDs());
+                if (inputJobID != null) {
+                    Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID).getFirmid();
+                    UserInterface.getAppsDb().addApplication(
+                            this.applicantID,
+                            inputJobID,
+                            inputFirmID,
+                            UserInterface.getDate());
+                }
+            }
         });
         menu.put("3", () -> {
+            if (this.getAllApplications() != null) {
+                System.out.println("You have no applications.");
+                return;
+            }
             System.out.println("Here are all open applications: ");
             this.viewOpenApplications();
+
         });
         menu.put("4", () -> {
+            if (this.getAllApplications() != null) {
+                System.out.println("You have no applications.");
+                return;
+            }
             System.out.println("Enter the Application ID to be viewed: ");
             Long inputApplicationID = (Long) InputFormatting.inputWrapper(
                     "long",
                     new ArrayList<>(this.getAllApplicationIDs()));
-            this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
+            if (inputApplicationID != null) {
+                this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
+            }
         });
         menu.put("5", () -> {
             System.out.println("Here is the history of this account: ");
@@ -63,7 +85,9 @@ public class ApplicantCommandHandler implements CommandHandler{
             inputCommand = (String) InputFormatting.inputWrapper(
                     "string",
                     new ArrayList<>(menu.keySet()));
-            menu.get(inputCommand).run();
+            if(inputCommand != null) {
+                menu.get(inputCommand).run();
+            }
         }
     }
 
@@ -79,14 +103,18 @@ public class ApplicantCommandHandler implements CommandHandler{
             String inputString = (String) InputFormatting.inputWrapper(
                     "string",
                     Arrays.asList("view", "new"));
-            if (inputString.equals("view")){
-                System.out.println(inputApp.getCvPath());
-            } else {
-                System.out.println("Enter new CV path: ");
-                String newCVPath = (String) InputFormatting.inputWrapper(
-                        "string",
-                        null);
-                inputApp.setCvPath(newCVPath);
+            if (inputString != null){
+                if (inputString.equals("view")){
+                    System.out.println(inputApp.getCvPath());
+                } else if (inputString.equals("new")) {
+                    System.out.println("Enter new CV path: ");
+                    String newCVPath = (String) InputFormatting.inputWrapper(
+                            "string",
+                            null);
+                    if(newCVPath != null) {
+                        inputApp.setCvPath(newCVPath);
+                    }
+                }
             }
         });
         appMenu.put("3", () -> {
@@ -95,14 +123,18 @@ public class ApplicantCommandHandler implements CommandHandler{
             String inputString = (String) InputFormatting.inputWrapper(
                     "string",
                     Arrays.asList("view", "new"));
-            if (inputString.equals("view")){
-                System.out.println(inputApp.getClPath());
-            } else {
-                System.out.println("Enter new cover letter path: ");
-                String newCLPath = (String) InputFormatting.inputWrapper(
-                        "string",
-                        null);
-                inputApp.setClPath(newCLPath);
+            if (inputString != null){
+                if (inputString.equals("view")){
+                    System.out.println(inputApp.getClPath());
+                } else {
+                    System.out.println("Enter new cover letter path: ");
+                    String newCLPath = (String) InputFormatting.inputWrapper(
+                            "string",
+                            null);
+                    if(newCLPath != null) {
+                        inputApp.setClPath(newCLPath);
+                    }
+                }
             }
         });
         appMenu.put("Exit", () -> System.out.println("Returning to main menu"));
@@ -118,16 +150,20 @@ public class ApplicantCommandHandler implements CommandHandler{
             inputCommand = (String) InputFormatting.inputWrapper(
                     "string",
                     new ArrayList<>(appMenu.keySet()));
-            appMenu.get(inputCommand).run();
+            if(inputCommand != null ) {
+                appMenu.get(inputCommand).run();
+            }
         }
     }
 
-    // App Database has this method
+    /**
+     * This method is just a shorthand
+     * @return A list of applications associated with this Applicant
+     */
     private List<Application> getAllApplications(){
         return UserInterface.getAppsDb().getApplicationsByApplicantID(this.applicantID);
     }
 
-    // App Database has this method
     private List<Long> getAllApplicationIDs(){
         List<Long> retLongList = new ArrayList<>();
         for (Application app:this.getAllApplications()){
@@ -136,7 +172,6 @@ public class ApplicantCommandHandler implements CommandHandler{
         return retLongList;
     }
 
-    // App Database has this method printOpenApplications()
     private void viewOpenApplications(){
         for (Application app:this.getAllApplications()){
             if (app.isOpen()) {
@@ -145,9 +180,6 @@ public class ApplicantCommandHandler implements CommandHandler{
         }
     }
 
-    /**
-     * Should be able to view the jobID
-     */
     private void viewJobPostings(){
         UserInterface.getJobsDb().printJobPostings();
     }
@@ -155,37 +187,40 @@ public class ApplicantCommandHandler implements CommandHandler{
     private void getHistory(){
         System.out.println("The creation date of this account is: " + this.creationDate);
         System.out.println("These are your applications that are now closed: ");
-        for (Application app:this.getAllApplications()){
-            if(!app.isOpen()) {
-                System.out.println(app);
-            }
-        }
-        System.out.println("These are your applications that are open: ");
-        for (Application app:this.getAllApplications()){
-            if(app.isOpen()) {
-                System.out.println(app);
-            }
-        }
-        long minDaysBetween = 0;
-        for (Application app:this.getAllApplications()) {
-            if(!app.isOpen()){
-                long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), UserInterface.getDate());
-                if (minDaysBetween == 0) {
-                    minDaysBetween = daysBetween;
-                } else if (minDaysBetween >= daysBetween) {
-                    minDaysBetween = daysBetween;
+        if (this.getAllApplications() != null){
+            for (Application app:this.getAllApplications()){
+                if(!app.isOpen()) {
+                    System.out.println(app);
                 }
             }
-        }
-        System.out.println("It's been " + minDaysBetween + " since your last closed application.");
+            System.out.println("These are your applications that are open: ");
+            for (Application app : this.getAllApplications()) {
+                if (app.isOpen()) {
+                    System.out.println(app);
+                }
+            }
+            long minDaysBetween = 0;
+            for (Application app:this.getAllApplications()) {
+                if(!app.isOpen()){
+                    long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), UserInterface.getDate());
+                    if (minDaysBetween == 0) {
+                        minDaysBetween = daysBetween;
+                    } else if (minDaysBetween >= daysBetween) {
+                        minDaysBetween = daysBetween;
+                    }
+                }
+            }
+            System.out.println("It's been " + minDaysBetween + " since your last closed application.");
+        } else { System.out.println("You have no applications.");}
     }
 
     /**
-     * This method will set the Cl and CV of all closed applications
+     * This method will set the cover letter and CV of all closed applications
      * to null after being closed for 30 days.
      */
-    // TODO: Confirm intent of this feature
+    // TODO: Check for empties
     private void deleteCVAndCoverLetter(){
+        if (this.getAllApplications() == null){ return; }
         for (Application app:this.getAllApplications()){
             if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30 && !app.isOpen()){
                 app.setClPath(null);

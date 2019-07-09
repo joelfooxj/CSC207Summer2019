@@ -11,10 +11,13 @@ public class HrCommandHandler implements CommandHandler {
 
     private void handleJobCreation(){
         System.out.println("Enter the job title: ");
-        String jobTitle = (String) InputFormatting.inputWrapper("string", null); // todo
+        String jobTitle = (String) InputFormatting.inputWrapper(
+                "string",
+                true,
+                null); // todo
         if (jobTitle == null) {return;}
         System.out.println("Enter the job description");
-        String jobDescription = (String) InputFormatting.inputWrapper("string", null); // todo
+        String jobDescription = (String) InputFormatting.inputWrapper("string", true,null); // todo
         if (jobDescription == null) {return;}
         LocalDate expiryDate = UserInterface.getDate().plusDays(JOBLIFESPAN);
         long firmId = UserInterface.getCurrentUser().getFirmId();
@@ -29,14 +32,14 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Please choose an applicant: ");
         //UserInterface.getAppsDb().printApplicationsByFirmID(UserInterface.getCurrentUser().getFirmId());
 
-        Long targetApplicant = (Long) InputFormatting.inputWrapper("long", null); // todo
+        Long targetApplicant = (Long) InputFormatting.inputWrapper("long", true,null); // todo
         if (targetApplicant == null) {return;}
         // Prompt the HR user an option
         System.out.println("Please choose an option: ");
         System.out.println("[1] View jobs applied for");
         System.out.println("[2] View Resume");
         System.out.println("[3] View Cover letter");
-        String userCommand = (String) InputFormatting.inputWrapper("string", null); // todo
+        String userCommand = (String) InputFormatting.inputWrapper("string", true, null); // todo
         if (userCommand == null) {return;}
         long firmId = UserInterface.getCurrentUser().getFirmId();
         if (userCommand.equals("1")){
@@ -53,7 +56,7 @@ public class HrCommandHandler implements CommandHandler {
 
         UserInterface.getAppsDb().printApplicationsByApplicantID(targetApplicant, firmId);
 
-        long targetApplicationId = (long) InputFormatting.inputWrapper("long", null); // todo
+        long targetApplicationId = (long) InputFormatting.inputWrapper("long",false, null); // todo
         Application targetApplication = (Application) UserInterface.getAppsDb().getItemByID(targetApplicationId);
 
         // get the resume or cover letter of the chose application
@@ -68,7 +71,7 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Please select a job: ");
         long firmId = UserInterface.getCurrentUser().getFirmId();
         UserInterface.getJobsDb().printJobsByFirmId(firmId);
-        Long jobId = (Long) InputFormatting.inputWrapper("long", null); // todo
+        Long jobId = (Long) InputFormatting.inputWrapper("long",true, null); // todo
         if (jobId == null) {return;}
         UserInterface.getAppsDb().printApplicationsByJobID(jobId);
     }
@@ -77,16 +80,17 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Please select a job: ");
         long firmId = UserInterface.getCurrentUser().getFirmId();
         UserInterface.getJobsDb().printJobsByFirmId(firmId);
-        Long jobId = (Long) InputFormatting.inputWrapper("long", null); // todo
+        Long jobId = (Long) InputFormatting.inputWrapper("long", true,null); // todo
         if (jobId == null) {return;}
         System.out.println("Please select an application to interview");
         UserInterface.getAppsDb().printOpenApplicationsByJobID(jobId);
-        Long applicationId = (Long) InputFormatting.inputWrapper("long", null); // todo
+        Long applicationId = (Long) InputFormatting.inputWrapper("long", true, null); // todo
         if (applicationId == null) {return;}
         Application targetApplication = (Application) UserInterface.getAppsDb().getItemByID(applicationId);
         System.out.println("Please select an interviwer: ");
         UserInterface.getUsersDb().printInterviewersByFirmID(firmId);
-        Long targetInterviewerId = (Long) InputFormatting.inputWrapper("long", null); // todo
+        Long targetInterviewerId = (Long) InputFormatting.inputWrapper("long", true, null); // todo
+        if (targetInterviewerId == null) {return;}
         targetApplication.setUpInterview(targetInterviewerId);
     }
 
@@ -107,11 +111,10 @@ public class HrCommandHandler implements CommandHandler {
             System.out.println("[2] View applicants information");
             System.out.println("[3] View applicants for a particular job");
             System.out.println("[4] Set up an interview");
+            System.out.println("[Exit] to exit to login.");
 
-            command = (String) InputFormatting.inputWrapper("string", new ArrayList<>(mainHrCommands.keySet()));
-            if (command != null) {
-                mainHrCommands.get(command).run();
-            }
+            command = (String) InputFormatting.inputWrapper("string", false, new ArrayList<>(mainHrCommands.keySet()));
+            mainHrCommands.get(command).run();
         }
 
     }

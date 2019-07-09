@@ -7,7 +7,7 @@ public class InputFormatting {
      * This method is a wrapper around user input which
      * checks for correct input type(String, int, double) and a list of allowed inputs.
      *
-     * Check for escape character '~' to bring user back to the main menu.
+     * Check for escape character '~' to return a null
      *
      * If input type is wrong, or not in the list of allowed inputs, will loop until
      * correction is made.
@@ -15,18 +15,22 @@ public class InputFormatting {
      * Usage:
      * Long inputLong = (Long) InputFormatting.inputWrapper("long", Arrays.asList(1,2,3));
      *
-     * This will check for a Long type, will raise an exception otherwise.
+     * This will check for a Long type, will raise a NumberFormatException that will loop input
      * This will check for inputs 1, 2, 3 - any other input will loop input until the one of those inputs are selected.
-     * This will check for '~' character to raise EscapeLoopException which should be used to escape to main menus.
+     * This will check for '~' character to return null
+     *
+     * NOTE: It is up to the caller of inputWrapper to handle the null return.
      *
      */
-    public static Object inputWrapper(String returnType, List<? extends Object> compareList){
+    public static Object inputWrapper(String returnType, boolean escapeFlag, List<? extends Object> compareList){
         while (true) {
-            System.out.println("Note: Type '~' to escape this input.");
+            if (escapeFlag){
+                System.out.println("Note: Type '~' to escape this input.");
+            }
             String inString = mainScanner.nextLine().trim();
-            if (inString.equals("~")) {
-                System.out.println("No valid input entered. Exiting input.");
-                return "";
+            if (inString.equals("~") && escapeFlag) {
+                System.out.println("Exiting input.");
+                return null;
             }
             try {
                 switch (returnType) {

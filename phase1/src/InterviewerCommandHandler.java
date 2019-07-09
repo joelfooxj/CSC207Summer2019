@@ -51,6 +51,7 @@ public class InterviewerCommandHandler implements CommandHandler{
             System.out.println("Enter the applicant number to be recommended: ");
             Long inputApplicantID = (Long) InputFormatting.inputWrapper(
                     "long",
+                    true,
                     new ArrayList<>(this.getApplications().keySet()));
             if (inputApplicantID != null) { recommendApplication(inputApplicantID); }
         });
@@ -64,6 +65,7 @@ public class InterviewerCommandHandler implements CommandHandler{
             System.out.println("[Exit] To exit the program.");
             commandInput = (String) InputFormatting.inputWrapper(
                     "string",
+                    true,
                     new ArrayList<>(menu.keySet()));
             if (commandInput != null){ menu.get(commandInput).run(); }
         }

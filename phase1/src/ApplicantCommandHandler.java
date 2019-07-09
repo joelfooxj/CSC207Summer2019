@@ -35,6 +35,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             } else {
                 Long inputJobID = (Long) InputFormatting.inputWrapper(
                         "long",
+                        true,
                         UserInterface.getJobsDb().getOpenJobIDs());
                 if (inputJobID != null) {
                     Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID).getFirmid();
@@ -63,6 +64,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             System.out.println("Enter the Application ID to be viewed: ");
             Long inputApplicationID = (Long) InputFormatting.inputWrapper(
                     "long",
+                    true,
                     new ArrayList<>(this.getAllApplicationIDs()));
             if (inputApplicationID != null) {
                 this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
@@ -84,6 +86,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             System.out.println("[Exit] to exit the program.");
             inputCommand = (String) InputFormatting.inputWrapper(
                     "string",
+                    false,
                     new ArrayList<>(menu.keySet()));
             if(inputCommand != null) {
                 menu.get(inputCommand).run();
@@ -102,6 +105,7 @@ public class ApplicantCommandHandler implements CommandHandler{
                     "\n or [new] to upload a new CV.");
             String inputString = (String) InputFormatting.inputWrapper(
                     "string",
+                    true,
                     Arrays.asList("view", "new"));
             if (inputString != null){
                 if (inputString.equals("view")){
@@ -110,6 +114,7 @@ public class ApplicantCommandHandler implements CommandHandler{
                     System.out.println("Enter new CV path: ");
                     String newCVPath = (String) InputFormatting.inputWrapper(
                             "string",
+                            true,
                             null);
                     if(newCVPath != null) {
                         inputApp.setCvPath(newCVPath);
@@ -122,6 +127,7 @@ public class ApplicantCommandHandler implements CommandHandler{
                     "\n or [new] to upload a new cover letter.");
             String inputString = (String) InputFormatting.inputWrapper(
                     "string",
+                    true,
                     Arrays.asList("view", "new"));
             if (inputString != null){
                 if (inputString.equals("view")){
@@ -130,6 +136,7 @@ public class ApplicantCommandHandler implements CommandHandler{
                     System.out.println("Enter new cover letter path: ");
                     String newCLPath = (String) InputFormatting.inputWrapper(
                             "string",
+                            true,
                             null);
                     if(newCLPath != null) {
                         inputApp.setClPath(newCLPath);
@@ -149,10 +156,9 @@ public class ApplicantCommandHandler implements CommandHandler{
             System.out.println("[Exit] to exit to the main menu.");
             inputCommand = (String) InputFormatting.inputWrapper(
                     "string",
+                    false,
                     new ArrayList<>(appMenu.keySet()));
-            if(inputCommand != null ) {
-                appMenu.get(inputCommand).run();
-            }
+            appMenu.get(inputCommand).run();
         }
     }
 

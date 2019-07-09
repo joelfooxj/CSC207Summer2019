@@ -1,7 +1,6 @@
 import java.io.IOException;
-import java.io.Serializable;
+import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,13 +25,20 @@ public class UserInterface {
 
     private static LocalDate setDate(){
         // get the current date
-        System.out.print("What year is it? ");
-        int year = (int) InputFormatting.inputWrapper("int", null); // todo
-        System.out.print("What month is it? ");
-        int month = (int) InputFormatting.inputWrapper("int", null); // todo
-        System.out.print("What day is it? ");
-        int day = (int) InputFormatting.inputWrapper("int", null); // todo
-        return LocalDate.of(year, month, day);
+        // input will loop until a valid date is entered.
+        while (true) {
+            try {
+                System.out.print("What year is it? ");
+                int year = (int) InputFormatting.inputWrapper("int", false, null);
+                System.out.print("What month is it? ");
+                int month = (int) InputFormatting.inputWrapper("int", false, null);
+                System.out.print("What day is it? ");
+                int day = (int) InputFormatting.inputWrapper("int", false,  null);
+                return LocalDate.of(year, month, day);
+            } catch (DateTimeException dte) {
+                System.out.println("You have entered an invalid date, please enter again.");
+            }
+        }
     }
 
     public static LocalDate getDate(){
@@ -42,30 +48,30 @@ public class UserInterface {
     private static UserCredentials getUser(){
         System.out.println("If you are already registered, please enter your username. Otherwise, please type <register>: ");
         String userName;
-        String userInput = (String) InputFormatting.inputWrapper("string", null);
+        String userInput = (String) InputFormatting.inputWrapper("string", false, null);
 
         // register the user if they entered register
         if (userInput.equals("register")){
             System.out.println("Please fill up the form below");
             System.out.println("Username: ");
-            userName = (String) InputFormatting.inputWrapper("string", null);
+            userName = (String) InputFormatting.inputWrapper("string", false, null);
             if (usersDb.userExists(userName)) {
                 System.out.println("That user already exists, try a different username.");
                 return getUser();
             }
             System.out.println("Password: ");
-            String password = (String) InputFormatting.inputWrapper("string", null);
+            String password = (String) InputFormatting.inputWrapper("string", false, null);
 
             System.out.println("Account type (" + applicantUserType +
                     ", "+ interviewerUserType +
                     " or " + hrUserType +"): ");
-            String accountType = (String) InputFormatting.inputWrapper("string", null);
+            String accountType = (String) InputFormatting.inputWrapper("string",false,null);
             if (accountType.equals(applicantUserType)){
                 usersDb.addUser(userName, password, accountType, sessionDate);
             } else {
                 System.out.println("Please enter your firm name: ");
 
-                String firmName = (String) InputFormatting.inputWrapper("string", null);
+                String firmName = (String) InputFormatting.inputWrapper("string", false, null);
                 if (firmsDb.getFirmByFirmName(firmName) == null){
                     firmsDb.addFirm(firmName);
                 }
@@ -80,7 +86,7 @@ public class UserInterface {
         }
 
         System.out.println("Password: ");
-        String password = (String) InputFormatting.inputWrapper("string", null);
+        String password = (String) InputFormatting.inputWrapper("string",false, null);
 
         UserCredentials targetUser = usersDb.getUserByCredentials(userName, password);
         if (targetUser == null){
@@ -90,12 +96,6 @@ public class UserInterface {
         } else {
             return  targetUser;
         }
-    }
-
-
-    private static void displayUserNotifications(UserCredentials user){
-        // checks for user notifications...
-        return;
     }
 
     public static ApplicationDatabase getAppsDb() {
@@ -136,7 +136,7 @@ public class UserInterface {
         String fileSeparator = System.getProperty("file.separator");
         String pathToSource = "phase1" + fileSeparator + "src" + fileSeparator;
         System.out.print("Do you want to import the default test setup? (y/n): ");
-        String response = (String) InputFormatting.inputWrapper("string", Arrays.asList("y", "n"));
+        String response = (String) InputFormatting.inputWrapper("string", false, Arrays.asList("y", "n"));
         if (response.equals("y")) {
             applicationsDbPath =  pathToSource + "TestApplications.bin";
             jobsDbPath = pathToSource + "TestJobs.bin";
@@ -155,7 +155,7 @@ public class UserInterface {
         }
         if (response.equals("y")) {
             System.out.print("Do you want to overwrite the default test setup? (y/n): ");
-            response = (String) InputFormatting.inputWrapper("string", Arrays.asList("y", "n"));
+            response = (String) InputFormatting.inputWrapper("string",false, Arrays.asList("y", "n"));
             if (response.equals("n")) {
                 applicationsDbPath = "Applications.bin";
                 jobsDbPath = "Jobs.bin";
@@ -180,7 +180,6 @@ public class UserInterface {
             // set the value of CommandHandler based on the user type
             if (currentUser.getUserType().equals(applicantUserType)){
                 commandHandler = new ApplicantCommandHandler(currentUser);
-                displayUserNotifications(currentUser);
 
             } else if (currentUser.getUserType().equals(interviewerUserType)){
                 commandHandler = new InterviewerCommandHandler(currentUser);

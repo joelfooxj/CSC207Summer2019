@@ -37,13 +37,16 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         List<Application> applicationList = new ArrayList<Application>();
         for(Long i = 0L; i<=super.getCurrID();i++){
             //added to deal with case where applicant has no applications
-            if(applicationList.isEmpty()){
-                break;
-            }
+//            if(applicationList.isEmpty()){
+//                break;
+//            }
             Application item = super.getItemByID(i);
             if (item.getApplicantID() == applicantID){
                 applicationList.add(item);
             }
+        }
+        if (applicationList.isEmpty()) {
+            System.out.println("This applicant does not have any application submitted");
         }
         return applicationList;
     }

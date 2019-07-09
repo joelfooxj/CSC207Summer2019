@@ -48,7 +48,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             }
         });
         menu.put("3", () -> {
-            if (this.getAllApplications() != null) {
+            if (this.getAllApplications().isEmpty()) {
                 System.out.println("You have no applications.");
                 return;
             }
@@ -57,7 +57,7 @@ public class ApplicantCommandHandler implements CommandHandler{
 
         });
         menu.put("4", () -> {
-            if (this.getAllApplications() != null) {
+            if (this.getAllApplications().isEmpty()) {
                 System.out.println("You have no applications.");
                 return;
             }
@@ -171,6 +171,9 @@ public class ApplicantCommandHandler implements CommandHandler{
     }
 
     private List<Long> getAllApplicationIDs(){
+        if (this.getAllApplications().isEmpty()){
+            return null;
+        }
         List<Long> retLongList = new ArrayList<>();
         for (Application app:this.getAllApplications()){
             retLongList.add(app.getApplicationID());
@@ -179,7 +182,7 @@ public class ApplicantCommandHandler implements CommandHandler{
     }
 
     private void viewOpenApplications(){
-        if (this.getAllApplications() == null){
+        if (this.getAllApplications().isEmpty()){
             System.out.println("You have no open applications.");
             return;
         }
@@ -197,7 +200,7 @@ public class ApplicantCommandHandler implements CommandHandler{
     private void getHistory(){
         System.out.println("The creation date of this account is: " + this.creationDate);
         System.out.println("These are your applications that are now closed: ");
-        if (this.getAllApplications() != null){
+        if (this.getAllApplications().isEmpty()){
             for (Application app:this.getAllApplications()){
                 if(!app.isOpen()) {
                     System.out.println(app);
@@ -230,7 +233,7 @@ public class ApplicantCommandHandler implements CommandHandler{
      */
     // TODO: Check for empties
     private void deleteCVAndCoverLetter(){
-        if (this.getAllApplications() == null){ return; }
+        if (this.getAllApplications().isEmpty()){ return; }
         for (Application app:this.getAllApplications()){
             if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30 && !app.isOpen()){
                 app.setClPath(null);

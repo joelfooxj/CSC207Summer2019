@@ -29,7 +29,7 @@ public class InputFormatting {
             }
             String inString = mainScanner.nextLine().trim();
             if (inString.equals("~") && escapeFlag) {
-                System.out.println("No valid input entered. Exiting input.");
+                System.out.println("Exiting input.");
                 return null;
             }
             try {

@@ -179,6 +179,10 @@ public class ApplicantCommandHandler implements CommandHandler{
     }
 
     private void viewOpenApplications(){
+        if (this.getAllApplications() == null){
+            System.out.println("You have no open applications.");
+            return;
+        }
         for (Application app:this.getAllApplications()){
             if (app.isOpen()) {
                 System.out.println(app);
@@ -216,7 +220,7 @@ public class ApplicantCommandHandler implements CommandHandler{
                     }
                 }
             }
-            System.out.println("It's been " + minDaysBetween + " since your last closed application.");
+            System.out.println("It's been " + minDaysBetween + " days since your last closed application.");
         } else { System.out.println("You have no applications.");}
     }
 

@@ -157,10 +157,10 @@ public class UserInterface {
             System.out.print("Do you want to overwrite the default test setup? (y/n): ");
             response = (String) InputFormatting.inputWrapper("string",false, Arrays.asList("y", "n"));
             if (response.equals("n")) {
-                applicationsDbPath = "Applications.bin";
-                jobsDbPath = "Jobs.bin";
-                usersDbPath = "Users.bin";
-                firmDbPath = "Firms.bin";
+                applicationsDbPath = pathToSource + "Applications.bin";
+                jobsDbPath = pathToSource + "Jobs.bin";
+                usersDbPath = pathToSource + "Users.bin";
+                firmDbPath = pathToSource + "Firms.bin";
             }
         }
         while (true) {

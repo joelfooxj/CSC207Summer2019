@@ -111,6 +111,7 @@ public class HrCommandHandler implements CommandHandler {
             System.out.println("[2] View applicants information");
             System.out.println("[3] View applicants for a particular job");
             System.out.println("[4] Set up an interview");
+            System.out.println("[Exit] to exit to login.");
 
             command = (String) InputFormatting.inputWrapper("string", false, new ArrayList<>(mainHrCommands.keySet()));
             mainHrCommands.get(command).run();

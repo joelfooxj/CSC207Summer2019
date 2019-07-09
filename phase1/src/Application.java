@@ -18,10 +18,11 @@ public class Application implements Serializable {
     private LocalDate closedDate;
 
     // The application is closed in the following conditions
-    // 1. the passed interview Num reaches 4
-    // 2. it's hired
+    // 1. it's hired
+    // 2. is hired
     private boolean isOpen = true;
-    private boolean isHired;
+    private boolean isHired = false;
+    private boolean isRejected = false;
 
     // for each application creation, you need all these 5 parameters
     public Application(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
@@ -144,12 +145,23 @@ public class Application implements Serializable {
         this.interviewerID = targetInterviewerId;
     }
 
-    public void hire(){
+    public void hire(LocalDate date) {
         this.isHired = true;
         this.isOpen = false;
+        this.closedDate = date;
     }
 
     public boolean isHired(){
         return this.isHired;
+    }
+
+    public void reject(LocalDate date) {
+        this.isRejected = true;
+        this.isOpen = false;
+        this.closedDate = date;
+    }
+
+    public boolean isRejected() {
+        return this.isRejected;
     }
 }

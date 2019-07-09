@@ -175,6 +175,16 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         return idList;
     }
 
+    public List<Long> getOpenAppIdsByJob(Long jobId) {
+        List<Long> idList = new ArrayList<>();
+        for (Application app : this.getAllApplications()) {
+            if (app.isOpen() && app.getJobID() == jobId) {
+                idList.add(app.getApplicationID());
+            }
+        }
+        return idList;
+    }
+
     public List<Application> getAllApplications(){
         List<Application> applicationList = new ArrayList<>();
         for (Long i = 0L; i<super.getCurrID();i++){

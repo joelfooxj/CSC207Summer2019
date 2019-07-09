@@ -57,7 +57,7 @@ public class HrCommandHandler implements CommandHandler {
         UserInterface.getAppsDb().printApplicationsByApplicantID(targetApplicant, firmId);
 
         long targetApplicationId = (long) InputFormatting.inputWrapper("long",false, null); // todo
-        Application targetApplication = (Application) UserInterface.getAppsDb().getItemByID(targetApplicationId);
+        Application targetApplication = UserInterface.getAppsDb().getItemByID(targetApplicationId);
 
         // get the resume or cover letter of the chose application
         if(userCommand.equals("2")){
@@ -71,9 +71,25 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Please select a job: ");
         long firmId = UserInterface.getCurrentUser().getFirmId();
         UserInterface.getJobsDb().printJobsByFirmId(firmId);
-        Long jobId = (Long) InputFormatting.inputWrapper("long",true, null); // todo
+        Long jobId = (Long) InputFormatting.inputWrapper("long",true, UserInterface.getJobsDb().getOpenJobIDs());
         if (jobId == null) {return;}
-        UserInterface.getAppsDb().printApplicationsByJobID(jobId);
+        UserInterface.getAppsDb().printOpenApplicationsByJobID(jobId);
+        System.out.println("Select an application you would like to modify: ");
+        Long appId = (Long) InputFormatting.inputWrapper("long", true, UserInterface.getAppsDb().getOpenAppIdsByJob(jobId));
+        decideApplication(UserInterface.getAppsDb().getItemByID(appId));
+    }
+
+    public void decideApplication(Application app) {
+        HashMap<String, Runnable> decideCommands = new HashMap<>();
+        decideCommands.put("1", () -> app.hire(UserInterface.getSessionDate()));
+        decideCommands.put("2", () -> app.reject(UserInterface.getSessionDate()));
+        decideCommands.put("3", () -> {});
+        System.out.println(app);
+        System.out.println("[1] Hire this application");
+        System.out.println("[2] Reject this application");
+        System.out.println("[3] Exit");
+        String response = (String) InputFormatting.inputWrapper("string", false, new ArrayList<>(decideCommands.keySet()));
+        decideCommands.get(response).run();
     }
 
     private void handleIntervieweeMatching(){
@@ -93,7 +109,6 @@ public class HrCommandHandler implements CommandHandler {
         if (targetInterviewerId == null) {return;}
         targetApplication.setUpInterview(targetInterviewerId);
     }
-
 
     public void handleCommands(){
 

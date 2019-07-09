@@ -35,7 +35,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //Get a list of applications by its applicant ID
     public List<Application> getApplicationsByApplicantID(long applicantID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(Long i = 0L; i<=super.getCurrID();i++){
+        for(Long i = 0L; i<super.getCurrID();i++){
             //added to deal with case where applicant has no applications
 //            if(applicationList.isEmpty()){
 //                break;
@@ -46,7 +46,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
             }
         }
         if (applicationList.isEmpty()) {
-            System.out.println("This applicant does not have any application submitted");
+            System.out.println("This applicant does not have any applications submitted");
         }
         return applicationList;
     }
@@ -54,7 +54,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //Get a list of applications by its Job ID
     public List<Application> getApplicationByJobID(long jobID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(Long i = 0L; i<=super.getCurrID();i++){
+        for(Long i = 0L; i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getJobID() == jobID){
                 applicationList.add(item);
@@ -66,7 +66,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //Get a list of applications by its Firm ID
     public List<Application> getApplicationByFirmID(long firmID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(Long i = 0L; i<=super.getCurrID();i++){
+        for(Long i = 0L; i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getFirmID() == firmID){
                 applicationList.add(item);
@@ -78,7 +78,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //Get a list of applications by its interviewerID
     public List<Application> getApplicationByInterviewerID(long interviewerID){
         List<Application> applicationList = new ArrayList<Application>();
-        for(Long i = 0L; i<=super.getCurrID();i++){
+        for(Long i = 0L; i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getInterviewerID() == interviewerID){
                 applicationList.add(item);
@@ -88,7 +88,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     }
 
     public void printApplicationsByApplicantID(long applicationId, long firmId){
-        for (Long i = 0L; i<=super.getCurrID();i++){
+        for (Long i = 0L; i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getApplicantID() == applicationId && item.getFirmID()==firmId){
                 System.out.println(item.toString());
@@ -100,7 +100,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //print a String which adds all the toString of applications with that applicant ID
     public void printApplicationsByApplicantID(long applicantID){
         StringBuilder allApplication = new StringBuilder();
-        for (Long i = 0L;i<=super.getCurrID();i++){
+        for (Long i = 0L;i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getApplicantID() == applicantID)
                 allApplication.append(item.toString()+"\n\n");
@@ -111,7 +111,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //print a String …… job ID
     public void printApplicationsByJobID(long jobID){
         StringBuilder allApplication = new StringBuilder();
-        for (long i = 0L;i <=super.getCurrID();i++){
+        for (long i = 0L;i <super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getJobID() == jobID)
                 allApplication.append(item.toString()+"; ");
@@ -122,7 +122,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //print a String …… firmID
     public void printApplicationsByFirmID(long firmID){
         StringBuilder allApplication = new StringBuilder();
-        for (Long i = 0L;i<=super.getCurrID();i++){
+        for (Long i = 0L;i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getFirmID() == firmID)
                 allApplication.append(item.toString()+"; ");
@@ -133,7 +133,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //print a String …… interviewer ID
     public void printApplicationsByInterviewerID(long interviewerID){
         StringBuilder allApplication = new StringBuilder();
-        for (Long i = 0L;i<=super.getCurrID();i++){
+        for (Long i = 0L;i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getInterviewerID() == interviewerID)
                 allApplication.append(item.toString()+"; ");
@@ -143,7 +143,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
 
     public void printPassedApplications(long jobID){
         StringBuilder allApplication = new StringBuilder();
-        for (Long i = 0L;i<=super.getCurrID();i++){
+        for (Long i = 0L;i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getJobID() == jobID && item.getPassedInterviewNum()==4 )
                 allApplication.append(item.toString()+"; ");
@@ -156,7 +156,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     // An application is open when it is open and the person hasn't been hired yet
     public void printOpenApplicationsByJobID(long jobID) {
         StringBuilder allApplication = new StringBuilder();
-        for (Long i = 0L;i <=super.getCurrID();i++){
+        for (Long i = 0L;i <super.getCurrID();i++){
             Application item = super.getItemByID(i);
             if (item.getJobID() == jobID && item.isOpen() && !item.isHired())
                 allApplication.append(item.toString() +"; ");
@@ -177,7 +177,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
 
     public List<Application> getAllApplications(){
         List<Application> applicationList = new ArrayList<>();
-        for (Long i = 0L; i<=super.getCurrID();i++){
+        for (Long i = 0L; i<super.getCurrID();i++){
             applicationList.add(data.get(i));
         }
         return applicationList;

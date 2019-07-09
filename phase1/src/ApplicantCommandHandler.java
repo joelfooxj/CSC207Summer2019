@@ -38,12 +38,22 @@ public class ApplicantCommandHandler implements CommandHandler{
                         true,
                         UserInterface.getJobsDb().getOpenJobIDs());
                 if (inputJobID != null) {
-                    Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID).getFirmid();
-                    UserInterface.getAppsDb().addApplication(
-                            this.applicantID,
-                            inputJobID,
-                            inputFirmID,
-                            UserInterface.getDate());
+                    if (!this.getAllApplications().isEmpty()){
+                        // check if job has already been applied for
+                        for (Application app:this.getAllApplications()){
+                            if (app.getJobID() == inputJobID){
+                                System.out.println("You've already applied for this job");
+                                return;
+                            }
+                        }
+                    } else {
+                        Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID).getFirmid();
+                        UserInterface.getAppsDb().addApplication(
+                                this.applicantID,
+                                inputJobID,
+                                inputFirmID,
+                                UserInterface.getDate());
+                    }
                 }
             }
         });
@@ -65,7 +75,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             Long inputApplicationID = (Long) InputFormatting.inputWrapper(
                     "long",
                     true,
-                    new ArrayList<>(this.getAllApplicationIDs()));
+                    this.getAllApplications().isEmpty()?null:new ArrayList<>(this.getAllApplicationIDs()));
             if (inputApplicationID != null) {
                 this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
             }
@@ -171,24 +181,21 @@ public class ApplicantCommandHandler implements CommandHandler{
     }
 
     private List<Long> getAllApplicationIDs(){
-        if (this.getAllApplications().isEmpty()){
-            return null;
-        }
-        List<Long> retLongList = new ArrayList<>();
-        for (Application app:this.getAllApplications()){
-            retLongList.add(app.getApplicationID());
-        }
-        return retLongList;
+        if (!this.getAllApplications().isEmpty()){
+            List<Long> retLongList = new ArrayList<>();
+            for (Application app:this.getAllApplications()){
+                retLongList.add(app.getApplicationID());
+            }
+            return retLongList;
+        } else {return null;}
     }
 
     private void viewOpenApplications(){
-        if (this.getAllApplications().isEmpty()){
-            System.out.println("You have no open applications.");
-            return;
-        }
-        for (Application app:this.getAllApplications()){
-            if (app.isOpen()) {
-                System.out.println(app);
+        if (!this.getAllApplications().isEmpty()){
+            for (Application app:this.getAllApplications()){
+                if (app.isOpen()) {
+                    System.out.println(app);
+                }
             }
         }
     }
@@ -199,8 +206,8 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     private void getHistory(){
         System.out.println("The creation date of this account is: " + this.creationDate);
-        System.out.println("These are your applications that are now closed: ");
-        if (this.getAllApplications().isEmpty()){
+        if (!this.getAllApplications().isEmpty()){
+            System.out.println("These are your applications that are now closed: ");
             for (Application app:this.getAllApplications()){
                 if(!app.isOpen()) {
                     System.out.println(app);
@@ -224,14 +231,13 @@ public class ApplicantCommandHandler implements CommandHandler{
                 }
             }
             System.out.println("It's been " + minDaysBetween + " days since your last closed application.");
-        } else { System.out.println("You have no applications.");}
+        }
     }
 
     /**
      * This method will set the cover letter and CV of all closed applications
      * to null after being closed for 30 days.
      */
-    // TODO: Check for empties
     private void deleteCVAndCoverLetter(){
         if (this.getAllApplications().isEmpty()){ return; }
         for (Application app:this.getAllApplications()){

@@ -91,11 +91,11 @@ public class Application implements Serializable {
     @Override
     public String toString() {
         return
-                "[" + applicationID +"]: "+ applicationID +
-                "\njobID: " + jobID +
-                "\napplicantID: " + applicantID +
-                "\nfirmID: " + firmID +
-                        "\ninterviewer ID: "+interviewerID;
+                "[applicationID]: "+ applicationID +
+                "\n[jobID]: " + jobID +
+                "\n[applicantID]: " + applicantID +
+                "\n[firmID]: " + firmID +
+                        "\n[interviewer ID]: "+ interviewerID;
     }
 
     public LocalDate getCreationDate() {
@@ -128,7 +128,7 @@ public class Application implements Serializable {
             case 2: return "Passed 1st in-person interview";
             case 3: return "Passed 2nd in-person interview";
             case 4: return "In consideration";
-            default: return "Status Error";
+            default: return "No interviews scheduled yet";
         }
     }
 

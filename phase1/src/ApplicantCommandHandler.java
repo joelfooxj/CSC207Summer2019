@@ -42,42 +42,37 @@ public class ApplicantCommandHandler implements CommandHandler{
                         // check if job has already been applied for
                         for (Application app:this.getAllApplications()){
                             if (app.getJobID() == inputJobID){
-                                System.out.println("You've already applied for this job");
+                                System.out.println("You had already applied for this job");
                                 return;
                             }
                         }
-                    } else {
-                        Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID).getFirmid();
-                        UserInterface.getAppsDb().addApplication(
-                                this.applicantID,
-                                inputJobID,
-                                inputFirmID,
-                                UserInterface.getDate());
                     }
+                    Long inputFirmID = UserInterface.getJobsDb().getItemByID(inputJobID).getFirmid();
+                    UserInterface.getAppsDb().addApplication(
+                            this.applicantID,
+                            inputJobID,
+                            inputFirmID,
+                            UserInterface.getDate());
+                    System.out.println("Total num apps: " + UserInterface.getAppsDb().getAllApplications().size());
                 }
             }
         });
         menu.put("3", () -> {
-            if (this.getAllApplications().isEmpty()) {
-                System.out.println("You have no applications.");
-                return;
+            if (!this.getAllApplications().isEmpty()) {
+                System.out.println("Here are all open applications: ");
+                this.viewOpenApplications();
             }
-            System.out.println("Here are all open applications: ");
-            this.viewOpenApplications();
-
         });
         menu.put("4", () -> {
-            if (this.getAllApplications().isEmpty()) {
-                System.out.println("You have no applications.");
-                return;
-            }
-            System.out.println("Enter the Application ID to be viewed: ");
-            Long inputApplicationID = (Long) InputFormatting.inputWrapper(
-                    "long",
-                    true,
-                    this.getAllApplications().isEmpty()?null:new ArrayList<>(this.getAllApplicationIDs()));
-            if (inputApplicationID != null) {
-                this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
+            if (!this.getAllApplications().isEmpty()) {
+                System.out.println("Enter the Application ID to be viewed: ");
+                Long inputApplicationID = (Long) InputFormatting.inputWrapper(
+                        "long",
+                        true,
+                        this.getAllApplications().isEmpty()?null:new ArrayList<>(this.getAllApplicationIDs()));
+                if (inputApplicationID != null) {
+                    this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
+                }
             }
         });
         menu.put("5", () -> {
@@ -109,6 +104,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         appMenu.put("1", () -> {
             inputApp.setOpen(false);
             System.out.println("You have withdrawn from the application.");
+            // Note: Once withdrawn, you cannot re-apply.
         });
         appMenu.put("2", () -> {
             System.out.println("Type [view] to view the CV for this application, " +
@@ -195,6 +191,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             for (Application app:this.getAllApplications()){
                 if (app.isOpen()) {
                     System.out.println(app);
+                    System.out.println("\n");
                 }
             }
         }
@@ -214,11 +211,7 @@ public class ApplicantCommandHandler implements CommandHandler{
                 }
             }
             System.out.println("These are your applications that are open: ");
-            for (Application app : this.getAllApplications()) {
-                if (app.isOpen()) {
-                    System.out.println(app);
-                }
-            }
+            this.viewOpenApplications();
             long minDaysBetween = 0;
             for (Application app:this.getAllApplications()) {
                 if(!app.isOpen()){
@@ -241,10 +234,13 @@ public class ApplicantCommandHandler implements CommandHandler{
     private void deleteCVAndCoverLetter(){
         if (this.getAllApplications().isEmpty()){ return; }
         for (Application app:this.getAllApplications()){
-            if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30 && !app.isOpen()){
-                app.setClPath(null);
-                app.setCvPath(null);
+            if (!app.isOpen()){
+                if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30){
+                    app.setClPath(null);
+                    app.setCvPath(null);
+                }
             }
+
         }
     }
 }

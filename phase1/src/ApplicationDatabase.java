@@ -15,11 +15,11 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
     //Add an application which contains applicant and job info
     // Not a dependency inversion
     public void addApplication(long applicantID, long jobID, long firmID, LocalDate creationDate){
-        super.getCurrID();
         Application newApplication = new Application(super.getCurrID(), applicantID, jobID, firmID, creationDate);
         newApplication.setApplicantID(applicantID);
         newApplication.setJobID(jobID);
         super.addItem(newApplication);
+        //super.addItem(new Application(super.getCurrID(), applicantID, jobID, firmID, creationDate));
     }
 
     //This ID must be application ID

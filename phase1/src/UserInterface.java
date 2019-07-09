@@ -194,7 +194,7 @@ public class UserInterface {
             saveAll();
             System.out.println("Do you want to exit the program? (y/n): ");
             List<String> exitOptions = Arrays.asList("y", "n");
-            String answer = (String) InputFormatting.inputWrapper("string", exitOptions);
+            String answer = (String) InputFormatting.inputWrapper("string", false,  exitOptions);
             if (answer.equals("y")) {
                 return;
             }

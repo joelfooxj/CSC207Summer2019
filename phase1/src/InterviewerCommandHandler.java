@@ -11,16 +11,23 @@ public class InterviewerCommandHandler implements CommandHandler{
         this.recommendedApps = new ArrayList<>();
     }
 
-    private HashMap<Long, Application> getApplications(){
-        HashMap<Long, Application> retHashMap = new HashMap<>();
-        for (Application app:UserInterface.getAppsDb().getApplicationByInterviewerID(this.interviewerID)){
-            retHashMap.put(app.getApplicationID(), app);
+    private List<Application> getApplications(){
+        return UserInterface.getAppsDb().getApplicationByInterviewerID(this.interviewerID);
+    }
+
+    private List<Long> getApplicationIDs(){
+        List<Long> idList = new ArrayList<>();
+        if (!this.getApplications().isEmpty()){
+            for(Application app:this.getApplications()){
+                idList.add(app.getApplicationID());
+            }
         }
-        return retHashMap;
+        return idList;
     }
 
     private void printInterviewees(){
-        for (Application app:this.getApplications().values()){
+        if (this.getApplications().isEmpty()) {return;}
+        for (Application app:this.getApplications()){
             System.out.println(app);
         }
     }
@@ -31,10 +38,15 @@ public class InterviewerCommandHandler implements CommandHandler{
      * @param ApplicationID: ID of the application to be recommended.
      */
     private void recommendApplication(Long ApplicationID){
-        for (Application app:this.getApplications().values()){
+        if (this.getApplications().isEmpty()){
+            System.out.println("There are no applications to recommend.");
+            return;
+        }
+        for (Application app:this.getApplications()){
             if(app.getApplicationID() == ApplicationID && !this.recommendedApps.contains(app)){
                 app.recommend();
                 this.recommendedApps.add(app);
+                app.setUpInterview(-1);
                 return;
             }
         }
@@ -52,7 +64,7 @@ public class InterviewerCommandHandler implements CommandHandler{
             Long inputApplicantID = (Long) InputFormatting.inputWrapper(
                     "long",
                     true,
-                    new ArrayList<>(this.getApplications().keySet()));
+                    new ArrayList<>(this.getApplicationIDs()));
             if (inputApplicantID != null) { recommendApplication(inputApplicantID); }
         });
         menu.put("Exit", () -> System.out.println("Returning to login"));
@@ -65,9 +77,9 @@ public class InterviewerCommandHandler implements CommandHandler{
             System.out.println("[Exit] To exit the program.");
             commandInput = (String) InputFormatting.inputWrapper(
                     "string",
-                    true,
+                    false,
                     new ArrayList<>(menu.keySet()));
-            if (commandInput != null){ menu.get(commandInput).run(); }
+            menu.get(commandInput).run();
         }
     }
 }

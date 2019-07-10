@@ -234,13 +234,12 @@ public class ApplicantCommandHandler implements CommandHandler{
     private void deleteCVAndCoverLetter(){
         if (this.getAllApplications().isEmpty()){ return; }
         for (Application app:this.getAllApplications()){
-            if (!app.isOpen()){
-                if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30){
+            if (!app.isOpen()) {
+                if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30) {
                     app.setClPath(null);
                     app.setCvPath(null);
                 }
             }
-
         }
     }
 }

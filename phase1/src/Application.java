@@ -113,6 +113,9 @@ public class Application implements Serializable {
 
     public void setOpen(boolean open) {
         isOpen = open;
+        if (!open){
+            setClosedDate(UserInterface.getDate());
+        }
     }
 
     public LocalDate getClosedDate() {

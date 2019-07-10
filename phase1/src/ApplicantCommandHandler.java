@@ -53,7 +53,6 @@ public class ApplicantCommandHandler implements CommandHandler{
                             inputJobID,
                             inputFirmID,
                             UserInterface.getDate());
-                    System.out.println("Total num apps: " + UserInterface.getAppsDb().getAllApplications().size());
                 }
             }
         });
@@ -65,11 +64,11 @@ public class ApplicantCommandHandler implements CommandHandler{
         });
         menu.put("4", () -> {
             if (!this.getAllApplications().isEmpty()) {
-                System.out.println("Enter the Application ID to be viewed: ");
+                System.out.println("Enter the open Application ID to be viewed: ");
                 Long inputApplicationID = (Long) InputFormatting.inputWrapper(
                         "long",
                         true,
-                        this.getAllApplications().isEmpty()?null:new ArrayList<>(this.getAllApplicationIDs()));
+                        this.getAllOpenApplicationIDs());
                 if (inputApplicationID != null) {
                     this.singleAppHandle(UserInterface.getAppsDb().getApplicationByApplicationID(inputApplicationID));
                 }
@@ -103,7 +102,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         HashMap<String, Runnable> appMenu = new HashMap<>();
         appMenu.put("1", () -> {
             inputApp.setOpen(false);
-            System.out.println("You have withdrawn from the application.");
+            System.out.println("You have withdrawn from the application.\n");
             // Note: Once withdrawn, you cannot re-apply.
         });
         appMenu.put("2", () -> {
@@ -150,12 +149,11 @@ public class ApplicantCommandHandler implements CommandHandler{
                 }
             }
         });
-        appMenu.put("Exit", () -> System.out.println("Returning to main menu"));
-
+        appMenu.put("Exit", () -> System.out.println("Returning to main menu\n"));
         String inputCommand = "";
-        while(!inputCommand.equals("Exit")){
-            System.out.println("The current status of this interview is: " + inputApp.status());
-            System.out.println("\nSelect one of the following options for this application: ");
+        while(!(inputCommand.equals("Exit")||inputCommand.equals("1"))){
+            System.out.println("\nThe current status of this interview is: " + inputApp.status());
+            System.out.println("Select one of the following options for this application: ");
             System.out.println("[1] Withdraw from this application.");
             System.out.println("[2] View/Set CV");
             System.out.println("[3] View/Set Cover Letter");
@@ -176,11 +174,13 @@ public class ApplicantCommandHandler implements CommandHandler{
         return UserInterface.getAppsDb().getApplicationsByApplicantID(this.applicantID);
     }
 
-    private List<Long> getAllApplicationIDs(){
+    private List<Long> getAllOpenApplicationIDs(){
         if (!this.getAllApplications().isEmpty()){
             List<Long> retLongList = new ArrayList<>();
             for (Application app:this.getAllApplications()){
-                retLongList.add(app.getApplicationID());
+                if (app.isOpen()){
+                    retLongList.add(app.getApplicationID());
+                }
             }
             return retLongList;
         } else {return null;}
@@ -191,7 +191,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             for (Application app:this.getAllApplications()){
                 if (app.isOpen()) {
                     System.out.println(app);
-                    System.out.println("\n");
+                    System.out.println("---");
                 }
             }
         }

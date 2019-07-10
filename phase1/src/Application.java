@@ -124,6 +124,11 @@ public class Application implements Serializable {
     }
 
     public String status(){
+        if (this.isHired) {
+            return "This application has been hired.";
+        } else if (this.isRejected) {
+            return "This application has been rejected.";
+        }
         switch (passedInterviewNum){
             case 1: return "Passed Phone Interview";
             case 2: return "Passed 1st in-person interview";

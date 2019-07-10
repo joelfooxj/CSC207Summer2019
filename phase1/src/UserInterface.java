@@ -54,24 +54,31 @@ public class UserInterface {
         if (userInput.equals("register")){
             System.out.println("Please fill up the form below");
             System.out.println("Username: ");
-            userName = (String) InputFormatting.inputWrapper("string", false, null);
+            userName = (String) InputFormatting.inputWrapper("string",
+                    false,
+                    null);
             if (usersDb.userExists(userName)) {
                 System.out.println("That user already exists, try a different username.");
                 return getUser();
             }
             System.out.println("Password: ");
-            String password = (String) InputFormatting.inputWrapper("string", false, null);
-
+            String password = (String) InputFormatting.inputWrapper("string",
+                    false,
+                    null);
             System.out.println("Account type (" + applicantUserType +
                     ", "+ interviewerUserType +
                     " or " + hrUserType +"): ");
-            String accountType = (String) InputFormatting.inputWrapper("string",false,null);
+            String accountType = (String) InputFormatting.inputWrapper("string",
+                    false,
+                    Arrays.asList(applicantUserType, interviewerUserType, hrUserType));
             if (accountType.equals(applicantUserType)){
                 usersDb.addUser(userName, password, accountType, sessionDate);
             } else {
                 System.out.println("Please enter your firm name: ");
 
-                String firmName = (String) InputFormatting.inputWrapper("string", false, null);
+                String firmName = (String) InputFormatting.inputWrapper("string",
+                        false,
+                        null);
                 if (firmsDb.getFirmByFirmName(firmName) == null){
                     firmsDb.addFirm(firmName);
                 }

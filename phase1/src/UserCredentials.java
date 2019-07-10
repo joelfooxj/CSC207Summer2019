@@ -48,7 +48,6 @@ public class UserCredentials implements Serializable {
     return "Username: " + this.userName;
   }
 
-  //TODO: Use UserInterface.getDate() in constructor to set creation date
   public LocalDate getCreationDate() {
     return this.creationDate;
   }

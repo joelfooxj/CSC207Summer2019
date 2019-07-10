@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class ApplicantCommandHandler implements CommandHandler{
             System.out.println("Here are the open jobs postings: ");
             if (UserInterface.getJobsDb().isEmpty()) {
                 System.out.println("-> There are no job postings, returning to menu.");
-            } else {this.viewJobPostings();}
+            } else {UserInterface.getJobsDb().printOpenJobPostings();}
         });
         menu.put("2", () -> {
             System.out.println("Enter the ID of the Job to apply for: ");
@@ -195,10 +196,6 @@ public class ApplicantCommandHandler implements CommandHandler{
                 }
             }
         }
-    }
-
-    private void viewJobPostings(){
-        UserInterface.getJobsDb().printJobPostings();
     }
 
     private void getHistory(){

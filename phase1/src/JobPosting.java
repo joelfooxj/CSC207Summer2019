@@ -52,7 +52,7 @@ public class JobPosting implements Serializable {
 
     @Override
     public String toString(){
-        return "[" + jobId + "], " + jobTitle + ": " + jobDetails;
+        return jobTitle + ": " + jobDetails;
     }
 
     public Long getJobId() {

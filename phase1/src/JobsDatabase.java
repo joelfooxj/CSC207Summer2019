@@ -8,6 +8,16 @@ public class JobsDatabase extends AbstractDatabase<JobPosting> implements java.i
         super.printAll();
     }
 
+
+    //todo: review
+    public void printOpenJobPostings(){
+        for (JobPosting job:this.getListOfItems()){
+            if (job.isOpen()){
+                System.out.println(job);
+            }
+        }
+    }
+
     public void addJob(String title, String details, long firmId, LocalDate postedDate, LocalDate expiryDate){
         addItem(new JobPosting(title, details, firmId, postedDate, expiryDate));
     }

@@ -61,10 +61,6 @@ public class Application implements Serializable {
         return clPath;
     }
 
-    public void setApplicationID(long applicationID) {
-        this.applicationID = applicationID;
-    }
-
     public void setJobID(long jobID) {
         this.jobID = jobID;
     }
@@ -97,14 +93,6 @@ public class Application implements Serializable {
                 "\n[applicantID]: " + applicantID +
                 "\n[firmID]: " + firmID +
                         "\n[interviewer ID]: "+ interviewerID;
-    }
-
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
     }
 
     public boolean isOpen() {
@@ -167,9 +155,5 @@ public class Application implements Serializable {
         this.isRejected = true;
         this.isOpen = false;
         this.closedDate = date;
-    }
-
-    public boolean isRejected() {
-        return this.isRejected;
     }
 }

@@ -35,18 +35,6 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         return applicationList;
     }
 
-    //Get a list of applications by its Job ID
-    public List<Application> getApplicationByJobID(long jobID){
-        List<Application> applicationList = new ArrayList<Application>();
-        for(Long i = 0L; i<super.getCurrID();i++){
-            Application item = super.getItemByID(i);
-            if (item.getJobID() == jobID){
-                applicationList.add(item);
-            }
-        }
-        return applicationList;
-    }
-
     //Get a list of applications by its interviewerID
     public List<Application> getApplicationByInterviewerID(long interviewerID){
         List<Application> applicationList = new ArrayList<Application>();

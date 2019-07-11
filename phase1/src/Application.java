@@ -81,10 +81,6 @@ public class Application implements Serializable {
         this.passedInterviewNum += 1;
     }
 
-    public int getPassedInterviewNum() {
-        return passedInterviewNum;
-    }
-
     @Override
     public String toString() {
         return

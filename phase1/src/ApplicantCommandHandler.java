@@ -1,10 +1,12 @@
 import javax.swing.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 public class ApplicantCommandHandler implements CommandHandler{
     /**
@@ -225,18 +227,19 @@ public class ApplicantCommandHandler implements CommandHandler{
     }
 
     /**
-     * This method will set the cover letter and CV of all closed applications
-     * to null after being closed for 30 days.
+     * This method will set the cover letter and CV of all applications
+     * to null if and only if all applications are closed AND at least 30 days
+     * has passed since the last closed application.
      */
     private void deleteCVAndCoverLetter(){
         if (this.getAllApplications().isEmpty()){ return; }
         for (Application app:this.getAllApplications()){
-            if (!app.isOpen()) {
-                if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) > 30) {
-                    app.setClPath(null);
-                    app.setCvPath(null);
-                }
-            }
+            if (app.isOpen()) {return;}
+            else if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) < 30){return; }
+        }
+        for (Application app:this.getAllApplications()){
+            app.setCvPath(null);
+            app.setClPath(null);
         }
     }
 }

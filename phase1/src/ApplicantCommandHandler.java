@@ -23,6 +23,10 @@ public class ApplicantCommandHandler implements CommandHandler{
         deleteCVAndCoverLetter();
     }
 
+    /**
+     * This method handles the main menu functionality of this commandHandler.
+     *
+     */
     public void handleCommands(){
         HashMap<String, Runnable> menu = new HashMap<>();
         menu.put("1", () -> {
@@ -101,6 +105,10 @@ public class ApplicantCommandHandler implements CommandHandler{
         }
     }
 
+    /**
+     * This method handles functionality for the Appliation sub-menu
+     * @param inputApp: the Application that is to be read/mutated
+     */
     private void singleAppHandle(Application inputApp){
         HashMap<String, Runnable> appMenu = new HashMap<>();
         appMenu.put("1", () -> {

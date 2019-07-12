@@ -133,6 +133,8 @@ public class Application implements Serializable {
         }
     }
 
+    // For phase 2, we will have specific resumes and cover letters. For now, we only
+    // have the path to resume and cover letter.
     public Object getResume() {
         return null;
     }

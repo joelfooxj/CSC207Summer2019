@@ -19,7 +19,7 @@ public class Application implements Serializable {
 
     // The application is closed in the following conditions
     // 1. it's hired
-    // 2. is hired
+    // 2. it is manually set to closed
     private boolean isOpen = true;
     private boolean isHired = false;
     private boolean isRejected = false;
@@ -33,6 +33,7 @@ public class Application implements Serializable {
         this.creationDate = creationDate;
     }
 
+    // The followings are necessarily used getter and setters
     public long getApplicationID() {
         return applicationID;
     }
@@ -77,10 +78,14 @@ public class Application implements Serializable {
         this.clPath = clPath;
     }
 
+    // Everytime an interviewer recommend this application,
+    // the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
+    // and the number of passed interview increases by 1
     public void recommend(){
         this.passedInterviewNum += 1;
     }
 
+    // Note the unique application number is inside a square bracket
     @Override
     public String toString() {
         return
@@ -110,6 +115,9 @@ public class Application implements Serializable {
         this.closedDate = closeDate;
     }
 
+    // Based on the amount of passed interview, the applicant's application can have 5
+    // status, which are no interview assigned, pass phone interview, pass 1/2 interview
+    // If he passes all 4, the status is "in consideration"
     public String status(){
         if (this.isHired) {
             return "This application has been hired.";
@@ -137,6 +145,8 @@ public class Application implements Serializable {
         this.interviewerID = targetInterviewerId;
     }
 
+    // When an HR decides to hire this person, 3 variables(status) will be changed.
+    // the application gets closed and the close date is right now.
     public void hire(LocalDate date) {
         this.isHired = true;
         this.isOpen = false;
@@ -147,6 +157,7 @@ public class Application implements Serializable {
         return this.isHired;
     }
 
+    // Similar with the hire() method, 3 variables will be changed.
     public void reject(LocalDate date) {
         this.isRejected = true;
         this.isOpen = false;

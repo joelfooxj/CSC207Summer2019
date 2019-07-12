@@ -12,10 +12,10 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         newApplication.setApplicantID(applicantID);
         newApplication.setJobID(jobID);
         super.addItem(newApplication);
-        //super.addItem(new Application(super.getCurrID(), applicantID, jobID, firmID, creationDate));
     }
 
-    //Since each application ID is unique, this returns 1 application object
+    //Since each application ID is unique, this returns 1 application
+    // object with this application id
     public Application getApplicationByApplicationID(long applicationID){
         return super.getItemByID(applicationID);
     }
@@ -47,6 +47,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         return applicationList;
     }
 
+    // Print a list of applications with the same application id and firm id
     public void printApplicationsByApplicantID(long applicationId, long firmId){
         for (Long i = 0L; i<super.getCurrID();i++){
             Application item = super.getItemByID(i);
@@ -69,7 +70,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         System.out.println(allApplication);
     }
 
-    // I check isOpen() and isHired().  Note if the hire() method is called, isOpen() will be false
+    // I check isOpen() and isHired().  Note if the hire() method is called, isOpen() will be set to false
     public List<Long> getOpenAppIdsByJob(Long jobId) {
         List<Long> idList = new ArrayList<>();
         for (Application app : this.getAllApplications()) {
@@ -80,6 +81,7 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         return idList;
     }
 
+    // print all the applications in the application database
     public List<Application> getAllApplications(){
         List<Application> applicationList = new ArrayList<>();
         for (Long i = 0L; i<super.getCurrID();i++){
@@ -88,4 +90,3 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         return applicationList;
     }
 }
-

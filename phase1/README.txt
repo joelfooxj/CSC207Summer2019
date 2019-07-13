@@ -1,7 +1,6 @@
 Additional constraints:
 - Applicant cannot reapply to the same job after withdrawing their application.
 - An application is set to closed if an applicant withdraws, or if they're hired/rejected.
--
 
 Notes on using the setup files:
 

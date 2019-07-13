@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class JobPosting implements Serializable {
+public class JobPosting extends JobsDatabase implements Serializable {
 
     //question: is numberOfJobs redundant? Should I just copy it from the JobsDatabase currID?
     private static long numberOfJobs = 0;
@@ -46,13 +46,11 @@ public class JobPosting implements Serializable {
         return isFilled;
     }
 
-    public void setAsFilled(){
-        isFilled = true;
-    }
-
     @Override
     public String toString(){
-        return jobTitle + ": " + jobDetails;
+        return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
+                jobDetails + "\n" + "Positions Available: " + numLabourRequired + "\n" +
+                "Date Published: " + publishDate + "\n" + "Expiry Date: " + expiryDate + "\n";
     }
 
     public Long getJobId() {
@@ -61,12 +59,6 @@ public class JobPosting implements Serializable {
 
     public long getFirmid() {
         return firmid;
-    }
-
-    public String getDetail(){
-        return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
-                jobDetails + "\n" + "Positions Available: " + numLabourRequired + "\n" +
-                "Date Published: " + publishDate + "\n" + "Expiry Date: " + expiryDate + "\n";
     }
 
 }

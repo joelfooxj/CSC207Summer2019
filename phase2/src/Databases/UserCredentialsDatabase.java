@@ -1,7 +1,7 @@
-import java.io.Serializable;
+package Databases;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.ArrayList;
+import CommandHandlers.UserInterface;
 public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   public UserCredentials getUserByID(Long id) {
@@ -41,17 +41,21 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
 
   public void removeUserByID(Long id) {
     super.removeItemByID(id);
-    //super.saveChanges(super.getData(),"UserCredentials.bin");
+    //super.saveChanges(super.getData(),"Databases.UserCredentials.bin");
   }
 
   // for applicants
-  public void addUser(String userName, String password, String accountType, LocalDate creationDate) {
-    super.addItem(new UserCredentials(userName, password, accountType, creationDate, super.getCurrID()));
+  public UserCredentials addUser(String userName, String password, String accountType, LocalDate creationDate) {
+    UserCredentials newUser = new UserCredentials(userName, password, accountType, creationDate, super.getCurrID());
+    super.addItem(newUser);
+    return newUser;
   }
 
   // for interviewers and hr coordinators
-  public void addUser(String userName, String password, String accountType, long firmId) {
-    super.addItem(new UserCredentials(userName, password, accountType, firmId, super.getCurrID()));
+  public UserCredentials addUser(String userName, String password, String accountType, long firmId) {
+    UserCredentials newUser = new UserCredentials(userName, password, accountType, firmId, super.getCurrID());
+    super.addItem(newUser);
+    return newUser;
   }
 
   public Long getUserID(UserCredentials user) {

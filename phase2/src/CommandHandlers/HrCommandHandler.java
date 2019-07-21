@@ -1,7 +1,9 @@
-import java.io.IOException;
+package CommandHandlers;
+
+import Databases.Application;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class HrCommandHandler implements CommandHandler {
@@ -30,7 +32,7 @@ public class HrCommandHandler implements CommandHandler {
         // get the applicant ID (username)
         UserInterface.getUsersDb().printApplicants();
         System.out.println("Please choose an applicant: ");
-        //UserInterface.getAppsDb().printApplicationsByFirmID(UserInterface.getCurrentUser().getFirmId());
+        //CommandHandlers.UserInterface.getAppsDb().printApplicationsByFirmID(CommandHandlers.UserInterface.getCurrentUser().getFirmId());
 
         Long targetApplicant = (Long) InputFormatting.inputWrapper("long", true,null); // todo
         if (targetApplicant == null) {return;}

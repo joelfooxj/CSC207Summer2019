@@ -1,3 +1,5 @@
+package CommandHandlers;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +15,7 @@ public class InputFormatting {
      * correction is made.
      *
      * Usage:
-     * Long inputLong = (Long) InputFormatting.inputWrapper("long", Arrays.asList(1,2,3));
+     * Long inputLong = (Long) CommandHandlers.InputFormatting.inputWrapper("long", Arrays.asList(1,2,3));
      *
      * This will check for a Long type, will raise a NumberFormatException that will loop input
      * This will check for inputs 1, 2, 3 - any other input will loop input until the one of those inputs are selected.

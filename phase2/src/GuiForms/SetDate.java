@@ -3,20 +3,18 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.Date;
 
-public class setDate extends JDialog {
+public class SetDate extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JButton buttonCancel;
     private JLabel errorLabel;
     private JTextField monthField;
     private JTextField yearField;
     private JTextField dayField;
 
-    LocalDate retDate = LocalDate.of(2019, 1, 1);
+    public LocalDate retDate = LocalDate.of(2019, 1, 1);
 
-    public setDate() {
+    public SetDate() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -27,26 +25,13 @@ public class setDate extends JDialog {
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                System.exit(1);
             }
         });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) { onOK();}
@@ -71,11 +56,6 @@ public class setDate extends JDialog {
             this.errorLabel.setText("Enter a valid date.");
             resetFields();
         }
-    }
-
-    private void onCancel() {
-        this.retDate = LocalDate.now();
-        dispose();
     }
 
     private void resetFields(){

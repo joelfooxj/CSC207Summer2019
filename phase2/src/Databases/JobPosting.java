@@ -1,9 +1,11 @@
+package Databases;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class JobPosting extends JobsDatabase implements Serializable {
 
-    //question: is numberOfJobs redundant? Should I just copy it from the JobsDatabase currID?
+    //question: is numberOfJobs redundant? Should I just copy it from the Databases.JobsDatabase currID?
     private static long numberOfJobs = 0;
 
     private Long jobId;

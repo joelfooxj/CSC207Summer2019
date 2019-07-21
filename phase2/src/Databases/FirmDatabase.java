@@ -1,3 +1,5 @@
+package Databases;
+
 public class FirmDatabase extends AbstractDatabase<Firm> {
     public void addFirm(String firmName) {
         super.addItem(new Firm(super.getCurrID(), firmName));

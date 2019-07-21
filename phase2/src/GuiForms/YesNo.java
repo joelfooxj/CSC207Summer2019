@@ -3,14 +3,14 @@ package GuiForms;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class yesNo extends JDialog {
+public class YesNo extends JDialog {
     private JPanel contentPane;
     private JButton buttonYes;
     private JButton buttonNo;
     private JLabel mainText;
-    boolean retBool = false;
+    public boolean retBool = false;
 
-    yesNo(String inputText) {
+    public YesNo(String inputText) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonYes);

@@ -1,12 +1,14 @@
-import javax.swing.*;
-import java.lang.reflect.Array;
+package CommandHandlers;
+
+import Databases.Application;
+import Databases.UserCredentials;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 public class ApplicantCommandHandler implements CommandHandler{
     /**
@@ -67,12 +69,12 @@ public class ApplicantCommandHandler implements CommandHandler{
         menu.put("3", () -> {
             if (!this.getAllApplications().isEmpty()) {
                 System.out.println("Here are all open applications: ");
-                this.viewOpenApplications();
+                //this.viewOpenApplications();
             }
         });
         menu.put("4", () -> {
             if (!this.getAllApplications().isEmpty()) {
-                System.out.println("Enter the open Application ID to be viewed: ");
+                System.out.println("Enter the open Databases.Application ID to be viewed: ");
                 Long inputApplicationID = (Long) InputFormatting.inputWrapper(
                         "long",
                         true,
@@ -84,7 +86,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         });
         menu.put("5", () -> {
             System.out.println("Here is the history of this account: ");
-            this.getHistory();
+            //this.getHistory();
         });
         menu.put("Exit", () -> System.out.println("Returning to login"));
         String inputCommand = "";
@@ -108,7 +110,7 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     /**
      * This method handles functionality for the Appliation sub-menu
-     * @param inputApp: the Application that is to be read/mutated
+     * @param inputApp: the Databases.Application that is to be read/mutated
      */
     private void singleAppHandle(Application inputApp){
         HashMap<String, Runnable> appMenu = new HashMap<>();
@@ -198,7 +200,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         } else {return null;}
     }
 
-    private void viewOpenApplications(){
+    private String getOpenApplicationsPrintout(){
         if (!this.getAllApplications().isEmpty()){
             for (Application app:this.getAllApplications()){
                 if (app.isOpen()) {
@@ -207,19 +209,22 @@ public class ApplicantCommandHandler implements CommandHandler{
                 }
             }
         }
+        return new String("all open applications");
     }
 
-    private void getHistory(){
-        System.out.println("The creation date of this account is: " + this.creationDate);
+    private String getHistoryPrintout(){
+        StringBuilder historyPrintout = new StringBuilder();
+        historyPrintout.append("The creation date of this account is: " + this.creationDate + "\n");
         if (!this.getAllApplications().isEmpty()){
-            System.out.println("These are your applications that are now closed: ");
+            historyPrintout.append("These are your applications that are now closed: \n");
             for (Application app:this.getAllApplications()){
                 if(!app.isOpen()) {
-                    System.out.println(app);
+                    historyPrintout.append(app);
+                    historyPrintout.append("\n");
                 }
             }
-            System.out.println("These are your applications that are open: ");
-            this.viewOpenApplications();
+            historyPrintout.append("These are your applications that are open: \n");
+            historyPrintout.append(this.getOpenApplicationsPrintout());
             long minDaysBetween = 0;
             for (Application app:this.getAllApplications()) {
                 if(!app.isOpen()){
@@ -231,8 +236,9 @@ public class ApplicantCommandHandler implements CommandHandler{
                     }
                 }
             }
-            System.out.println("It's been " + minDaysBetween + " days since your last closed application.");
+            historyPrintout.append("It's been " + minDaysBetween + " days since your last closed application.");
         }
+        return new String(historyPrintout);
     }
 
     /**

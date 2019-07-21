@@ -20,11 +20,23 @@ public class Application implements Serializable {
     // The application is closed in the following conditions
     // 1. it's hired
     // 2. it is manually set to closed
+    /**
+     *
+     */
     private boolean isOpen = true;
     private boolean isHired = false;
     private boolean isRejected = false;
 
     // for each application creation, you need all these 5 parameters
+
+    /**
+     *
+     * @param applicationID: this is the...
+     * @param applicantID
+     * @param jobID
+     * @param firmID
+     * @param creationDate
+     */
     public Application(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
         this.applicationID = applicationID;
         this.applicantID = applicantID;
@@ -34,6 +46,22 @@ public class Application implements Serializable {
     }
 
     // The followings are necessarily used getter and setters
+    public boolean passFilter(String filter, long id){
+        if (filter.equals("application id")){
+            return id == this.getApplicationID();
+        }
+        else if (filter.equals("applicant id")){
+            return id == this.getApplicantID();
+        }
+        else if (filter.equals("firm id")){
+            return id == this.getFirmID();
+        }
+        else if (filter.equals("job id")){
+            return id == this.getJobID();
+        }
+        else {return false;}
+    }
+
     public long getApplicationID() {
         return applicationID;
     }

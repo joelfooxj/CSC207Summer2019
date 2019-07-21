@@ -16,6 +16,7 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     private long applicantID;
     private LocalDate creationDate;
+    private Object HashMap;
 
     public ApplicantCommandHandler(UserCredentials user){
         this.applicantID = user.getUserID();

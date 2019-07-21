@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ApplicationDatabase extends AbstractDatabase<Application>{
@@ -14,6 +15,33 @@ public class ApplicationDatabase extends AbstractDatabase<Application>{
         super.addItem(newApplication);
     }
 
+    public List<Application> getFilteredApplications(String filter, long id){
+        List<Application> applicationList = new ArrayList<Application>();
+        for (Long i = 0L; i<super.getCurrID();i++) {
+            Application item = super.getItemByID(i);
+            if (!applicationList.contains(item)) {
+                applicationList.add(item);
+            } else if (!item.passFilter(filter, id)) {
+                applicationList.remove(item);
+            }
+        }
+        return applicationList;
+    }
+
+    public List<Application> getFilteredApplications(HashMap<String, Long> filters){
+        List<Application> applicationList = new ArrayList<Application>();
+        for (String filter: filters.keySet()){
+            for (Long i = 0L; i<super.getCurrID();i++) {
+                Application item = super.getItemByID(i);
+                if (!applicationList.contains(item)) {
+                    applicationList.add(item);
+                } else if (!item.passFilter(filter, filters.get(filter))) {
+                    applicationList.remove(item);
+                }
+            }
+        }
+        return applicationList;
+    }
     //Since each application ID is unique, this returns 1 application
     // object with this application id
     public Application getApplicationByApplicationID(long applicationID){

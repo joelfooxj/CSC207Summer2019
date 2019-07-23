@@ -52,4 +52,11 @@ public class GUI{
         dialog.pack();
         dialog.setVisible(true);
     }
+
+    public static String editTextForm(String inText, String title){
+        TextEditorForm dialog = new TextEditorForm(inText, title);
+        dialog.pack();
+        dialog.setVisible(true);
+        return dialog.text;
+    }
 }

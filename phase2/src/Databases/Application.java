@@ -16,6 +16,9 @@ public class Application implements Serializable {
     private String cvPath;
     private String clPath;
 
+    private String CV;
+    private String coverLetter;
+
     private LocalDate creationDate;
     private LocalDate closedDate;
 
@@ -72,13 +75,13 @@ public class Application implements Serializable {
         this.applicantID = applicantID;
     }
 
-    public void setCvPath(String cvPath) {
-        this.cvPath = cvPath;
-    }
+//    public void setCvPath(String cvPath) {
+//        this.cvPath = cvPath;
+//    }
 
-    public void setClPath(String clPath) {
-        this.clPath = clPath;
-    }
+//    public void setClPath(String clPath) {
+//        this.clPath = clPath;
+//    }
 
     // Everytime an interviewer recommend this application,
     // the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
@@ -141,10 +144,6 @@ public class Application implements Serializable {
         return null;
     }
 
-    public Object getCoverLetter() {
-        return null;
-    }
-
     public void setUpInterview(long targetInterviewerId) {
         this.interviewerID = targetInterviewerId;
     }
@@ -171,6 +170,22 @@ public class Application implements Serializable {
     //todo: implement this method
     public void removeInterviewer(Long interviewerID){
 
+    }
+
+    public String getCV(){
+        return this.CV;
+    }
+
+    public void setCV(String inCV){
+        this.CV = inCV;
+    }
+
+    public String getCoverLetter(){
+        return this.coverLetter;
+    }
+
+    public void setCoverLetter(String inCoverLetter){
+        this.coverLetter = inCoverLetter;
     }
 
 }

@@ -107,7 +107,7 @@ public class UserInterface{
                 continue;
             }
 
-            commandHandler.handleCommands();
+            // commandHandler.handleCommands();
 
             boolean willOverwrite = GUI.yesNoForm("Do you want to overwrite the default test setup? (y/n): ");
             if (!willOverwrite) {

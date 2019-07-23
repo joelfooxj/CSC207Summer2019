@@ -6,6 +6,5 @@ import java.util.Scanner;
 
 public interface CommandHandler {
 
-    public void handleCommands();
-
+//    public void handleCommands();
 }

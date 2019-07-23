@@ -167,4 +167,10 @@ public class Application implements Serializable {
         this.isOpen = false;
         this.closedDate = date;
     }
+
+    //todo: implement this method
+    public void removeInterviewer(Long interviewerID){
+
+    }
+
 }

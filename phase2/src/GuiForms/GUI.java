@@ -1,15 +1,12 @@
 package GuiForms;
 import java.time.LocalDate;
-import java.util.List;
-
+import CommandHandlers.*;
 import Databases.UserCredentials;
-
-import javax.swing.*;
 
 public class GUI{
     /**
-     * This class provides the interface to the different form types
-     * Handles the setup and teardown of the forms
+     * - This class provides the interface to the different form types
+     * - Handles the setup and teardown of the forms
      */
 
     /**
@@ -44,17 +41,15 @@ public class GUI{
         return dialog.retUser;
     }
 
-    public static List<String> interviewForm(String printApplications, List<String> applicationList, String username){
-        InterviewForm dialog = new InterviewForm(printApplications, applicationList, username);
+    public static void interviewerForm(InterviewerCommandHandler commandHandler){
+        InterviewerForm dialog = new InterviewerForm(commandHandler);
         dialog.pack();
         dialog.setVisible(true);
-        return dialog.recommendedApps;
     }
 
     public static void messageBox(String inputString){
         MessageBox dialog = new MessageBox(inputString);
         dialog.pack();
-        dialog.toFront();
         dialog.setVisible(true);
     }
 }

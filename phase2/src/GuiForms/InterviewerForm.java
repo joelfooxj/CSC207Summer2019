@@ -1,25 +1,28 @@
 package GuiForms;
+
+import CommandHandlers.InterviewerCommandHandler;
+
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 
-class InterviewForm extends JDialog {
+class InterviewerForm extends JDialog {
     private JPanel contentPane;
     private JButton recommendButton;
     private JButton exitButton;
-    private JLabel errorLabel;
     private JTextArea applicationText;
     private JList applicationList;
-    List<String> recommendedApps = new ArrayList<>();
+    private JLabel errorLabel;
+    private InterviewerCommandHandler ch;
 
-    InterviewForm(String allApplicationStrings, List<String> applications, String username) {
+    InterviewerForm(InterviewerCommandHandler commandHandler) {
+        this.ch = commandHandler;
         setContentPane(contentPane);
         setModal(true);
 
-        this.applicationText.setText(allApplicationStrings);
-        this.applicationList.setListData(applications.toArray());
-        this.contentPane.setBorder(BorderFactory.createTitledBorder(username));
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(ch.getUsername()));
+        this.applicationText.setText(ch.applicationPrintout());
+        this.applicationList.setListData(ch.getApplicationIDs().toArray());
+s
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -43,17 +46,9 @@ class InterviewForm extends JDialog {
     }
 
     private void setRecommendedApps(){
-        StringBuilder testString = new StringBuilder();
         for (Object value:this.applicationList.getSelectedValuesList()){
-            testString.append((String) value);
-            testString.append("\n");
+            String selectedString = (String) value;
+            ch.recommendApplication(Long.parseLong(selectedString));
         }
-        GUI.messageBox(new String(testString));
-//        this.recommendedApps = this.applicationList.getSelectedValuesList();
-        List<String> retList = new ArrayList<>();
-        for (Object selected: this.applicationList.getSelectedValuesList()) {
-            retList.add((String) selected);
-        }
-        this.recommendedApps = retList;
     }
 }

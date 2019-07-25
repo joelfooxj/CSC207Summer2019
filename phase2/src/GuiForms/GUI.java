@@ -59,4 +59,10 @@ public class GUI{
         dialog.setVisible(true);
         return dialog.text;
     }
+
+    public static void applicantForm(ApplicantCommandHandler commandHandler){
+        ApplicantForm dialog = new ApplicantForm(commandHandler);
+        dialog.pack();
+        dialog.setVisible(true);
+    }
 }

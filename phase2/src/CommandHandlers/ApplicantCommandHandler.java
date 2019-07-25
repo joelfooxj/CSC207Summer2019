@@ -3,6 +3,7 @@ package CommandHandlers;
 import Databases.JobApplication;
 import Databases.JobPosting;
 import Databases.UserCredentials;
+import GuiForms.GUI;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -24,8 +25,10 @@ public class ApplicantCommandHandler implements CommandHandler{
         this.creationDate = user.getCreationDate();
         this.username = user.getUserName();
         deleteCVAndCoverLetter();
+        GUI.applicantForm(this);
     }
 
+    // todo: encapsulate these getters and setters into its own class and send to GUI
     private JobApplication getApplication(String applicationID){
         return UserInterface.getAppsDb().getApplicationByApplicationID(Long.parseLong(applicationID));
     }

@@ -63,9 +63,8 @@ public class ApplicantForm extends JDialog {
         this.updateForm();
     }
 
-    // todo: complete
     private void onApps(){
-        ApplicantApplicationForm appApplicationForm = new ApplicantApplicationForm();
+        ApplicantApplicationForm appApplicationForm = new ApplicantApplicationForm(this.appCH);
         appApplicationForm.pack();
         appApplicationForm.setVisible(true);
         this.updateForm();

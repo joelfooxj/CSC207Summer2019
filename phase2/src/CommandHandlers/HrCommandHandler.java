@@ -1,6 +1,6 @@
 package CommandHandlers;
 
-import Databases.Application;
+import Databases.JobApplication;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -59,13 +59,13 @@ public class HrCommandHandler implements CommandHandler {
         UserInterface.getAppsDb().printApplicationsByApplicantID(targetApplicant, firmId);
 
         long targetApplicationId = (long) InputFormatting.inputWrapper("long",false, null); // todo
-        Application targetApplication = UserInterface.getAppsDb().getItemByID(targetApplicationId);
+        JobApplication targetJobApplication = UserInterface.getAppsDb().getItemByID(targetApplicationId);
 
         // get the resume or cover letter of the chose application
         if(userCommand.equals("2")){
-            System.out.println(targetApplication.getResume());
+            System.out.println(targetJobApplication.getResume());
         } else {
-            System.out.println(targetApplication.getCoverLetter());
+            System.out.println(targetJobApplication.getCoverLetter());
         }
     }
 
@@ -81,7 +81,7 @@ public class HrCommandHandler implements CommandHandler {
         decideApplication(UserInterface.getAppsDb().getItemByID(appId));
     }
 
-    public void decideApplication(Application app) {
+    public void decideApplication(JobApplication app) {
         HashMap<String, Runnable> decideCommands = new HashMap<>();
         decideCommands.put("1", () -> app.hire(UserInterface.getSessionDate()));
         decideCommands.put("2", () -> app.reject(UserInterface.getSessionDate()));
@@ -104,12 +104,12 @@ public class HrCommandHandler implements CommandHandler {
         UserInterface.getAppsDb().printOpenApplicationsByJobID(jobId);
         Long applicationId = (Long) InputFormatting.inputWrapper("long", true, null); // todo
         if (applicationId == null) {return;}
-        Application targetApplication = (Application) UserInterface.getAppsDb().getItemByID(applicationId);
+        JobApplication targetJobApplication = (JobApplication) UserInterface.getAppsDb().getItemByID(applicationId);
         System.out.println("Please select an interviwer: ");
         UserInterface.getUsersDb().printInterviewersByFirmID(firmId);
         Long targetInterviewerId = (Long) InputFormatting.inputWrapper("long", true, null); // todo
         if (targetInterviewerId == null) {return;}
-        targetApplication.setUpInterview(targetInterviewerId);
+        targetJobApplication.setUpInterview(targetInterviewerId);
     }
 
     public void handleCommands(){

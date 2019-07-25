@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 public class UserInterface{
 
-    private static ApplicationDatabase appsDb = new ApplicationDatabase();
+    private static JobApplicationDatabase appsDb = new JobApplicationDatabase();
     private static JobsDatabase jobsDb = new JobsDatabase();
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
     private static FirmDatabase firmsDb = new FirmDatabase();
@@ -30,7 +30,7 @@ public class UserInterface{
         return sessionDate;
     }
 
-    public static ApplicationDatabase getAppsDb() {
+    public static JobApplicationDatabase getAppsDb() {
         return appsDb;
     }
 
@@ -107,7 +107,7 @@ public class UserInterface{
                 continue;
             }
 
-            commandHandler.handleCommands();
+            // commandHandler.handleCommands();
 
             boolean willOverwrite = GUI.yesNoForm("Do you want to overwrite the default test setup? (y/n): ");
             if (!willOverwrite) {

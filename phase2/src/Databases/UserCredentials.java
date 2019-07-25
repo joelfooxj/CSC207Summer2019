@@ -2,14 +2,18 @@ package Databases;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class UserCredentials implements Serializable {
+public class UserCredentials implements Serializable, Observer {
   private String userName;
   private String password;
   private String userType;
   private long firmId;
   private long userId;
   private LocalDate creationDate;
+  private List<String> inbox;
 
   // for the HR & interviwers
   public UserCredentials(String userName, String password, String userType, long firmId, long userId) {
@@ -59,4 +63,9 @@ public class UserCredentials implements Serializable {
     return this.userId;
   }
 
+
+  @Override
+  public void update(Observable o, Object arg) {
+    inbox.add("You get a new message from " + o + " : " + arg);
+  }
 }

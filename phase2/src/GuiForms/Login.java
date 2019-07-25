@@ -57,12 +57,10 @@ public class Login extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-
-    // todo: remove all calls to databases - queries should only be made to the command handlers
     private void onLogin() {
         String userName = this.usernameField.getText();
         String password = String.valueOf(this.passwordField.getPassword());
-        GUI.messageBox(userName + "\n" + password);
+//        GUI.messageBox(userName + "\n" + password);
         // pass userName and password back to the interface, which will handle the query...
         // UserInterface.adduser -> userdb to add user...
         //
@@ -84,13 +82,13 @@ public class Login extends JDialog {
             this.errorLabel.setText("User already exists");
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
+
             if (accountType.equals("Applicant")){
-                UserInterface.getUsersDb().addUser(userName, password, accountType, UserInterface.getDate());
-                this.retUser = UserInterface.getUsersDb().getUserByCredentials(userName, password);
+                this.retUser = UserInterface.getUsersDb().addUser(userName, password, accountType, UserInterface.getDate());
             } else {
-                Long firmID = (Long) this.firmBox.getSelectedItem();
-                UserInterface.getUsersDb().addUser(userName, password, accountType, firmID);
-                this.retUser = UserInterface.getUsersDb().getUserByCredentials(userName, password);
+                Long firmID = Long.parseLong((String) this.firmBox.getSelectedItem());
+                GUI.messageBox("passing in: " + accountType);
+                this.retUser = UserInterface.getUsersDb().addUser(userName, password, accountType, firmID);
             }
             dispose();
         }

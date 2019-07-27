@@ -14,10 +14,15 @@ public class UserInterface{
     private static JobsDatabase jobsDb = new JobsDatabase();
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
     private static FirmDatabase firmsDb = new FirmDatabase();
+    private static CommandHandlerFactory commandHandlerFactory = new CommandHandlerFactory();
 
     private static UserCredentials currentUser;
     private static LocalDate sessionDate;
+
     private static String applicantUserType = "Applicant";
+
+
+
     private static String interviewerUserType = "Interviewer";
     private static String hrUserType = "HR";
 
@@ -49,6 +54,13 @@ public class UserInterface{
     public static String getApplicantUserType() { return applicantUserType; }
 
     public static LocalDate getSessionDate() { return sessionDate; }
+    public static String getInterviewerUserType() {
+        return interviewerUserType;
+    }
+
+    public static String getHrUserType() {
+        return hrUserType;
+    }
 
     protected static void saveAll() throws IOException {
         appsDb.saveDatabase(applicationsDbPath);
@@ -85,23 +97,12 @@ public class UserInterface{
         } catch (IOException ex) {
             saveAll();
         }
+
         while (true) {
             sessionDate = GUI.setDateForm();
             jobsDb.updateDb(sessionDate);
             currentUser = GUI.loginForm();
-            CommandHandler commandHandler = null;
-
-            // set the value of CommandHandlers.CommandHandler based on the user type
-            if (currentUser.getUserType().equals(applicantUserType)){
-                commandHandler = new ApplicantCommandHandler(currentUser);
-
-            } else if (currentUser.getUserType().equals(interviewerUserType)){
-                commandHandler = new InterviewerCommandHandler(currentUser);
-
-            }
-//            else if (currentUser.getUserType().equals(hrUserType)){
-//                commandHandler = new HrCommandHandler();
-//            }
+            CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
 
             if (commandHandler == null){
                 GUI.messageBox("Invalid user type");

@@ -1,7 +1,7 @@
 package CommandHandlers;
 
 import Databases.*;
-import GuiForms.*;
+import GuiForms.GUI;
 
 
 import java.io.IOException;
@@ -98,9 +98,10 @@ public class UserInterface{
             } else if (currentUser.getUserType().equals(interviewerUserType)){
                 commandHandler = new InterviewerCommandHandler(currentUser);
 
-            } else if (currentUser.getUserType().equals(hrUserType)){
-                commandHandler = new HrCommandHandler();
             }
+//            else if (currentUser.getUserType().equals(hrUserType)){
+//                commandHandler = new HrCommandHandler();
+//            }
 
             if (commandHandler == null){
                 GUI.messageBox("Invalid user type");

@@ -10,7 +10,7 @@ class InterviewerForm extends JDialog {
     private JButton recommendButton;
     private JButton exitButton;
     private JTextArea applicationText;
-    private JList applicationList;
+    private JList jobApplicationList;
     private JLabel errorLabel;
     private InterviewerCommandHandler ch;
 
@@ -21,7 +21,7 @@ class InterviewerForm extends JDialog {
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(ch.getUsername()));
         this.applicationText.setText(ch.applicationPrintout());
-        this.applicationList.setListData(ch.getApplicationIDs().toArray());
+        this.jobApplicationList.setListData(ch.getApplicationIDs().toArray());
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -45,7 +45,7 @@ class InterviewerForm extends JDialog {
     }
 
     private void setRecommendedApps(){
-        for (Object value:this.applicationList.getSelectedValuesList()){
+        for (Object value:this.jobApplicationList.getSelectedValuesList()){
             String selectedString = (String) value;
             ch.recommendApplication(Long.parseLong(selectedString));
         }

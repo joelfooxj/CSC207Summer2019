@@ -89,6 +89,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
     private void openCVForm(){
         String selectedAppID = (String) this.appList.getSelectedValue();
         String inCV = this.appCH.getApplicationCV(selectedAppID);
+        if (inCV == null){inCV = "";}
         String outCV = GUI.editTextForm(inCV, "CV editor");
         if (outCV != null){
             this.appCH.setApplicationCV(selectedAppID, outCV);
@@ -98,6 +99,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
     private void openCoverLetterForm(){
         String selectedAppID = (String) this.appList.getSelectedValue();
         String inCoverLetter = this.appCH.getApplicationCoverLetter(selectedAppID);
+        if (inCoverLetter == null) {inCoverLetter = "";}
         String outCoverLetter = GUI.editTextForm(inCoverLetter, "Cover Letter editor");
         if (outCoverLetter != null){
             this.appCH.setApplicationCoverLetter(selectedAppID, outCoverLetter);

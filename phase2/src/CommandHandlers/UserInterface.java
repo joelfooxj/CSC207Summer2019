@@ -15,17 +15,12 @@ public class UserInterface{
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
     private static FirmDatabase firmsDb = new FirmDatabase();
     private static CommandHandlerFactory commandHandlerFactory = new CommandHandlerFactory();
-
     private static UserCredentials currentUser;
     private static LocalDate sessionDate;
-
     private static String applicantUserType = "Applicant";
     private static String interviewerUserType = "Interviewer";
     private static String hrUserType = "HR";
-
     private static SaveFilesHandler saveFilesHandler = new SaveFilesHandler();
-
-
 
     public static LocalDate getDate(){
         return sessionDate;
@@ -73,7 +68,6 @@ public class UserInterface{
             saveFilesHandler.loadUserSavedFiles();
         }
 
-
         while (true) {
             sessionDate = GUI.setDateForm();
             jobsDb.updateDb(sessionDate);
@@ -88,13 +82,13 @@ public class UserInterface{
 
             boolean willOverwrite = GUI.yesNoForm("Do you want to overwrite the default test setup? (y/n): ");
             if (!willOverwrite) {
-                saveFilesHandler.loadUserSavedFiles();
+                saveFilesHandler.saveToUserData();
             } else {
                 saveFilesHandler.overrideTestData();
             }
 
-            boolean answer = GUI.yesNoForm("Do you want to exit the program?");
-            if (answer) {
+            boolean exitProgramRequested = GUI.yesNoForm("Do you want to exit the program?");
+            if (exitProgramRequested) {
                 return;
             }
         }

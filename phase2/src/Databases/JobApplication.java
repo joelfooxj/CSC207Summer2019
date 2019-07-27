@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ *
+ */
 public class JobApplication extends Observable implements Serializable {
     private long applicationID;
     private long applicantID;
@@ -35,6 +38,9 @@ public class JobApplication extends Observable implements Serializable {
     //dynamic interview process
     private List<String> interviewProcess;
     private List<String> leftInterviewProcess;
+
+    // reference letters
+    private List<String> referenceLetters = new ArrayList<>();
 
     // for each application creation, you need all these 5 parameters
     /**
@@ -268,6 +274,22 @@ public class JobApplication extends Observable implements Serializable {
      */
     public void setCoverLetter(String inCoverLetter){
         this.coverLetter = inCoverLetter;
+    }
+
+    /**
+     *
+     * @param referenceLetter: the reference letter to be added
+     */
+    public void addReferenceLetter(String referenceLetter) {
+        this.referenceLetters.add(referenceLetter);
+    }
+
+    /**
+     *
+     * @return reference letters for this application
+     */
+    public List<String> getReferenceLetters() {
+        return this.referenceLetters;
     }
 
 }

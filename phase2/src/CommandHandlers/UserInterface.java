@@ -20,19 +20,19 @@ public class UserInterface{
     private static LocalDate sessionDate;
 
     private static String applicantUserType = "Applicant";
-
-
-
     private static String interviewerUserType = "Interviewer";
     private static String hrUserType = "HR";
 
-    protected static String applicationsDbPath = "Applications.bin";
-    protected static String jobsDbPath = "Jobs.bin";
-    protected static String usersDbPath = "Users.bin";
-    protected static String firmDbPath = "Firms.bin";
+    private static SaveFilesHandler saveFilesHandler = new SaveFilesHandler();
+
+
 
     public static LocalDate getDate(){
         return sessionDate;
+    }
+
+    public static FirmDatabase getFirmsDb() {
+        return firmsDb;
     }
 
     public static JobApplicationDatabase getAppsDb() {
@@ -62,41 +62,17 @@ public class UserInterface{
         return hrUserType;
     }
 
-    protected static void saveAll() throws IOException {
-        appsDb.saveDatabase(applicationsDbPath);
-        jobsDb.saveDatabase(jobsDbPath);
-        usersDb.saveDatabase(usersDbPath);
-        firmsDb.saveDatabase(firmDbPath);
-    }
 
-    protected static void readAll() throws IOException, ClassNotFoundException {
-        appsDb.readDatabase(applicationsDbPath);
-        jobsDb.readDatabase(jobsDbPath);
-        usersDb.readDatabase(usersDbPath);
-        firmsDb.readDatabase(firmDbPath);
-    }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        String fileSeparator = System.getProperty("file.separator");
-        // String pathToSource = "phase2" + fileSeparator + "src" + fileSeparator;
-        String pathToSource = "";
+
         boolean response = GUI.yesNoForm("Do you want to import the default test setup? (y/n): ");
         if (response) {
-            applicationsDbPath =  pathToSource + "TestApplications.bin";
-            jobsDbPath = pathToSource + "TestJobs.bin";
-            usersDbPath = pathToSource + "TestUsers.bin";
-            firmDbPath = pathToSource + "TestFirms.bin";
+            saveFilesHandler.loadTestFiles();
         } else {
-            applicationsDbPath = pathToSource + "Applications.bin";
-            jobsDbPath = pathToSource + "Jobs.bin";
-            usersDbPath = pathToSource + "Users.bin";
-            firmDbPath = pathToSource + "Firms.bin";
+            saveFilesHandler.loadUserSavedFiles();
         }
-        try {
-            readAll();
-        } catch (IOException ex) {
-            saveAll();
-        }
+
 
         while (true) {
             sessionDate = GUI.setDateForm();
@@ -104,21 +80,19 @@ public class UserInterface{
             currentUser = GUI.loginForm();
             CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
 
-            if (commandHandler == null){
-                GUI.messageBox("Invalid user type");
-                continue;
-            }
-
-            // commandHandler.handleCommands();
+            // TODO: Is this necessary? Since the UI is a dropdown menu
+//            if (commandHandler == null){
+//                GUI.messageBox("Invalid user type");
+//                continue;
+//            }
 
             boolean willOverwrite = GUI.yesNoForm("Do you want to overwrite the default test setup? (y/n): ");
             if (!willOverwrite) {
-                applicationsDbPath = pathToSource + "Applications.bin";
-                jobsDbPath = pathToSource + "Jobs.bin";
-                usersDbPath = pathToSource + "Users.bin";
-                firmDbPath = pathToSource + "Firms.bin";
+                saveFilesHandler.loadUserSavedFiles();
+            } else {
+                saveFilesHandler.overrideTestData();
             }
-            saveAll();
+
             boolean answer = GUI.yesNoForm("Do you want to exit the program?");
             if (answer) {
                 return;
@@ -126,3 +100,7 @@ public class UserInterface{
         }
     }
 }
+
+
+
+

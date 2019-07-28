@@ -1,5 +1,7 @@
 package Databases;
 
+import CommandHandlers.DateRange;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,8 +31,8 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @see JobPosting#JobPosting(String, String, long, LocalDate, LocalDate, Collection)
      */
     //TODO change to addJobPosting
-    public void addJob(String title, String details, long firmId, LocalDate postedDate, LocalDate expiryDate, Collection<String> hashTags){
-        addItem(new JobPosting(title, details, firmId, postedDate, expiryDate, hashTags));
+    public void addJob(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){
+        addItem(new JobPosting(title, details, firmId, jobDateRange, hashTags));
     }
 
     /**

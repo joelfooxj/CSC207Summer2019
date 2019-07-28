@@ -63,11 +63,10 @@ public class JobPosting implements Serializable {
 
     /**
      *constructor for job postings
-     * @param jobTitle {@link #jobTitle}
-     * @param jobDetails - {@link #jobDetails}
+     * @param title {@link #jobTitle}
+     * @param details - {@link #jobDetails}
      * @param firmId - {@link #firmId}
-     * @param publishDate - {@link #publishDate}
-     * @param expiryDate - {@link #expiryDate}
+     * @param jobDateRange - contains expiryDate and publishDate
      */
     //TODO code smell: too many paramaters. add daterange object?
     public JobPosting(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){

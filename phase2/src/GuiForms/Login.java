@@ -1,5 +1,5 @@
 package GuiForms;
-import CommandHandlers.UserInterface;
+import CommandHandlers.HyreLauncher;
 import Databases.UserCredentials;
 import javax.swing.*;
 import java.awt.event.*;
@@ -62,10 +62,10 @@ public class Login extends JDialog {
         String password = String.valueOf(this.passwordField.getPassword());
 //        GUI.messageBox(userName + "\n" + password);
         // pass userName and password back to the interface, which will handle the query...
-        // UserInterface.adduser -> userdb to add user...
+        // HyreLauncher.adduser -> userdb to add user...
         //
 
-        UserCredentials targetUser = UserInterface.getUsersDb().getUserByCredentials(userName, password);
+        UserCredentials targetUser = HyreLauncher.getUsersDb().getUserByCredentials(userName, password);
         if (targetUser == null){
             this.errorLabel.setText("Incorrect username or password.");
             this.resetFields();
@@ -78,17 +78,17 @@ public class Login extends JDialog {
     private void onRegister() {
         String userName = this.usernameField.getText();
         String password = String.valueOf(this.passwordField.getPassword());
-        if (UserInterface.getUsersDb().userExists(userName)){
+        if (HyreLauncher.getUsersDb().userExists(userName)){
             this.errorLabel.setText("User already exists");
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
 
             if (accountType.equals("Applicant")){
-                this.retUser = UserInterface.getUsersDb().addUser(userName, password, accountType, UserInterface.getDate());
+                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password, accountType, HyreLauncher.getDate());
             } else {
                 Long firmID = Long.parseLong((String) this.firmBox.getSelectedItem());
                 GUI.messageBox("passing in: " + accountType);
-                this.retUser = UserInterface.getUsersDb().addUser(userName, password, accountType, firmID);
+                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password, accountType, firmID);
             }
             dispose();
         }

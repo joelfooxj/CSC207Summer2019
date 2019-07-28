@@ -1,8 +1,8 @@
 package Databases;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import CommandHandlers.UserInterface;
-public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
+import CommandHandlers.HyreLauncher;
+public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
 
   public UserCredentials getUserByID(Long id) {
     return super.getItemByID(id);
@@ -79,7 +79,7 @@ public class UserCredentialsDatabase extends AbstractDatabase<UserCredentials> {
   public void printApplicants() {
     StringBuilder ret = new StringBuilder();
     for (Long i = 0L; i < super.getCurrID(); i++) {
-      if (getItemByID(i) != null && getItemByID(i).getUserType().equals(UserInterface.getApplicantUserType())) {
+      if (getItemByID(i) != null && getItemByID(i).getUserType().equals(HyreLauncher.getApplicantUserType())) {
         ret.append("\n[" + i.toString() + "] " + getItemByID(i).toString());
       }
     }

@@ -30,7 +30,7 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     // todo: encapsulate these getters and setters into its own class and send to GUI
     private JobApplication getApplication(String applicationID){
-        return UserInterface.getAppsDb().getApplicationByApplicationID(Long.parseLong(applicationID));
+        return HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(applicationID));
     }
 
     public void withdrawApplication(String applicationID){
@@ -59,10 +59,10 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     private List<JobPosting> getOpenUnappliedJobs(){
         List<JobPosting> openJobs = new ArrayList<>();
-        if (UserInterface.getJobsDb().isEmpty()){
+        if (HyreLauncher.getJobsDb().isEmpty()){
             return openJobs;
         }
-        for (Long jobID: UserInterface.getJobsDb().getOpenJobIDs()){
+        for (Long jobID: HyreLauncher.getJobsDb().getOpenJobIDs()){
             boolean appliedForFlag = false;
             if (!this.getAllApplications().isEmpty()){
                 for (JobApplication app: this.getAllApplications()){
@@ -72,7 +72,7 @@ public class ApplicantCommandHandler implements CommandHandler{
                 }
             }
             if (!appliedForFlag){
-                openJobs.add(UserInterface.getJobsDb().getJobPostingByID(jobID));
+                openJobs.add(HyreLauncher.getJobsDb().getJobPostingByID(jobID));
             }
         }
         return openJobs;
@@ -116,12 +116,12 @@ public class ApplicantCommandHandler implements CommandHandler{
     // todo: update addApplication() with less parameters
     public void applyForJobs(List<String> jobIDs){
         for (String jobID: jobIDs){
-            long inputFirmID = UserInterface.getJobsDb().getItemByID(Long.parseLong(jobID)).getFirmid();
-            UserInterface.getAppsDb().addApplication(
+            long inputFirmID = HyreLauncher.getJobsDb().getItemByID(Long.parseLong(jobID)).getFirmId();
+            HyreLauncher.getAppsDb().addApplication(
                     this.applicantID,
                     Long.parseLong(jobID),
                     inputFirmID,
-                    UserInterface.getDate());
+                    HyreLauncher.getDate());
         }
     }
 
@@ -130,7 +130,7 @@ public class ApplicantCommandHandler implements CommandHandler{
      * @return A list of applications associated with this Applicant
      */
     private List<JobApplication> getAllApplications(){
-        return UserInterface.getAppsDb().getApplicationsByApplicantID(this.applicantID);
+        return HyreLauncher.getAppsDb().getApplicationsByApplicantID(this.applicantID);
     }
 
     public List<Long> getAllOpenApplicationIDs(){
@@ -149,7 +149,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         long minDaysBetween = 0;
         for (JobApplication app:this.getAllApplications()) {
             if(!app.isOpen()){
-                long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), UserInterface.getDate());
+                long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), HyreLauncher.getDate());
                 if (minDaysBetween == 0) {
                     minDaysBetween = daysBetween;
                 } else if (minDaysBetween >= daysBetween) {
@@ -201,7 +201,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         if (this.getAllApplications().isEmpty()){ return; }
         for (JobApplication app:this.getAllApplications()){
             if (app.isOpen()) {return;}
-            else if (ChronoUnit.DAYS.between(UserInterface.getDate(), app.getClosedDate()) < 30){return; }
+            else if (ChronoUnit.DAYS.between(HyreLauncher.getDate(), app.getClosedDate()) < 30){return; }
         }
         for (JobApplication app:this.getAllApplications()){
             app.setCV(null);

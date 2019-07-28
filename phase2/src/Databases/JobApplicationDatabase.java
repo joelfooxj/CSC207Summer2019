@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JobApplicationDatabase extends AbstractDatabase<JobApplication>{
+public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     public JobApplicationDatabase() {
     }
 

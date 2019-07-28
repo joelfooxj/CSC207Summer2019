@@ -4,6 +4,7 @@ import Databases.JobApplication;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class HrCommandHandler implements CommandHandler {
@@ -21,18 +22,19 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("Enter the job description");
         String jobDescription = (String) InputFormatting.inputWrapper("string", true,null); // todo
         if (jobDescription == null) {return;}
-        LocalDate expiryDate = UserInterface.getDate().plusDays(JOBLIFESPAN);
-        long firmId = UserInterface.getCurrentUser().getFirmId();
-        UserInterface.getJobsDb().addJob(jobTitle, jobDescription, firmId, UserInterface.getDate(), expiryDate);
+        LocalDate expiryDate = HyreLauncher.getDate().plusDays(JOBLIFESPAN);
+        long firmId = HyreLauncher.getCurrentUser().getFirmId();
+        DateRange jobDateRange = new DateRange(HyreLauncher.getDate(), expiryDate);
+//        HyreLauncher.getJobsDb().addJob(jobTitle, jobDescription, firmId, jobDateRange);
         System.out.println("Job post created successfully");
     }
 
     private void handleApplicantInfo(){
 
         // get the applicant ID (username)
-        UserInterface.getUsersDb().printApplicants();
+        HyreLauncher.getUsersDb().printApplicants();
         System.out.println("Please choose an applicant: ");
-        //CommandHandlers.UserInterface.getAppsDb().printApplicationsByFirmID(CommandHandlers.UserInterface.getCurrentUser().getFirmId());
+        //CommandHandlers.HyreLauncher.getAppsDb().printApplicationsByFirmID(CommandHandlers.HyreLauncher.getCurrentUser().getFirmId());
 
         Long targetApplicant = (Long) InputFormatting.inputWrapper("long", true,null); // todo
         if (targetApplicant == null) {return;}
@@ -43,10 +45,10 @@ public class HrCommandHandler implements CommandHandler {
         System.out.println("[3] View Cover letter");
         String userCommand = (String) InputFormatting.inputWrapper("string", true, null); // todo
         if (userCommand == null) {return;}
-        long firmId = UserInterface.getCurrentUser().getFirmId();
+        long firmId = HyreLauncher.getCurrentUser().getFirmId();
         if (userCommand.equals("1")){
 
-            UserInterface.getAppsDb().printApplicationsByApplicantID(targetApplicant, firmId);
+            HyreLauncher.getAppsDb().printApplicationsByApplicantID(targetApplicant, firmId);
             return;
         }
 
@@ -56,10 +58,10 @@ public class HrCommandHandler implements CommandHandler {
         // prompt the HR all the applications by this individual
         System.out.println("Please select an application: ");
 
-        UserInterface.getAppsDb().printApplicationsByApplicantID(targetApplicant, firmId);
+        HyreLauncher.getAppsDb().printApplicationsByApplicantID(targetApplicant, firmId);
 
         long targetApplicationId = (long) InputFormatting.inputWrapper("long",false, null); // todo
-        JobApplication targetJobApplication = UserInterface.getAppsDb().getItemByID(targetApplicationId);
+        JobApplication targetJobApplication = HyreLauncher.getAppsDb().getItemByID(targetApplicationId);
 
         // get the resume or cover letter of the chose application
         if(userCommand.equals("2")){
@@ -71,20 +73,20 @@ public class HrCommandHandler implements CommandHandler {
 
     private void handleApplicantsPerJobCommand(){
         System.out.println("Please select a job: ");
-        long firmId = UserInterface.getCurrentUser().getFirmId();
-        UserInterface.getJobsDb().printJobsByFirmId(firmId);
-        Long jobId = (Long) InputFormatting.inputWrapper("long",true, UserInterface.getJobsDb().getOpenJobIDs());
+        long firmId = HyreLauncher.getCurrentUser().getFirmId();
+        HyreLauncher.getJobsDb().printJobsByFirmId(firmId);
+        Long jobId = (Long) InputFormatting.inputWrapper("long",true, HyreLauncher.getJobsDb().getOpenJobIDs());
         if (jobId == null) {return;}
-        UserInterface.getAppsDb().printOpenApplicationsByJobID(jobId);
+        HyreLauncher.getAppsDb().printOpenApplicationsByJobID(jobId);
         System.out.println("Select an application you would like to modify: ");
-        Long appId = (Long) InputFormatting.inputWrapper("long", true, UserInterface.getAppsDb().getOpenAppIdsByJob(jobId));
-        decideApplication(UserInterface.getAppsDb().getItemByID(appId));
+        Long appId = (Long) InputFormatting.inputWrapper("long", true, HyreLauncher.getAppsDb().getOpenAppIdsByJob(jobId));
+        decideApplication(HyreLauncher.getAppsDb().getItemByID(appId));
     }
 
     public void decideApplication(JobApplication app) {
         HashMap<String, Runnable> decideCommands = new HashMap<>();
-        decideCommands.put("1", () -> app.hire(UserInterface.getSessionDate()));
-        decideCommands.put("2", () -> app.reject(UserInterface.getSessionDate()));
+        decideCommands.put("1", () -> app.hire(HyreLauncher.getSessionDate()));
+        decideCommands.put("2", () -> app.reject(HyreLauncher.getSessionDate()));
         decideCommands.put("3", () -> {});
         System.out.println(app);
         System.out.println("[1] Hire this application");
@@ -96,17 +98,17 @@ public class HrCommandHandler implements CommandHandler {
 
     private void handleIntervieweeMatching(){
         System.out.println("Please select a job: ");
-        long firmId = UserInterface.getCurrentUser().getFirmId();
-        UserInterface.getJobsDb().printJobsByFirmId(firmId);
+        long firmId = HyreLauncher.getCurrentUser().getFirmId();
+        HyreLauncher.getJobsDb().printJobsByFirmId(firmId);
         Long jobId = (Long) InputFormatting.inputWrapper("long", true,null); // todo
         if (jobId == null) {return;}
         System.out.println("Please select an application to interview");
-        UserInterface.getAppsDb().printOpenApplicationsByJobID(jobId);
+        HyreLauncher.getAppsDb().printOpenApplicationsByJobID(jobId);
         Long applicationId = (Long) InputFormatting.inputWrapper("long", true, null); // todo
         if (applicationId == null) {return;}
-        JobApplication targetJobApplication = (JobApplication) UserInterface.getAppsDb().getItemByID(applicationId);
+        JobApplication targetJobApplication = (JobApplication) HyreLauncher.getAppsDb().getItemByID(applicationId);
         System.out.println("Please select an interviwer: ");
-        UserInterface.getUsersDb().printInterviewersByFirmID(firmId);
+        HyreLauncher.getUsersDb().printInterviewersByFirmID(firmId);
         Long targetInterviewerId = (Long) InputFormatting.inputWrapper("long", true, null); // todo
         if (targetInterviewerId == null) {return;}
         targetJobApplication.setUpInterview(targetInterviewerId);

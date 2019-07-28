@@ -1,9 +1,11 @@
 package Databases;
 
+import CommandHandlers.DateRange;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 
 public class JobPosting implements Serializable {
 
@@ -67,15 +69,15 @@ public class JobPosting implements Serializable {
      * @param publishDate - {@link #publishDate}
      * @param expiryDate - {@link #expiryDate}
      */
-    //TODO code smell: too many paramaters
-    public JobPosting(String jobTitle, String jobDetails, long firmId, LocalDate publishDate, LocalDate expiryDate, Collection<String> hashTags){
+    //TODO code smell: too many paramaters. add daterange object?
+    public JobPosting(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){
         jobId = numberOfJobs;
         numberOfJobs ++;
-        this.jobTitle = jobTitle;
-        this.jobDetails = jobDetails;
+        this.jobTitle = title;
+        this.jobDetails = details;
         this.firmId = firmId;
-        this.publishDate = publishDate;
-        this.expiryDate = expiryDate;
+        this.publishDate = jobDateRange.getStartDate();
+        this.expiryDate = jobDateRange.getEndDate();
         this.hashTags = hashTags;
     }
 
@@ -134,16 +136,15 @@ public class JobPosting implements Serializable {
     }
 
     /**
-     * Checks whether  any of the hashtags being searched forare contained in the hashtags associated
+     * Checks whether  any of the hashtags being searched for are contained in the hashtags associated
      * with the job posting in the hashTags variable
      * @param searchHashTags - a collection of hashtags being searched for
      * @return true or false
      */
     public boolean containsHashTags(Collection<String> searchHashTags) {
-        System.out.println(searchHashTags);
+        Integer startSize = searchHashTags.size();
         searchHashTags.retainAll(hashTags);
-        System.out.println(searchHashTags);
-        if(!searchHashTags.isEmpty()){
+        if(startSize.equals(searchHashTags.size())){
             return true;
         }
         else{

@@ -1,5 +1,6 @@
 package Databases;
-import CommandHandlers.UserInterface;
+import CommandHandlers.HyreLauncher;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -161,7 +162,7 @@ public class JobApplication extends Observable implements Serializable {
     public void setOpen(boolean open) {
         isOpen = open;
         if (!open){
-            setClosedDate(UserInterface.getDate());
+            setClosedDate(HyreLauncher.getDate());
         }
     }
 

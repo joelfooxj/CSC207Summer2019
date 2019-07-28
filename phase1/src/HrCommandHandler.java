@@ -30,7 +30,7 @@ public class HrCommandHandler implements CommandHandler {
         // get the applicant ID (username)
         UserInterface.getUsersDb().printApplicants();
         System.out.println("Please choose an applicant: ");
-        //UserInterface.getAppsDb().printApplicationsByFirmID(UserInterface.getCurrentUser().getFirmId());
+        //HyreLauncher.getAppsDb().printApplicationsByFirmID(HyreLauncher.getCurrentUser().getFirmId());
 
         Long targetApplicant = (Long) InputFormatting.inputWrapper("long", true,null); // todo
         if (targetApplicant == null) {return;}

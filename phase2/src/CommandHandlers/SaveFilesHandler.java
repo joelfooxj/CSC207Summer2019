@@ -34,10 +34,10 @@ public class SaveFilesHandler {
      * @throws IOException
      */
     private void saveAll() throws IOException {
-        UserInterface.getAppsDb().saveDatabase(applicationsDbPath);
-        UserInterface.getJobsDb().saveDatabase(jobsDbPath);
-        UserInterface.getUsersDb().saveDatabase(usersDbPath);
-        UserInterface.getFirmsDb().saveDatabase(firmDbPath);
+        HyreLauncher.getAppsDb().saveDatabase(applicationsDbPath);
+        HyreLauncher.getJobsDb().saveDatabase(jobsDbPath);
+        HyreLauncher.getUsersDb().saveDatabase(usersDbPath);
+        HyreLauncher.getFirmsDb().saveDatabase(firmDbPath);
     }
 
     /** loads saved data
@@ -46,14 +46,14 @@ public class SaveFilesHandler {
      * @throws ClassNotFoundException
      */
     private void readAll() throws IOException, ClassNotFoundException {
-        UserInterface.getAppsDb().readDatabase(applicationsDbPath);
-        UserInterface.getJobsDb().readDatabase(jobsDbPath);
-        UserInterface.getUsersDb().readDatabase(usersDbPath);
-        UserInterface.getFirmsDb().readDatabase(firmDbPath);
+        HyreLauncher.getAppsDb().readDatabase(applicationsDbPath);
+        HyreLauncher.getJobsDb().readDatabase(jobsDbPath);
+        HyreLauncher.getUsersDb().readDatabase(usersDbPath);
+        HyreLauncher.getFirmsDb().readDatabase(firmDbPath);
     }
 
 
-    /** Loads the user's saved data
+    /** Loads saved test data
      * @throws ClassNotFoundException
      * @throws IOException
      */

@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 
-public class UserInterface{
+public class HyreLauncher {
 
     private static JobApplicationDatabase appsDb = new JobApplicationDatabase();
-    private static JobsDatabase jobsDb = new JobsDatabase();
+    private static JobPostingDatabase jobsDb = new JobPostingDatabase();
     private static UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
     private static FirmDatabase firmsDb = new FirmDatabase();
     private static CommandHandlerFactory commandHandlerFactory = new CommandHandlerFactory();
@@ -34,7 +34,7 @@ public class UserInterface{
         return appsDb;
     }
 
-    public static JobsDatabase getJobsDb() {
+    public static JobPostingDatabase getJobsDb() {
         return jobsDb;
     }
 

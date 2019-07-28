@@ -10,6 +10,7 @@ public class InterviewerCommandHandler implements CommandHandler{
     private Long interviewerID;
     private String username;
 
+
     public InterviewerCommandHandler(UserCredentials user){
         this.interviewerID = user.getUserID();
         this.username = user.getUserName();
@@ -20,24 +21,36 @@ public class InterviewerCommandHandler implements CommandHandler{
         return this.username;
     }
 
-    private List<JobApplication> getApplications(){
-        return UserInterface.getAppsDb().getApplicationByInterviewerID(this.interviewerID);
+    /**
+     * returns a list of applications assigned to this interviewer
+     * @return List of JobApplications
+     */
+    private List<JobApplication> getAssignedApplications(){
+        return HyreLauncher.getAppsDb().getApplicationByInterviewerID(this.interviewerID);
     }
 
-    public List<String> getApplicationIDs(){
+    /**
+     * returns a list of ids of all the assigned job applications for this interviewer
+     * @return list of ids
+     */
+    public List<String> getAssignedApplicationsIds(){
         List<String> idList = new ArrayList<>();
-        if (!this.getApplications().isEmpty()){
-            for(JobApplication app:this.getApplications()){
+        if (!this.getAssignedApplications().isEmpty()){
+            for(JobApplication app:this.getAssignedApplications()){
                 idList.add(String.valueOf(app.getApplicationID()));
             }
         }
         return idList;
     }
 
-    public String applicationPrintout(){
+    /**
+     * gets a string representation of the assigned applications to this interviewer
+     * @return a string representation of applications
+     */
+    public String getAssignedApplicationsRepresentation(){
         StringBuilder applicationText = new StringBuilder();
-        if (this.getApplications().isEmpty()) {return "";}
-        for (JobApplication app:this.getApplications()){
+        if (this.getAssignedApplications().isEmpty()) {return "";}
+        for (JobApplication app:this.getAssignedApplications()){
             applicationText.append(app);
             applicationText.append("\n");
         }
@@ -50,7 +63,7 @@ public class InterviewerCommandHandler implements CommandHandler{
      * @param ApplicationID: ID of the application to be recommended.
      */
     public void recommendApplication(Long ApplicationID){
-        for (JobApplication app:this.getApplications()){
+        for (JobApplication app:this.getAssignedApplications()){
             if(app.getApplicationID() == ApplicationID){
                 app.recommend();
                 app.removeInterviewer(this.interviewerID);

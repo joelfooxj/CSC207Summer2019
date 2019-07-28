@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class JobsDatabase extends AbstractDatabase<JobPosting> implements java.io.Serializable{
+public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable{
 
     /**
      * the date that the user is logged into the program on. i.e. today's date.

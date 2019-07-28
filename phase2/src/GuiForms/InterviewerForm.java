@@ -20,8 +20,8 @@ class InterviewerForm extends JDialog {
         setModal(true);
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(ch.getUsername()));
-        this.applicationText.setText(ch.applicationPrintout());
-        this.jobApplicationList.setListData(ch.getApplicationIDs().toArray());
+        this.applicationText.setText(ch.getAssignedApplicationsRepresentation());
+        this.jobApplicationList.setListData(ch.getAssignedApplicationsIds().toArray());
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -1,6 +1,8 @@
 package Model;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import Control.HyreLauncher;
 public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
 
@@ -84,5 +86,15 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
       }
     }
     System.out.println(ret);
+  }
+
+  public ArrayList<UserCredentials> getUsersByUsername(String username) {
+    ArrayList<UserCredentials> users = new ArrayList<>();
+    for (UserCredentials user : this) {
+      if (user.getUserName().contains(username)) {
+        users.add(user);
+      }
+    }
+    return users;
   }
 }

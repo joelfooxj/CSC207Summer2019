@@ -2,7 +2,7 @@ package Model;
 import java.io.*;
 import java.util.*;
 
-public abstract class TemplateDatabase<T> implements Iterable{
+public abstract class TemplateDatabase<T> implements Iterable<T> {
 
     HashMap<Long, T> data = new HashMap<Long, T>();
     private long currID = 0;
@@ -66,16 +66,11 @@ public abstract class TemplateDatabase<T> implements Iterable{
         }
     }
 
-    public HashMap<Long, T> getData() {
-        return this.data;
-    }
-
     public long getCurrID() {
         return this.currID;
     }
 
     public class AbstractDatabaseIterator implements Iterator<T>{
-
         private long current = 0;
 
         @Override

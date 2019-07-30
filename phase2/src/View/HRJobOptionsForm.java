@@ -7,8 +7,9 @@ import Model.JobPosting;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.HashMap;
+import java.util.List;
 
-public class HRJobOptionsForm extends JDialog {
+public class HRJobOptionsForm extends HRForm {
     private JPanel contentPane;
     private JList jobsList;
     private JList associatedApplicationsList;
@@ -21,7 +22,8 @@ public class HRJobOptionsForm extends JDialog {
     private HashMap<String, JobPosting> jobListLink = new HashMap<>();
     private HashMap<String, JobApplication> jobApplicationListLink = new HashMap<>();
 
-    public HRJobOptionsForm(HrCommandHandler inHRCH, String inTitle) {
+    public HRJobOptionsForm(HrCommandHandler inHRCH) {
+        super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
 
@@ -30,8 +32,7 @@ public class HRJobOptionsForm extends JDialog {
         this.associatedApplicationsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.associatedApplicationsList.setLayoutOrientation(JList.VERTICAL);
 
-        this.hrCH = inHRCH;
-        this.contentPane.setBorder(BorderFactory.createTitledBorder(inTitle + " Job Options"));
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " Job Options"));
 
 
 //        buttonOK.addActionListener(new ActionListener() {
@@ -58,13 +59,13 @@ public class HRJobOptionsForm extends JDialog {
 
     private void updateForm(){
         //get jobs, list out jobs for each application
-        // List<JobPosting> inJobs = this.hrCH.getOpenJobs();
-//        for (JobPosting job: inJobs){
-//            jobListLink.put(job.toString(), job);
-//        }
-//        this.jobsList.setListData(jobListLink.keySet().toArray());
-//        this.jobsList.setSelectedIndex(0);
-//        JobPosting selectedJob = jobListLink.get(this.jobsList.getSelectedValue());
+         List<JobPosting> inJobs = this.hrCH.getOpenJobs();
+        for (JobPosting job: inJobs){
+            jobListLink.put(job.toString(), job);
+        }
+        this.jobsList.setListData(jobListLink.keySet().toArray());
+        this.jobsList.setSelectedIndex(0);
+        JobPosting selectedJob = jobListLink.get(this.jobsList.getSelectedValue());
 
 
     }

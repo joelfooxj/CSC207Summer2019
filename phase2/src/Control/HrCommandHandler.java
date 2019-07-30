@@ -1,14 +1,46 @@
 package Control;
 
 import Model.JobApplication;
+import Model.JobPosting;
+import Model.UserCredentials;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class HrCommandHandler implements CommandHandler {
 
     protected int JOBLIFESPAN = 30;
+    private UserCredentials thisUser;
+
+    public HrCommandHandler(UserCredentials hrUser){
+        this.thisUser = hrUser;
+    }
+
+    public String getUsername(){
+        return this.thisUser.getUserName();
+    }
+
+    public String getFirmID(){
+        return String.valueOf(this.thisUser.getFirmId());
+    }
+
+    private List<JobPosting> getOpenJobs(){
+        List<JobPosting> openJobs;
+        List<Long> allJobIDs = HyreLauncher.getJobsDb().getOpenJobIDs();
+        if (!allJobIDs.isEmpty()){
+            for(Long jobID:allJobIDs) {
+                openJobs.add(HyreLauncher.getJobsDb().getJobPostingByID(jobID));
+            }
+        }
+        return openJobs;
+    }
+
+    public List<String>
+
+
+
 
 
     private void handleJobCreation(){

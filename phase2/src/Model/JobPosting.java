@@ -61,13 +61,18 @@ public class JobPosting implements Serializable {
     private boolean isFilled = false;
 
     /**
+     *  The location for this job posting
+     */
+    private String location;
+
+    /**
      *constructor for job postings
      * @param title {@link #jobTitle}
      * @param details - {@link #jobDetails}
      * @param firmId - {@link #firmId}
      * @param jobDateRange - contains expiryDate and publishDate
      */
-    //TODO code smell: too many paramaters. add daterange object?
+    //TODO code smell: too many paramaters. add daterange object? add location
     public JobPosting(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){
         jobId = numberOfJobs;
         numberOfJobs ++;
@@ -77,6 +82,11 @@ public class JobPosting implements Serializable {
         this.publishDate = jobDateRange.getStartDate();
         this.expiryDate = jobDateRange.getEndDate();
         this.hashTags = hashTags;
+        // this.location = location
+    }
+
+    public String getLocation(){
+        return this.location;
     }
 
     /**

@@ -59,7 +59,6 @@ public class ApplicantForm extends JDialog {
         ApplicantJobsForm appJobsForm = new ApplicantJobsForm(this.appCH);
         appJobsForm.pack();
         appJobsForm.setVisible(true);
-        this.appCH.applyForJobs(appJobsForm.selectedJobIDs);
         this.updateForm();
     }
 

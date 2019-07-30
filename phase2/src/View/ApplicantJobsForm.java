@@ -5,6 +5,7 @@ import Control.ApplicantCommandHandler;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ApplicantJobsForm extends ApplicantForm {
@@ -13,17 +14,47 @@ public class ApplicantJobsForm extends ApplicantForm {
     private JButton exitButton;
     private JTextArea jobsTextArea;
     private JList jobsList;
+    private JCheckBox fullTimeCheckBox;
+    private JCheckBox partTimeCheckBox;
+    private JCheckBox flexWorkCheckBox;
+    private JCheckBox techCheckBox;
+    private JComboBox locationFilterCombo;
+    private JCheckBox financeCheckBox;
 
-    protected List<String> selectedJobIDs = new ArrayList<>();
+    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<>(){
+        {
+            put(fullTimeCheckBox, "fulltime");
+            put(partTimeCheckBox, "parttime");
+            put(flexWorkCheckBox, "flexwork");
+            put(techCheckBox, "tech");
+            put(financeCheckBox, "finance");
+        }
+    };
 
-    public ApplicantJobsForm(ApplicantCommandHandler appCH) {
+    ApplicantJobsForm(ApplicantCommandHandler appCH) {
         super(appCH);
         setContentPane(contentPane);
         setModal(true);
 
-        this.jobsTextArea.setText(super.appCH.getOpenJobsPrintout());
-        this.jobsList.setListData(super.appCH.getOpenJobsList().toArray());
+        this.updatejobsFields();
 
+        List<String> locationList = this.appCH.getLocationList();
+        this.locationFilterCombo.addItem("All locations");
+        for (String location:locationList){
+            this.locationFilterCombo.addItem(location);
+        }
+        this.locationFilterCombo.setSelectedIndex(0);
+
+        for (JCheckBox checkBox:checkBoxtagsLink.keySet()){
+            checkBox.setSelected(true);
+            checkBox.addItemListener(new ItemListener() {
+                     @Override
+                     public void itemStateChanged(ItemEvent e) {
+                        updatejobsFields();
+                     }
+                 }
+            );
+        }
 
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -34,6 +65,13 @@ public class ApplicantJobsForm extends ApplicantForm {
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
+            }
+        });
+
+        //todo: check this ActionListener...
+        locationFilterCombo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updatejobsFields();
             }
         });
 
@@ -51,6 +89,18 @@ public class ApplicantJobsForm extends ApplicantForm {
         for(Object obj:this.jobsList.getSelectedValuesList()){
             jobIDs.add((String) obj);
         }
-        this.selectedJobIDs = jobIDs;
+        this.appCH.applyForJobs(jobIDs);
+    }
+
+    private void updatejobsFields(){
+        List<String> tagsList = new ArrayList<>();
+        for (JCheckBox checkBox: checkBoxtagsLink.keySet()){
+            if (checkBox.isSelected()){
+                tagsList.add(checkBoxtagsLink.get(checkBox));
+            }
+        }
+        String setLocation = (String) this.locationFilterCombo.getSelectedItem();
+        this.jobsTextArea.setText(this.appCH.getFilteredJobsPrintout(tagsList, setLocation));
+        this.jobsList.setListData(this.appCH.getFilteredJobsList(tagsList, setLocation).toArray());
     }
 }

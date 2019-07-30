@@ -8,6 +8,7 @@ import View.GUI;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ApplicantCommandHandler implements CommandHandler{
@@ -25,7 +26,18 @@ public class ApplicantCommandHandler implements CommandHandler{
         this.creationDate = user.getCreationDate();
         this.username = user.getUserName();
         deleteCVAndCoverLetter();
+        List<String> inboxMessages = user.getInbox();
+        if (!inboxMessages.isEmpty()){ GUI.messageBox("Messages", String.join("\n", inboxMessages)); }
         GUI.applicantForm(this);
+    }
+
+    public List<String> getLocationList(){
+        // get all open jobs, construct set of locations
+        HashSet<String> locationSet = new HashSet<>();
+        for (JobPosting job: this.getOpenUnappliedJobs()){
+            locationSet.add(job.getLocation());
+        }
+        return List.copyOf(locationSet);
     }
 
     // todo: encapsulate these getters and setters into its own class and send to GUI
@@ -57,6 +69,11 @@ public class ApplicantCommandHandler implements CommandHandler{
         this.getApplication(applicationID).setCoverLetter(inCoverLetter);
     }
 
+    /**
+     * This methods returns a list of JobPostings that are open and unapplied
+     * for by this applicant
+     * @return list of open & unapplied JobPosting
+     */
     private List<JobPosting> getOpenUnappliedJobs(){
         List<JobPosting> openJobs = new ArrayList<>();
         if (HyreLauncher.getJobsDb().isEmpty()){
@@ -78,18 +95,33 @@ public class ApplicantCommandHandler implements CommandHandler{
         return openJobs;
     }
 
-    // todo: get jobsDB to re-write this.
+    /**
+     * This methods return
+     * @param tags: list of hashtags of JobPosting
+     * @param location: location of JobPosting
+     * @return
+     */
+    private List<JobPosting> getFilteredJobs(List<String> tags, String location){
+        List<JobPosting> retJobList = new ArrayList<>();
+        for (JobPosting job: this.getOpenUnappliedJobs()){
+            if(job.containsHashTags(tags) && job.getLocation().equals(location)){
+                retJobList.add(job);
+            }
+        }
+        return retJobList;
+    }
+
     /**
      * This method returns a single string containing all jobs that are open
      * and have not already been applied for by this applicant.
      * @return String openJobs
      */
-    public String getOpenJobsPrintout(){
+    public String getFilteredJobsPrintout(List<String> tags, String location){
         if (this.getOpenUnappliedJobs().isEmpty()) {
             return "There are no open job postings.";
         } else {
             StringBuilder openJobsPrintout = new StringBuilder();
-            for (JobPosting job: this.getOpenUnappliedJobs()){
+            for (JobPosting job: this.getFilteredJobs(tags, location)){
                 openJobsPrintout.append(job);
                 openJobsPrintout.append("\n");
             }
@@ -101,16 +133,14 @@ public class ApplicantCommandHandler implements CommandHandler{
      * This method returns a list of strings of JobIDs
      * @return jobIDs
      */
-    public List<String> getOpenJobsList(){
-        if(this.getOpenUnappliedJobs().isEmpty()){
-            return null;
-        } else {
-            List<String> jobList = new ArrayList<>();
-            for (JobPosting job: this.getOpenUnappliedJobs()){
+    public List<String> getFilteredJobsList(List<String> tags, String location){
+        List<String> jobList = new ArrayList<>();
+        if(!this.getOpenUnappliedJobs().isEmpty()) {
+            for (JobPosting job : this.getFilteredJobs(tags, location)) {
                 jobList.add(job.getJobId().toString());
             }
-            return jobList;
         }
+        return jobList;
     }
 
     // todo: update addApplication() with less parameters
@@ -145,6 +175,10 @@ public class ApplicantCommandHandler implements CommandHandler{
         } else {return null;}
     }
 
+    /**
+     * This method calculates the days between the current session and the last closed application
+     * @return minDaysBetween
+     */
     public String getMinDays(){
         long minDaysBetween = 0;
         for (JobApplication app:this.getAllApplications()) {

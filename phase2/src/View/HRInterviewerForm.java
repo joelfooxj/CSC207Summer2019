@@ -5,7 +5,7 @@ import Control.HrCommandHandler;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class HRInterviewerForm extends JDialog {
+public class HRInterviewerForm extends HRForm {
     private JPanel contentPane;
     private JButton buttonAssign;
     private JButton buttonExit;
@@ -16,19 +16,14 @@ public class HRInterviewerForm extends JDialog {
     // private HashMap<String, String> interviewerApplicationLink = new HashMap<>();
 
 
-    public HRInterviewerForm(HrCommandHandler inHRCH, String inTitle) {
+    public HRInterviewerForm(HrCommandHandler inHRCH) {
+        super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
-        this.hrCH = inHRCH;
-        this.contentPane.setBorder(BorderFactory.createTitledBorder(inTitle + " Interviewer Options"));
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " Interviewer Options"));
 
 //        this.interviewerList.setListData(this.hrCH.getInterviewerNames().toArray());
 //        this.applicationList.setListData(this.hrCH.getApplicationNames().toArray());
-
-
-
-
-
 
         buttonAssign.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

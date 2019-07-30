@@ -63,6 +63,10 @@ public class UserCredentials implements Serializable, Observer {
     return this.userId;
   }
 
+  public List<String> getInbox(){
+    return this.inbox;
+  }
+
 
   @Override
   public void update(Observable o, Object arg) {

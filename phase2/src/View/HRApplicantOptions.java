@@ -1,10 +1,12 @@
 package View;
 
+import Control.HrCommandHandler;
+
 import javax.swing.*;
 import java.awt.event.*;
 
 public class
-HRApplicantOptions extends JDialog {
+HRApplicantOptions extends HRForm {
     private JPanel contentPane;
     private JList applicantList;
     private JList associatedApplicationsList;
@@ -15,10 +17,10 @@ HRApplicantOptions extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
 
-    public HRApplicantOptions() {
+    public HRApplicantOptions(HrCommandHandler inHRCH) {
+        super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

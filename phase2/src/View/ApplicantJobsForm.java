@@ -21,7 +21,7 @@ public class ApplicantJobsForm extends ApplicantForm {
     private JComboBox locationFilterCombo;
     private JCheckBox financeCheckBox;
 
-    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>(){
+    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<>(){
         {
             put(fullTimeCheckBox, "fulltime");
             put(partTimeCheckBox, "parttime");

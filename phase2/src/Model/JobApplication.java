@@ -43,6 +43,14 @@ public class JobApplication extends Observable implements Serializable {
     // reference letters
     private List<String> referenceLetters = new ArrayList<>();
 
+    //todo: implement enums to replace strings
+    public enum filters{
+        APPLICATION_ID,
+        APPLICANT_ID,
+        FIRM_ID,
+        JOB_ID
+    }
+
     // for each application creation, you need all these 5 parameters
     /**
      *

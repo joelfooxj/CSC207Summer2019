@@ -47,15 +47,21 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
   }
 
   // for applicants
-  public UserCredentials addUser(String userName, String password, String accountType, LocalDate creationDate) {
-    UserCredentials newUser = new UserCredentials(userName, password, accountType, creationDate, super.getCurrID());
+  public UserCredentials addUser(String userName,
+                                 String password,
+                                 UserCredentials.userTypes type,
+                                 LocalDate creationDate) {
+    UserCredentials newUser = new UserCredentials(userName, password, type, creationDate, super.getCurrID());
     super.addItem(newUser);
     return newUser;
   }
 
   // for interviewers and hr coordinators
-  public UserCredentials addUser(String userName, String password, String accountType, long firmId) {
-    UserCredentials newUser = new UserCredentials(userName, password, accountType, firmId, super.getCurrID());
+  public UserCredentials addUser(String userName,
+                                 String password, 
+                                 UserCredentials.userTypes type,
+                                 long firmId) {
+    UserCredentials newUser = new UserCredentials(userName, password, type, firmId, super.getCurrID());
     super.addItem(newUser);
     return newUser;
   }

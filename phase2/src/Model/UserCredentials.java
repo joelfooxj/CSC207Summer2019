@@ -9,26 +9,33 @@ import java.util.Observer;
 public class UserCredentials implements Serializable, Observer {
   private String userName;
   private String password;
-  private String userType;
+  private userTypes userType;
   private long firmId;
   private long userId;
   private LocalDate creationDate;
   private List<String> inbox;
 
+  public enum userTypes{
+    HR,
+    APPLICANT,
+    INTERVIEWER,
+    REFERER
+  }
+
   // for the HR & interviwers
-  public UserCredentials(String userName, String password, String userType, long firmId, long userId) {
+  public UserCredentials(String userName, String password, userTypes type, long firmId, long userId) {
     this.userName = userName;
     this.password = password;
-    this.userType = userType;
+    this.userType = type;
     this.firmId = firmId;
     this.userId = userId;
   }
 
   // for the applicants
-  public UserCredentials(String userName, String password, String userType, LocalDate creationDate, long userId) {
+  public UserCredentials(String userName, String password, userTypes type, LocalDate creationDate, long userId) {
     this.userName = userName;
     this.password = password;
-    this.userType = userType;
+    this.userType = type;
     this.creationDate = creationDate;
     this.userId = userId;
   }
@@ -41,7 +48,7 @@ public class UserCredentials implements Serializable, Observer {
     return this.password;
   }
 
-  public String getUserType() {
+  public userTypes getUserType() {
     return this.userType;
   }
 

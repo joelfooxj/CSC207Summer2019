@@ -65,7 +65,7 @@
                 <item value="Applicant"/>
                 <item value="Human Resources"/>
                 <item value="Interviewer"/>
-                <item value="Referee"/>
+                <item value="Referer"/>
               </model>
             </properties>
           </component>
@@ -122,7 +122,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="  "/>
+          <text value="   "/>
         </properties>
       </component>
     </children>

@@ -3,6 +3,7 @@ import Control.HyreLauncher;
 import Model.UserCredentials;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.HashMap;
 
 public class Login extends JDialog {
     private JPanel contentPane;
@@ -16,6 +17,15 @@ public class Login extends JDialog {
 
 
     public UserCredentials retUser;
+
+    private HashMap<String, UserCredentials.userTypes> stringEnumLink = new HashMap<>(){
+        {
+            put("Applicant", UserCredentials.userTypes.APPLICANT);
+            put("Interviewer", UserCredentials.userTypes.INTERVIEWER);
+            put("Human Resources", UserCredentials.userTypes.HR);
+            put("Referer", UserCredentials.userTypes.REFERER);
+        }
+    };
 
     public Login() {
         setContentPane(contentPane);
@@ -68,12 +78,14 @@ public class Login extends JDialog {
             this.errorLabel.setText("User already exists");
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
+            // todo: maybe combine the addUser methods?
             if (accountType.equals("Applicant")){
-                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password, accountType, HyreLauncher.getDate());
+                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password,
+                        UserCredentials.userTypes.APPLICANT, HyreLauncher.getDate());
             } else {
                 Long firmID = Long.parseLong(this.firmText.getText());
-//                GUI.messageBox("passing in: " + accountType);
-                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password, accountType, firmID);
+                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password,
+                        stringEnumLink.get(accountType), firmID);
             }
             dispose();
         }

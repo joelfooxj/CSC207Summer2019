@@ -17,16 +17,20 @@ public class RefererForm {
     private JFrame frame = new JFrame("Referer");
     private JPanel panel = new JPanel();
 
-    private JScrollPane chooseOptions = new JScrollPane();
-    private JTextArea showDetails = new JTextArea(5, 20);
     private JTextField findUser = new JTextField(20);
     private JButton buttonFindUser = new JButton("Find User");
-    private JButton buttonExit = new JButton("Exit");
 
+    private JScrollPane userOptions = new JScrollPane();
     private JList<UserCredentials> userCredentialsJList = new JList<>();
+
+    private JScrollPane appOptions = new JScrollPane();
     private JList<JobApplication> jobApplicationJList = new JList<>();
 
+    private JTextArea showDetails = new JTextArea(5, 20);
+
     private JButton selectApplication = new JButton("Add reference letter for this application");
+
+    private JButton buttonExit = new JButton("Logout");
 
     private RefererCommandHandler rch;
 
@@ -39,10 +43,12 @@ public class RefererForm {
 
     public void setupGUI() {
         frame.add(panel);
-        panel.add(chooseOptions);
-        panel.add(showDetails);
         panel.add(findUser);
         panel.add(buttonFindUser);
+        panel.add(userOptions);
+        panel.add(appOptions);
+        panel.add(showDetails);
+        panel.add(selectApplication);
         panel.add(buttonExit);
         panel.setLayout(new GridBagLayout());
 
@@ -66,15 +72,16 @@ public class RefererForm {
         userCredentialsJList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                onChooseUser(userCredentialsJList.getSelectedValue());
+                onSelectUser(userCredentialsJList.getSelectedValue());
             }
         });
-//        jobApplicationJList.addListSelectionListener(new ListSelectionListener() {
-//            @Override
-//            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-//                showDetails.setText(jobApplicationJList.getSelectedValue().getDetailed());
-//            }
-//        });
+
+        jobApplicationJList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent listSelectionEvent) {
+                onSelectApplication(jobApplicationJList.getSelectedValue());
+            }
+        });
         selectApplication.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -88,6 +95,7 @@ public class RefererForm {
     }
 
     public void onFindUser(String search) {
+        rch.findUser(HyreLauncher.getUsersDb(), search);
         ArrayList<UserCredentials> users = HyreLauncher.getUsersDb().getUsersByUsername(search);
         String arr[] = {"Hello", "What", "Who"};
         UserCredentials[] userArr = users.toArray(new UserCredentials[users.size()]);
@@ -96,14 +104,18 @@ public class RefererForm {
         temp.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         temp.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         temp.setVisibleRowCount(-1);
-        chooseOptions.setViewportView(temp);
+        userOptions.setViewportView(temp);
         frame.setVisible(true);
     }
 
-    public void onChooseUser(UserCredentials user) {
+    public void onSelectUser(UserCredentials user) {
         ArrayList<JobApplication> appsList = (ArrayList<JobApplication>) rch.findApplication(HyreLauncher.getAppsDb(), user);
         jobApplicationJList = new JList<JobApplication>(appsList.toArray(new JobApplication[appsList.size()]));
-        chooseOptions.setViewportView(jobApplicationJList);
+        appOptions.setViewportView(jobApplicationJList);
+    }
+
+    public void onSelectApplication(JobApplication app) {
+        showDetails.setText(app.toString());
     }
 
     public void onChooseApplication(JobApplication app) {
@@ -111,8 +123,10 @@ public class RefererForm {
         JPanel panelRef = new JPanel();
         JTextArea referenceLetter = new JTextArea(5, 20);
         JButton buttonSubmit = new JButton("Submit");
+        JButton buttonCancel = new JButton("Cancel");
         panelRef.add(referenceLetter);
         panelRef.add(buttonSubmit);
+        panelRef.add(buttonCancel);
 
         panelRef.setLayout(new BoxLayout(panelRef, BoxLayout.PAGE_AXIS));
         frameRef.setPreferredSize(new Dimension(500, 500));

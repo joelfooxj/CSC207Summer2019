@@ -37,7 +37,8 @@ public class ApplicantCommandHandler implements CommandHandler{
         for (JobPosting job: this.getOpenUnappliedJobs()){
             locationSet.add(job.getLocation());
         }
-        return List.copyOf(locationSet);
+        //return ArrayList.copyOf(locationSet);
+        return new ArrayList<>();
     }
 
     // todo: encapsulate these getters and setters into its own class and send to GUI

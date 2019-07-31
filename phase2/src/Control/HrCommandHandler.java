@@ -27,7 +27,7 @@ public class HrCommandHandler implements CommandHandler {
     }
 
     private List<JobPosting> getOpenJobs(){
-        List<JobPosting> openJobs;
+        List<JobPosting> openJobs = new ArrayList<>();
         List<Long> allJobIDs = HyreLauncher.getJobsDb().getOpenJobIDs();
         if (!allJobIDs.isEmpty()){
             for(Long jobID:allJobIDs) {
@@ -36,8 +36,6 @@ public class HrCommandHandler implements CommandHandler {
         }
         return openJobs;
     }
-
-    public List<String>
 
 
 

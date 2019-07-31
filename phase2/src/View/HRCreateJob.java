@@ -25,7 +25,7 @@ public class HRCreateJob extends HRJobOptionsForm {
     private JButton addButton;
     private JButton removeButton;
 
-    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<>(){
+    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>(){
         {
             put(fullTimeCheckBox, "fulltime");
             put(partTimeCheckBox, "parttime");
@@ -76,7 +76,7 @@ public class HRCreateJob extends HRJobOptionsForm {
                 tags.add(checkBoxtagsLink.get(checkBox));
             }
         }
-        this.appCH
+        //this.appCH
 
 
 

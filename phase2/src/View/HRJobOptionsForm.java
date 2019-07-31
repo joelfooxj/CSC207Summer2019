@@ -59,10 +59,10 @@ public class HRJobOptionsForm extends HRForm {
 
     private void updateForm(){
         //get jobs, list out jobs for each application
-         List<JobPosting> inJobs = this.hrCH.getOpenJobs();
-        for (JobPosting job: inJobs){
-            jobListLink.put(job.toString(), job);
-        }
+        //List<JobPosting> inJobs = this.hrCH.getOpenJobs();
+        //for (JobPosting job: inJobs){
+        //    jobListLink.put(job.toString(), job);
+        //}
         this.jobsList.setListData(jobListLink.keySet().toArray());
         this.jobsList.setSelectedIndex(0);
         JobPosting selectedJob = jobListLink.get(this.jobsList.getSelectedValue());

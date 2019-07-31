@@ -100,4 +100,6 @@ public class HrCommandHandler implements CommandHandler {
         HyreLauncher.getJobsDb().addJob(title, details, Long.parseLong(firmID), newRange,
                 hashTags, interviewStages, location);
     }
+
+    // testing the git commit
 }

@@ -5,6 +5,7 @@ import Control.DateRange;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable{
@@ -28,11 +29,11 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 
     /**
      * adds a job Posting by construction a job posting
-     * @see JobPosting#JobPosting(String, String, long, LocalDate, LocalDate, Collection)
+     * @see JobPosting#JobPosting(String, String, long, long, String, DateRange, Collection)
      */
     //TODO change to addJobPosting
-    public void addJob(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){
-        addItem(new JobPosting(title, details, firmId, jobDateRange, hashTags));
+    public void addJob(String title, String details, long firmId, long numsLabourRequired, String location, DateRange jobDateRange, Collection<String> hashTags){
+        addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, hashTags));
     }
 
     /**
@@ -45,48 +46,124 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     }
 
     /**
-     * proves all job postings that are related to a firm
-     * @param firmId - id of firm that are offering job postings
-     */
-    //TODO: connect to interface instead of print
-    public void printJobsByFirmId(long firmId){
-        System.out.println(getJobPostingByID(firmId));
-    }
-
-    /**
      * returns all ids of job postings that are open
      * @return ArrayList of Job Posting ids
      */
-    public ArrayList<Long> getOpenJobIDs(){
 
-        ArrayList<Long> jobPostingIds = new ArrayList<>();
+    public ArrayList<Long> getOpenPostingIds(){
 
-        for(int i = 0; i < super.getCurrID(); i++){
-            JobPosting jobPosting = getJobPostingByID((long) i);
-            if(jobPosting.isOpen(sessionDate)){
-                jobPostingIds.add(jobPosting.getJobId());
-            }
+        ArrayList<Long> result = new ArrayList<>();
+        ArrayList<JobPosting> openJobPostings = filterOpenJobPostings(this.getListOfItems());
+
+        for (JobPosting jobPosting: openJobPostings){
+            result.add(jobPosting.getJobId());
         }
-        return jobPostingIds;
+        return result;
     }
 
     /**
-     * returns all job postings that have one or more hashtags matching the ones being searched
+     * Allows the simultaneous application of multiple filters on job postings
+     * Filters based on SearchBy keys and Object arguments in HashMap parameter.
+     * e.g. if searchMap contains(SearchBy.LOCATION, "Toronto") and (SearchBy.FIRM, 7), then
+     * filterBy will filter for all job postings in Toronto by firm 7.
+     * @param searchMap
+     * values to put in searchMap are as follows:
+     * key -> SearchBy.FIRM to filter for jobs by firm id, value -> long of firm id
+     * key -> SearchBy.LOCATION filter for jobs by location, value -> String of location
+     * key -> SearchBy.HASHTAG to filter by hashtags, value -> HashSet with any hashtags your filtering for
+     * key -> SearchBy.OPEN to filter for open jobs, value -> null, no value required
+     * @return
+     */
+    public ArrayList<String> filterBy(HashMap<SearchBy,Object> searchMap){
+
+        ArrayList<JobPosting> jobPostings = this.getListOfItems();
+
+        if(searchMap.containsKey(SearchBy.FIRM)){
+            jobPostings = filterByFirm((Long)searchMap.get(SearchBy.FIRM),jobPostings);
+        }
+
+        if(searchMap.containsKey(SearchBy.LOCATION)){
+            jobPostings = filterByLocation((String)searchMap.get(SearchBy.LOCATION),jobPostings);
+        }
+
+        if(searchMap.containsKey(SearchBy.HASHTAG)){
+            jobPostings = getJobsWithHashTags((HashSet<String>) searchMap.get(SearchBy.HASHTAG),jobPostings);
+        }
+
+        if(searchMap.containsKey(SearchBy.OPEN)){
+            jobPostings = filterOpenJobPostings(jobPostings);
+        }
+
+        return print(jobPostings);
+    }
+
+    /**
+     * Filters ArrayLists of job postings for open postings only
+     * @param jobPostings
+     * @return
+     */
+    private ArrayList<JobPosting> filterOpenJobPostings(ArrayList<JobPosting> jobPostings){
+
+        jobPostings.removeIf(jobPosting -> !jobPosting.isOpen(sessionDate));
+
+        return jobPostings;
+    }
+
+
+    /**
+     * Filters ArrayLists of job postings to those in a certain location
+     * @param location
+     * @param jobPostings
+     * @return
+     */
+    private ArrayList<JobPosting> filterByLocation(String location, ArrayList<JobPosting> jobPostings){
+
+        jobPostings.removeIf(jobPosting -> !jobPosting.getLocation().equals(location));
+
+        return jobPostings;
+    }
+
+    /**
+     * Filters ArrayLists of job postings to those associated with a specific firm
+     * @param firmId
+     * @param jobPostings
+     * @return
+     */
+    private ArrayList<JobPosting> filterByFirm(Long firmId, ArrayList<JobPosting> jobPostings){
+
+        jobPostings.removeIf(jobPosting -> !jobPosting.getFirmId().equals(firmId));
+
+        return jobPostings;
+    }
+
+
+    /**
+     * returns all job postings that have all of the hashtags being searched for
      * @param hashTags - the collection of hashtags that are being searched for
      * @return
      */
-    public ArrayList<JobPosting> getJobsWithHashTags(HashSet<String> hashTags){
+    private ArrayList<JobPosting> getJobsWithHashTags(HashSet<String> hashTags, ArrayList<JobPosting> jobPostings){
 
-        ArrayList<JobPosting> jobPostings = new ArrayList<>();
+        jobPostings.removeIf(jobPosting -> !jobPosting.containsAllHashTags(hashTags));
 
-        for(int i = 0; i < super.getCurrID(); i++){
-            HashSet<String> hashTagsClone = (HashSet<String>) hashTags.clone();
-            JobPosting jobPosting = getJobPostingByID((long) i);
-            if(jobPosting.containsHashTags(hashTagsClone)){
-                jobPostings.add(jobPosting);
-            }
-        }
         return jobPostings;
+    }
+
+    /**
+     * Method to print job postings
+     * @param jobPostings
+     * @return
+     */
+    private ArrayList<String> print(ArrayList<JobPosting> jobPostings){
+
+        ArrayList<String> result = new ArrayList<>();
+
+        for (JobPosting jobPosting: jobPostings
+             ) {
+            result.add(jobPosting.toString());
+        }
+
+        return result;
     }
 
     /**

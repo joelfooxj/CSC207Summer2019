@@ -5,6 +5,7 @@ import Control.DateRange;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class JobPosting implements Serializable {
 
@@ -12,7 +13,6 @@ public class JobPosting implements Serializable {
      * The total number of JobPostings that have been created
      */
     private static long numberOfJobs = 0;
-
 
     /**
      * The id of the job, used to store and retrieve in databases
@@ -45,6 +45,11 @@ public class JobPosting implements Serializable {
     private LocalDate expiryDate;
 
     /**
+     * The location of the job
+     */
+    private String location;
+
+    /**
      * A list of hashtags related to a job posting
      */
     private Collection<String> hashTags;
@@ -53,7 +58,7 @@ public class JobPosting implements Serializable {
     /**
      * The number of positions open for a job posting
      */
-    private int numLabourRequired = 1;
+    private long numberOfPositions;
 
     /**
      * True all the job positions for a posting have been filled by candidates
@@ -65,15 +70,21 @@ public class JobPosting implements Serializable {
      * @param title {@link #jobTitle}
      * @param details - {@link #jobDetails}
      * @param firmId - {@link #firmId}
-     * @param jobDateRange - contains expiryDate and publishDate
+     * @param numberOfPositions {@link #numberOfPositions}
+     * @param location {@link #location}
+     * @param jobDateRange - contains {@link #publishDate} and {@link #expiryDate}
+     * @param hashTags - contains hashtags associated with a job
      */
-    //TODO code smell: too many paramaters. add daterange object?
-    public JobPosting(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){
+    //TODO code smell: too many paramaters.
+    public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
+                      DateRange jobDateRange, Collection<String> hashTags){
         jobId = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = title;
         this.jobDetails = details;
         this.firmId = firmId;
+        this.numberOfPositions = numberOfPositions;
+        this.location = location;
         this.publishDate = jobDateRange.getStartDate();
         this.expiryDate = jobDateRange.getEndDate();
         this.hashTags = hashTags;
@@ -84,7 +95,7 @@ public class JobPosting implements Serializable {
      * @return true or false
      */
     public boolean isOpen(LocalDate todaysDate){
-        return !isFilled() && !isExpired(todaysDate);
+        return !getIsFilled() && !isExpired(todaysDate);
     }
 
     /**
@@ -103,17 +114,24 @@ public class JobPosting implements Serializable {
     }
 
     /**
+     * Used to set a job as having been filled
+     */
+    public void isFilled(){
+        isFilled = true;
+    }
+
+    /**
      * Indicates whether all the job positions have been filled or not
      * @return {@link #isFilled}
      */
-    private boolean isFilled(){
+    private boolean getIsFilled(){
         return isFilled;
     }
 
     @Override
     public String toString(){
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
-                jobDetails + "\n" + "Positions Available: " + numLabourRequired + "\n" +
+                jobDetails + "\n" + "Positions Available: " + numberOfPositions + "\n" +
                 "Date Published: " + publishDate + "\n" + "Expiry Date: " + expiryDate + "\n"
                 + "HashTags: " + hashTags;
     }
@@ -130,17 +148,24 @@ public class JobPosting implements Serializable {
      * returns firmId
      * @return {@link #firmId}
      */
-    public long getFirmId() {
+    public Long getFirmId() {
         return firmId;
     }
 
+    public long getNumberOfPositions() {
+        return numberOfPositions;
+    }
+
+    String getLocation(){return location;}
+
     /**
-     * Checks whether  any of the hashtags being searched for are contained in the hashtags associated
-     * with the job posting in the hashTags variable
+     * Checks whether all of the hashtags being searched for are contained in the hashtags
+     * variable of the job posting
      * @param searchHashTags - a collection of hashtags being searched for
      * @return true or false
      */
-    public boolean containsHashTags(Collection<String> searchHashTags) {
+    boolean containsAllHashTags(HashSet<String> searchHashTags) {
+        searchHashTags = (HashSet<String>) searchHashTags.clone();
         Integer startSize = searchHashTags.size();
         searchHashTags.retainAll(hashTags);
         if(startSize.equals(searchHashTags.size())){

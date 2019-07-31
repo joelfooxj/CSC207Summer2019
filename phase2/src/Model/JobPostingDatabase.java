@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable{
 
@@ -29,11 +30,11 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 
     /**
      * adds a job Posting by construction a job posting
-     * @see JobPosting#JobPosting(String, String, long, long, String, DateRange, Collection)
+     * @see JobPosting#JobPosting(String, String, long, long, String, DateRange, List, Collection)
      */
     //TODO change to addJobPosting
-    public void addJob(String title, String details, long firmId, long numsLabourRequired, String location, DateRange jobDateRange, Collection<String> hashTags){
-        addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, hashTags));
+    public void addJob(String title, String details, long firmId, long numsLabourRequired, String location, DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags){
+        addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, interviewStages, hashTags));
     }
 
     /**

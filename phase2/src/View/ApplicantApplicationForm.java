@@ -31,7 +31,6 @@ public class ApplicantApplicationForm extends ApplicantForm {
         String selectedAppID = (String) this.appList.getSelectedValue();
         this.appTextArea.setText(this.appCH.getApplicationDesc(selectedAppID));
 
-
         CVButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 openCVForm();

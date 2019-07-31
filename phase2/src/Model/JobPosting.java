@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public class JobPosting implements Serializable {
 
@@ -66,10 +67,16 @@ public class JobPosting implements Serializable {
     private boolean isFilled = false;
 
     /**
+     * The list of interview stages set for this job posting
+     */
+    private List<String> interviewStages;
+
+    /**
      *constructor for job postings
      * @param title {@link #jobTitle}
      * @param details - {@link #jobDetails}
      * @param firmId - {@link #firmId}
+<<<<<<< HEAD
      * @param numberOfPositions {@link #numberOfPositions}
      * @param location {@link #location}
      * @param jobDateRange - contains {@link #publishDate} and {@link #expiryDate}
@@ -77,7 +84,7 @@ public class JobPosting implements Serializable {
      */
     //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
-                      DateRange jobDateRange, Collection<String> hashTags){
+                      DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags){
         jobId = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = title;
@@ -88,6 +95,16 @@ public class JobPosting implements Serializable {
         this.publishDate = jobDateRange.getStartDate();
         this.expiryDate = jobDateRange.getEndDate();
         this.hashTags = hashTags;
+        this.location = location;
+        this.interviewStages = interviewStages;
+    }
+
+    public List<String> getInterviewStages(){
+        return this.interviewStages;
+    }
+
+    public String getJobDetails(){
+        return this.jobDetails;
     }
 
     /**
@@ -103,7 +120,7 @@ public class JobPosting implements Serializable {
      * @return
      */
 
-    private boolean isExpired(LocalDate todaysDate){
+    public boolean isExpired(LocalDate todaysDate){
         //condition should be based on today's date
         if(todaysDate.compareTo(expiryDate) > 0){
             return true;

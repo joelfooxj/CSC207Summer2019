@@ -18,7 +18,7 @@ public class CommandHandlerFactory {
             commandHandler = new InterviewerCommandHandler(userCredentials);
         }
         else if (userCredentials.getUserType().equals(HyreLauncher.getHrUserType())){
-            commandHandler = new HrCommandHandler();
+            commandHandler = new HrCommandHandler(userCredentials);
         }
         else {
             return null;

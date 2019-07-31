@@ -12,15 +12,18 @@ public class CommandHandlerFactory {
     public CommandHandler getCommandHandler(UserCredentials userCredentials){
         CommandHandler commandHandler;
         // set the value of Control.CommandHandler based on the user type
-        if (userCredentials.getUserType().equals(HyreLauncher.getApplicantUserType())){
+        if (userCredentials.getUserType() == UserCredentials.userTypes.APPLICANT){
+            ;
             commandHandler = new ApplicantCommandHandler(userCredentials);
-        } else if (userCredentials.getUserType().equals(HyreLauncher.getInterviewerUserType())){
+        } else if (userCredentials.getUserType() == UserCredentials.userTypes.INTERVIEWER){
             commandHandler = new InterviewerCommandHandler(userCredentials);
         }
-        else if (userCredentials.getUserType().equals(HyreLauncher.getHrUserType())){
+        else if (userCredentials.getUserType() == UserCredentials.userTypes.HR){
             commandHandler = new HrCommandHandler(userCredentials);
         }
-        else {
+        else if (userCredentials.getUserType() == UserCredentials.userTypes.REFERER){
+            commandHandler = new RefererCommandHandler(userCredentials);
+        }else {
             return null;
         }
         return commandHandler;

@@ -4,6 +4,7 @@ import Model.JobApplication;
 import Model.JobPosting;
 import Model.SearchBy;
 import Model.UserCredentials;
+import View.GUI;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -22,6 +23,7 @@ public class HrCommandHandler implements CommandHandler {
     public HrCommandHandler(UserCredentials hrUser){
         this.username = hrUser.getUserName();
         this.firmID = String.valueOf(hrUser.getFirmId());
+        GUI.hrForm(this);
     }
 
     public List<String> getAllInterviewStages(){

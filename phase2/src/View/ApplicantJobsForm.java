@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class ApplicantJobsForm extends ApplicantForm {
@@ -90,10 +91,11 @@ public class ApplicantJobsForm extends ApplicantForm {
             jobIDs.add((String) obj);
         }
         this.appCH.applyForJobs(jobIDs);
+        updatejobsFields();
     }
 
     private void updatejobsFields(){
-        List<String> tagsList = new ArrayList<>();
+        HashSet<String> tagsList = new HashSet<>();
         for (JCheckBox checkBox: checkBoxtagsLink.keySet()){
             if (checkBox.isSelected()){
                 tagsList.add(checkBoxtagsLink.get(checkBox));

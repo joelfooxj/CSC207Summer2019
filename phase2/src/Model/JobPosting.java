@@ -71,6 +71,11 @@ public class JobPosting implements Serializable {
      */
     private List<String> interviewStages;
 
+    // todo: add stuff for these new attributes
+    private String skills;
+
+    private String documentation;
+
     /**
      *constructor for job postings
      * @param title {@link #jobTitle}
@@ -149,7 +154,7 @@ public class JobPosting implements Serializable {
     public String toString(){
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
                 jobDetails + "\n" + "Positions Available: " + numberOfPositions + "\n" +
-                "Date Published: " + publishDate + "\n" + "Expiry Date: " + expiryDate + "\n"
+                "Date Published: " + publishDate + "\n" + "Deadline to apply: " + expiryDate + "\n"
                 + "HashTags: " + hashTags;
     }
 
@@ -173,7 +178,7 @@ public class JobPosting implements Serializable {
         return numberOfPositions;
     }
 
-    String getLocation(){return location;}
+    public String getLocation(){return location;}
 
     /**
      * Checks whether all of the hashtags being searched for are contained in the hashtags
@@ -181,7 +186,7 @@ public class JobPosting implements Serializable {
      * @param searchHashTags - a collection of hashtags being searched for
      * @return true or false
      */
-    boolean containsAllHashTags(HashSet<String> searchHashTags) {
+    public boolean containsAllHashTags(HashSet<String> searchHashTags) {
         searchHashTags = (HashSet<String>) searchHashTags.clone();
         Integer startSize = searchHashTags.size();
         searchHashTags.retainAll(hashTags);

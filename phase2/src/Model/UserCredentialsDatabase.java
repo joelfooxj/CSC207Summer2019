@@ -87,7 +87,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
   public void printApplicants() {
     StringBuilder ret = new StringBuilder();
     for (Long i = 0L; i < super.getCurrID(); i++) {
-      if (getItemByID(i) != null && getItemByID(i).getUserType().equals(HyreLauncher.getApplicantUserType())) {
+      if (getItemByID(i) != null && getItemByID(i).getUserType().equals(UserCredentials.userTypes.APPLICANT)) {
         ret.append("\n[" + i.toString() + "] " + getItemByID(i).toString());
       }
     }

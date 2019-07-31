@@ -17,9 +17,6 @@ public class HyreLauncher {
     private static CommandHandlerFactory commandHandlerFactory = new CommandHandlerFactory();
     private static UserCredentials currentUser;
     private static LocalDate sessionDate;
-    private static String applicantUserType = "Applicant";
-    private static String interviewerUserType = "Interviewer";
-    private static String hrUserType = "HR";
     private static SaveFilesHandler saveFilesHandler = new SaveFilesHandler();
 
     public static LocalDate getDate(){
@@ -46,16 +43,10 @@ public class HyreLauncher {
         return currentUser;
     }
 
-    public static String getApplicantUserType() { return applicantUserType; }
-
     public static LocalDate getSessionDate() { return sessionDate; }
-    public static String getInterviewerUserType() {
-        return interviewerUserType;
-    }
 
-    public static String getHrUserType() {
-        return hrUserType;
-    }
+
+
 
 
 

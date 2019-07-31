@@ -2,6 +2,7 @@ package Model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,7 +14,7 @@ public class UserCredentials implements Serializable, Observer {
   private long firmId;
   private long userId;
   private LocalDate creationDate;
-  private List<String> inbox;
+  private List<String> inbox = new ArrayList<>();
 
   public enum userTypes{
     HR,

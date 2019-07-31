@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class HRCreateJob extends HRJobOptionsForm {
@@ -25,6 +26,8 @@ public class HRCreateJob extends HRJobOptionsForm {
     private JComboBox interviewCombo;
     private JButton addButton;
     private JButton removeButton;
+    private JSpinner numLabourSpinner;
+    private JScrollBar scrollBar1;
 
     private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<>(){
         {
@@ -96,7 +99,12 @@ public class HRCreateJob extends HRJobOptionsForm {
                 tags.add(checkBoxtagsLink.get(checkBox));
             }
         }
-        super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), HyreLauncher.getDate(),
-                tags, this.selectedInterviews, jobLocation);
+        Long numLabour = Long.parseLong((String) this.numLabourSpinner.getValue());
+        super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), HyreLauncher.getDate(), numLabour, tags,
+                this.selectedInterviews, jobLocation);
+    }
+
+    private void createUIComponents() {
+        this.numLabourSpinner = new JSpinner(new SpinnerNumberModel(1,1,10,1));
     }
 }

@@ -8,6 +8,7 @@ import View.GUI;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         if (HyreLauncher.getJobsDb().isEmpty()){
             return openJobs;
         }
-        for (Long jobID: HyreLauncher.getJobsDb().getOpenJobIDs()){
+        for (Long jobID: HyreLauncher.getJobsDb().getOpenPostingIds()){
             boolean appliedForFlag = false;
             if (!this.getAllApplications().isEmpty()){
                 for (JobApplication app: this.getAllApplications()){
@@ -104,10 +105,10 @@ public class ApplicantCommandHandler implements CommandHandler{
      * @param location: location of JobPosting
      * @return
      */
-    private List<JobPosting> getFilteredJobs(List<String> tags, String location){
+    private List<JobPosting> getFilteredJobs(HashSet<String> tags, String location){
         List<JobPosting> retJobList = new ArrayList<>();
         for (JobPosting job: this.getOpenUnappliedJobs()){
-            if(job.containsHashTags(tags) && job.getLocation().equals(location)){
+            if(job.containsAllHashTags(tags) && job.getLocation().equals(location)){
                 retJobList.add(job);
             }
         }
@@ -119,7 +120,7 @@ public class ApplicantCommandHandler implements CommandHandler{
      * and have not already been applied for by this applicant.
      * @return String openJobs
      */
-    public String getFilteredJobsPrintout(List<String> tags, String location){
+    public String getFilteredJobsPrintout(HashSet<String> tags, String location){
         if (this.getOpenUnappliedJobs().isEmpty()) {
             return "There are no open job postings.";
         } else {
@@ -136,7 +137,7 @@ public class ApplicantCommandHandler implements CommandHandler{
      * This method returns a list of strings of JobIDs
      * @return jobIDs
      */
-    public List<String> getFilteredJobsList(List<String> tags, String location){
+    public List<String> getFilteredJobsList(HashSet<String> tags, String location){
         List<String> jobList = new ArrayList<>();
         if(!this.getOpenUnappliedJobs().isEmpty()) {
             for (JobPosting job : this.getFilteredJobs(tags, location)) {

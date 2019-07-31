@@ -32,6 +32,10 @@ public class Login extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonLogin);
 
+        for(String userType:stringEnumLink.keySet()){
+            this.userTypeBox.addItem(userType);
+        }
+
         buttonLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onLogin();

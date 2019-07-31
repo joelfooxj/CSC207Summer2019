@@ -2,11 +2,14 @@ package View;
 
 import Control.HrCommandHandler;
 
-import javax.swing.*;
-import java.awt.event.*;
 
-public class
-HRApplicantOptions extends HRForm {
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.event.*;
+import java.util.List;
+
+public class HRApplicantOptions extends HRForm {
     private JPanel contentPane;
     private JList applicantList;
     private JList associatedApplicationsList;
@@ -14,23 +17,75 @@ HRApplicantOptions extends HRForm {
     private JButton coverLetterButton;
     private JButton refLetterButton;
     private JButton exitButton;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JLabel applicantLabel;
+    private JLabel applicationLabel;
 
     public HRApplicantOptions(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
 
-        buttonOK.addActionListener(new ActionListener() {
+        this.applicantList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        this.applicantList.setLayoutOrientation(JList.VERTICAL);
+        this.associatedApplicationsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        this.associatedApplicationsList.setLayoutOrientation(JList.VERTICAL);
+
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Applicant Options"));
+        updateApplicantList();
+        updateApplicationList();
+        updateButtonEnabled();
+
+
+        cvButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                if (!associatedApplicationsList.isSelectionEmpty()){
+                    String inAppID = (String) associatedApplicationsList.getSelectedValue();
+                    String inCV = HRApplicantOptions.super.hrCH.getApplicationCVbyApplicationID(inAppID);
+                    GUI.messageBox("CV", "<html>" + inCV + "</html>");
+                }
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        coverLetterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                if (!associatedApplicationsList.isSelectionEmpty()){
+                    String inAppID = (String) associatedApplicationsList.getSelectedValue();
+                    String inCL = HRApplicantOptions.super.hrCH.getApplicationCoverLetterbyApplicationID(inAppID);
+                    GUI.messageBox("Cover Letter", "<html>" + inCL + "</html>");
+                }
+            }
+        });
+
+        refLetterButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!associatedApplicationsList.isSelectionEmpty()){
+                    String inAppID = (String) associatedApplicationsList.getSelectedValue();
+                    String inRL = HRApplicantOptions.super.hrCH.getApplicationRLsByApplicationID(inAppID);
+                    GUI.messageBox("Reference Letters", "<html>" + inRL + "</html>");
+                }
+            }
+        });
+
+        associatedApplicationsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                setApplicationDesc();
+                updateButtonEnabled();
+            }
+        });
+
+        applicantList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                setApplicantDesc();
+                updateApplicationList();
+                updateButtonEnabled();
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
             }
         });
 
@@ -38,25 +93,40 @@ HRApplicantOptions extends HRForm {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                dispose();
             }
         });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    private void setApplicantDesc(){
+        String applicantID = (String) this.applicantList.getSelectedValue();
+        String applicantDesc = super.hrCH.getApplicantDescByApplicantID(applicantID);
+        this.applicantLabel.setText(applicantDesc);
     }
 
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
+    private void setApplicationDesc(){
+        String applicationID = (String) this.associatedApplicationsList.getSelectedValue();
+        String applicationDesc = super.hrCH.getApplicationDescByApplicationID(applicationID);
+        this.applicationLabel.setText(applicationDesc);
+    }
+
+    private void updateApplicationList(){
+        String applicantID = (String) this.applicantList.getSelectedValue();
+        List<String> applicationList = super.hrCH.getApplicationIDsByApplicantID(applicantID);
+        this.associatedApplicationsList.setListData(applicationList.toArray());
+        updateButtonEnabled();
+    }
+
+    private void updateApplicantList(){
+        this.applicantList.setListData(super.hrCH.getApplicantIDsByFirmID().toArray());
+        this.applicantList.setSelectedIndex(0);
+    }
+
+    // call whenever associatedApplicationsList is updated or selected.
+    private void updateButtonEnabled(){
+        boolean empty = associatedApplicationsList.isSelectionEmpty();
+        coverLetterButton.setEnabled(!empty);
+        cvButton.setEnabled(!empty);
+        refLetterButton.setEnabled(!empty);
     }
 }

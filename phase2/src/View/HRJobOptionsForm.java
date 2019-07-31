@@ -41,13 +41,17 @@ public class HRJobOptionsForm extends HRForm {
 
         hireButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onHire();
+                String selectedAppID = (String) associatedApplicationsList.getSelectedValue();
+                HRJobOptionsForm.super.hrCH.hireApplicationID(selectedAppID);
+                updateAppList();
             }
         });
 
         rejectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onReject();
+                String selectedAppID = (String) associatedApplicationsList.getSelectedValue();
+                HRJobOptionsForm.super.hrCH.rejectApplicationID(selectedAppID);
+                updateAppList();
             }
         });
 
@@ -101,7 +105,7 @@ public class HRJobOptionsForm extends HRForm {
 
     private void updateAppList(){
         String selectedJobID = (String) this.jobsList.getSelectedValue();
-        this.associatedApplicationsList.setListData(super.hrCH.getApplicationsbyJobID(selectedJobID).toArray());
+        this.associatedApplicationsList.setListData(super.hrCH.getApplicationsIDbyJobID(selectedJobID).toArray());
         this.applicationDescLabel.setText("");
     }
 
@@ -115,17 +119,4 @@ public class HRJobOptionsForm extends HRForm {
         this.updateJobsList();
     }
 
-    // this should remove the job from the jobList? unless there are multiple positions
-    private void onHire(){
-        String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
-        super.hrCH.hireApplicationID(selectedAppID);
-        this.updateAppList();
-    }
-
-    // this should remove that application from the applicationList for that job
-    private void onReject(){
-        String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
-        super.hrCH.rejectApplicationID(selectedAppID);
-        this.updateAppList();
-    }
 }

@@ -5,6 +5,7 @@ import Control.DateRange;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 public class JobPosting implements Serializable {
 
@@ -66,6 +67,11 @@ public class JobPosting implements Serializable {
     private String location;
 
     /**
+     * The list of interview stages set for this job posting
+     */
+    private List<String> interviewStages;
+
+    /**
      *constructor for job postings
      * @param title {@link #jobTitle}
      * @param details - {@link #jobDetails}
@@ -73,7 +79,13 @@ public class JobPosting implements Serializable {
      * @param jobDateRange - contains expiryDate and publishDate
      */
     //TODO code smell: too many paramaters. add daterange object? add location
-    public JobPosting(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){
+    public JobPosting(String title,
+                      String details,
+                      long firmId,
+                      DateRange jobDateRange,
+                      List<String> interviewStages,
+                      Collection<String> hashTags,
+                      String location){
         jobId = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = title;
@@ -82,11 +94,21 @@ public class JobPosting implements Serializable {
         this.publishDate = jobDateRange.getStartDate();
         this.expiryDate = jobDateRange.getEndDate();
         this.hashTags = hashTags;
-        // this.location = location
+        this.location = location;
+        this.interviewStages = interviewStages;
     }
+
+    public List<String> getInterviewStages(){
+        return this.interviewStages;
+    }
+
 
     public String getLocation(){
         return this.location;
+    }
+
+    public String getJobDetails(){
+        return this.jobDetails;
     }
 
     /**
@@ -102,7 +124,7 @@ public class JobPosting implements Serializable {
      * @return
      */
 
-    private boolean isExpired(LocalDate todaysDate){
+    public boolean isExpired(LocalDate todaysDate){
         //condition should be based on today's date
         if(todaysDate.compareTo(expiryDate) > 0){
             return true;

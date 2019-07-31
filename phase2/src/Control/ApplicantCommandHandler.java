@@ -70,8 +70,10 @@ public class ApplicantCommandHandler implements CommandHandler{
     }
 
     /**
-     * This methods returns a list of JobPostings that are open and unapplied
-     * for by this applicant
+     * This methods returns a list of JobPostings that are:
+     * 1. Open
+     * 2. Unapplied For
+     * 3. Are not expired
      * @return list of open & unapplied JobPosting
      */
     private List<JobPosting> getOpenUnappliedJobs(){
@@ -88,8 +90,9 @@ public class ApplicantCommandHandler implements CommandHandler{
                     }
                 }
             }
-            if (!appliedForFlag){
-                openJobs.add(HyreLauncher.getJobsDb().getJobPostingByID(jobID));
+            JobPosting inJob = HyreLauncher.getJobsDb().getJobPostingByID(jobID);
+            if (!appliedForFlag && !inJob.isExpired(HyreLauncher.getDate())){
+                openJobs.add(inJob);
             }
         }
         return openJobs;

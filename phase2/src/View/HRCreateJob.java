@@ -1,6 +1,7 @@
 package View;
 
 import Control.HrCommandHandler;
+import Control.HyreLauncher;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -35,10 +36,17 @@ public class HRCreateJob extends HRJobOptionsForm {
         }
     };
 
+    private List<String> selectedInterviews = new ArrayList<>();
+
     public HRCreateJob(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
+
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Create Job"));
+        for(String interviewType:super.hrCH.getAllInterviewStages()){
+            this.interviewCombo.addItem(interviewType);
+        }
 
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +57,22 @@ public class HRCreateJob extends HRJobOptionsForm {
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
+            }
+        });
+
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedInterview = (String) interviewCombo.getSelectedItem();
+                selectedInterviews.add(selectedInterview);
+                interviewList.setListData(selectedInterviews.toArray());
+            }
+        });
+
+        removeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedInterview = (String) interviewList.getSelectedValue();
+                selectedInterviews.remove(selectedInterview);
+                interviewList.setListData(selectedInterviews.toArray());
             }
         });
 
@@ -66,20 +90,13 @@ public class HRCreateJob extends HRJobOptionsForm {
         String jobTitle = this.jobTitleText.getText();
         String jobDesc = this.jobDescriptionText.getText();
         String jobLocation = this.jobLocationText.getText();
-        List<String> interviewList = new ArrayList<>();
-        for (Object obj: this.interviewList.getSelectedValuesList()){
-            interviewList.add((String) obj);
-        }
         List<String> tags = new ArrayList<>();
         for (JCheckBox checkBox:checkBoxtagsLink.keySet()){
             if (checkBox.isSelected()){
                 tags.add(checkBoxtagsLink.get(checkBox));
             }
         }
-        this.appCH
-
-
-
+        super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), HyreLauncher.getDate(),
+                tags, this.selectedInterviews, jobLocation);
     }
-
 }

@@ -1,73 +1,131 @@
 package View;
 
 import Control.HrCommandHandler;
-import Model.JobApplication;
-import Model.JobPosting;
-
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.List;
 
 public class HRJobOptionsForm extends HRForm {
     private JPanel contentPane;
     private JList jobsList;
     private JList associatedApplicationsList;
-    private JButton creatJobButton;
+    private JButton createJobButton;
     private JButton hireButton;
     private JButton rejectButton;
     private JButton exitButton;
-
-    private HrCommandHandler hrCH;
-    private HashMap<String, JobPosting> jobListLink = new HashMap<>();
-    private HashMap<String, JobApplication> jobApplicationListLink = new HashMap<>();
+    private JLabel jobDescLabel;
+    private JLabel applicationDescLabel;
 
     public HRJobOptionsForm(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
+        this.setAlwaysOnTop(true);
 
         this.jobsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.jobsList.setLayoutOrientation(JList.VERTICAL);
         this.associatedApplicationsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.associatedApplicationsList.setLayoutOrientation(JList.VERTICAL);
 
-        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " Job Options"));
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Job Options"));
+        this.updateJobsList();
+        this.updateAppList();
 
 
-//        buttonOK.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//
-//            }
-//        });
-//
-//        buttonCancel.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//
-//            }
-//        });
+        createJobButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createJob();
+            }
+        });
 
-        // call onCancel() when cross is clicked
+        hireButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onHire();
+            }
+        });
+
+        rejectButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onReject();
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        jobsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                updateAppList();
+                setJobsDesc();
+            }
+        });
+
+        associatedApplicationsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                setAppDesc();
+            }
+        });
+
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
             }
         });
-
     }
 
-    private void updateForm(){
-        //get jobs, list out jobs for each application
-         List<JobPosting> inJobs = this.hrCH.getOpenJobs();
-        for (JobPosting job: inJobs){
-            jobListLink.put(job.toString(), job);
-        }
-        this.jobsList.setListData(jobListLink.keySet().toArray());
+    private void setJobsDesc(){
+        String jobID = (String) this.jobsList.getSelectedValue();
+        String jobDesc = super.hrCH.getJobPostingDesc(jobID);
+        this.jobDescLabel.setText(jobDesc);
+    }
+
+    private void setAppDesc(){
+        String appID = (String) this.associatedApplicationsList.getSelectedValue();
+        String appDesc = super.hrCH.getJobApplicationPrintout(appID);
+        this.applicationDescLabel.setText(appDesc);
+    }
+
+    private void updateJobsList(){
+        this.jobsList.setListData(super.hrCH.getOpenJobsList().toArray());
         this.jobsList.setSelectedIndex(0);
-        JobPosting selectedJob = jobListLink.get(this.jobsList.getSelectedValue());
-
-
+        this.setJobsDesc();
+        this.updateAppList();
     }
 
+    private void updateAppList(){
+        String selectedJobID = (String) this.jobsList.getSelectedValue();
+        this.associatedApplicationsList.setListData(super.hrCH.getApplicationsbyJobID(selectedJobID).toArray());
+        this.applicationDescLabel.setText("");
+    }
+
+    private void createJob(){
+        HRCreateJob createJob = new HRCreateJob(super.hrCH);
+        this.setAlwaysOnTop(false);
+        createJob.setAlwaysOnTop(true);
+        createJob.pack();
+        createJob.setVisible(true);
+        this.setAlwaysOnTop(true);
+        this.updateJobsList();
+    }
+
+    // this should remove the job from the jobList? unless there are multiple positions
+    private void onHire(){
+        String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
+        super.hrCH.hireApplicationID(selectedAppID);
+        this.updateAppList();
+    }
+
+    // this should remove that application from the applicationList for that job
+    private void onReject(){
+        String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
+        super.hrCH.rejectApplicationID(selectedAppID);
+        this.updateAppList();
+    }
 }

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable{
 
@@ -31,8 +32,9 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @see JobPosting#JobPosting(String, String, long, LocalDate, LocalDate, Collection)
      */
     //TODO change to addJobPosting
-    public void addJob(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags){
-        addItem(new JobPosting(title, details, firmId, jobDateRange, hashTags));
+    public void addJob(String title, String details, long firmId, DateRange jobDateRange, Collection<String> hashTags,
+                       List<String> interviewStages, String location){
+        addItem(new JobPosting(title, details, firmId, jobDateRange, interviewStages, hashTags, location));
     }
 
     /**

@@ -48,7 +48,7 @@ public class HRCreateJob extends HRJobOptionsForm {
         {
             put(CVCheckBox, "CV");
             put(coverLetterCheckBox, "Cover Letter");
-            put(referenceLetterCheckBox, "Reference Letter");
+            put(referenceLetterCheckBox, "Reference Letters");
         }
     };
 

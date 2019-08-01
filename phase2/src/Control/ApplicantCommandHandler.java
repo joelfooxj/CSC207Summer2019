@@ -1,5 +1,6 @@
 package Control;
 
+import Model.requiredDocs;
 import Model.JobApplication;
 import Model.JobPosting;
 import Model.UserCredentials;
@@ -8,7 +9,6 @@ import View.GUI;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -39,6 +39,19 @@ public class ApplicantCommandHandler implements CommandHandler{
             locationSet.add(job.getLocation());
         }
         return List.copyOf(locationSet);
+    }
+
+    public List<String> checkJobAppRequiredDocs(String inJobAppID){
+        JobApplication inJobApp = this.getApplication(inJobAppID);
+        List<requiredDocs> inDocs = inJobApp.getRequiredDocs();
+        List<String> retList = new ArrayList<>();
+        if (inDocs.contains(requiredDocs.COVERLETTER)){
+            retList.add("Cover Letter");
+        }
+        if(inDocs.contains(requiredDocs.CV)){
+            retList.add("CV");
+        }
+        return retList;
     }
 
     // todo: encapsulate these getters and setters into its own class and send to GUI
@@ -151,11 +164,12 @@ public class ApplicantCommandHandler implements CommandHandler{
     public void applyForJobs(List<String> jobIDs){
         for (String jobID: jobIDs){
             long inputFirmID = HyreLauncher.getJobsDb().getItemByID(Long.parseLong(jobID)).getFirmId();
+            List<requiredDocs> docsList = HyreLauncher.getJobsDb().getItemByID(Long.parseLong(jobID)).getRequiredDocs();
             HyreLauncher.getAppsDb().addApplication(
                     this.applicantID,
                     Long.parseLong(jobID),
                     inputFirmID,
-                    HyreLauncher.getDate());
+                    HyreLauncher.getDate(), docsList);
         }
     }
 

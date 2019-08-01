@@ -25,16 +25,12 @@ public class HRApplicantOptions extends HRForm {
         setContentPane(contentPane);
         setModal(true);
 
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Applicant Options"));
         this.applicantList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.applicantList.setLayoutOrientation(JList.VERTICAL);
         this.associatedApplicationsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.associatedApplicationsList.setLayoutOrientation(JList.VERTICAL);
-
-        this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Applicant Options"));
         updateApplicantList();
-        updateApplicationList();
-        updateButtonEnabled();
-
 
         cvButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -70,7 +66,7 @@ public class HRApplicantOptions extends HRForm {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 setApplicationDesc();
-                updateButtonEnabled();
+                checkRequiredButtonEnable();
             }
         });
 
@@ -79,7 +75,6 @@ public class HRApplicantOptions extends HRForm {
             public void valueChanged(ListSelectionEvent e) {
                 setApplicantDesc();
                 updateApplicationList();
-                updateButtonEnabled();
             }
         });
 
@@ -111,22 +106,38 @@ public class HRApplicantOptions extends HRForm {
     }
 
     private void updateApplicationList(){
+        disableButtons();
         String applicantID = (String) this.applicantList.getSelectedValue();
         List<String> applicationList = super.hrCH.getApplicationIDsByApplicantID(applicantID);
-        this.associatedApplicationsList.setListData(applicationList.toArray());
-        updateButtonEnabled();
+        if (applicationList.isEmpty()){
+                this.applicationLabel.setText("This applicant has not applied for any jobs.");
+        } else{
+            this.associatedApplicationsList.setListData(applicationList.toArray());
+        }
+
     }
 
     private void updateApplicantList(){
-        this.applicantList.setListData(super.hrCH.getApplicantIDsByFirmID().toArray());
-        this.applicantList.setSelectedIndex(0);
+        disableButtons();
+        List<String> applicantList = super.hrCH.getApplicantIDsByFirmID();
+        if (applicantList.isEmpty()){
+            this.applicantLabel.setText("There are no applicants.");
+        } else{
+            this.applicantList.setListData(applicantList.toArray());
+        }
     }
 
-    // call whenever associatedApplicationsList is updated or selected.
-    private void updateButtonEnabled(){
-        boolean empty = associatedApplicationsList.isSelectionEmpty();
-        coverLetterButton.setEnabled(!empty);
-        cvButton.setEnabled(!empty);
-        refLetterButton.setEnabled(!empty);
+    private void disableButtons(){
+        coverLetterButton.setEnabled(false);
+        cvButton.setEnabled(false);
+        refLetterButton.setEnabled(false);
+    }
+
+    private void checkRequiredButtonEnable(){
+        String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
+        List<String> inDocs = this.hrCH.checkJobAppRequiredDocs(selectedAppID);
+        coverLetterButton.setEnabled(inDocs.contains("Cover Letter"));
+        cvButton.setEnabled(inDocs.contains("CV"));
+        refLetterButton.setEnabled(inDocs.contains("Reference Letters"));
     }
 }

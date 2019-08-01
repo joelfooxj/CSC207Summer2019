@@ -1,9 +1,6 @@
 package Control;
 
-import Model.JobApplication;
-import Model.JobPosting;
-import Model.SearchBy;
-import Model.UserCredentials;
+import Model.*;
 import View.GUI;
 
 import java.time.LocalDate;
@@ -19,6 +16,15 @@ public class HrCommandHandler implements CommandHandler {
             "Group",
             "Phone",
             "Technical");
+
+    // todo: replace with requireDocs enum?
+    private HashMap<String, requiredDocs> stringDocsHashMap = new HashMap<>(){
+        {
+            put("CV", requiredDocs.CV);
+            put("Cover Letter", requiredDocs.COVERLETTER);
+            put("Reference Letters", requiredDocs.REFERENCELETTERS);
+        }
+    };
 
     public HrCommandHandler(UserCredentials hrUser){
         this.username = hrUser.getUserName();
@@ -192,6 +198,22 @@ public class HrCommandHandler implements CommandHandler {
         return inApp.toString();
     }
 
+    public List<String> checkJobAppRequiredDocs(String inJobAppID){
+        JobApplication inJobApp = this.getJobAppByApplicationID(inJobAppID);
+        List<requiredDocs> inDocs = inJobApp.getRequiredDocs();
+        List<String> retList = new ArrayList<>();
+        if (inDocs.contains(requiredDocs.COVERLETTER)){
+            retList.add("Cover Letter");
+        }
+        if(inDocs.contains(requiredDocs.CV)){
+            retList.add("CV");
+        }
+        if(inDocs.contains(requiredDocs.REFERENCELETTERS)){
+            retList.add("Reference Letters");
+        }
+        return retList;
+    }
+
     /**
      * This method sets the selected JobApplication to hired.
      * If the JobPosting associated with this JobApplication has filled its required
@@ -229,8 +251,12 @@ public class HrCommandHandler implements CommandHandler {
             List<String> skills,
             List<String> docs
     ){
+        List<requiredDocs> docsList = new ArrayList<>();
+        for (String doc: docs) {
+            docsList.add(stringDocsHashMap.get(doc));
+        }
         DateRange newRange = new DateRange(todaysDate, todaysDate.plusDays(this.JOBLIFESPAN));
         HyreLauncher.getJobsDb().addJob(title, details, Long.parseLong(firmID), numLabour, location, newRange,
-                hashTags, interviewStages, skills, docs);
+                hashTags, interviewStages, skills, docsList);
     }
 }

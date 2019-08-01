@@ -4,9 +4,7 @@ import Control.DateRange;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class JobPosting implements Serializable {
 
@@ -74,7 +72,14 @@ public class JobPosting implements Serializable {
     // todo: add stuff for these new attributes
     private List<String> skills;
 
-    private String documentation;
+    private List<requiredDocs> setDocs;
+    private HashMap<Model.requiredDocs, String> printDocsHashMap = new HashMap<>(){
+        {
+            put(requiredDocs.COVERLETTER, "Cover Letter");
+            put(requiredDocs.CV, "CV");
+            put(requiredDocs.REFERENCELETTERS, "Reference Letters");
+        }
+    };
 
     /**
      *constructor for job postings
@@ -90,7 +95,7 @@ public class JobPosting implements Serializable {
     //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
                       DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
-                      List<String> skills){
+                      List<String> skills, List<Model.requiredDocs> docs){
         jobId = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = title;
@@ -104,7 +109,7 @@ public class JobPosting implements Serializable {
         this.location = location;
         this.interviewStages = interviewStages;
         this.skills = skills;
-        // this.documentation = ...
+        this.setDocs = docs;
     }
 
     public List<String> getInterviewStages(){
@@ -155,10 +160,15 @@ public class JobPosting implements Serializable {
 
     @Override
     public String toString(){
+        List<String> printDocs = new ArrayList<>();
+        for (Model.requiredDocs doc:this.setDocs){
+            printDocs.add(printDocsHashMap.get(doc));
+        }
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
                 jobDetails + "\n" + "Positions Available: " + numberOfPositions + "\n" +
                 "Date Published: " + publishDate + "\n" + "Deadline to apply: " + expiryDate + "\n"
-                + "HashTags: " + hashTags + "\n" + "Skills Required: " + skills;
+                + "HashTags: " + hashTags + "\n" + "Skills Required: " + skills + "\n" + "Required requiredDocs: "
+                + printDocs;
     }
 
     /**
@@ -182,6 +192,8 @@ public class JobPosting implements Serializable {
     }
 
     public String getLocation(){return location;}
+
+    public List<requiredDocs> getRequiredDocs(){ return this.setDocs; }
 
     /**
      * Checks whether all of the hashtags being searched for are contained in the hashtags

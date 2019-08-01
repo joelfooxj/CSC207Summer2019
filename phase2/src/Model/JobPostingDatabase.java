@@ -33,8 +33,11 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @see JobPosting#JobPosting(String, String, long, long, String, DateRange, List, Collection)
      */
     //TODO change to addJobPosting
-    public void addJob(String title, String details, long firmId, long numsLabourRequired, String location, DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags){
-        addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, interviewStages, hashTags));
+    public void addJob(String title, String details, long firmId, long numsLabourRequired, String location,
+                       DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
+                       List<String> skillList, List<requiredDocs> docsList){
+        addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, interviewStages,
+                hashTags, skillList, docsList));
     }
 
     /**

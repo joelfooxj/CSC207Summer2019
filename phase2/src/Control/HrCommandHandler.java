@@ -192,6 +192,12 @@ public class HrCommandHandler implements CommandHandler {
         return inApp.toString();
     }
 
+    /**
+     * This method sets the selected JobApplication to hired.
+     * If the JobPosting associated with this JobApplication has filled its required
+     * number of positions, it will be closed.
+     * @param appID: the ID associated to the JobApplication to be hired
+     */
     public void hireApplicationID(String appID){
         JobApplication inApp = HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(appID));
         JobPosting inJob = HyreLauncher.getJobsDb().getJobPostingByID(inApp.getJobID());
@@ -219,10 +225,12 @@ public class HrCommandHandler implements CommandHandler {
             Long numLabour,
             List<String> hashTags,
             List<String> interviewStages,
-            String location
+            String location,
+            List<String> skills,
+            List<String> docs
     ){
         DateRange newRange = new DateRange(todaysDate, todaysDate.plusDays(this.JOBLIFESPAN));
         HyreLauncher.getJobsDb().addJob(title, details, Long.parseLong(firmID), numLabour, location, newRange,
-                hashTags, interviewStages);
+                hashTags, interviewStages, skills, docs);
     }
 }

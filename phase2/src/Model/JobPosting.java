@@ -72,7 +72,7 @@ public class JobPosting implements Serializable {
     private List<String> interviewStages;
 
     // todo: add stuff for these new attributes
-    private String skills;
+    private List<String> skills;
 
     private String documentation;
 
@@ -89,7 +89,8 @@ public class JobPosting implements Serializable {
      */
     //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
-                      DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags){
+                      DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
+                      List<String> skills){
         jobId = numberOfJobs;
         numberOfJobs ++;
         this.jobTitle = title;
@@ -102,6 +103,8 @@ public class JobPosting implements Serializable {
         this.hashTags = hashTags;
         this.location = location;
         this.interviewStages = interviewStages;
+        this.skills = skills;
+        // this.documentation = ...
     }
 
     public List<String> getInterviewStages(){
@@ -155,7 +158,7 @@ public class JobPosting implements Serializable {
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
                 jobDetails + "\n" + "Positions Available: " + numberOfPositions + "\n" +
                 "Date Published: " + publishDate + "\n" + "Deadline to apply: " + expiryDate + "\n"
-                + "HashTags: " + hashTags;
+                + "HashTags: " + hashTags + "\n" + "Skills Required: " + skills;
     }
 
     /**

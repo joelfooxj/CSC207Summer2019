@@ -26,8 +26,8 @@ public class HRCreateJob extends HRJobOptionsForm {
     private JButton addInterviewButton;
     private JButton removeInterviewButton;
     private JSpinner numLabourSpinner;
-    private JList list1;
     private JTextField skillText;
+    private JList skillList;
     private JButton removeSkillButton;
     private JButton addSkillButton;
     private JCheckBox CVCheckBox;
@@ -36,15 +36,24 @@ public class HRCreateJob extends HRJobOptionsForm {
 
     private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<>(){
         {
-            put(fullTimeCheckBox, "fulltime");
-            put(partTimeCheckBox, "parttime");
-            put(flexWorkCheckBox, "flexwork");
-            put(techCheckBox, "tech");
-            put(financeCheckBox, "finance");
+            put(fullTimeCheckBox, "Full-Time");
+            put(partTimeCheckBox, "Part-time");
+            put(flexWorkCheckBox, "Flex-work");
+            put(techCheckBox, "Tech");
+            put(financeCheckBox, "Finance");
+        }
+    };
+
+    private HashMap<JCheckBox, String> checkBoxDocsLink = new HashMap<>(){
+        {
+            put(CVCheckBox, "CV");
+            put(coverLetterCheckBox, "Cover Letter");
+            put(referenceLetterCheckBox, "Reference Letter");
         }
     };
 
     private List<String> selectedInterviews = new ArrayList<>();
+    private List<String> selectedSkills = new ArrayList<>();
 
     public HRCreateJob(HrCommandHandler inHRCH) {
         super(inHRCH);
@@ -84,6 +93,24 @@ public class HRCreateJob extends HRJobOptionsForm {
             }
         });
 
+        addSkillButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedSkill = skillText.getText();
+                selectedSkills.add(selectedSkill);
+                skillList.setListData(selectedSkills.toArray());
+
+            }
+        });
+
+        removeSkillButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedSkill = (String) skillList.getSelectedValue();
+                selectedSkills.add(selectedSkill);
+                skillList.setListData(selectedSkills.toArray());
+
+            }
+        });
+
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -104,9 +131,15 @@ public class HRCreateJob extends HRJobOptionsForm {
                 tags.add(checkBoxtagsLink.get(checkBox));
             }
         }
+        List<String> docs = new ArrayList<>();
+        for (JCheckBox checkBox:checkBoxDocsLink.keySet()){
+            if(checkBox.isSelected()){
+                docs.add(checkBoxDocsLink.get(checkBox));
+            }
+        }
         Long numLabour = Long.parseLong((String) this.numLabourSpinner.getValue());
         super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), HyreLauncher.getDate(), numLabour, tags,
-                this.selectedInterviews, jobLocation);
+                this.selectedInterviews, jobLocation, this.selectedSkills, docs);
     }
 
     private void createUIComponents() {

@@ -201,7 +201,7 @@
               </grid>
             </constraints>
             <properties>
-              <selectionMode value="2"/>
+              <selectionMode value="0"/>
             </properties>
           </component>
           <grid id="68727" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -263,14 +263,14 @@
               <text value="Add/Remove Skills Required:"/>
             </properties>
           </component>
-          <component id="88e52" class="javax.swing.JList" binding="list1" default-binding="true">
+          <component id="88e52" class="javax.swing.JList" binding="skillList">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="50"/>
               </grid>
             </constraints>
             <properties>
-              <selectionMode value="2"/>
+              <selectionMode value="0"/>
             </properties>
           </component>
           <grid id="a1fe4" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

@@ -38,7 +38,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         for (JobPosting job: this.getOpenUnappliedJobs()){
             locationSet.add(job.getLocation());
         }
-        return List.copyOf(locationSet);
+        return new ArrayList<>(locationSet);
     }
 
     public List<String> checkJobAppRequiredDocs(String inJobAppID){

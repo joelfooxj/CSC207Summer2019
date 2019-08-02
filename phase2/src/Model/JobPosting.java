@@ -73,7 +73,7 @@ public class JobPosting implements Serializable {
     private List<String> skills;
 
     private List<requiredDocs> setDocs;
-    private HashMap<Model.requiredDocs, String> printDocsHashMap = new HashMap<>(){
+    private HashMap<Model.requiredDocs, String> printDocsHashMap = new HashMap<Model.requiredDocs, String>(){
         {
             put(requiredDocs.COVERLETTER, "Cover Letter");
             put(requiredDocs.CV, "CV");

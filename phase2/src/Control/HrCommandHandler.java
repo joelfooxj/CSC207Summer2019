@@ -18,7 +18,7 @@ public class HrCommandHandler implements CommandHandler {
             "Technical");
 
     // todo: replace with requireDocs enum?
-    private HashMap<String, requiredDocs> stringDocsHashMap = new HashMap<>(){
+    private HashMap<String, requiredDocs> stringDocsHashMap = new HashMap<String, requiredDocs>(){
         {
             put("CV", requiredDocs.CV);
             put("Cover Letter", requiredDocs.COVERLETTER);
@@ -31,6 +31,8 @@ public class HrCommandHandler implements CommandHandler {
         this.firmID = String.valueOf(hrUser.getFirmId());
         GUI.hrForm(this);
     }
+
+
 
     public List<String> getAllInterviewStages(){
         return this.allInterviewStages;

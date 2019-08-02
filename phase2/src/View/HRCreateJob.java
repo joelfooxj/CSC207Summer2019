@@ -34,7 +34,7 @@ public class HRCreateJob extends HRJobOptionsForm {
     private JCheckBox referenceLetterCheckBox;
     private JCheckBox coverLetterCheckBox;
 
-    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<>(){
+    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>(){
         {
             put(fullTimeCheckBox, "Full-Time");
             put(partTimeCheckBox, "Part-time");
@@ -44,7 +44,7 @@ public class HRCreateJob extends HRJobOptionsForm {
         }
     };
 
-    private HashMap<JCheckBox, String> checkBoxDocsLink = new HashMap<>(){
+    private HashMap<JCheckBox, String> checkBoxDocsLink = new HashMap<JCheckBox, String>(){
         {
             put(CVCheckBox, "CV");
             put(coverLetterCheckBox, "Cover Letter");

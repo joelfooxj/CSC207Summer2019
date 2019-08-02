@@ -18,7 +18,7 @@ public class Login extends JDialog {
 
     public UserCredentials retUser;
 
-    private HashMap<String, UserCredentials.userTypes> stringEnumLink = new HashMap<>(){
+    private HashMap<String, UserCredentials.userTypes> stringEnumLink = new HashMap<String, UserCredentials.userTypes>(){
         {
             put("Applicant", UserCredentials.userTypes.APPLICANT);
             put("Interviewer", UserCredentials.userTypes.INTERVIEWER);

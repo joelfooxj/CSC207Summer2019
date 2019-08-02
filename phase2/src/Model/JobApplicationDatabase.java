@@ -97,31 +97,8 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         return jobApplicationList;
     }
 
-    // Print a list of applications with the same application id and firm id
-    public void printApplicationsByApplicantID(long applicationId, long firmId){
-        for (Long i = 0L; i<super.getCurrID();i++){
-            JobApplication item = super.getItemByID(i);
-            if (item.getApplicantID() == applicationId && item.getFirmID()==firmId){
-                System.out.println(item.toString());
-            }
-        }
-    }
-
-    // prints applications that are not closed (filled/expired)
-    // this will be called when the HR wants to set up an interview
-    // An application is open when it is open and the person hasn't been hired yet
-    public void printOpenApplicationsByJobID(long jobID) {
-        StringBuilder allApplication = new StringBuilder();
-        for (Long i = 0L;i <super.getCurrID();i++){
-            JobApplication item = super.getItemByID(i);
-            if (item.getJobID() == jobID && item.isOpen() && !item.isSuccessful())
-                allApplication.append(item.toString() +"; ");
-        }
-        System.out.println(allApplication);
-    }
-
     // I check isOpen() and isHired().  Note if the hire() method is called, isOpen() will be set to false
-    public List<Long> getOpenAppIdsByJob(Long jobId) {
+    public List<Long> getOpenApplicationIdsByJob(Long jobId) {
         List<Long> idList = new ArrayList<>();
         for (JobApplication app : this.getAllApplications()) {
             if (app.isOpen() && app.getJobID() == jobId) {

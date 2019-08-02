@@ -32,6 +32,8 @@ public class HrCommandHandler implements CommandHandler {
         GUI.hrForm(this);
     }
 
+
+
     public List<String> getAllInterviewStages(){
         return this.allInterviewStages;
     }

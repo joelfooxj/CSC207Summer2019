@@ -48,6 +48,21 @@ public class RefererForm extends ApplicationByUserForm {
         frameRef.setPreferredSize(new Dimension(500, 500));
         frameRef.setVisible(true);
 
+        buttonSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                RefererForm.super.getRch().addReferenceLetter(app, referenceLetter.getText());
+                System.exit(0);
+            }
+        });
+
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
+
     }
 
 //    public static void main(String[] args) {

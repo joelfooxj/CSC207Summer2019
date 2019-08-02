@@ -24,6 +24,7 @@ public abstract class ApplicationByUserForm {
     private JList<UserCredentials> userCredentialsJList = new JList<>();
 
     private JScrollPane appOptions = new JScrollPane();
+    private JTextField textField1;
     private JList<JobApplication> jobApplicationJList = new JList<>();
 
     private JTextArea showDetails = new JTextArea(5, 20);

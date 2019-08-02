@@ -8,11 +8,15 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
     private long currID = 0;
 
     //added to deal with case when database is empty
+//    public boolean isEmpty(){
+//        if(data.isEmpty()){
+//            return true;
+//        }
+//        return false;
+//    }
+
     public boolean isEmpty(){
-        if(data.isEmpty()){
-            return true;
-        }
-        return false;
+        return data.isEmpty();
     }
 
     @Override
@@ -74,14 +78,18 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
         private long current = 0;
 
         @Override
-        public boolean hasNext() {
-            if(current<data.size()){
-                return true;
-            }
-            else{
-                return false;
-            }
+//        public boolean hasNext() {
+//            if(current<data.size()){
+//                return true;
+//            }
+//            else{
+//                return false;
+//            }
+//        }
+        public boolean hasNext(){
+            return current<data.size();
         }
+
 
         @Override
         public T next(){

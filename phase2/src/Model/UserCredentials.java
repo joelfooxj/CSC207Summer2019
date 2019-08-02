@@ -23,7 +23,15 @@ public class UserCredentials implements Serializable, Observer {
     REFERER
   }
 
-  // for the HR & interviwers
+  // this constructor is only for the HR & interviewers
+  /**
+   *
+   * @param userName: the login username of the HR/ interviewer (applicant does NOT use this constructor)
+   * @param password: the password of the account
+   * @param type: the type of the user. It is either HR or interviewer
+   * @param firmId: the firm ID of the company that that user works in
+   * @param userId: the unique ID of this user (this is NOT the log in username)
+   */
   public UserCredentials(String userName, String password, userTypes type, long firmId, long userId) {
     this.userName = userName;
     this.password = password;
@@ -32,7 +40,15 @@ public class UserCredentials implements Serializable, Observer {
     this.userId = userId;
   }
 
-  // for the applicants
+  // this constructor is only for the applicants
+  /**
+   *
+   * @param userName: the login username of the applicant (HR& interviewer do NOT use this constructor)
+   * @param password: the password of this account
+   * @param type: the type of the user, which is applicant
+   * @param creationDate: the creation date of this applicant account
+   * @param userId: the unique ID of this applicant (this is NOT the log in username)
+   */
   public UserCredentials(String userName, String password, userTypes type, LocalDate creationDate, long userId) {
     this.userName = userName;
     this.password = password;

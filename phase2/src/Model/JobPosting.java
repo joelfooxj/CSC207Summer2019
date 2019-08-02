@@ -135,12 +135,13 @@ public class JobPosting implements Serializable {
 
     public boolean isExpired(LocalDate todaysDate){
         //condition should be based on today's date
-        if(todaysDate.compareTo(expiryDate) > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+//        if(todaysDate.compareTo(expiryDate) > 0){
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
+        return todaysDate.compareTo(expiryDate) > 0;
     }
 
     /**
@@ -205,12 +206,13 @@ public class JobPosting implements Serializable {
         searchHashTags = (HashSet<String>) searchHashTags.clone();
         Integer startSize = searchHashTags.size();
         searchHashTags.retainAll(hashTags);
-        if(startSize.equals(searchHashTags.size())){
-            return true;
-        }
-        else{
-            return false;
-        }
+//        if(startSize.equals(searchHashTags.size())){
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
+        return startSize.equals(searchHashTags.size());
     }
 
 }

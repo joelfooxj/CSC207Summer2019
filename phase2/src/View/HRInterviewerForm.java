@@ -8,48 +8,29 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
-public class HRInterviewerForm {
-    private JFrame frame = new JFrame();
-    private JPanel panel = new JPanel();
-    private JScrollPane jobPane = new JScrollPane();
+public class HRInterviewerForm extends HRForm {
+    private JPanel panel;
+    private JScrollPane jobPane;
     private JList<JobPosting> jobPostingJList = new JList<>();
-    private JScrollPane appPane = new JScrollPane();
+    private JScrollPane appPane;
     private JList<JobApplication> jobApplicationJList = new JList<>();
-    private JTextArea detailedApp = new JTextArea();
-    private JButton buttonChooseInterviewer = new JButton("Choose Interviewer");
+    private JTextArea detailedApp;
+    private JButton buttonChooseInterviewer;
     private JButton buttonExit;
 
     private HrCommandHandler hrCH;
 
 
     public HRInterviewerForm(HrCommandHandler inHRCH) {
+        super(inHRCH);
+        setContentPane(panel);
+        setModal(true);
         this.hrCH = inHRCH;
-        setupGUI();
         setupAttributes();
         this.panel.setBorder(BorderFactory.createTitledBorder("Interviewer Assignment Options"));
-
-    }
-
-    private void setupGUI() {
-        frame.add(panel);
-        panel.add(jobPane);
-        panel.add(appPane);
-        panel.add(detailedApp);
-        panel.add(buttonChooseInterviewer);
-        panel.add(buttonExit);
-
-        ArrayList<JobPosting> jobs = this.hrCH.filterJobPosting(new HashMap<String, String>() {{
-            put("firm", hrCH.getFirmID());
-        }});
-        JobPosting[] jobArr = jobs.toArray(new JobPosting[jobs.size()]);
-        jobPostingJList = new JList<>(jobArr);
-        jobPane.setViewportView(jobPostingJList);
-
-        frame.setPreferredSize(new Dimension(550, 600));
-        frame.setVisible(true);
     }
 
     private void setupAttributes() {
@@ -85,7 +66,7 @@ public class HRInterviewerForm {
 
     private void onJobSelection() {
         Long firm = Long.parseLong(this.hrCH.getFirmID());
-        ArrayList<JobApplication> jobList = this.hrCH.filterJobPosting(new HashMap<String, Long>() {{
+        List<JobPosting> jobList = this.hrCH.filterJobPosting(new HashMap<String, Long>() {{
             put("firm", firm);
         }});
         JobApplication[] jobArr = jobList.toArray(new JobApplication[jobList.size()]);
@@ -94,7 +75,6 @@ public class HRInterviewerForm {
         jobApplicationJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         jobApplicationJList.setVisibleRowCount(-1);
         appPane.setViewportView(jobApplicationJList);
-        frame.setVisible(true);
     }
 
     private void onAppSelection(JobApplication app) {
@@ -105,7 +85,7 @@ public class HRInterviewerForm {
         JFrame frameRef = new JFrame("Enter Reference Letter");
         JPanel panelRef = new JPanel();
         String firmID = this.hrCH.getFirmID();
-        ArrayList<UserCredentials> interviewerArrayList = this.hrCH.filterUserCredentials(new HashMap<String, String>() { {
+        List<UserCredentials> interviewerArrayList = this.hrCH.filterUserCredentials(new HashMap<String, String>() { {
             put("firm", firmID);
             put("accounttype", UserCredentials.userTypes.INTERVIEWER.name());
         }});

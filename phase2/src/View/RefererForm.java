@@ -12,7 +12,6 @@ public class RefererForm extends ApplicationByUserForm {
 
     public RefererForm(RefererCommandHandler rch) {
         super(rch, "Add Reference Letter");
-        setupAttributes();
     }
 
     public void setupAttributes() {

@@ -261,4 +261,8 @@ public class HrCommandHandler implements CommandHandler {
         HyreLauncher.getJobsDb().addJob(title, details, Long.parseLong(firmID), numLabour, location, newRange,
                 hashTags, interviewStages, skills, docsList);
     }
+
+    public void assignInterviewer(JobApplication application, UserCredentials interviewer) {
+        application.setUpInterview(interviewer.getUserID());
+    }
 }

@@ -215,4 +215,10 @@ public class JobPosting implements Serializable {
         return startSize.equals(searchHashTags.size());
     }
 
+
+    //Jacob's Change
+
+    public Collection<String> getHashTags() {
+        return hashTags;
+    }
 }

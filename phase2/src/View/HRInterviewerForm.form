@@ -14,7 +14,12 @@
         </constraints>
         <properties/>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="a8204" class="javax.swing.JList" binding="jobPostingJList">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
       </scrollpane>
       <scrollpane id="a1756" binding="appPane">
         <constraints>
@@ -22,7 +27,12 @@
         </constraints>
         <properties/>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="88dcf" class="javax.swing.JList" binding="jobApplicationJList">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
       </scrollpane>
       <component id="ba804" class="javax.swing.JTextArea" binding="detailedApp">
         <constraints>

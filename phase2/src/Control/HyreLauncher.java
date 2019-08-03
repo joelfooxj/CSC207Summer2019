@@ -65,11 +65,7 @@ public class HyreLauncher {
             currentUser = GUI.loginForm();
             CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
 
-            // TODO: Is this necessary? Since the UI is a dropdown menu
-//            if (commandHandler == null){
-//                GUI.messageBox("Invalid user type");
-//                continue;
-//            }
+
 
             boolean willOverwrite = GUI.yesNoForm("Do you want to overwrite the default test setup? (y/n): ");
             if (!willOverwrite) {

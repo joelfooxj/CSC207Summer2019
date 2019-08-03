@@ -7,8 +7,13 @@ public class SaveFilesHandler {
     private String jobsDbPath = "Jobs.bin";
     private String usersDbPath = "Users.bin";
     private String firmDbPath = "Firms.bin";
-
+    private SessionData sessionData;
     private String pathToSource = "";
+
+
+    public SaveFilesHandler(SessionData sessionData){
+        this.sessionData = sessionData;
+    }
 
     /** changes the links to the saved files
      *  any read/write operation will occur in the user's save files
@@ -34,10 +39,10 @@ public class SaveFilesHandler {
      * @throws IOException
      */
     private void saveAll() throws IOException {
-        HyreLauncher.getAppsDb().saveDatabase(applicationsDbPath);
-        HyreLauncher.getJobsDb().saveDatabase(jobsDbPath);
-        HyreLauncher.getUsersDb().saveDatabase(usersDbPath);
-        HyreLauncher.getFirmsDb().saveDatabase(firmDbPath);
+        sessionData.appsDb.saveDatabase(applicationsDbPath);
+        sessionData.jobsDb.saveDatabase(jobsDbPath);
+        sessionData.usersDb.saveDatabase(usersDbPath);
+        sessionData.firmsDb.saveDatabase(firmDbPath);
     }
 
     /** loads saved data
@@ -46,10 +51,10 @@ public class SaveFilesHandler {
      * @throws ClassNotFoundException
      */
     private void readAll() throws IOException, ClassNotFoundException {
-        HyreLauncher.getAppsDb().readDatabase(applicationsDbPath);
-        HyreLauncher.getJobsDb().readDatabase(jobsDbPath);
-        HyreLauncher.getUsersDb().readDatabase(usersDbPath);
-        HyreLauncher.getFirmsDb().readDatabase(firmDbPath);
+        sessionData.appsDb.readDatabase(applicationsDbPath);
+        sessionData.jobsDb.readDatabase(jobsDbPath);
+        sessionData.usersDb.readDatabase(usersDbPath);
+        sessionData.firmsDb.readDatabase(firmDbPath);
     }
 
 

@@ -78,5 +78,7 @@ public class GUI{
 
     public static void refererForm(RefererCommandHandler commandHandler){
         RefererForm dialog = new RefererForm(commandHandler);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 }

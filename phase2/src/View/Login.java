@@ -55,6 +55,18 @@ public class Login extends JDialog {
             }
         });
 
+        userTypeBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (userTypeBox.getSelectedItem().equals("Applicant") || userTypeBox.getSelectedItem().equals("Referer")) {
+                    firmText.setText("");
+                    firmText.setEditable(false);
+                } else {
+                    firmText.setEditable(true);
+                }
+            }
+        });
+
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -85,18 +97,24 @@ public class Login extends JDialog {
     private void onRegister() {
         String userName = this.usernameField.getText();
         String password = String.valueOf(this.passwordField.getPassword());
-        if (usersDb.userExists(userName)){
+        if (userName.equals("") || password.equals("")) {
+            this.errorLabel.setText("Please enter a username and a password");
+        } else if (usersDb.userExists(userName)) {
             this.errorLabel.setText("User already exists");
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
             // todo: maybe combine the addUser methods?
-            if (accountType.equals("Applicant")){
+            if (accountType.equals("Applicant") || accountType.equals("Referer")){
                 this.retUser = usersDb.addUser(userName, password,
-                        UserCredentials.userTypes.APPLICANT, sessionDate);
+                        stringEnumLink.get(accountType), sessionDate);
             } else {
-                Long firmID = Long.parseLong(this.firmText.getText());
-                this.retUser = usersDb.addUser(userName, password,
-                        stringEnumLink.get(accountType), firmID);
+                try {
+                    Long firmID = Long.parseLong(this.firmText.getText());
+                    this.retUser = usersDb.addUser(userName, password,
+                            stringEnumLink.get(accountType), firmID);
+                } catch (NumberFormatException ex) {
+                    this.errorLabel.setText("Please enter a firm ID");
+                }
             }
             dispose();
         }

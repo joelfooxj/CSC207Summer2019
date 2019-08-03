@@ -1,17 +1,12 @@
 package View;
 
-import Control.HyreLauncher;
 import Control.RefererCommandHandler;
 import Model.JobApplication;
-import Model.UserCredentials;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class RefererForm extends ApplicationByUserForm {
 
@@ -51,7 +46,7 @@ public class RefererForm extends ApplicationByUserForm {
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                RefererForm.super.getRch().addReferenceLetter(app, referenceLetter.getText());
+                ((RefererCommandHandler) RefererForm.super.getCommandHandler()).addReferenceLetter(app, referenceLetter.getText());
                 System.exit(0);
             }
         });
@@ -64,8 +59,4 @@ public class RefererForm extends ApplicationByUserForm {
         });
 
     }
-
-//    public static void main(String[] args) {
-//        RefererForm rf = new RefererForm();
-//    }
 }

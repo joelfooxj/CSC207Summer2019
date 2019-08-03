@@ -1,7 +1,6 @@
 package View;
 
-import Control.HyreLauncher;
-import Control.RefererCommandHandler;
+import Control.CommandHandler;
 import Model.JobApplication;
 import Model.UserCredentials;
 
@@ -12,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class ApplicationByUserForm {
     private JFrame frame = new JFrame("Referer");
@@ -33,10 +33,10 @@ public abstract class ApplicationByUserForm {
 
     private JButton buttonExit = new JButton("Logout");
 
-    private RefererCommandHandler rch;
+    private CommandHandler commandHandler;
 
-    public ApplicationByUserForm(RefererCommandHandler rch, String selectApplicationName) {
-        this.rch = rch;
+    public ApplicationByUserForm(CommandHandler commandHandler, String selectApplicationName) {
+        this.commandHandler = commandHandler;
         this.selectApplication = new JButton((selectApplicationName));
         setupGUI();
         setupAttributes();
@@ -94,27 +94,36 @@ public abstract class ApplicationByUserForm {
     }
 
     public void onFindUser(String search) {
-        rch.findUser(HyreLauncher.getUsersDb(), search);
-        ArrayList<UserCredentials> users = HyreLauncher.getUsersDb().getUsersByUsername(search);
-        String arr[] = {"Hello", "What", "Who"};
+        ArrayList<UserCredentials> users = commandHandler.filterUserCredentials(new HashMap<String, String>() {{
+            put("user", search);
+        }});
         UserCredentials[] userArr = users.toArray(new UserCredentials[users.size()]);
         userCredentialsJList = new JList<>(userArr);
-        JList<String> temp = new JList<>(arr);
-        temp.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        temp.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        temp.setVisibleRowCount(-1);
-        userOptions.setViewportView(temp);
+        userCredentialsJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        userCredentialsJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        userCredentialsJList.setVisibleRowCount(-1);
+        userOptions.setViewportView(userCredentialsJList);
         frame.setVisible(true);
     }
 
     public void onSelectUser(UserCredentials user) {
-        ArrayList<JobApplication> appsList = (ArrayList<JobApplication>) rch.findApplication(HyreLauncher.getAppsDb(), user);
-        jobApplicationJList = new JList<JobApplication>(appsList.toArray(new JobApplication[appsList.size()]));
+        ArrayList<JobApplication> appsList = commandHandler.filterJobApplication(new HashMap<String, Long>() {{
+            put("user", user.getUserID());
+        }});
+        jobApplicationJList = new JList<>(appsList.toArray(new JobApplication[appsList.size()]));
+        userCredentialsJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        userCredentialsJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        userCredentialsJList.setVisibleRowCount(-1);
         appOptions.setViewportView(jobApplicationJList);
+        frame.setVisible(true);
     }
 
     public void onSelectApplication(JobApplication app) {
         showDetails.setText(app.toString());
+    }
+
+    public CommandHandler getCommandHandler() {
+        return this.commandHandler;
     }
 
 }

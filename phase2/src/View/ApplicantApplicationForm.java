@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
+import java.util.List;
 
 public class ApplicantApplicationForm extends ApplicantForm {
     private JPanel contentPane;
@@ -30,7 +31,6 @@ public class ApplicantApplicationForm extends ApplicantForm {
         this.appList.setSelectedIndex(0);
         String selectedAppID = (String) this.appList.getSelectedValue();
         this.appTextArea.setText(this.appCH.getApplicationDesc(selectedAppID));
-
 
         CVButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -61,6 +61,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 String selectedAppID = (String) appList.getSelectedValue();
+                checkCVCLButtonEnable(selectedAppID);
                 appTextArea.setText(appCH.getApplicationDesc(selectedAppID));
             }
         });
@@ -104,5 +105,11 @@ public class ApplicantApplicationForm extends ApplicantForm {
         if (outCoverLetter != null){
             this.appCH.setApplicationCoverLetter(selectedAppID, outCoverLetter);
         }
+    }
+
+    private void checkCVCLButtonEnable(String inJobAppID){
+        List<String> requiredDocsList = this.appCH.checkJobAppRequiredDocs(inJobAppID);
+        this.CVButton.setEnabled(requiredDocsList.contains("CV"));
+        this.coverletterButton.setEnabled(requiredDocsList.contains("Cover Letter"));
     }
 }

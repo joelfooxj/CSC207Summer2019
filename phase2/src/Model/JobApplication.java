@@ -23,8 +23,11 @@ public class JobApplication extends Observable implements Serializable {
     private long interviewerID;
     private int passedInterviewNum;
 
+    private List<Model.requiredDocs> setDocs;
     private String CV;
     private String coverLetter;
+    // reference letters
+    private List<String> referenceLetters = new ArrayList<>();
 
     private LocalDate creationDate;
     private LocalDate closedDate;
@@ -40,8 +43,17 @@ public class JobApplication extends Observable implements Serializable {
     private List<String> interviewProcess;
     private List<String> leftInterviewProcess;
 
-    // reference letters
-    private List<String> referenceLetters = new ArrayList<>();
+
+
+    //todo: implement enums to replace strings
+    public enum filters{
+        APPLICATION_ID,
+        APPLICANT_ID,
+        FIRM_ID,
+        JOB_ID
+    }
+
+
 
     // for each application creation, you need all these 5 parameters
     /**
@@ -52,12 +64,14 @@ public class JobApplication extends Observable implements Serializable {
      * @param firmID: The unique ID of the company
      * @param creationDate: The creation date of this application
      */
-    public JobApplication(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate){
+    public JobApplication(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate,
+                          List<Model.requiredDocs> docs){
         this.applicationID = applicationID;
         this.applicantID = applicantID;
         this.jobID = jobID;
         this.firmID = firmID;
         this.creationDate = creationDate;
+        this.setDocs = docs;
     }
     // The followings are necessarily used getter and setters
 
@@ -254,7 +268,9 @@ public class JobApplication extends Observable implements Serializable {
     }
 
     public String getCV(){
-        return this.CV;
+        if (this.setDocs.contains(Model.requiredDocs.CV)){
+            return this.CV;
+        } else {return "CV not required."; }
     }
 
     /**
@@ -266,7 +282,9 @@ public class JobApplication extends Observable implements Serializable {
     }
 
     public String getCoverLetter(){
-        return this.coverLetter;
+        if (this.setDocs.contains(Model.requiredDocs.COVERLETTER)){
+            return this.coverLetter;
+        } else { return "Cover letter not required"; }
     }
 
     /**
@@ -290,7 +308,13 @@ public class JobApplication extends Observable implements Serializable {
      * @return reference letters for this application
      */
     public List<String> getReferenceLetters() {
-        return this.referenceLetters;
+        if (this.setDocs.contains(Model.requiredDocs.REFERENCELETTERS)){
+            return this.referenceLetters;
+        } else { return new ArrayList<>(); }
+    }
+
+    public List<requiredDocs> getRequiredDocs(){
+        return this.setDocs;
     }
 
 }

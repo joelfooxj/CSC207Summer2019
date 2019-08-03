@@ -8,12 +8,13 @@ public class MessageBox extends JDialog {
     private JButton buttonOK;
     private JLabel mainText;
 
-    public MessageBox(String inputString) {
+    public MessageBox(String inTitle, String inputString) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         this.mainText.setText(inputString);
         this.setAlwaysOnTop(true);
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(inTitle));
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

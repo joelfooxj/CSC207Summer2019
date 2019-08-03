@@ -12,6 +12,7 @@ class InterviewerForm extends JDialog {
     private JTextArea applicationText;
     private JList jobApplicationList;
     private JLabel errorLabel;
+    private JButton rejectButton;
     private InterviewerCommandHandler ch;
 
     InterviewerForm(InterviewerCommandHandler commandHandler) {
@@ -35,6 +36,12 @@ class InterviewerForm extends JDialog {
             }
         });
 
+        rejectButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setRejectedApps();
+            }
+        });
+
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -48,6 +55,13 @@ class InterviewerForm extends JDialog {
         for (Object value:this.jobApplicationList.getSelectedValuesList()){
             String selectedString = (String) value;
             ch.recommendApplication(Long.parseLong(selectedString));
+        }
+    }
+
+    private void setRejectedApps(){
+        for (Object value:this.jobApplicationList.getSelectedValuesList()){
+            String selectedString = (String) value;
+            ch.rejectApplication(Long.parseLong(selectedString));
         }
     }
 }

@@ -3,7 +3,9 @@ package Model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     public JobApplicationDatabase() {
@@ -18,8 +20,9 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
      * @param firmID: the unique id of the company
      * @param creationDate: the creation date of the application
      */
-    public void addApplication(long applicantID, long jobID, long firmID, LocalDate creationDate){
-        JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobID, firmID, creationDate);
+    public void addApplication(long applicantID, long jobID, long firmID, LocalDate creationDate, List<requiredDocs> docs){
+        JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobID, firmID, creationDate,
+                docs);
         newJobApplication.setApplicantID(applicantID);
         newJobApplication.setJobID(jobID);
         super.addItem(newJobApplication);
@@ -96,31 +99,8 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         return jobApplicationList;
     }
 
-    // Print a list of applications with the same application id and firm id
-    public void printApplicationsByApplicantID(long applicationId, long firmId){
-        for (Long i = 0L; i<super.getCurrID();i++){
-            JobApplication item = super.getItemByID(i);
-            if (item.getApplicantID() == applicationId && item.getFirmID()==firmId){
-                System.out.println(item.toString());
-            }
-        }
-    }
-
-    // prints applications that are not closed (filled/expired)
-    // this will be called when the HR wants to set up an interview
-    // An application is open when it is open and the person hasn't been hired yet
-    public void printOpenApplicationsByJobID(long jobID) {
-        StringBuilder allApplication = new StringBuilder();
-        for (Long i = 0L;i <super.getCurrID();i++){
-            JobApplication item = super.getItemByID(i);
-            if (item.getJobID() == jobID && item.isOpen() && !item.isSuccessful())
-                allApplication.append(item.toString() +"; ");
-        }
-        System.out.println(allApplication);
-    }
-
     // I check isOpen() and isHired().  Note if the hire() method is called, isOpen() will be set to false
-    public List<Long> getOpenAppIdsByJob(Long jobId) {
+    public List<Long> getOpenApplicationIdsByJob(Long jobId) {
         List<Long> idList = new ArrayList<>();
         for (JobApplication app : this.getAllApplications()) {
             if (app.isOpen() && app.getJobID() == jobId) {
@@ -130,12 +110,40 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         return idList;
     }
 
-    // print all the applications in the application database
+    // return all the applications in the application database
     public List<JobApplication> getAllApplications(){
         List<JobApplication> jobApplicationList = new ArrayList<>();
         for (Long i = 0L; i<super.getCurrID();i++){
             jobApplicationList.add(data.get(i));
         }
         return jobApplicationList;
+    }
+
+    public enum filters{
+        APPLICATION_ID,
+        APPLICANT_ID,
+        FIRM_ID,
+        JOB_ID
+    }
+
+    public List<JobApplication> filterApplications(HashMap<String, Long> filtration){
+        List<JobApplication> applicationList = this.getAllApplications();
+        if (filtration.containsKey(filters.APPLICATION_ID)){
+            applicationList = applicationList.stream().filter(app -> app.getApplicationID()
+                    == filtration.get(filters.APPLICATION_ID)).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(filters.APPLICANT_ID)){
+            applicationList = applicationList.stream().filter(app -> app.getApplicantID()
+                    == filtration.get(filters.APPLICANT_ID)).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(filters.FIRM_ID)){
+            applicationList = applicationList.stream().filter(app -> app.getFirmID()
+                    == filtration.get(filters.FIRM_ID)).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(filters.JOB_ID)){
+            applicationList = applicationList.stream().filter(app -> app.getJobID()
+                    == filtration.get(filters.JOB_ID)).collect(Collectors.toList());
+        }
+        return applicationList;
     }
 }

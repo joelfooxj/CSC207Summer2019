@@ -66,7 +66,15 @@ public class InterviewerCommandHandler implements CommandHandler{
         for (JobApplication app:this.getAssignedApplications()){
             if(app.getApplicationID() == ApplicationID){
                 app.recommend();
-                app.removeInterviewer(this.interviewerID);
+                return;
+            }
+        }
+    }
+
+    public void rejectApplication(Long ApplicationID){
+        for (JobApplication app:this.getAssignedApplications()){
+            if(app.getApplicationID() == ApplicationID){
+                app.reject(HyreLauncher.getDate());
                 return;
             }
         }

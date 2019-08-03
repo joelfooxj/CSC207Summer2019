@@ -1,20 +1,27 @@
 package Model;
 import java.io.*;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 
+public abstract class TemplateDatabase<T> implements Iterable<T> {
 
-public abstract class TemplateDatabase<T>{
     HashMap<Long, T> data = new HashMap<Long, T>();
     private long currID = 0;
 
     //added to deal with case when database is empty
+//    public boolean isEmpty(){
+//        if(data.isEmpty()){
+//            return true;
+//        }
+//        return false;
+//    }
+
     public boolean isEmpty(){
-        if(data.isEmpty()){
-            return true;
-        }
-        return false;
+        return data.isEmpty();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new AbstractDatabaseIterator();
     }
 
     public void readDatabase(String fileName) throws IOException, ClassNotFoundException {
@@ -63,12 +70,37 @@ public abstract class TemplateDatabase<T>{
         }
     }
 
-    public HashMap<Long, T> getData() {
-        return this.data;
-    }
-
     public long getCurrID() {
         return this.currID;
+    }
+
+    public class AbstractDatabaseIterator implements Iterator<T>{
+        private long current = 0;
+
+        @Override
+//        public boolean hasNext() {
+//            if(current<data.size()){
+//                return true;
+//            }
+//            else{
+//                return false;
+//            }
+//        }
+        public boolean hasNext(){
+            return current<data.size();
+        }
+
+
+        @Override
+        public T next(){
+            if(hasNext()) {
+                T result = data.get(current);
+                current ++;
+                return result;
+            }
+            throw new NoSuchElementException();
+        }
+
     }
 
 }

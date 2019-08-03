@@ -1,6 +1,8 @@
 package Model;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import Control.HyreLauncher;
 public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
 
@@ -45,15 +47,21 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
   }
 
   // for applicants
-  public UserCredentials addUser(String userName, String password, String accountType, LocalDate creationDate) {
-    UserCredentials newUser = new UserCredentials(userName, password, accountType, creationDate, super.getCurrID());
+  public UserCredentials addUser(String userName,
+                                 String password,
+                                 UserCredentials.userTypes type,
+                                 LocalDate creationDate) {
+    UserCredentials newUser = new UserCredentials(userName, password, type, creationDate, super.getCurrID());
     super.addItem(newUser);
     return newUser;
   }
 
   // for interviewers and hr coordinators
-  public UserCredentials addUser(String userName, String password, String accountType, long firmId) {
-    UserCredentials newUser = new UserCredentials(userName, password, accountType, firmId, super.getCurrID());
+  public UserCredentials addUser(String userName,
+                                 String password, 
+                                 UserCredentials.userTypes type,
+                                 long firmId) {
+    UserCredentials newUser = new UserCredentials(userName, password, type, firmId, super.getCurrID());
     super.addItem(newUser);
     return newUser;
   }
@@ -79,10 +87,20 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
   public void printApplicants() {
     StringBuilder ret = new StringBuilder();
     for (Long i = 0L; i < super.getCurrID(); i++) {
-      if (getItemByID(i) != null && getItemByID(i).getUserType().equals(HyreLauncher.getApplicantUserType())) {
+      if (getItemByID(i) != null && getItemByID(i).getUserType().equals(UserCredentials.userTypes.APPLICANT)) {
         ret.append("\n[" + i.toString() + "] " + getItemByID(i).toString());
       }
     }
     System.out.println(ret);
+  }
+
+  public ArrayList<UserCredentials> getUsersByUsername(String username) {
+    ArrayList<UserCredentials> users = new ArrayList<>();
+    for (UserCredentials user : this) {
+      if (user.getUserName().contains(username)) {
+        users.add(user);
+      }
+    }
+    return users;
   }
 }

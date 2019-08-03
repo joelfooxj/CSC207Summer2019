@@ -18,8 +18,8 @@ public class Login extends JDialog {
     private JLabel errorLabel;
     private JComboBox userTypeBox;
     private JTextField firmText;
-    private UserCredentialsDatabase usersDb = CommandHandler.sessionData.usersDb;
-    private LocalDate sessionDate = CommandHandler.sessionDate;
+    private LocalDate sessionDate;
+    private UserCredentialsDatabase usersDb;
 
     public UserCredentials retUser;
 
@@ -32,7 +32,9 @@ public class Login extends JDialog {
         }
     };
 
-    public Login() {
+    public Login(LocalDate sessionDate, UserCredentialsDatabase usersDb) {
+        this.sessionDate = sessionDate;
+        this.usersDb = usersDb;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonLogin);

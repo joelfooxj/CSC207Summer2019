@@ -3,6 +3,7 @@ import java.sql.Ref;
 import java.time.LocalDate;
 import Control.*;
 import Model.UserCredentials;
+import Model.UserCredentialsDatabase;
 
 public class GUI{
     /**
@@ -35,8 +36,8 @@ public class GUI{
         return dialog.retDate;
     }
 
-    public static UserCredentials loginForm(){
-        Login dialog = new Login();
+    public static UserCredentials loginForm(LocalDate sessionDate, UserCredentialsDatabase usersDb){
+        Login dialog = new Login(sessionDate, usersDb);
         dialog.pack();
         dialog.setVisible(true);
         return dialog.retUser;

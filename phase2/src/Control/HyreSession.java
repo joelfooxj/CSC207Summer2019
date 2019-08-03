@@ -32,6 +32,10 @@ public class HyreSession {
         }
     }
 
+    public LocalDate getSessionDate(){
+        return this.sessionDate;
+    }
+
     private void updateDataStatus() {
         sessionData.jobsDb.updateDb(sessionDate);
     }
@@ -39,12 +43,15 @@ public class HyreSession {
     public void launchSession() throws IOException, ClassNotFoundException {
         loadProgramData();
         while (true) {
+
             sessionDate = GUI.setDateForm();
-            currentUser = GUI.loginForm();
+            currentUser = GUI.loginForm(this.sessionDate, this.sessionData.usersDb);
             updateDataStatus();
             CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
             commandHandler.setSessionData(sessionData);
             commandHandler.setSessionDate(sessionDate);
+            commandHandler.handleCommands();
+
 
             saveSessionData();
 

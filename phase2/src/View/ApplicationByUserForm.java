@@ -36,13 +36,14 @@ public abstract class ApplicationByUserForm extends JDialog {
         this.selectApplication = new JButton((selectApplicationName));
         setupAttributes();
         showDetails.setEditable(false);
+        this.selectApplication.setEnabled(false);
     }
 
     public void setupAttributes() {
         buttonExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                dispose();
             }
         });
         buttonFindUser.addActionListener(new ActionListener() {
@@ -99,6 +100,7 @@ public abstract class ApplicationByUserForm extends JDialog {
 
     public void onSelectApplication(JobApplication app) {
         showDetails.setText(app.toString());
+        selectApplication.setEnabled(true);
     }
 
     public CommandHandler getCommandHandler() {

@@ -21,16 +21,21 @@ public class HRInterviewerForm extends HRForm {
     private JButton buttonChooseInterviewer;
     private JButton buttonExit;
 
-    private HrCommandHandler hrCH;
-
 
     public HRInterviewerForm(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(panel);
         setModal(true);
-        this.hrCH = inHRCH;
         setupAttributes();
         this.panel.setBorder(BorderFactory.createTitledBorder("Interviewer Assignment Options"));
+        // Setup JobPosting JList ot only show open applications for this user's firm
+        List<JobPosting> jobPostingList = super.hrCH.filterJobPosting(new HashMap<String, Long>() {{
+            put("firm", Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
+            put("open", 1L);
+        }});
+        JobPosting[] jobPostingsArr = jobPostingList.toArray(new JobPosting[jobPostingList.size()]);
+        jobPostingJList = new JList<>(jobPostingsArr);
+        buttonChooseInterviewer.setEnabled(false);
     }
 
     private void setupAttributes() {
@@ -58,15 +63,15 @@ public class HRInterviewerForm extends HRForm {
         buttonExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                dispose();
             }
         });
 
     }
 
     private void onJobSelection() {
-        Long firm = Long.parseLong(this.hrCH.getFirmID());
-        List<JobPosting> jobList = this.hrCH.filterJobPosting(new HashMap<String, Long>() {{
+        Long firm = Long.parseLong(super.hrCH.getFirmID());
+        List<JobPosting> jobList = super.hrCH.filterJobPosting(new HashMap<String, Long>() {{
             put("firm", firm);
         }});
         JobApplication[] jobArr = jobList.toArray(new JobApplication[jobList.size()]);
@@ -79,37 +84,18 @@ public class HRInterviewerForm extends HRForm {
 
     private void onAppSelection(JobApplication app) {
         detailedApp.setText(app.toString());
+        buttonChooseInterviewer.setEnabled(true);
     }
 
     private void onChoose(JobApplication app) {
-        JFrame frameRef = new JFrame("Enter Reference Letter");
-        JPanel panelRef = new JPanel();
-        String firmID = this.hrCH.getFirmID();
-        List<UserCredentials> interviewerArrayList = this.hrCH.filterUserCredentials(new HashMap<String, String>() { {
-            put("firm", firmID);
+        HashMap<String, String> filter = new HashMap<String, String>() { {
+            put("firm", HRInterviewerForm.super.hrCH.getFirmID());
             put("accounttype", UserCredentials.userTypes.INTERVIEWER.name());
-        }});
-        UserCredentials[] userArr = interviewerArrayList.toArray(new UserCredentials[interviewerArrayList.size()]);
-        JList<UserCredentials> interviewerList = new JList<>(userArr);
-        JButton buttonAssign = new JButton("Assign");
-        JButton buttonCancel = new JButton("Cancel");
-        panelRef.add(buttonAssign);
-        panelRef.add(buttonCancel);
-
-        panelRef.setLayout(new BoxLayout(panelRef, BoxLayout.PAGE_AXIS));
-        frameRef.setPreferredSize(new Dimension(500, 500));
-        frameRef.setVisible(true);
-
-        buttonAssign.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (interviewerList.getSelectedValue() != null) {
-                    hrCH.assignInterviewer(app, interviewerList.getSelectedValue());
-                    System.exit(0);
-                } else {
-                    new MessageBox("Select Interviewer", "Please select an interviewer");
-                }
-            }
-        });
+        }};
+        SelectUser selectUser = new SelectUser(filter, super.hrCH);
+        UserCredentials user = selectUser.getUser();
+        if (user != null) {
+            super.hrCH.assignInterviewer(app, user);
+        }
     }
 }

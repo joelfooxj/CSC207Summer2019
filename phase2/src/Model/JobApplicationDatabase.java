@@ -119,30 +119,30 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         return jobApplicationList;
     }
 
-    public enum filters{
+    public enum appFilters{
         APPLICATION_ID,
         APPLICANT_ID,
         FIRM_ID,
         JOB_ID
     }
 
-    public List<JobApplication> filterApplications(HashMap<String, Long> filtration){
+    public List<JobApplication> filterApplications(HashMap<appFilters, Long> filtration){
         List<JobApplication> applicationList = this.getAllApplications();
-        if (filtration.containsKey(filters.APPLICATION_ID)){
+        if (filtration.containsKey(appFilters.APPLICATION_ID)){
             applicationList = applicationList.stream().filter(app -> app.getApplicationID()
-                    == filtration.get(filters.APPLICATION_ID)).collect(Collectors.toList());
+                    == filtration.get(appFilters.APPLICATION_ID)).collect(Collectors.toList());
         }
-        if (filtration.containsKey(filters.APPLICANT_ID)){
+        if (filtration.containsKey(appFilters.APPLICANT_ID)){
             applicationList = applicationList.stream().filter(app -> app.getApplicantID()
-                    == filtration.get(filters.APPLICANT_ID)).collect(Collectors.toList());
+                    == filtration.get(appFilters.APPLICANT_ID)).collect(Collectors.toList());
         }
-        if (filtration.containsKey(filters.FIRM_ID)){
+        if (filtration.containsKey(appFilters.FIRM_ID)){
             applicationList = applicationList.stream().filter(app -> app.getFirmID()
-                    == filtration.get(filters.FIRM_ID)).collect(Collectors.toList());
+                    == filtration.get(appFilters.FIRM_ID)).collect(Collectors.toList());
         }
-        if (filtration.containsKey(filters.JOB_ID)){
+        if (filtration.containsKey(appFilters.JOB_ID)){
             applicationList = applicationList.stream().filter(app -> app.getJobID()
-                    == filtration.get(filters.JOB_ID)).collect(Collectors.toList());
+                    == filtration.get(appFilters.JOB_ID)).collect(Collectors.toList());
         }
         return applicationList;
     }

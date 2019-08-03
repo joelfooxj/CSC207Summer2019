@@ -6,7 +6,7 @@ import View.GUI;
 import java.time.LocalDate;
 import java.util.*;
 
-public class HrCommandHandler implements CommandHandler {
+public class HrCommandHandler extends CommandHandler {
 
     private final int JOBLIFESPAN = 30;
     private String username;
@@ -29,10 +29,12 @@ public class HrCommandHandler implements CommandHandler {
     public HrCommandHandler(UserCredentials hrUser){
         this.username = hrUser.getUserName();
         this.firmID = String.valueOf(hrUser.getFirmId());
-        GUI.hrForm(this);
+
     }
 
-
+    public void handleCommands() {
+        GUI.hrForm(this);
+    }
 
     public List<String> getAllInterviewStages(){
         return this.allInterviewStages;
@@ -101,10 +103,10 @@ public class HrCommandHandler implements CommandHandler {
 
     private List<JobPosting> getOpenJobs(){
         List<JobPosting> openJobs = new ArrayList<>();
-        List<Long> allJobIDs = HyreLauncher.getJobsDb().getOpenPostingIds();
+        List<Long> allJobIDs = sessionData.jobsDb.getOpenPostingIds();
         if (!allJobIDs.isEmpty()){
             for(Long jobID:allJobIDs) {
-                openJobs.add(HyreLauncher.getJobsDb().getJobPostingByID(jobID));
+                openJobs.add(sessionData.jobsDb.getJobPostingByID(jobID));
             }
         }
         return openJobs;
@@ -120,7 +122,7 @@ public class HrCommandHandler implements CommandHandler {
 
 // todo: check if filtering method works
     private List<JobApplication> getJobApplicationsbyJobID(String jobID){
-        return HyreLauncher.getAppsDb().getFilteredApplications("job id", Long.parseLong(jobID));
+        return sessionData.appsDb.getFilteredApplications("job id", Long.parseLong(jobID));
     }
 
     public List<String> getApplicationsIDbyJobID(String jobID){
@@ -134,7 +136,7 @@ public class HrCommandHandler implements CommandHandler {
     }
 
     private JobApplication getJobAppByApplicationID(String inAppID){
-        return HyreLauncher.getAppsDb().getFilteredApplications("application id", Long.parseLong(inAppID)).get(0);
+        return sessionData.appsDb.getFilteredApplications("application id", Long.parseLong(inAppID)).get(0);
     }
 
     public String getApplicationCVbyApplicationID(String inAppID){
@@ -160,7 +162,7 @@ public class HrCommandHandler implements CommandHandler {
     public List<String> getApplicantIDsByFirmID(){
         List<String> retList = new ArrayList<>();
         Long firmID = Long.parseLong(this.firmID);
-        List<UserCredentials> inUsers = HyreLauncher.getUsersDb().getListOfItems();
+        List<UserCredentials> inUsers = sessionData.usersDb.getListOfItems();
         for (UserCredentials user:inUsers){
             if(user.getUserType() == UserCredentials.userTypes.APPLICANT && user.getFirmId() == firmID){
                 retList.add(String.valueOf(user.getUserID()));
@@ -171,7 +173,7 @@ public class HrCommandHandler implements CommandHandler {
 
     public List<String> getApplicationIDsByApplicantID(String inApplicantID){
         List<String> retList = new ArrayList<>();
-        List<JobApplication> inJobApps = HyreLauncher.getAppsDb().getFilteredApplications(
+        List<JobApplication> inJobApps = sessionData.appsDb.getFilteredApplications(
                 "applicant id", Long.parseLong(inApplicantID));
         for (JobApplication job: inJobApps){
             retList.add(String.valueOf(job.getApplicationID()));
@@ -180,23 +182,23 @@ public class HrCommandHandler implements CommandHandler {
     }
 
     public String getApplicationDescByApplicationID(String inJobAppID){
-        JobApplication inJobApp = HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(inJobAppID));
+        JobApplication inJobApp = sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(inJobAppID));
         return inJobApp.toString();
     }
 
     public String getApplicantDescByApplicantID(String inApplicantID){
-        UserCredentials inUser = HyreLauncher.getUsersDb().getUserByID(Long.parseLong(inApplicantID));
+        UserCredentials inUser = sessionData.usersDb.getUserByID(Long.parseLong(inApplicantID));
         return inUser.toString();
     }
 
 
     public String getJobPostingDesc(String jobID){
-        JobPosting inJob = HyreLauncher.getJobsDb().getJobPostingByID(Long.parseLong(jobID));
+        JobPosting inJob = sessionData.jobsDb.getJobPostingByID(Long.parseLong(jobID));
         return inJob.getJobDetails();
     }
 
     public String getJobApplicationPrintout(String appID){
-        JobApplication inApp = HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(appID));
+        JobApplication inApp = sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(appID));
         return inApp.toString();
     }
 
@@ -223,9 +225,9 @@ public class HrCommandHandler implements CommandHandler {
      * @param appID: the ID associated to the JobApplication to be hired
      */
     public void hireApplicationID(String appID){
-        JobApplication inApp = HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(appID));
-        JobPosting inJob = HyreLauncher.getJobsDb().getJobPostingByID(inApp.getJobID());
-        HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(appID)).hire(HyreLauncher.getDate());
+        JobApplication inApp = sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(appID));
+        JobPosting inJob = sessionData.jobsDb.getJobPostingByID(inApp.getJobID());
+        sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(appID)).hire(sessionDate);
         long numHired = inJob.getNumberOfPositions();
         for(JobApplication app:this.getJobApplicationsbyJobID(String.valueOf(inJob.getJobId()))){
             if (app.isSuccessful()){
@@ -238,14 +240,13 @@ public class HrCommandHandler implements CommandHandler {
     }
 
     public void rejectApplicationID(String appID){
-        HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(appID)).reject(HyreLauncher.getDate());
+        sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(appID)).reject(sessionDate);
     }
 
     public void createJob(
             String title,
             String details,
             String firmID,
-            LocalDate todaysDate,
             Long numLabour,
             List<String> hashTags,
             List<String> interviewStages,
@@ -257,12 +258,14 @@ public class HrCommandHandler implements CommandHandler {
         for (String doc: docs) {
             docsList.add(stringDocsHashMap.get(doc));
         }
-        DateRange newRange = new DateRange(todaysDate, todaysDate.plusDays(this.JOBLIFESPAN));
-        HyreLauncher.getJobsDb().addJob(title, details, Long.parseLong(firmID), numLabour, location, newRange,
+        DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
+        sessionData.jobsDb.addJob(title, details, Long.parseLong(firmID), numLabour, location, newRange,
                 hashTags, interviewStages, skills, docsList);
     }
 
     public void assignInterviewer(JobApplication application, UserCredentials interviewer) {
         application.setUpInterview(interviewer.getUserID());
     }
+
+
 }

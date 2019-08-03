@@ -43,7 +43,9 @@ public class HyreSession {
             currentUser = GUI.loginForm();
             updateDataStatus();
             CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
-            // handle commands...
+            commandHandler.setSessionData(sessionData);
+            commandHandler.setSessionDate(sessionDate);
+
             saveSessionData();
 
             boolean exitProgramRequested = GUI.yesNoForm("Do you want to exit the program?");

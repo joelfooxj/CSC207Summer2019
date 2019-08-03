@@ -1,8 +1,12 @@
 package View;
+import Control.CommandHandler;
 import Control.HyreLauncher;
 import Model.UserCredentials;
+import Model.UserCredentialsDatabase;
+
 import javax.swing.*;
 import java.awt.event.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class Login extends JDialog {
@@ -14,7 +18,8 @@ public class Login extends JDialog {
     private JLabel errorLabel;
     private JComboBox userTypeBox;
     private JTextField firmText;
-
+    private UserCredentialsDatabase usersDb = CommandHandler.sessionData.usersDb;
+    private LocalDate sessionDate = CommandHandler.sessionDate;
 
     public UserCredentials retUser;
 
@@ -65,7 +70,7 @@ public class Login extends JDialog {
         // HyreLauncher.adduser -> userdb to add user...
 
 
-        UserCredentials targetUser = HyreLauncher.getUsersDb().getUserByCredentials(userName, password);
+        UserCredentials targetUser = usersDb.getUserByCredentials(userName, password);
         if (targetUser == null){
             this.errorLabel.setText("Incorrect username or password.");
             this.resetFields();
@@ -78,17 +83,17 @@ public class Login extends JDialog {
     private void onRegister() {
         String userName = this.usernameField.getText();
         String password = String.valueOf(this.passwordField.getPassword());
-        if (HyreLauncher.getUsersDb().userExists(userName)){
+        if (usersDb.userExists(userName)){
             this.errorLabel.setText("User already exists");
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
             // todo: maybe combine the addUser methods?
             if (accountType.equals("Applicant")){
-                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password,
-                        UserCredentials.userTypes.APPLICANT, HyreLauncher.getDate());
+                this.retUser = usersDb.addUser(userName, password,
+                        UserCredentials.userTypes.APPLICANT, sessionDate);
             } else {
                 Long firmID = Long.parseLong(this.firmText.getText());
-                this.retUser = HyreLauncher.getUsersDb().addUser(userName, password,
+                this.retUser = usersDb.addUser(userName, password,
                         stringEnumLink.get(accountType), firmID);
             }
             dispose();

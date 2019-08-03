@@ -6,7 +6,7 @@ import View.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterviewerCommandHandler implements CommandHandler{
+public class InterviewerCommandHandler extends CommandHandler{
     private Long interviewerID;
     private String username;
 
@@ -14,9 +14,12 @@ public class InterviewerCommandHandler implements CommandHandler{
     public InterviewerCommandHandler(UserCredentials user){
         this.interviewerID = user.getUserID();
         this.username = user.getUserName();
-        GUI.interviewerForm(this);
+
     }
 
+    public void handleCommands(){
+        GUI.interviewerForm(this);
+    }
     public String getUsername(){
         return this.username;
     }
@@ -26,7 +29,7 @@ public class InterviewerCommandHandler implements CommandHandler{
      * @return List of JobApplications
      */
     private List<JobApplication> getAssignedApplications(){
-        return HyreLauncher.getAppsDb().getApplicationByInterviewerID(this.interviewerID);
+        return sessionData.appsDb.getApplicationByInterviewerID(this.interviewerID);
     }
 
     /**
@@ -74,7 +77,7 @@ public class InterviewerCommandHandler implements CommandHandler{
     public void rejectApplication(Long ApplicationID){
         for (JobApplication app:this.getAssignedApplications()){
             if(app.getApplicationID() == ApplicationID){
-                app.reject(HyreLauncher.getDate());
+                app.reject(sessionDate);
                 return;
             }
         }

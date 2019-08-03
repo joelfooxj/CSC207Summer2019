@@ -1,5 +1,6 @@
 package View;
 
+import Control.CommandHandler;
 import Control.HrCommandHandler;
 import Control.HyreLauncher;
 
@@ -138,7 +139,7 @@ public class HRCreateJob extends HRJobOptionsForm {
             }
         }
         Long numLabour = Long.parseLong((String) this.numLabourSpinner.getValue());
-        super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), HyreLauncher.getDate(), numLabour, tags,
+        super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), numLabour, tags,
                 this.selectedInterviews, jobLocation, this.selectedSkills, docs);
     }
 

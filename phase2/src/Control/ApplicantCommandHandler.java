@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class ApplicantCommandHandler implements CommandHandler{
+public class ApplicantCommandHandler extends CommandHandler{
     /**
      * This class handles all high-level commands for Applicant users
      * This class should call methods from the database and attended classes
@@ -29,6 +29,11 @@ public class ApplicantCommandHandler implements CommandHandler{
         deleteCVAndCoverLetter();
         List<String> inboxMessages = user.getInbox();
         if (!inboxMessages.isEmpty()){ GUI.messageBox("Messages", String.join("\n", inboxMessages)); }
+
+    }
+
+    @Override
+    public void handleCommands() {
         GUI.applicantForm(this);
     }
 
@@ -56,7 +61,7 @@ public class ApplicantCommandHandler implements CommandHandler{
 
     // todo: encapsulate these getters and setters into its own class and send to GUI
     private JobApplication getApplication(String applicationID){
-        return HyreLauncher.getAppsDb().getApplicationByApplicationID(Long.parseLong(applicationID));
+        return sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(applicationID));
     }
 
     public void withdrawApplication(String applicationID){
@@ -92,10 +97,10 @@ public class ApplicantCommandHandler implements CommandHandler{
      */
     private List<JobPosting> getOpenUnappliedJobs(){
         List<JobPosting> openJobs = new ArrayList<>();
-        if (HyreLauncher.getJobsDb().isEmpty()){
+        if (sessionData.jobsDb.isEmpty()){
             return openJobs;
         }
-        for (Long jobID: HyreLauncher.getJobsDb().getOpenPostingIds()){
+        for (Long jobID: sessionData.jobsDb.getOpenPostingIds()){
             boolean appliedForFlag = false;
             if (!this.getAllApplications().isEmpty()){
                 for (JobApplication app: this.getAllApplications()){
@@ -104,8 +109,8 @@ public class ApplicantCommandHandler implements CommandHandler{
                     }
                 }
             }
-            JobPosting inJob = HyreLauncher.getJobsDb().getJobPostingByID(jobID);
-            if (!appliedForFlag && !inJob.isExpired(HyreLauncher.getDate())){
+            JobPosting inJob = sessionData.jobsDb.getJobPostingByID(jobID);
+            if (!appliedForFlag && !inJob.isExpired(sessionDate)){
                 openJobs.add(inJob);
             }
         }
@@ -163,13 +168,13 @@ public class ApplicantCommandHandler implements CommandHandler{
     // todo: update addApplication() with less parameters
     public void applyForJobs(List<String> jobIDs){
         for (String jobID: jobIDs){
-            long inputFirmID = HyreLauncher.getJobsDb().getItemByID(Long.parseLong(jobID)).getFirmId();
-            List<requiredDocs> docsList = HyreLauncher.getJobsDb().getItemByID(Long.parseLong(jobID)).getRequiredDocs();
-            HyreLauncher.getAppsDb().addApplication(
+            long inputFirmID = sessionData.jobsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
+            List<requiredDocs> docsList = sessionData.jobsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
+            sessionData.appsDb.addApplication(
                     this.applicantID,
                     Long.parseLong(jobID),
                     inputFirmID,
-                    HyreLauncher.getDate(), docsList);
+                    sessionDate, docsList);
         }
     }
 
@@ -178,7 +183,7 @@ public class ApplicantCommandHandler implements CommandHandler{
      * @return A list of applications associated with this Applicant
      */
     private List<JobApplication> getAllApplications(){
-        return HyreLauncher.getAppsDb().getApplicationsByApplicantID(this.applicantID);
+        return sessionData.appsDb.getApplicationsByApplicantID(this.applicantID);
     }
 
     public List<Long> getAllOpenApplicationIDs(){
@@ -201,7 +206,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         long minDaysBetween = 0;
         for (JobApplication app:this.getAllApplications()) {
             if(!app.isOpen()){
-                long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), HyreLauncher.getDate());
+                long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), sessionDate);
                 if (minDaysBetween == 0) {
                     minDaysBetween = daysBetween;
                 } else if (minDaysBetween >= daysBetween) {
@@ -253,7 +258,7 @@ public class ApplicantCommandHandler implements CommandHandler{
         if (this.getAllApplications().isEmpty()){ return; }
         for (JobApplication app:this.getAllApplications()){
             if (app.isOpen()) {return;}
-            else if (ChronoUnit.DAYS.between(HyreLauncher.getDate(), app.getClosedDate()) < 30){return; }
+            else if (ChronoUnit.DAYS.between(sessionDate, app.getClosedDate()) < 30){return; }
         }
         for (JobApplication app:this.getAllApplications()){
             app.setCV(null);

@@ -1,4 +1,5 @@
 package Model;
+import Control.CommandHandler;
 import Control.HyreLauncher;
 
 import java.io.Serializable;
@@ -164,7 +165,7 @@ public class JobApplication extends Observable implements Serializable {
     public void setOpen(boolean open) {
         isOpen = open;
         if (!open){
-            setClosedDate(HyreLauncher.getDate());
+            setClosedDate(CommandHandler.sessionDate);
         }
     }
 

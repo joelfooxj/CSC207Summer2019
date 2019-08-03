@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
+import java.util.List;
 
 public class HRJobOptionsForm extends HRForm {
     private JPanel contentPane;
@@ -29,13 +30,18 @@ public class HRJobOptionsForm extends HRForm {
         this.associatedApplicationsList.setLayoutOrientation(JList.VERTICAL);
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Job Options"));
+        setButtonEnabled(false);
         this.updateJobsList();
-        this.updateAppList();
-
 
         createJobButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createJob();
+                HRCreateJob createJob = new HRCreateJob(HRJobOptionsForm.super.hrCH);
+                setAlwaysOnTop(false);
+                createJob.setAlwaysOnTop(true);
+                createJob.pack();
+                createJob.setVisible(true);
+                setAlwaysOnTop(true);
+                updateJobsList();
             }
         });
 
@@ -72,6 +78,7 @@ public class HRJobOptionsForm extends HRForm {
         associatedApplicationsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                setButtonEnabled(true);
                 setAppDesc();
             }
         });
@@ -97,26 +104,31 @@ public class HRJobOptionsForm extends HRForm {
     }
 
     private void updateJobsList(){
-        this.jobsList.setListData(super.hrCH.getOpenJobsList().toArray());
-        this.jobsList.setSelectedIndex(0);
-        this.setJobsDesc();
-        this.updateAppList();
+        setButtonEnabled(false);
+        this.jobDescLabel.setText("");
+        this.applicationDescLabel.setText("");
+        List<String> inJobList = super.hrCH.getOpenJobsList();
+        if (inJobList.isEmpty()){
+            this.jobDescLabel.setText("There are no jobs.");
+        } else {
+            this.jobsList.setListData(inJobList.toArray());
+        }
     }
 
     private void updateAppList(){
-        String selectedJobID = (String) this.jobsList.getSelectedValue();
-        this.associatedApplicationsList.setListData(super.hrCH.getApplicationsIDbyJobID(selectedJobID).toArray());
+        setButtonEnabled(false);
         this.applicationDescLabel.setText("");
+        String selectedJobID = (String) this.jobsList.getSelectedValue();
+        List<String> inJobAppList = super.hrCH.getApplicationsIDbyJobID(selectedJobID);
+        if (inJobAppList.isEmpty()){
+            this.applicationDescLabel.setText("There are no applications for this job.");
+        } else {
+            this.associatedApplicationsList.setListData(inJobAppList.toArray());
+        }
     }
 
-    private void createJob(){
-        HRCreateJob createJob = new HRCreateJob(super.hrCH);
-        this.setAlwaysOnTop(false);
-        createJob.setAlwaysOnTop(true);
-        createJob.pack();
-        createJob.setVisible(true);
-        this.setAlwaysOnTop(true);
-        this.updateJobsList();
+    private void setButtonEnabled(boolean setEnabled){
+        hireButton.setEnabled(setEnabled);
+        rejectButton.setEnabled(setEnabled);
     }
-
 }

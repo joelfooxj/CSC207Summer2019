@@ -60,6 +60,7 @@ public class HRCreateJob extends HRJobOptionsForm {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
+        createUIComponents();
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Create Job"));
         for(String interviewType:super.hrCH.getAllInterviewStages()){
@@ -99,6 +100,7 @@ public class HRCreateJob extends HRJobOptionsForm {
                 String selectedSkill = skillText.getText();
                 selectedSkills.add(selectedSkill);
                 skillList.setListData(selectedSkills.toArray());
+                skillText.setText("");
 
             }
         });
@@ -106,7 +108,7 @@ public class HRCreateJob extends HRJobOptionsForm {
         removeSkillButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String selectedSkill = (String) skillList.getSelectedValue();
-                selectedSkills.add(selectedSkill);
+                selectedSkills.remove(selectedSkill);
                 skillList.setListData(selectedSkills.toArray());
 
             }
@@ -138,9 +140,11 @@ public class HRCreateJob extends HRJobOptionsForm {
                 docs.add(checkBoxDocsLink.get(checkBox));
             }
         }
-        Long numLabour = Long.parseLong((String) this.numLabourSpinner.getValue());
+        Number tmp = (Number) this.numLabourSpinner.getValue();
+        Long numLabour = tmp.longValue();
         super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), numLabour, tags,
                 this.selectedInterviews, jobLocation, this.selectedSkills, docs);
+        this.dispose();
     }
 
     private void createUIComponents() {

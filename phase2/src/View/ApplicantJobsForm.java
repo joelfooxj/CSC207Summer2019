@@ -24,11 +24,11 @@ public class ApplicantJobsForm extends ApplicantForm {
 
     private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>(){
         {
-            put(fullTimeCheckBox, "fulltime");
-            put(partTimeCheckBox, "parttime");
-            put(flexWorkCheckBox, "flexwork");
-            put(techCheckBox, "tech");
-            put(financeCheckBox, "finance");
+            put(fullTimeCheckBox, "Full-Time");
+            put(partTimeCheckBox, "Part-time");
+            put(flexWorkCheckBox, "Flex-work");
+            put(techCheckBox, "Tech");
+            put(financeCheckBox, "Finance");
         }
     };
 

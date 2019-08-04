@@ -17,7 +17,6 @@ public class HrCommandHandler extends CommandHandler {
             "Phone",
             "Technical");
 
-    // todo: replace with requireDocs enum?
     private HashMap<String, requiredDocs> stringDocsHashMap = new HashMap<String, requiredDocs>(){
         {
             put("CV", requiredDocs.CV);
@@ -47,59 +46,6 @@ public class HrCommandHandler extends CommandHandler {
     public String getFirmID(){
         return this.firmID;
     }
-
-
-//     todo: implement subclass method categorization and combination.
-//     - JobMethods.getJobByJobID(jobID).getApplicantID();
-//    public class JobMethods{
-//        private Job currentJob;
-//        private List<JobPosting> currentJobList;
-//
-//
-//
-//        public class JobList{
-//            private List<Job> jobList;
-//            JobList(List<Job> jobs){
-//                this.jobList = jobs;
-//            }
-//
-//        }
-//
-//        public class Job {
-//            private JobPosting jobPosting;
-//            Job(JobPosting inJobPosting){
-//                this.jobPosting = inJobPosting;
-//            }
-//
-//            public String getJobID(){
-//                return String.valueOf(this.jobPosting.getJobId());
-//            }
-//
-//            public String getJobDesc(){
-//                return jobPosting.toString();
-//            }
-//
-//            public
-//        }
-//
-//        public Job getByApplicantID(String applicantID){
-//            JobPosting inJob = HyreLauncher.getJobsDb().getOpenPostingIds();
-//        }
-//
-//        private List<JobPosting> getAllJobPostings(){
-//
-//            List<Long> inJobLongs =  HyreLauncher.getJobsDb().getOpenPostingIds();
-//            List<JobPosting> retJobList = new ArrayList<>();
-//            for(Long jobIDLong: inJobLongs){
-//                retJobList.add(HyreLauncher.getJobsDb().getJobPostingByID(jobIDLong));
-//            }
-//
-//
-//
-//        }
-//
-//
-//    }
 
     private List<JobPosting> getOpenJobs(){
         List<JobPosting> openJobs = new ArrayList<>();
@@ -243,6 +189,7 @@ public class HrCommandHandler extends CommandHandler {
         sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(appID)).reject(sessionDate);
     }
 
+    // todo: create a job object here instead?
     public void createJob(
             String title,
             String details,

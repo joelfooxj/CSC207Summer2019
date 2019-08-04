@@ -118,7 +118,7 @@ public class ApplicantCommandHandler extends CommandHandler{
     }
 
     /**
-     * This methods return
+     * This method returns a list of jobPostings filtered based on tags and location
      * @param tags: list of hashtags of JobPosting
      * @param location: location of JobPosting
      * @return
@@ -126,7 +126,7 @@ public class ApplicantCommandHandler extends CommandHandler{
     private List<JobPosting> getFilteredJobs(HashSet<String> tags, String location){
         List<JobPosting> retJobList = new ArrayList<>();
         for (JobPosting job: this.getOpenUnappliedJobs()){
-            if(job.containsAllHashTags(tags) && job.getLocation().equals(location)){
+            if(job.containsAllHashTags(tags) && (job.getLocation().equals(location)||location.equals("All locations"))){
                 retJobList.add(job);
             }
         }

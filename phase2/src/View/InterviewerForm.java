@@ -3,7 +3,10 @@ package View;
 import Control.InterviewerCommandHandler;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
+import java.util.List;
 
 class InterviewerForm extends JDialog {
     private JPanel contentPane;
@@ -13,16 +16,15 @@ class InterviewerForm extends JDialog {
     private JList jobApplicationList;
     private JLabel errorLabel;
     private JButton rejectButton;
-    private InterviewerCommandHandler ch;
+    private InterviewerCommandHandler iCH;
 
     InterviewerForm(InterviewerCommandHandler commandHandler) {
-        this.ch = commandHandler;
+        this.iCH = commandHandler;
         setContentPane(contentPane);
         setModal(true);
 
-        this.contentPane.setBorder(BorderFactory.createTitledBorder(ch.getUsername()));
-        this.applicationText.setText(ch.getAssignedApplicationsRepresentation());
-        this.jobApplicationList.setListData(ch.getAssignedApplicationsIds().toArray());
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(iCH.getUsername()));
+        this.updateForm();
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -42,6 +44,13 @@ class InterviewerForm extends JDialog {
             }
         });
 
+        jobApplicationList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                setButtonState(true);
+            }
+        });
+
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -54,14 +63,32 @@ class InterviewerForm extends JDialog {
     private void setRecommendedApps(){
         for (Object value:this.jobApplicationList.getSelectedValuesList()){
             String selectedString = (String) value;
-            ch.recommendApplication(Long.parseLong(selectedString));
+            iCH.recommendApplication(Long.parseLong(selectedString));
         }
+        updateForm();
     }
 
     private void setRejectedApps(){
         for (Object value:this.jobApplicationList.getSelectedValuesList()){
             String selectedString = (String) value;
-            ch.rejectApplication(Long.parseLong(selectedString));
+            iCH.rejectApplication(Long.parseLong(selectedString));
         }
+        updateForm();
+    }
+
+    private void updateForm(){
+        setButtonState(false);
+        List<String> inJobAppList = iCH.getAssignedApplicationsIds();
+        if (inJobAppList.isEmpty()){
+            this.applicationText.setText("You have no application assigned to you.");
+        } else{
+            this.jobApplicationList.setListData(inJobAppList.toArray());
+            this.applicationText.setText(iCH.getAssignedApplicationsRepresentation());
+        }
+    }
+
+    private void setButtonState(boolean enabled){
+        recommendButton.setEnabled(enabled);
+        rejectButton.setEnabled(enabled);
     }
 }

@@ -75,7 +75,7 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
     }
 
     public class AbstractDatabaseIterator implements Iterator<T>{
-        private long current = 0;
+        private int current = 0;
 
         @Override
 //        public boolean hasNext() {
@@ -87,14 +87,14 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
 //            }
 //        }
         public boolean hasNext(){
-            return current<data.size();
+            return current<getListOfItems().size();
         }
 
 
         @Override
         public T next(){
             if(hasNext()) {
-                T result = data.get(current);
+                T result = getListOfItems().get(current);
                 current ++;
                 return result;
             }

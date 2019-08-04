@@ -36,12 +36,11 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
      */
     public List<JobApplication> getFilteredApplications(String filter, long id){
         List<JobApplication> jobApplicationList = new ArrayList<JobApplication>();
-        for (Long i = 0L; i<super.getCurrID();i++) {
-            JobApplication item = super.getItemByID(i);
-            if (!jobApplicationList.contains(item)) {
-                jobApplicationList.add(item);
-            } else if (!item.passFilter(filter, id)) {
-                jobApplicationList.remove(item);
+        for (JobApplication app: this) {
+            if (!jobApplicationList.contains(app)) {
+                jobApplicationList.add(app);
+            } else if (!app.passFilter(filter, id)) {
+                jobApplicationList.remove(app);
             }
         }
         return jobApplicationList;
@@ -55,12 +54,11 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     public List<JobApplication> getFilteredApplications(HashMap<String, Long> filters){
         List<JobApplication> jobApplicationList = new ArrayList<JobApplication>();
         for (String filter: filters.keySet()){
-            for (Long i = 0L; i<super.getCurrID();i++) {
-                JobApplication item = super.getItemByID(i);
-                if (!jobApplicationList.contains(item)) {
-                    jobApplicationList.add(item);
-                } else if (!item.passFilter(filter, filters.get(filter))) {
-                    jobApplicationList.remove(item);
+            for (JobApplication app: this) {
+                if (!jobApplicationList.contains(app)) {
+                    jobApplicationList.add(app);
+                } else if (!app.passFilter(filter, filters.get(filter))) {
+                    jobApplicationList.remove(app);
                 }
             }
         }
@@ -75,10 +73,9 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     //Get a list of applications by its applicant ID
     public List<JobApplication> getApplicationsByApplicantID(long applicantID){
         List<JobApplication> jobApplicationList = new ArrayList<JobApplication>();
-        for(Long i = 0L; i < super.getCurrID();i++){
-            JobApplication item = super.getItemByID(i);
-            if (item.getApplicantID() == applicantID){
-                jobApplicationList.add(item);
+        for(JobApplication app: this){
+            if (app.getApplicantID() == applicantID){
+                jobApplicationList.add(app);
             }
         }
 //        if (jobApplicationList.isEmpty()) {
@@ -90,10 +87,9 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     //Get a list of applications by its interviewerID
     public List<JobApplication> getApplicationByInterviewerID(long interviewerID){
         List<JobApplication> jobApplicationList = new ArrayList<JobApplication>();
-        for(Long i = 0L; i<super.getCurrID();i++){
-            JobApplication item = super.getItemByID(i);
-            if (item.getInterviewerID() == interviewerID){
-                jobApplicationList.add(item);
+        for(JobApplication app: this){
+            if (app.getInterviewerID() == interviewerID){
+                jobApplicationList.add(app);
             }
         }
         return jobApplicationList;
@@ -102,7 +98,7 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     // I check isOpen() and isHired().  Note if the hire() method is called, isOpen() will be set to false
     public List<Long> getOpenApplicationIdsByJob(Long jobId) {
         List<Long> idList = new ArrayList<>();
-        for (JobApplication app : this.getAllApplications()) {
+        for (JobApplication app: this) {
             if (app.isOpen() && app.getJobID() == jobId) {
                 idList.add(app.getApplicationID());
             }
@@ -111,10 +107,11 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     }
 
     // return all the applications in the application database
+    //TODO this can be replaced by getListOfItems in Template Database
     public List<JobApplication> getAllApplications(){
         List<JobApplication> jobApplicationList = new ArrayList<>();
-        for (Long i = 0L; i<super.getCurrID();i++){
-            jobApplicationList.add(data.get(i));
+        for (JobApplication jobApplication: this){
+            jobApplicationList.add(jobApplication);
         }
         return jobApplicationList;
     }

@@ -34,4 +34,11 @@ public class Firm implements Serializable {
     public void addLocation(String location) {
         this.locations.add(location);
     }
+
+    @Override
+    public String toString(){
+        return "[firm id]: " + getFirmId()
+                + "\n[firm name]: " + getFirmName();
+    }
+
 }

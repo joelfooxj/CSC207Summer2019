@@ -20,10 +20,9 @@ public class FirmDatabase extends TemplateDatabase<Firm> {
      * @return Firm object
      */
     public Firm getFirmByFirmName(String firmName) {
-        for (Long i = 0L; i < super.getCurrID(); i++) {
-
-            if (super.getItemByID(i).getFirmName().equals(firmName)) {
-                return super.getItemByID(i);
+        for (Firm firm: this) {
+            if (firm.getFirmName().equals(firmName)) {
+                return firm;
             }
         }
         return null;

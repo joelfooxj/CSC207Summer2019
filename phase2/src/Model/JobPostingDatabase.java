@@ -4,7 +4,6 @@ import Control.DateRange;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable{
 
@@ -14,20 +13,8 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     private LocalDate sessionDate;
 
     /**
-     * provides all open job postings
-     */
-    //TODO make this send a string and connect to an interface
-    public void printOpenJobPostings(){
-        for (JobPosting job:this.getListOfItems()){
-            if (job.isOpen(sessionDate)){
-                System.out.println(job);
-            }
-        }
-    }
-
-    /**
      * adds a job Posting by construction a job posting
-     * @see JobPosting#JobPosting(String, String, long, long, String, DateRange, List, Collection)
+     * @see JobPosting#JobPosting(String, String, long, long, String, DateRange, List, Collection, List, List)
      */
     //TODO change to addJobPosting; use addItem directly
     public void addJob(String title, String details, long firmId, long numsLabourRequired, String location,
@@ -177,46 +164,48 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     }
 
 
-
+    //TODO: remove this as its already done by getListOfItems()
     // Jacob's filter
-    public List<JobPosting> getAllJobPostings(){
-        List<JobPosting> jobPostList = new ArrayList<>();
-        for (Long i = 0L; i<super.getCurrID();i++){
-            jobPostList.add(this.getItemByID(i));
-        }
-        return jobPostList;
-    }
+//    public List<JobPosting> getAllJobPostings(){
+//        List<JobPosting> jobPostList = new ArrayList<>();
+//        for (Long i = 0L; i<super.getCurrID();i++){
+//            jobPostList.add(this.getItemByID(i));
+//        }
+//        return jobPostList;
+//    }
 
-    public enum jobFilters {
-        OPEN,
-        FIRM,
-        LOCATION,
-        // 1. since hashmaps cannot have duplicate keys, I make 5 hashtag enums. e.g. if you want to search high-salary
-        // and part time, you put (HASHTAG1, "high-salary"), (HASHTAG2, "part-time")
-        // 2. The order does not matter because the fiter method only looks at values
-        // 3. You can keep using hashset, e.g. (HASHTAG, ["high-salary", "part-time"]), but this requires some changes
-        // in my code since java cannot convert hashset to Object.
-        HASHTAG1,
-        HASHTAG2,
-        HASHTAG3,
-        HASHTAG4,
-        HASHTAG5,
-    }
+    //TODO: remove this. Already done by SearchBy Enum
+//    public enum jobFilters {
+//        OPEN,
+//        FIRM,
+//        LOCATION,
+//        // 1. since hashmaps cannot have duplicate keys, I make 5 hashtag enums. e.g. if you want to search high-salary
+//        // and part time, you put (HASHTAG1, "high-salary"), (HASHTAG2, "part-time")
+//        // 2. The order does not matter because the fiter method only looks at values
+//        // 3. You can keep using hashset, e.g. (HASHTAG, ["high-salary", "part-time"]), but this requires some changes
+//        // in my code since java cannot convert hashset to Object.
+//        HASHTAG1,
+//        HASHTAG2,
+//        HASHTAG3,
+//        HASHTAG4,
+//        HASHTAG5,
+//    }
 
-    public List<JobPosting> filterJobPostings(HashMap<jobFilters, Object> filtration){
-        List<JobPosting> jobPostList = this.getAllJobPostings();
-        if (filtration.containsKey(jobFilters.FIRM)){
-            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId()
-                    == filtration.get(jobFilters.FIRM)).collect(Collectors.toList());
-        }
-        if (filtration.containsValue("part-time")){      //this is containsValue, not containsKey
-            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getHashTags().contains("part-time"))
-            .collect(Collectors.toList());
-        }
-        // You need to implement all the filtration requirements. As long as you write a true/ false statement after
-        // "->", that will work
-        return jobPostList;
-    }
+    //TODO: remove this method
+//    public List<JobPosting> filterJobPostings(HashMap<jobFilters, Object> filtration){
+//        List<JobPosting> jobPostList = this.getAllJobPostings();
+//        if (filtration.containsKey(jobFilters.FIRM)){
+//            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId()
+//                    == filtration.get(jobFilters.FIRM)).collect(Collectors.toList());
+//        }
+//        if (filtration.containsValue("part-time")){      //this is containsValue, not containsKey
+//            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getHashTags().contains("part-time"))
+//            .collect(Collectors.toList());
+//        }
+//        // You need to implement all the filtration requirements. As long as you write a true/ false statement after
+//        // "->", that will work
+//        return jobPostList;
+//    }
 }
 
 // 4. If you want to keep hashset, 1 solution would be creating another filtration method that only takes care of tags

@@ -206,12 +206,6 @@ public class JobPosting implements Serializable {
         searchHashTags = (HashSet<String>) searchHashTags.clone();
         Integer startSize = searchHashTags.size();
         searchHashTags.retainAll(hashTags);
-//        if(startSize.equals(searchHashTags.size())){
-//            return true;
-//        }
-//        else{
-//            return false;
-//        }
         return startSize.equals(searchHashTags.size());
     }
 

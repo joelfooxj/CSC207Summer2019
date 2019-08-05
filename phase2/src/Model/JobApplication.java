@@ -239,11 +239,13 @@ public class JobApplication extends Observable implements Serializable {
         this.isOpen = false;
         this.closedDate = date;
         setChanged();
-        notifyObservers("Your application is selected by HR. And you are already hired. You are welcome!");
+        List argument = new ArrayList();
+        argument.add("hire");
+        argument.add(this.applicantID);
+        notifyObservers(argument);
     }
 
     // Similar with the hire() method, 3 variables will be changed.
-
     /**
      *
      * @param date: the date when HR/ interviewer rejects the applicant of this application
@@ -253,7 +255,10 @@ public class JobApplication extends Observable implements Serializable {
         this.isOpen = false;
         this.closedDate = date;
         setChanged();
-        notifyObservers("Your application to our company has been kindly rejected.");
+        List argument = new ArrayList();
+        argument.add("reject");
+        argument.add(this.applicantID);
+        notifyObservers(argument);
     }
 
     public String getCV(){

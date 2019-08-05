@@ -29,6 +29,7 @@ public class ApplicantCommandHandler extends CommandHandler{
         deleteCVAndCoverLetter();
         List<String> inboxMessages = user.getInbox();
         if (!inboxMessages.isEmpty()){ GUI.messageBox("Messages", String.join("\n", inboxMessages)); }
+        else {GUI.messageBox("no message received",String.join("\n", inboxMessages));}
 
     }
 

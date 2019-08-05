@@ -13,7 +13,6 @@ public class CommandHandlerFactory {
         CommandHandler commandHandler;
         // set the value of Control.CommandHandler based on the user type
         if (userCredentials.getUserType() == UserCredentials.userTypes.APPLICANT){
-            ;
             commandHandler = new ApplicantCommandHandler(userCredentials);
         } else if (userCredentials.getUserType() == UserCredentials.userTypes.INTERVIEWER){
             commandHandler = new InterviewerCommandHandler(userCredentials);

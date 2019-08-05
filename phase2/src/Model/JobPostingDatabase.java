@@ -4,6 +4,7 @@ import Control.DateRange;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable{
 
@@ -184,7 +185,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 //        // 2. The order does not matter because the fiter method only looks at values
 //        // 3. You can keep using hashset, e.g. (HASHTAG, ["high-salary", "part-time"]), but this requires some changes
 //        // in my code since java cannot convert hashset to Object.
-//        HASHTAG1,
+//        PARTTIME, "part-time"
 //        HASHTAG2,
 //        HASHTAG3,
 //        HASHTAG4,
@@ -206,6 +207,13 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 //        // "->", that will work
 //        return jobPostList;
 //    }
-}
+//}
 
 // 4. If you want to keep hashset, 1 solution would be creating another filtration method that only takes care of tags
+public List<JobPosting> filterJobPostingsByTags(HashSet<String> tags){
+    List<JobPosting> jobPostList = this.getListOfItems();
+    jobPostList = jobPostList.stream().filter(jobPosting ->
+            jobPosting.containsAllHashTags(tags)).collect(Collectors.toList());
+    return jobPostList;
+}
+}

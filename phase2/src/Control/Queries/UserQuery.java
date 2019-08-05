@@ -15,7 +15,13 @@ public class UserQuery {
         if (filteredUsers.size() != 1){
             return null;
         }
-        return null;//filteredUsers.get(0).toString();
+
+        List<String> userReps = new ArrayList<>();
+        for (UserCredentials user: filteredUsers){
+            userReps.add(user.toString());
+        }
+
+        return userReps;
     }
 
     public List<Long> getIDs() {

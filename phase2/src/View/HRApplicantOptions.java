@@ -40,7 +40,7 @@ public class HRApplicantOptions extends HRForm {
                 if (!associatedApplicationsList.isSelectionEmpty()){
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
 
-                    HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+                    HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
                     String inCV = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getResume();
                     GUI.messageBox("CV", "<html>" + inCV + "</html>");
@@ -53,7 +53,7 @@ public class HRApplicantOptions extends HRForm {
                 if (!associatedApplicationsList.isSelectionEmpty()){
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
 
-                    HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+                    HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
                     String inCL = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getCoverLetter();
                     GUI.messageBox("Cover Letter", "<html>" + inCL + "</html>");
@@ -66,7 +66,7 @@ public class HRApplicantOptions extends HRForm {
                 if (!associatedApplicationsList.isSelectionEmpty()){
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
 
-                    HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+                    HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
                     String inRL = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRefLetters();
 
@@ -109,7 +109,7 @@ public class HRApplicantOptions extends HRForm {
     private void setApplicantDesc(){
         String applicantID = (String) this.applicantList.getSelectedValue();
 
-        HashMap<usersFilterKeys, String> query = new HashMap<>();
+        HashMap<usersFilterKeys, Object> query = new HashMap<>();
         query.put(usersFilterKeys.USER_ID, applicantID);
 
         String applicantDesc = super.hrCH.filter.getUsersFilter(query).getRepresentation();
@@ -121,7 +121,7 @@ public class HRApplicantOptions extends HRForm {
         String applicationID = (String) this.associatedApplicationsList.getSelectedValue();
 
 
-        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
         String applicationDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
 
@@ -132,7 +132,7 @@ public class HRApplicantOptions extends HRForm {
         disableButtons();
         String applicantID = (String) this.applicantList.getSelectedValue();
 
-        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICANT_ID, Long.parseLong(applicantID));
         List<String> applicationList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
 
@@ -148,7 +148,7 @@ public class HRApplicantOptions extends HRForm {
         disableButtons();
 
 
-        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.FIRM_ID, Long.parseLong(HRApplicantOptions.super.hrCH.getFirmID()));
         List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
         if (applicantList.isEmpty()){
@@ -168,7 +168,7 @@ public class HRApplicantOptions extends HRForm {
         String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
 
 
-        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(selectedAppID));
         List<String> inDocs = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRequiredDocuments();
 

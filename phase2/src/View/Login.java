@@ -105,9 +105,10 @@ public class Login extends JDialog {
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
             // todo: maybe combine the addUser methods?
-            if (accountType.equals("Applicant") || accountType.equals(stringEnumLink.get("Referer"))){
+            if (accountType.equals("Applicant") || accountType.equals("Referer")){
                 this.retUser = session.addUser(userName, password,
                         stringEnumLink.get(accountType), "");
+                dispose();
             } else {
                 String firmName = this.firmText.getText();
                 if (!firmName.equals("")) {

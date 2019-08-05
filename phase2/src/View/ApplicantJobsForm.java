@@ -112,7 +112,8 @@ public class ApplicantJobsForm extends ApplicantForm {
     }
 
     private List<String> getLocations(){
-        HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>(){{ put(jobPostingFilters.OPEN, 1L);}};
+        HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>(){
+            { put(jobPostingFilters.OPEN, 1L);}};
         return this.appCH.filter.getJobPostsFilter(filterHM).getLocationList();
     }
 }

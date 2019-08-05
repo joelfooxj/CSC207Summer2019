@@ -16,7 +16,11 @@ public class UserQuery {
         for (UserCredentials user : this.filteredUsers) {
             ret.add(user.toString());
         }
-        return ret;
+        List<String> userReps = new ArrayList<>();
+        for (UserCredentials user: filteredUsers){
+            userReps.add(user.toString());
+        }
+        return userReps;
     }
 
     public List<Long> getIDs() {

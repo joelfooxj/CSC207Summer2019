@@ -12,16 +12,16 @@ import java.util.Observable;
  *
  */
 public class JobApplication extends Observable implements Serializable {
-    private long applicationID;
-    private long applicantID;
-    private long jobID;
-    private long firmID;
+    private Long applicationID;
+    private Long applicantID;
+    private Long jobID;
+    private Long firmID;
 
     private String applicantName = String.valueOf(applicantID);
     private String firmName = String.valueOf(firmID);
     private String jobName = String.valueOf(jobID);
 
-    private long interviewerID;
+    private Long interviewerID;
     private int passedInterviewNum;
 
     private List<Model.requiredDocs> setDocs;

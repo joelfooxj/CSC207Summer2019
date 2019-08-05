@@ -67,7 +67,6 @@ public class HyreSession {
             updateDataStatus();
             CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
 
-
             commandHandler.setSessionData(sessionData);
             commandHandler.setSessionDate(sessionDate);
             commandHandler.handleCommands();

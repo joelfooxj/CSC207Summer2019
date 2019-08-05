@@ -105,6 +105,8 @@ public class ApplicantJobsForm extends ApplicantForm {
         String setLocation = (String) this.locationFilterCombo.getSelectedItem();
         String getJobsPrintout = this.appCH.getFilteredJobsPrintout(tagsList, setLocation);
         this.jobsTextArea.setText((getJobsPrintout != null ? getJobsPrintout:" "));
+
+
         List<String> inJobsList = this.appCH.getFilteredJobsList(tagsList, setLocation);
         if (!inJobsList.isEmpty()){
             this.jobsList.setListData(inJobsList.toArray());

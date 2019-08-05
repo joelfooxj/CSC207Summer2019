@@ -30,7 +30,6 @@ public class ApplicantCommandHandler extends CommandHandler{
         this.creationDate = user.getCreationDate();
         this.username = user.getUserName();
         this.currentUser = user;
-        deleteCVAndCoverLetter();
         List<String> inboxMessages = user.getInbox();
         if (!inboxMessages.isEmpty()){ GUI.messageBox("Messages", String.join("\n", inboxMessages)); }
         else {GUI.messageBox("no message received",String.join("\n", inboxMessages));}
@@ -39,6 +38,7 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     @Override
     public void handleCommands() {
+        deleteCVAndCoverLetter();
         GUI.applicantForm(this);
     }
 
@@ -192,7 +192,7 @@ public class ApplicantCommandHandler extends CommandHandler{
      * has passed since the last closed application.
      */
     private void deleteCVAndCoverLetter(){
-        if (this.getAllApplications().isEmpty()){ return; }
+        if (this.getAllApplications() == null){ return; }
         for (JobApplication app:this.getAllApplications()){
             if (app.isOpen()) {return;}
             else if (ChronoUnit.DAYS.between(sessionDate, app.getClosedDate()) < 30){return; }

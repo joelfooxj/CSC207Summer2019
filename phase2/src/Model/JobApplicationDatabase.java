@@ -78,9 +78,7 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
                 jobApplicationList.add(app);
             }
         }
-//        if (jobApplicationList.isEmpty()) {
-//            System.out.println("This applicant does not have any applications submitted");
-//        }
+
         return jobApplicationList;
     }
 

@@ -21,11 +21,13 @@ public class ApplicantCommandHandler extends CommandHandler{
     private long applicantID;
     private LocalDate creationDate;
     private String username;
+    private UserCredentials currentUser;
 
     public ApplicantCommandHandler(UserCredentials user){
         this.applicantID = user.getUserID();
         this.creationDate = user.getCreationDate();
         this.username = user.getUserName();
+        this.currentUser = user;
         deleteCVAndCoverLetter();
         List<String> inboxMessages = user.getInbox();
         if (!inboxMessages.isEmpty()){ GUI.messageBox("Messages", String.join("\n", inboxMessages)); }
@@ -171,11 +173,12 @@ public class ApplicantCommandHandler extends CommandHandler{
         for (String jobID: jobIDs){
             long inputFirmID = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
             List<requiredDocs> docsList = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
-            sessionData.jobAppsDb.addApplication(
+            JobApplication newJobApp = sessionData.jobAppsDb.addApplication(
                     this.applicantID,
                     Long.parseLong(jobID),
                     inputFirmID,
                     sessionDate, docsList);
+            newJobApp.addObserver(this.currentUser);
         }
     }
 

@@ -112,10 +112,6 @@ public class JobPosting implements Serializable {
         this.setDocs = docs;
     }
 
-    public List<String> getInterviewStages(){
-        return this.interviewStages;
-    }
-
     public String getJobDetails(){
         return this.jobDetails;
     }
@@ -134,13 +130,6 @@ public class JobPosting implements Serializable {
      */
 
     public boolean isExpired(LocalDate todaysDate){
-        //condition should be based on today's date
-//        if(todaysDate.compareTo(expiryDate) > 0){
-//            return true;
-//        }
-//        else{
-//            return false;
-//        }
         return todaysDate.compareTo(expiryDate) > 0;
     }
 
@@ -207,12 +196,5 @@ public class JobPosting implements Serializable {
         Integer startSize = searchHashTags.size();
         searchHashTags.retainAll(hashTags);
         return startSize.equals(searchHashTags.size());
-    }
-
-
-    //Jacob's Change
-
-    public Collection<String> getHashTags() {
-        return hashTags;
     }
 }

@@ -131,7 +131,7 @@ public class HRJobOptionsForm extends HRForm {
 
 
         //List<String> inJobList = super.hrCH.getOpenJobsList();
-        if (inJobList.isEmpty()){
+        if (inJobList == null){
             this.jobDescLabel.setText("There are no jobs.");
         } else {
             this.jobsList.setListData(inJobList.toArray());
@@ -147,7 +147,7 @@ public class HRJobOptionsForm extends HRForm {
         query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
         List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
 
-        if (inJobAppList.isEmpty()){
+        if (inJobAppList == null){
             this.applicationDescLabel.setText("There are no applications for this job.");
         } else {
             this.associatedApplicationsList.setListData(inJobAppList.toArray());

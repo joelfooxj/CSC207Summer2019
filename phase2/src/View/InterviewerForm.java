@@ -79,7 +79,7 @@ class InterviewerForm extends JDialog {
     private void updateForm(){
         setButtonState(false);
         List<String> inJobAppList = iCH.getAssignedApplicationsIds();
-        if (inJobAppList.isEmpty()){
+        if (inJobAppList == null){
             this.applicationText.setText("You have no application assigned to you.");
         } else{
             this.jobApplicationList.setListData(inJobAppList.toArray());

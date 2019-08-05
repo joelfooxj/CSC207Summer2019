@@ -133,7 +133,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
             }
         };
         List<String> inJobAppIDs = this.appCH.filter.getJobAppsFilter(filterHM).getJobAppsID();
-        if (inJobAppIDs.isEmpty()){
+        if (inJobAppIDs == null){
             this.appTextArea.setText("You have no open applications.");
         } else {
             this.appList.setListData(inJobAppIDs.toArray());

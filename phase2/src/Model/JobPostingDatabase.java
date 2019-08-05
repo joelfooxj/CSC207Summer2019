@@ -171,10 +171,11 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 
 
     //TODO: remove this. Already done by SearchBy Enum
-    public enum jobFilters {
+    public enum jobPostingFilters {
         OPEN,
         FIRM,
         LOCATION,
+        JOB_ID
         // 1. since hashmaps cannot have duplicate keys, I make 5 hashtag enums. e.g. if you want to search high-salary
         // and part time, you put (HASHTAG1, "high-salary"), (HASHTAG2, "part-time")
         // 2. The order does not matter because the fiter method only looks at values
@@ -184,13 +185,13 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     }
 
     //TODO: remove this method
-    public List<JobPosting> filterJobPostings(HashMap<jobFilters, Long> filtration){
+    public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration){
         List<JobPosting> jobPostList = this.getListOfItems();
-        if (filtration.containsKey(jobFilters.FIRM)){
+        if (filtration.containsKey(jobPostingFilters.FIRM)){
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId()
-                    == filtration.get(jobFilters.FIRM)).collect(Collectors.toList());
+                    == filtration.get(jobPostingFilters.FIRM)).collect(Collectors.toList());
         }
-        if (filtration.containsKey(jobFilters.OPEN)){
+        if (filtration.containsKey(jobPostingFilters.OPEN)){
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.isOpen(sessionDate)
             ).collect(Collectors.toList());
         }

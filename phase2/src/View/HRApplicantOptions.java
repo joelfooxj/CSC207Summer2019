@@ -7,7 +7,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.List;
+import Model.JobApplicationDatabase.jobAppFilterKeys;
+import Model.UserCredentialsDatabase.usersFilterKeys;
 
 public class HRApplicantOptions extends HRForm {
     private JPanel contentPane;
@@ -36,7 +39,10 @@ public class HRApplicantOptions extends HRForm {
             public void actionPerformed(ActionEvent e) {
                 if (!associatedApplicationsList.isSelectionEmpty()){
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
-                    String inCV = HRApplicantOptions.super.hrCH.getApplicationCVbyApplicationID(inAppID);
+
+                    HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+                    query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
+                    String inCV = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getResume();
                     GUI.messageBox("CV", "<html>" + inCV + "</html>");
                 }
             }
@@ -46,7 +52,10 @@ public class HRApplicantOptions extends HRForm {
             public void actionPerformed(ActionEvent e) {
                 if (!associatedApplicationsList.isSelectionEmpty()){
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
-                    String inCL = HRApplicantOptions.super.hrCH.getApplicationCoverLetterbyApplicationID(inAppID);
+
+                    HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+                    query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
+                    String inCL = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getCoverLetter();
                     GUI.messageBox("Cover Letter", "<html>" + inCL + "</html>");
                 }
             }
@@ -56,7 +65,11 @@ public class HRApplicantOptions extends HRForm {
             public void actionPerformed(ActionEvent e) {
                 if (!associatedApplicationsList.isSelectionEmpty()){
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
-                    String inRL = HRApplicantOptions.super.hrCH.getApplicationRLsByApplicationID(inAppID);
+
+                    HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+                    query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
+                    String inRL = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRefLetters();
+
                     GUI.messageBox("Reference Letters", "<html>" + inRL + "</html>");
                 }
             }
@@ -95,20 +108,34 @@ public class HRApplicantOptions extends HRForm {
 
     private void setApplicantDesc(){
         String applicantID = (String) this.applicantList.getSelectedValue();
-        String applicantDesc = super.hrCH.getApplicantDescByApplicantID(applicantID);
+
+        HashMap<usersFilterKeys, String> query = new HashMap<>();
+        query.put(usersFilterKeys.USER_ID, applicantID);
+
+        String applicantDesc = super.hrCH.filter.getUsersFilter(query).getRepresentation();
+
         this.applicantLabel.setText(applicantDesc);
     }
 
     private void setApplicationDesc(){
         String applicationID = (String) this.associatedApplicationsList.getSelectedValue();
-        String applicationDesc = super.hrCH.getApplicationDescByApplicationID(applicationID);
+
+
+        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
+        String applicationDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
+
         this.applicationLabel.setText(applicationDesc);
     }
 
     private void updateApplicationList(){
         disableButtons();
         String applicantID = (String) this.applicantList.getSelectedValue();
-        List<String> applicationList = super.hrCH.getApplicationIDsByApplicantID(applicantID);
+
+        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        query.put(jobAppFilterKeys.APPLICANT_ID, Long.parseLong(applicantID));
+        List<String> applicationList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
+
         if (applicationList.isEmpty()){
                 this.applicationLabel.setText("This applicant has not applied for any jobs.");
         } else{
@@ -119,7 +146,11 @@ public class HRApplicantOptions extends HRForm {
 
     private void updateApplicantList(){
         disableButtons();
-        List<String> applicantList = super.hrCH.getApplicantIDsByFirmID();
+
+
+        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        query.put(jobAppFilterKeys.FIRM_ID, Long.parseLong(HRApplicantOptions.super.hrCH.getFirmID()));
+        List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
         if (applicantList.isEmpty()){
             this.applicantLabel.setText("There are no applicants.");
         } else{
@@ -135,7 +166,12 @@ public class HRApplicantOptions extends HRForm {
 
     private void checkRequiredButtonEnable(){
         String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
-        List<String> inDocs = this.hrCH.checkJobAppRequiredDocs(selectedAppID);
+
+
+        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(selectedAppID));
+        List<String> inDocs = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRequiredDocuments();
+
         coverLetterButton.setEnabled(inDocs.contains("Cover Letter"));
         cvButton.setEnabled(inDocs.contains("CV"));
         refLetterButton.setEnabled(inDocs.contains("Reference Letters"));

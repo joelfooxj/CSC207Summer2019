@@ -10,12 +10,19 @@ public class UserQuery {
         this.filteredUsers = filteredUsers;
     }
 
-    public List<String> getRepresentation(){
+    public List<String> getRepresentations(){
         if (filteredUsers.size() != 1){
             return null;
         }
         return null;//filteredUsers.get(0).toString();
     }
 
+
+    public String getRepresentation(){
+        if (filteredUsers.size() != 1){
+            return null;
+        }
+        return filteredUsers.get(0).toString();
+    }
 
 }

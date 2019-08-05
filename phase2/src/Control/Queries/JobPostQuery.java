@@ -32,4 +32,5 @@ public class JobPostQuery {
         }
         return filteredJobPosts.get(0).toString();
     }
+
 }

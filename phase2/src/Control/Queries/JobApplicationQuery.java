@@ -23,7 +23,23 @@ public class JobApplicationQuery {
         return applicantsIDs;
     }
 
-    public String getReferenceLetters(){
+
+    public List<String> getJobAppsID(){
+        if (filteredJobApps.size() < 1){
+            return null;
+        }
+        List<String> applicantionsIDs = new ArrayList<String>();
+        for (JobApplication jobApp: this.filteredJobApps){
+            applicantionsIDs.add(String.valueOf(jobApp.getApplicationID()));
+        }
+        return applicantionsIDs;
+
+
+
+    }
+
+
+    public String getRefLetters(){
         if (filteredJobApps.size()!= 1){
             return null;
         }
@@ -50,7 +66,7 @@ public class JobApplicationQuery {
         return filteredJobApps.get(0).getCoverLetter();
     }
 
-    public String getDescription(){
+    public String getRepresentation(){
         if (filteredJobApps.size()!= 1){
             return null;
         }
@@ -75,4 +91,7 @@ public class JobApplicationQuery {
         return requiredDocuments;
     }
 
+    public List<JobApplication> getFilteredJobApps() {
+        return filteredJobApps;
+    }
 }

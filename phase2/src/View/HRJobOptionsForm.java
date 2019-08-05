@@ -2,11 +2,10 @@ package View;
 
 import Control.HrCommandHandler;
 import Model.JobApplicationDatabase.jobAppFilterKeys;
+import Model.JobPostingDatabase.jobPostingFilters;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
-
-import Model.UserCredentials;
 
 import java.util.List;
 
@@ -14,7 +13,6 @@ import java.util.List;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 import java.util.HashMap;
-import java.util.List;
 
 public class HRJobOptionsForm extends HRForm {
     private JPanel contentPane;
@@ -102,13 +100,21 @@ public class HRJobOptionsForm extends HRForm {
 
     private void setJobsDesc(){
         String jobID = (String) this.jobsList.getSelectedValue();
-        String jobDesc = super.hrCH.getJobPostingDesc(jobID);
+
+        HashMap<jobPostingFilters, Object> query = new HashMap<>();
+        query.put(jobPostingFilters.JOB_ID, Long.parseLong(jobID));
+        String jobDesc = super.hrCH.filter.getJobPostsFilter(query).getRepresentation();
         this.jobDescLabel.setText(jobDesc);
     }
 
     private void setAppDesc(){
         String appID = (String) this.associatedApplicationsList.getSelectedValue();
-        String appDesc = super.hrCH.getJobApplicationPrintout(appID);
+
+        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
+        query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(appID));
+
+        String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
+
         this.applicationDescLabel.setText(appDesc);
     }
 
@@ -116,7 +122,15 @@ public class HRJobOptionsForm extends HRForm {
         setButtonEnabled(false);
         this.jobDescLabel.setText("");
         this.applicationDescLabel.setText("");
-        List<String> inJobList = super.hrCH.getOpenJobsList();
+
+
+        HashMap<jobPostingFilters, Object> query = new HashMap<>();
+        query.put(jobPostingFilters.OPEN, 1);
+
+        List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getJobIDs();
+
+
+        //List<String> inJobList = super.hrCH.getOpenJobsList();
         if (inJobList.isEmpty()){
             this.jobDescLabel.setText("There are no jobs.");
         } else {
@@ -129,11 +143,10 @@ public class HRJobOptionsForm extends HRForm {
         this.applicationDescLabel.setText("");
         String selectedJobID = (String) this.jobsList.getSelectedValue();
 
-        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
+        List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
 
-        List<String> inJobAppList = super.hrCH.filter.getJobApplicationsFilter(query).getApplicantIDs();
-        //List<String> inJobAppList = super.hrCH.getApplicationsIDbyJobID(selectedJobID);
         if (inJobAppList.isEmpty()){
             this.applicationDescLabel.setText("There are no applications for this job.");
         } else {

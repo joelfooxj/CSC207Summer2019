@@ -64,25 +64,26 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
     return newUser;
   }
 
-  public enum filterKeys {
+  public enum usersFilterKeys {
     ACCOUNT_TYPE,
     FIRM_ID,
-    USERNAME
+    USERNAME,
+    USER_ID
   }
 
-  public List<UserCredentials> filter(HashMap<filterKeys, String> filtration){
+  public List<UserCredentials> filter(HashMap<usersFilterKeys, Object> filtration){
     List<UserCredentials> userCredentialsList = this.getListOfItems();
-    if (filtration.containsKey(filterKeys.ACCOUNT_TYPE)) {
+    if (filtration.containsKey(usersFilterKeys.ACCOUNT_TYPE)) {
         userCredentialsList = userCredentialsList.stream().filter(userCredentials -> userCredentials.getUserType().name()
-            == filtration.get(filterKeys.ACCOUNT_TYPE)).collect(Collectors.toList());
+            == filtration.get(usersFilterKeys.ACCOUNT_TYPE)).collect(Collectors.toList());
     }
-    if (filtration.containsKey(filterKeys.FIRM_ID)) {
+    if (filtration.containsKey(usersFilterKeys.FIRM_ID)) {
         userCredentialsList = userCredentialsList.stream().filter(userCredentials ->
-                userCredentials.getFirmId().toString().equals(filtration.get(filterKeys.FIRM_ID))).collect(Collectors.toList());
+                userCredentials.getFirmId().toString().equals(filtration.get(usersFilterKeys.FIRM_ID))).collect(Collectors.toList());
     }
-    if (filtration.containsKey(filterKeys.USERNAME)) {
+    if (filtration.containsKey(usersFilterKeys.USERNAME)) {
         userCredentialsList = userCredentialsList.stream().filter(userCredentials ->
-                userCredentials.getUserName().contains(filtration.get(filterKeys.USERNAME))).collect(Collectors.toList());
+                userCredentials.getUserName().contains(filtration.get(usersFilterKeys.USERNAME))).collect(Collectors.toList());
     }
     return userCredentialsList;
   }

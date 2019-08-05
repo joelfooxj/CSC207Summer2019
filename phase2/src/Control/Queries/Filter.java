@@ -15,15 +15,15 @@ public class Filter {
         this.sessionData = sessionData;
     }
 
-    public JobApplicationQuery getJobApplicationsFilter(HashMap<JobApplicationDatabase.jobAppFilterKeys, Long> filter){
+    public JobApplicationQuery getJobAppsFilter(HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter){
         return new JobApplicationQuery(sessionData.jobAppsDb.filter(filter));
     }
 
-    public JobPostQuery getJobPostsFilter(HashMap<JobPostingDatabase.jobFilters, Long> filter){
+    public JobPostQuery getJobPostsFilter(HashMap<JobPostingDatabase.jobPostingFilters, Object> filter){
         return new JobPostQuery(sessionData.jobPostingsDb.filterJobPostings(filter));
     }
 
-    public UserQuery getUsersFilter(HashMap<UserCredentialsDatabase.filterKeys, String> filter){
+    public UserQuery getUsersFilter(HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter){
         return new UserQuery(sessionData.usersDb.filter(filter));
     }
 

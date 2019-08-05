@@ -115,7 +115,7 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         OPEN,
     }
 
-    public List<JobApplication> filter(HashMap<jobAppFilterKeys, Long> filtration){
+    public List<JobApplication> filter(HashMap<jobAppFilterKeys, Object> filtration){
         List<JobApplication> applicationList = this.getListOfItems();
         if (filtration.containsKey(jobAppFilterKeys.APPLICATION_ID)){
             applicationList = applicationList.stream().filter(app -> app.getApplicationID()

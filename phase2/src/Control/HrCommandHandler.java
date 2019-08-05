@@ -25,6 +25,7 @@ public class HrCommandHandler extends CommandHandler {
     };
 
     public HrCommandHandler(UserCredentials hrUser){
+
         this.username = hrUser.getUserName();
         this.firmID = String.valueOf(hrUser.getFirmId());
 

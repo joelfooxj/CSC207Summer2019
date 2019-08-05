@@ -47,7 +47,7 @@ public class ApplicantCommandHandler extends CommandHandler{
     }
 
     public void withdrawApplication(String applicationID){
-        this.getApplication(applicationID).setOpen(false);
+        this.getApplication(applicationID).setOpen(false, super.sessionDate);
     }
     public void setApplicationCV(String applicationID, String inCV){
         this.getApplication(applicationID).setCV(inCV);

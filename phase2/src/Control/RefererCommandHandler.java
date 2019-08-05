@@ -19,7 +19,7 @@ public class RefererCommandHandler extends CommandHandler {
     }
 
     public void addReferenceLetter(Long appID, String referenceLetter) {
-        JobApplication app = CommandHandler.sessionData.jobAppsDb.getItemByID(appID);
+        JobApplication app = super.sessionData.jobAppsDb.getItemByID(appID);
         app.addReferenceLetter(referenceLetter);
     }
 

@@ -7,17 +7,19 @@ import java.time.LocalDate;
 
 public abstract class CommandHandler {
 
-    public static SessionData sessionData;
-    public static LocalDate sessionDate;
-    public Filter filter = new Filter(sessionData);
+    public SessionData sessionData;
+    public LocalDate sessionDate;
+    public Filter filter;
 
+    // todo: use constructor
+    public void setSessionData(SessionData sessionData) {
 
-    public static void setSessionData(SessionData sessionData) {
-        CommandHandler.sessionData = sessionData;
+        this.sessionData = sessionData;
+        this.filter = new Filter(sessionData);
     }
 
-    public static void setSessionDate(LocalDate sessionDate){
-        CommandHandler.sessionDate = sessionDate;
+    public void setSessionDate(LocalDate sessionDate){
+        this.sessionDate = sessionDate;
     }
 
 

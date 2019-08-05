@@ -110,7 +110,8 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         APPLICATION_ID,
         APPLICANT_ID,
         FIRM_ID,
-        JOB_ID
+        JOB_ID,
+        OPEN,
     }
 
     public List<JobApplication> filter(HashMap<filterKeys, Long> filtration){
@@ -130,6 +131,9 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         if (filtration.containsKey(filterKeys.JOB_ID)){
             applicationList = applicationList.stream().filter(app -> app.getJobID()
                     == filtration.get(filterKeys.JOB_ID)).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(filterKeys.OPEN)){
+            applicationList = applicationList.stream().filter(app -> app.isOpen()).collect(Collectors.toList());
         }
         return applicationList;
     }

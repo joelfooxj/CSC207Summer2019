@@ -112,11 +112,12 @@ public class Login extends JDialog {
                 String firmName = this.firmText.getText();
                 if (!firmName.equals("")) {
                     this.retUser = session.addUser(userName, password, stringEnumLink.get(accountType), firmName);
+                    dispose();
                 } else {
                     this.errorLabel.setText("Please enter a firm.");
                 }
             }
-            dispose();
+
         }
     }
 

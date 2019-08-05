@@ -37,7 +37,7 @@ public class HyreSession {
     }
 
     private void updateDataStatus() {
-        sessionData.jobsDb.updateDb(sessionDate);
+        sessionData.jobPostingsDb.updateDb(sessionDate);
     }
 
     public void launchSession() throws IOException, ClassNotFoundException {

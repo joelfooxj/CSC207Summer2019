@@ -61,7 +61,7 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     // todo: encapsulate these getters and setters into its own class and send to GUI
     private JobApplication getApplication(String applicationID){
-        return sessionData.appsDb.getApplicationByApplicationID(Long.parseLong(applicationID));
+        return sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(applicationID));
     }
 
     public void withdrawApplication(String applicationID){
@@ -97,10 +97,10 @@ public class ApplicantCommandHandler extends CommandHandler{
      */
     private List<JobPosting> getOpenUnappliedJobs(){
         List<JobPosting> openJobs = new ArrayList<>();
-        if (sessionData.jobsDb.isEmpty()){
+        if (sessionData.jobPostingsDb.isEmpty()){
             return openJobs;
         }
-        for (Long jobID: sessionData.jobsDb.getOpenPostingIds()){
+        for (Long jobID: sessionData.jobPostingsDb.getOpenPostingIds()){
             boolean appliedForFlag = false;
             if (!this.getAllApplications().isEmpty()){
                 for (JobApplication app: this.getAllApplications()){
@@ -109,7 +109,7 @@ public class ApplicantCommandHandler extends CommandHandler{
                     }
                 }
             }
-            JobPosting inJob = sessionData.jobsDb.getJobPostingByID(jobID);
+            JobPosting inJob = sessionData.jobPostingsDb.getJobPostingByID(jobID);
             if (!appliedForFlag && !inJob.isExpired(sessionDate)){
                 openJobs.add(inJob);
             }
@@ -168,9 +168,9 @@ public class ApplicantCommandHandler extends CommandHandler{
     // todo: update addApplication() with less parameters
     public void applyForJobs(List<String> jobIDs){
         for (String jobID: jobIDs){
-            long inputFirmID = sessionData.jobsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
-            List<requiredDocs> docsList = sessionData.jobsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
-            sessionData.appsDb.addApplication(
+            long inputFirmID = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
+            List<requiredDocs> docsList = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
+            sessionData.jobAppsDb.addApplication(
                     this.applicantID,
                     Long.parseLong(jobID),
                     inputFirmID,
@@ -183,7 +183,7 @@ public class ApplicantCommandHandler extends CommandHandler{
      * @return A list of applications associated with this Applicant
      */
     private List<JobApplication> getAllApplications(){
-        return sessionData.appsDb.getApplicationsByApplicantID(this.applicantID);
+        return sessionData.jobAppsDb.getApplicationsByApplicantID(this.applicantID);
     }
 
     public List<Long> getAllOpenApplicationIDs(){

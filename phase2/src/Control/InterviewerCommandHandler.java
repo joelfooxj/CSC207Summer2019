@@ -29,7 +29,7 @@ public class InterviewerCommandHandler extends CommandHandler{
      * @return List of JobApplications
      */
     private List<JobApplication> getAssignedApplications(){
-        return sessionData.appsDb.getApplicationByInterviewerID(this.interviewerID);
+        return sessionData.jobAppsDb.getApplicationByInterviewerID(this.interviewerID);
     }
 
     /**

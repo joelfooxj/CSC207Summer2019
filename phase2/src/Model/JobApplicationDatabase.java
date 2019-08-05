@@ -3,7 +3,6 @@ package Model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -116,30 +115,30 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         return jobApplicationList;
     }
 
-    public enum appFilters{
+    public enum filterKeys {
         APPLICATION_ID,
         APPLICANT_ID,
         FIRM_ID,
         JOB_ID
     }
 
-    public List<JobApplication> filterApplications(HashMap<appFilters, Long> filtration){
+    public List<JobApplication> filter(HashMap<filterKeys, Long> filtration){
         List<JobApplication> applicationList = this.getAllApplications();
-        if (filtration.containsKey(appFilters.APPLICATION_ID)){
+        if (filtration.containsKey(filterKeys.APPLICATION_ID)){
             applicationList = applicationList.stream().filter(app -> app.getApplicationID()
-                    == filtration.get(appFilters.APPLICATION_ID)).collect(Collectors.toList());
+                    == filtration.get(filterKeys.APPLICATION_ID)).collect(Collectors.toList());
         }
-        if (filtration.containsKey(appFilters.APPLICANT_ID)){
+        if (filtration.containsKey(filterKeys.APPLICANT_ID)){
             applicationList = applicationList.stream().filter(app -> app.getApplicantID()
-                    == filtration.get(appFilters.APPLICANT_ID)).collect(Collectors.toList());
+                    == filtration.get(filterKeys.APPLICANT_ID)).collect(Collectors.toList());
         }
-        if (filtration.containsKey(appFilters.FIRM_ID)){
+        if (filtration.containsKey(filterKeys.FIRM_ID)){
             applicationList = applicationList.stream().filter(app -> app.getFirmID()
-                    == filtration.get(appFilters.FIRM_ID)).collect(Collectors.toList());
+                    == filtration.get(filterKeys.FIRM_ID)).collect(Collectors.toList());
         }
-        if (filtration.containsKey(appFilters.JOB_ID)){
+        if (filtration.containsKey(filterKeys.JOB_ID)){
             applicationList = applicationList.stream().filter(app -> app.getJobID()
-                    == filtration.get(appFilters.JOB_ID)).collect(Collectors.toList());
+                    == filtration.get(filterKeys.JOB_ID)).collect(Collectors.toList());
         }
         return applicationList;
     }

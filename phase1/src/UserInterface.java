@@ -175,7 +175,7 @@ public class UserInterface {
             sessionDate = setDate();
 
             jobsDb.updateDb(sessionDate);
-            //appsDb.updateDb(sessionDate);
+            //jobAppsDb.updateDb(sessionDate);
             // a method that handles sign ups & log ins
             currentUser = getUser();
 

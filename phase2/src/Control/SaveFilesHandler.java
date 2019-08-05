@@ -39,8 +39,8 @@ public class SaveFilesHandler {
      * @throws IOException
      */
     private void saveAll() throws IOException {
-        sessionData.appsDb.saveDatabase(applicationsDbPath);
-        sessionData.jobsDb.saveDatabase(jobsDbPath);
+        sessionData.jobAppsDb.saveDatabase(applicationsDbPath);
+        sessionData.jobPostingsDb.saveDatabase(jobsDbPath);
         sessionData.usersDb.saveDatabase(usersDbPath);
         sessionData.firmsDb.saveDatabase(firmDbPath);
     }
@@ -51,8 +51,8 @@ public class SaveFilesHandler {
      * @throws ClassNotFoundException
      */
     private void readAll() throws IOException, ClassNotFoundException {
-        sessionData.appsDb.readDatabase(applicationsDbPath);
-        sessionData.jobsDb.readDatabase(jobsDbPath);
+        sessionData.jobAppsDb.readDatabase(applicationsDbPath);
+        sessionData.jobPostingsDb.readDatabase(jobsDbPath);
         sessionData.usersDb.readDatabase(usersDbPath);
         sessionData.firmsDb.readDatabase(firmDbPath);
     }

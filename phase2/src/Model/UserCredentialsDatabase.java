@@ -1,7 +1,9 @@
 package Model;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import Control.HyreLauncher;
 public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
@@ -59,5 +61,13 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
     UserCredentials newUser = new UserCredentials(userName, password, type, firmId, super.getCurrID());
     super.addItem(newUser);
     return newUser;
+  }
+
+  public enum filterKeys {
+
+  }
+
+  public List<UserCredentials> filter(HashMap<filterKeys, Long> filtration){
+    return null; // todo
   }
 }

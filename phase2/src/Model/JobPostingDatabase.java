@@ -158,6 +158,16 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * updates the session date of database
      * @param sessionDate - the date that the user is logged into the program on. i.e. today's date.
      */
+
+    public enum filterKeys{
+        // todo
+    }
+
+    public List<JobPosting> filter(HashMap<filterKeys, Long> filter){
+        return null; //todo
+    }
+
+
     //TODO consider renaming to updateDbTime
     public void updateDb(LocalDate sessionDate) {
         this.sessionDate = sessionDate;

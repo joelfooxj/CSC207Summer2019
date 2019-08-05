@@ -105,8 +105,8 @@ public class HrCommandHandler extends CommandHandler {
                 hashTags, interviewStages, skills, docsList);
     }
 
-    public void assignInterviewer(JobApplication application, UserCredentials interviewer) {
-        application.setUpInterview(interviewer.getUserID());
+    public void assignInterviewer(Long application, Long interviewer) {
+        sessionData.jobAppsDb.getItemByID(application).setUpInterview(interviewer);
     }
 
 

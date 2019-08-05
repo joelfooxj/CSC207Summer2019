@@ -118,20 +118,16 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     public List<JobApplication> filter(HashMap<jobAppFilterKeys, Object> filtration){
         List<JobApplication> applicationList = this.getListOfItems();
         if (filtration.containsKey(jobAppFilterKeys.APPLICATION_ID)){
-            applicationList = applicationList.stream().filter(app -> app.getApplicationID()
-                    == filtration.get(jobAppFilterKeys.APPLICATION_ID)).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(app -> app.getApplicationID().equals(filtration.get(jobAppFilterKeys.APPLICATION_ID))).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.APPLICANT_ID)){
-            applicationList = applicationList.stream().filter(app -> app.getApplicantID()
-                    == filtration.get(jobAppFilterKeys.APPLICANT_ID)).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(app -> app.getApplicantID().equals(filtration.get(jobAppFilterKeys.APPLICANT_ID))).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.FIRM_ID)){
-            applicationList = applicationList.stream().filter(app -> app.getFirmID()
-                    == filtration.get(jobAppFilterKeys.FIRM_ID)).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(app -> app.getFirmID().equals(filtration.get(jobAppFilterKeys.FIRM_ID))).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.JOB_ID)){
-            applicationList = applicationList.stream().filter(app -> app.getJobID()
-                    == filtration.get(jobAppFilterKeys.JOB_ID)).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(app -> app.getJobID().equals(filtration.get(jobAppFilterKeys.JOB_ID))).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.OPEN)){
             applicationList = applicationList.stream().filter(app -> app.isOpen()).collect(Collectors.toList());

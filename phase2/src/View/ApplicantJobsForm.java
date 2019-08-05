@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import Model.JobPostingDatabase.jobFilters;
+import Model.JobPostingDatabase.jobPostingFilters;
 
 public class ApplicantJobsForm extends ApplicantForm {
     private JPanel contentPane;
@@ -112,7 +112,7 @@ public class ApplicantJobsForm extends ApplicantForm {
     }
 
     private List<String> getLocations(){
-        HashMap<jobFilters, Long> filterHM = new HashMap<jobFilters, Long>(){{ put(jobFilters.OPEN, 1L);}};
+        HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>(){{ put(jobPostingFilters.OPEN, 1L);}};
         return this.appCH.filter.getJobPostsFilter(filterHM).getLocationList();
     }
 }

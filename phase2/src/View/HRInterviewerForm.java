@@ -8,15 +8,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
 public class HRInterviewerForm extends HRForm {
     private JPanel panel;
     private JScrollPane jobPane;
-    private JList<JobPosting> jobPostingJList = new JList<>();
+    private JList<Long> jobPostingJList = new JList<>();
     private JScrollPane appPane;
-    private JList<JobApplication> jobApplicationJList = new JList<>();
+    private JList<java.lang.String> jobApplicationJList = new JList<>();
     private JTextArea detailedApp;
     private JButton buttonChooseInterviewer;
     private JButton buttonExit;
@@ -29,11 +30,11 @@ public class HRInterviewerForm extends HRForm {
         setupAttributes();
         this.panel.setBorder(BorderFactory.createTitledBorder("Interviewer Assignment Options"));
         // Setup JobPosting JList ot only show open applications for this user's firm
-        List<JobPosting> jobPostingList = super.hrCH.filterJobPosting(new HashMap<JobPostingDatabase.jobFilters, Long>() {{
-            put(JobPostingDatabase.jobFilters.FIRM, Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
-            put(JobPostingDatabase.jobFilters.OPEN, 1L);
-        }});
-        JobPosting[] jobPostingsArr = jobPostingList.toArray(new JobPosting[jobPostingList.size()]);
+        HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
+        filter.put(JobPostingDatabase.jobPostingFilters.FIRM, Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
+        filter.put(JobPostingDatabase.jobPostingFilters.OPEN, 1L);
+        List<String> jobPostingList = hrCH.filter.getJobPostsFilter(filter).getJobIDs();
+        Long[] jobPostingsArr = jobPostingList.toArray(new Long[jobPostingList.size()]);
         jobPostingJList = new JList<>(jobPostingsArr);
         buttonChooseInterviewer.setEnabled(false);
     }
@@ -71,10 +72,10 @@ public class HRInterviewerForm extends HRForm {
 
     private void onJobSelection() {
         Long firm = Long.parseLong(super.hrCH.getFirmID());
-        List<JobPosting> jobList = super.hrCH.filterJobPosting(new HashMap<Model.JobPostingDatabase.jobFilters, Long>() {{
-            put(JobPostingDatabase.jobFilters.FIRM, firm);
-        }});
-        JobApplication[] jobArr = jobList.toArray(new JobApplication[jobList.size()]);
+        HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
+        filter.put(JobPostingDatabase.jobPostingFilters.FIRM, firm);
+        List<java.lang.String> jobList = hrCH.filter.getJobPostsFilter(filter).getJobIDs();
+        String[] jobArr = jobList.toArray(new String[jobList.size()]);
         jobApplicationJList = new JList<>(jobArr);
         jobApplicationJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jobApplicationJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
@@ -82,20 +83,23 @@ public class HRInterviewerForm extends HRForm {
         appPane.setViewportView(jobApplicationJList);
     }
 
-    private void onAppSelection(JobApplication app) {
-        detailedApp.setText(app.toString());
+    private void onAppSelection(String appID) {
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICATION_ID, Long.parseLong(appID));
+        detailedApp.setText(hrCH.filter.getJobAppsFilter(filter).getRepresentation());
         buttonChooseInterviewer.setEnabled(true);
     }
 
-    private void onChoose(JobApplication app) {
-        HashMap<Model.UserCredentialsDatabase.filterKeys, String> filter = new HashMap<Model.UserCredentialsDatabase.filterKeys, String>() {{
-            put(UserCredentialsDatabase.filterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER.name());
-            put(UserCredentialsDatabase.filterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
+    private void onChoose(String appID) {
+        HashMap<Model.UserCredentialsDatabase.usersFilterKeys, String> filter =
+                new HashMap<Model.UserCredentialsDatabase.usersFilterKeys, String>() {{
+            put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER.name());
+            put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
         }};
         SelectUser selectUser = new SelectUser(filter, super.hrCH);
-        UserCredentials user = selectUser.getUser();
-        if (user != null) {
-            super.hrCH.assignInterviewer(app, user);
+        Long userID = selectUser.getUser();
+        if (userID != null) {
+            super.hrCH.assignInterviewer(Long.parseLong(appID), userID);
         }
     }
 }

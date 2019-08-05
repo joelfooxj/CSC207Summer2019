@@ -84,23 +84,23 @@ public class JobApplication extends Observable implements Serializable {
         else {return false;}
     }
 
-    public long getApplicationID() {
+    public Long getApplicationID() {
         return applicationID;
     }
 
-    public long getJobID() {
+    public Long getJobID() {
         return jobID;
     }
 
-    public long getApplicantID() {
+    public Long getApplicantID() {
         return applicantID;
     }
 
-    public long getFirmID() {
+    public Long getFirmID() {
         return firmID;
     }
 
-    public long getInterviewerID() {
+    public Long getInterviewerID() {
         return interviewerID;
     }
 

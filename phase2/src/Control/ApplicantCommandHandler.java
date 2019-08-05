@@ -1,9 +1,6 @@
 package Control;
 
-import Model.requiredDocs;
-import Model.JobApplication;
-import Model.JobPosting;
-import Model.UserCredentials;
+import Model.*;
 import View.GUI;
 import Model.JobPostingDatabase.jobPostingFilters;
 
@@ -155,7 +152,10 @@ public class ApplicantCommandHandler extends CommandHandler{
      * @return A list of applications associated with this Applicant
      */
     private List<JobApplication> getAllApplications(){
-        return sessionData.jobAppsDb.getApplicationsByApplicantID(this.applicantID);
+        //return sessionData.jobAppsDb.getApplicationsByApplicantID(this.applicantID);
+        HashMap requirement = new HashMap();
+        requirement.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, this.applicantID);
+        return sessionData.jobAppsDb.filter(requirement);
     }
 
     /**

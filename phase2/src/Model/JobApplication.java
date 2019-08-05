@@ -63,6 +63,7 @@ public class JobApplication extends Observable implements Serializable {
         return applicationID;
     }
 
+
     public Long getJobID() {
         return jobID;
     }

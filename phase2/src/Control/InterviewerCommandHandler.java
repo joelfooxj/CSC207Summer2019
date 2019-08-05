@@ -1,9 +1,11 @@
 package Control;
 
 import Model.JobApplication;
+import Model.JobApplicationDatabase;
 import Model.UserCredentials;
 import View.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InterviewerCommandHandler extends CommandHandler{
@@ -29,7 +31,10 @@ public class InterviewerCommandHandler extends CommandHandler{
      * @return List of JobApplications
      */
     private List<JobApplication> getAssignedApplications(){
-        return sessionData.jobAppsDb.getApplicationByInterviewerID(this.interviewerID);
+        HashMap requirement = new HashMap();
+        requirement.put(JobApplicationDatabase.jobAppFilterKeys.INTERVIEWER_ID, this.interviewerID);
+        return sessionData.jobAppsDb.filter(requirement);
+        //return sessionData.jobAppsDb.getApplicationByInterviewerID(this.interviewerID);
     }
 
     /**

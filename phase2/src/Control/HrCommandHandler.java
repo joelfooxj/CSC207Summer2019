@@ -48,13 +48,6 @@ public class HrCommandHandler extends CommandHandler {
     }
 
 
-// todo: check if filtering method works
-    private List<JobApplication> getJobApplicationsbyJobID(String jobID){
-        return sessionData.jobAppsDb.getFilteredApplications("job id", Long.parseLong(jobID));
-
-    }
-
-
 
     /**
      * This method sets the selected JobApplication to hired.

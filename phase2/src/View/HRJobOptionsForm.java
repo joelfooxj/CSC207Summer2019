@@ -5,6 +5,12 @@ import Model.JobApplicationDatabase.jobAppFilterKeys;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+
+import Model.UserCredentials;
+
+import java.util.List;
+
+
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 import java.util.HashMap;

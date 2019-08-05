@@ -27,10 +27,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
         this.appList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.appList.setLayoutOrientation(JList.VERTICAL);
 
-        this.appList.setListData(this.appCH.getAllOpenApplicationIDs().toArray());
-        this.appList.setSelectedIndex(0);
-        String selectedAppID = (String) this.appList.getSelectedValue();
-        this.appTextArea.setText(this.appCH.getApplicationDesc(selectedAppID));
+        this.updateForm();
 
         CVButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -62,6 +59,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
             public void valueChanged(ListSelectionEvent e) {
                 String selectedAppID = (String) appList.getSelectedValue();
                 checkCVCLButtonEnable(selectedAppID);
+                withdrawButton.setEnabled(true);
                 appTextArea.setText(appCH.getApplicationDesc(selectedAppID));
             }
         });
@@ -84,6 +82,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
             this.appTextArea.setText("");
             this.appList.clearSelection();
             this.appList.remove(selectedListIndex);
+            updateForm();
         }
     }
 
@@ -111,5 +110,22 @@ public class ApplicantApplicationForm extends ApplicantForm {
         List<String> requiredDocsList = this.appCH.checkJobAppRequiredDocs(inJobAppID);
         this.CVButton.setEnabled(requiredDocsList.contains("CV"));
         this.coverletterButton.setEnabled(requiredDocsList.contains("Cover Letter"));
+    }
+
+    private void updateForm(){
+        setButtonStatus(false);
+        List<Long> inJobAppIDs = this.appCH.getAllOpenApplicationIDs();
+        if (inJobAppIDs.isEmpty()){
+            this.appTextArea.setText("You have no open applications.");
+        } else {
+            this.appList.setListData(inJobAppIDs.toArray());
+        }
+    }
+
+    private void setButtonStatus(boolean enabled){
+        this.withdrawButton.setEnabled(enabled);
+        this.coverletterButton.setEnabled(enabled);
+        this.CVButton.setEnabled(enabled);
+        this.coverletterButton.setEnabled(enabled);
     }
 }

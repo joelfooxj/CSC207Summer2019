@@ -19,12 +19,16 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
      * @param firmID: the unique id of the company
      * @param creationDate: the creation date of the application
      */
-    public JobApplication addApplication(long applicantID, long jobID, long firmID, LocalDate creationDate, List<requiredDocs> docs){
-        JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobID, firmID, creationDate,
+    public JobApplication addApplication(long applicantID,
+                                         long jobID,
+                                         long firmID,
+                                         LocalDate creationDate,
+                                         List<requiredDocs> docs){
+        JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobID, firmID,
+                creationDate,
                 docs);
-        newJobApplication.setApplicantID(applicantID);
-        newJobApplication.setJobID(jobID);
         super.addItem(newJobApplication);
+        System.out.println(jobID);
         return newJobApplication;
     }
 

@@ -138,12 +138,15 @@ public class ApplicantCommandHandler extends CommandHandler{
         for (String jobID: jobIDs){
             long inputFirmID = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
             List<requiredDocs> docsList = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
+            System.out.println(inputFirmID);
             JobApplication newJobApp = sessionData.jobAppsDb.addApplication(
                     this.applicantID,
                     Long.parseLong(jobID),
                     inputFirmID,
                     sessionDate, docsList);
+
             newJobApp.addObserver(this.currentUser);
+            System.out.println(newJobApp);
         }
     }
 

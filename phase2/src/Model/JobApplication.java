@@ -17,10 +17,6 @@ public class JobApplication extends Observable implements Serializable {
     private Long jobID;
     private Long firmID;
 
-    private String applicantName = String.valueOf(applicantID);
-    private String firmName = String.valueOf(firmID);
-    private String jobName = String.valueOf(jobID);
-
     private Long interviewerID;
     private int passedInterviewNum;
 
@@ -114,29 +110,23 @@ public class JobApplication extends Observable implements Serializable {
     // Note the unique application number is inside a square bracket
     @Override
     public String toString() {
+        String interviwerVal = "No Interview invitation";
+        if (this.interviewerID != null){
+            interviwerVal = String.valueOf(this.interviewerID);
+        }
         return
                 "[applicationID]: "+ applicationID +
-                "\n[job]: " + jobName +
-                "\n[applicant]: " + applicantName +
-                "\n[firm]: " + firmName +
-                        "\n[interviewer ID]: "+ interviewerID + "\n";
+                "\n[Job ID]: " + this.jobID +
+                "\n[Applicant ID]: " + this.applicantID+
+                "\n[Firm]: " + this.firmID +
+                        "\n[interviewer ID]: "+ interviwerVal;
     }
 
     public boolean isOpen() {
         return isOpen;
     }
 
-    /**
-     *
-     * @param applicantName: The real name of the applicant, default value is its id
-     * @param firmName the real name of the company, default value is its id
-     * @param jobName the real name of the job, default value is its id
-     */
-    public void setNames(String applicantName, String firmName, String jobName){
-        this.applicantName = applicantName;
-        this.firmName = firmName;
-        this.jobName = jobName;
-    }
+
     /**
      *
      * @param open: a boolean indicating if the job corresponding to this application is still open

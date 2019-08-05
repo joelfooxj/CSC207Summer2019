@@ -59,27 +59,6 @@ public class JobApplication extends Observable implements Serializable {
         this.setDocs = docs;
     }
     // The followings are necessarily used getter and setters
-
-    /**
-    * @param filter: The filtration requirements, e.g. filter by firm id: "firm id"
-     * @param id: the id of the filtration parameter
-     */
-    public boolean passFilter(String filter, long id){
-        if (filter.equals("application id")){
-            return id == this.getApplicationID();
-        }
-        else if (filter.equals("applicant id")){
-            return id == this.getApplicantID();
-        }
-        else if (filter.equals("firm id")){
-            return id == this.getFirmID();
-        }
-        else if (filter.equals("job id")){
-            return id == this.getJobID();
-        }
-        else {return false;}
-    }
-
     public Long getApplicationID() {
         return applicationID;
     }
@@ -171,40 +150,6 @@ public class JobApplication extends Observable implements Serializable {
         this.closedDate = closeDate;
     }
 
-    // Based on the amount of passed interview, the applicant's application can have 5
-    // status, which are no interview assigned, pass phone interview, pass 1/2 interview
-    // If he passes all 4, the status is "in consideration"
-    public String status(){
-        if (this.isSuccessful) {
-            return "This applicant of this application has been hired.";
-        } else if (this.isRejected) {
-            return "This application has been rejected.";
-        }
-        else{
-            StringBuilder followingInterviews = new StringBuilder();
-            for (int i = 0; i<leftInterviewProcess.size();i++){
-                followingInterviews.append(leftInterviewProcess.get(i));
-            }
-            String result = "You have passed "+passedInterviewNum+"interviews"
-            + "Your following interviews are "+ followingInterviews;
-            return result;
-        }
-    }
-
-    public String getNextInterview(){
-        return leftInterviewProcess.get(0);
-    }
-
-    public void removeInterviewer(Long interviewerID){
-        this.interviewerID = 0L;
-    }
-
-    // For phase 2, we will have specific resumes and cover letters. For now, we only
-    // have the path to resume and cover letter.
-    public Object getResume() {
-        return null;
-    }
-
     /**
      *
      * @param targetInterviewerId: the id of the interviewer who is going to view this application/ applicant
@@ -232,6 +177,7 @@ public class JobApplication extends Observable implements Serializable {
         List argument = new ArrayList();
         argument.add("hire");
         argument.add(this.applicantID);
+        argument.add(this.getFirmName());
         notifyObservers(argument);
     }
 
@@ -248,6 +194,7 @@ public class JobApplication extends Observable implements Serializable {
         List argument = new ArrayList();
         argument.add("reject");
         argument.add(this.applicantID);
+        argument.add(this.getFirmName());
         notifyObservers(argument);
     }
 
@@ -301,4 +248,7 @@ public class JobApplication extends Observable implements Serializable {
         return this.setDocs;
     }
 
+    public String getFirmName() {
+        return firmName;
+    }
 }

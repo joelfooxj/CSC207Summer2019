@@ -5,10 +5,12 @@ import Model.JobApplication;
 import Model.JobPosting;
 import Model.UserCredentials;
 import View.GUI;
+import Model.JobPostingDatabase.jobPostingFilters;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -40,29 +42,6 @@ public class ApplicantCommandHandler extends CommandHandler{
         GUI.applicantForm(this);
     }
 
-    public List<String> getLocationList(){
-        // get all open jobs, construct set of locations
-        HashSet<String> locationSet = new HashSet<>();
-        for (JobPosting job: this.getOpenUnappliedJobs()){
-            locationSet.add(job.getLocation());
-        }
-        return new ArrayList<>(locationSet);
-    }
-
-    public List<String> checkJobAppRequiredDocs(String inJobAppID){
-        JobApplication inJobApp = this.getApplication(inJobAppID);
-        List<requiredDocs> inDocs = inJobApp.getRequiredDocs();
-        List<String> retList = new ArrayList<>();
-        if (inDocs.contains(requiredDocs.COVERLETTER)){
-            retList.add("Cover Letter");
-        }
-        if(inDocs.contains(requiredDocs.CV)){
-            retList.add("CV");
-        }
-        return retList;
-    }
-
-    // todo: encapsulate these getters and setters into its own class and send to GUI
     private JobApplication getApplication(String applicationID){
         return sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(applicationID));
     }
@@ -70,23 +49,9 @@ public class ApplicantCommandHandler extends CommandHandler{
     public void withdrawApplication(String applicationID){
         this.getApplication(applicationID).setOpen(false);
     }
-
-    public String getApplicationDesc(String applicationID){
-        return this.getApplication(applicationID).toString();
-    }
-
-    public String getApplicationCV(String applicationID){
-        return this.getApplication(applicationID).getCV();
-    }
-
     public void setApplicationCV(String applicationID, String inCV){
         this.getApplication(applicationID).setCV(inCV);
     }
-
-    public String getApplicationCoverLetter(String applicationID){
-        return this.getApplication(applicationID).getCoverLetter();
-    }
-
     public void setApplicationCoverLetter(String applicationID, String inCoverLetter){
         this.getApplication(applicationID).setCoverLetter(inCoverLetter);
     }
@@ -190,18 +155,6 @@ public class ApplicantCommandHandler extends CommandHandler{
         return sessionData.jobAppsDb.getApplicationsByApplicantID(this.applicantID);
     }
 
-    public List<Long> getAllOpenApplicationIDs(){
-        if (!this.getAllApplications().isEmpty()){
-            List<Long> retLongList = new ArrayList<>();
-            for (JobApplication app:this.getAllApplications()){
-                if (app.isOpen()){
-                    retLongList.add(app.getApplicationID());
-                }
-            }
-            return retLongList;
-        } else {return null;}
-    }
-
     /**
      * This method calculates the days between the current session and the last closed application
      * @return minDaysBetween
@@ -219,26 +172,6 @@ public class ApplicantCommandHandler extends CommandHandler{
             }
         }
         return String.valueOf(minDaysBetween);
-    }
-
-    public String getApplicationsPrintout(boolean isOpen){
-        StringBuilder openApps = new StringBuilder();
-        StringBuilder closedApps = new StringBuilder();
-        if(!this.getAllApplications().isEmpty()){
-            for (JobApplication app:this.getAllApplications()){
-                if (app.isOpen()){
-                    openApps.append(app);
-                    openApps.append("\n");
-                } else {
-                    closedApps.append(app);
-                    closedApps.append("\n");
-                }
-            }
-            if (isOpen) { return new String(openApps); }
-            else { return new String(closedApps); }
-        } else {
-            return "You have no open applications.";
-        }
     }
 
     public String getCreationDate(){

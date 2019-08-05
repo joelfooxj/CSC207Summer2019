@@ -1,6 +1,7 @@
 package View;
 import Control.CommandHandler;
 import Control.HyreLauncher;
+import Control.HyreSession;
 import Model.UserCredentials;
 import Model.UserCredentialsDatabase;
 
@@ -19,7 +20,7 @@ public class Login extends JDialog {
     private JComboBox userTypeBox;
     private JTextField firmText;
     private LocalDate sessionDate;
-    private UserCredentialsDatabase usersDb;
+    private HyreSession session;
 
     public UserCredentials retUser;
 
@@ -32,9 +33,9 @@ public class Login extends JDialog {
         }
     };
 
-    public Login(LocalDate sessionDate, UserCredentialsDatabase usersDb) {
+    public Login(HyreSession session) {
         this.sessionDate = sessionDate;
-        this.usersDb = usersDb;
+        this.session = session;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonLogin);
@@ -84,7 +85,7 @@ public class Login extends JDialog {
         // HyreLauncher.adduser -> userdb to add user...
 
 
-        UserCredentials targetUser = usersDb.getUserByCredentials(userName, password);
+        UserCredentials targetUser = session.getSessionData().usersDb.getUserByCredentials(userName, password);
         if (targetUser == null){
             this.errorLabel.setText("Incorrect username or password.");
             this.resetFields();
@@ -99,21 +100,20 @@ public class Login extends JDialog {
         String password = String.valueOf(this.passwordField.getPassword());
         if (userName.equals("") || password.equals("")) {
             this.errorLabel.setText("Please enter a username and a password");
-        } else if (usersDb.userExists(userName)) {
+        } else if (session.getSessionData().usersDb.userExists(userName)) {
             this.errorLabel.setText("User already exists");
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
             // todo: maybe combine the addUser methods?
-            if (accountType.equals("Applicant") || accountType.equals("Referer")){
-                this.retUser = usersDb.addUser(userName, password,
-                        stringEnumLink.get(accountType), sessionDate);
+            if (accountType.equals("Applicant") || accountType.equals(stringEnumLink.get("Referer"))){
+                this.retUser = session.addUser(userName, password,
+                        stringEnumLink.get(accountType), "");
             } else {
-                try {
-                    Long firmID = Long.parseLong(this.firmText.getText());
-                    this.retUser = usersDb.addUser(userName, password,
-                            stringEnumLink.get(accountType), firmID);
-                } catch (NumberFormatException ex) {
-                    this.errorLabel.setText("Please enter a firm ID");
+                String firmName = this.firmText.getText();
+                if (!firmName.equals("")) {
+                    this.retUser = session.addUser(userName, password, stringEnumLink.get(accountType), firmName);
+                } else {
+                    this.errorLabel.setText("Please enter a firm.");
                 }
             }
             dispose();

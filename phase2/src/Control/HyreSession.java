@@ -40,12 +40,30 @@ public class HyreSession {
         sessionData.jobPostingsDb.updateDb(sessionDate);
     }
 
+    public SessionData getSessionData() {
+        return sessionData;
+    }
+
+    public UserCredentials addUser(String userName, String password,
+                                   UserCredentials.userTypes accountType, String firmName) {
+        if (firmName.equals("")) {
+            return this.sessionData.usersDb.addUser(userName, password, accountType, sessionDate);
+        } else {
+            Firm firm = this.sessionData.firmsDb.getFirmByFirmName(firmName);
+            if (firm == null) {
+                this.sessionData.firmsDb.addFirm(firmName);
+                firm = this.sessionData.firmsDb.getFirmByFirmName(firmName);
+            }
+            return this.sessionData.usersDb.addUser(userName, password, accountType, firm.getFirmId());
+        }
+    }
+
     public void launchSession() throws IOException, ClassNotFoundException {
         loadProgramData();
         while (true) {
 
             sessionDate = GUI.setDateForm();
-            currentUser = GUI.loginForm(this.sessionDate, this.sessionData.usersDb);
+            currentUser = GUI.loginForm(this);
             updateDataStatus();
             CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
             commandHandler.setSessionData(sessionData);

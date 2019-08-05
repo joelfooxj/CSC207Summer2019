@@ -36,8 +36,8 @@ public class GUI{
         return dialog.retDate;
     }
 
-    public static UserCredentials loginForm(LocalDate sessionDate, UserCredentialsDatabase usersDb){
-        Login dialog = new Login(sessionDate, usersDb);
+    public static UserCredentials loginForm(HyreSession session){
+        Login dialog = new Login(session);
         dialog.pack();
         dialog.setVisible(true);
         return dialog.retUser;

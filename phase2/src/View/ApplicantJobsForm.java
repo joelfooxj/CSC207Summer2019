@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import Model.JobPostingDatabase.jobFilters;
 
 public class ApplicantJobsForm extends ApplicantForm {
     private JPanel contentPane;
@@ -39,7 +40,7 @@ public class ApplicantJobsForm extends ApplicantForm {
 
         this.updatejobsFields();
 
-        List<String> locationList = this.appCH.getLocationList();
+        List<String> locationList = this.getLocations();
         this.locationFilterCombo.addItem("All locations");
         for (String location:locationList){
             this.locationFilterCombo.addItem(location);
@@ -102,7 +103,16 @@ public class ApplicantJobsForm extends ApplicantForm {
             }
         }
         String setLocation = (String) this.locationFilterCombo.getSelectedItem();
-        this.jobsTextArea.setText(this.appCH.getFilteredJobsPrintout(tagsList, setLocation));
-        this.jobsList.setListData(this.appCH.getFilteredJobsList(tagsList, setLocation).toArray());
+        String getJobsPrintout = this.appCH.getFilteredJobsPrintout(tagsList, setLocation);
+        this.jobsTextArea.setText((getJobsPrintout != null ? getJobsPrintout:" "));
+        List<String> inJobsList = this.appCH.getFilteredJobsList(tagsList, setLocation);
+        if (!inJobsList.isEmpty()){
+            this.jobsList.setListData(inJobsList.toArray());
+        }
+    }
+
+    private List<String> getLocations(){
+        HashMap<jobFilters, Long> filterHM = new HashMap<jobFilters, Long>(){{ put(jobFilters.OPEN, 1L);}};
+        return this.appCH.filter.getJobPostsFilter(filterHM).getLocationList();
     }
 }

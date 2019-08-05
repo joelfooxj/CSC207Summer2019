@@ -1,9 +1,11 @@
 package View;
 
 import Control.ApplicantCommandHandler;
+import Model.JobApplicationDatabase.jobAppFilterKeys;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.HashMap;
 
 public class ApplicantForm extends JDialog {
     private JPanel contentPane;
@@ -71,9 +73,16 @@ public class ApplicantForm extends JDialog {
     }
 
     private void updateForm(){
-        this.openAppsTextArea.setText(this.appCH.getApplicationsPrintout(true));
-        this.closedAppsTextArea.setText(this.appCH.getApplicationsPrintout(false));
+        this.updateAppFields(1L);
+        this.updateAppFields(0L);
         this.minDaysLabel.setText("It's been " + this.appCH.getMinDays() + " days since your last closed application.");
     }
 
+    private void updateAppFields(Long open){
+        HashMap<jobAppFilterKeys, Long> filterHM = new HashMap<>();
+        filterHM.put(jobAppFilterKeys.APPLICANT_ID, Long.parseLong(this.appCH.getApplicantID()));
+        filterHM.put(jobAppFilterKeys.OPEN, open);
+        String inJobAppPrintout = this.appCH.filter.getJobApplicationsFilter(filterHM).getPrintout();
+        this.openAppsTextArea.setText(inJobAppPrintout);
+    }
 }

@@ -11,8 +11,8 @@ public class UserCredentials implements Serializable, Observer {
   private String userName;
   private String password;
   private userTypes userType;
-  private long firmId;
-  private long userId;
+  private Long firmId;
+  private Long userId;
   private LocalDate creationDate;
   private List<String> inbox = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class UserCredentials implements Serializable, Observer {
     return this.userType;
   }
 
-  public long getFirmId(){
+  public Long getFirmId(){
     return firmId;
   }
 
@@ -83,7 +83,7 @@ public class UserCredentials implements Serializable, Observer {
   }
 
 
-  public long getUserID() {
+  public Long getUserID() {
     return this.userId;
   }
 

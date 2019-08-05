@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Control.HyreLauncher;
 public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
@@ -64,10 +65,25 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
   }
 
   public enum filterKeys {
-
+    ACCOUNT_TYPE,
+    FIRM_ID,
+    USERNAME
   }
 
-  public List<UserCredentials> filter(HashMap<filterKeys, Long> filtration){
-    return null; // todo
+  public List<UserCredentials> filter(HashMap<filterKeys, String> filtration){
+    List<UserCredentials> userCredentialsList = this.getListOfItems();
+    if (filtration.containsKey(filterKeys.ACCOUNT_TYPE)) {
+        userCredentialsList = userCredentialsList.stream().filter(userCredentials -> userCredentials.getUserType().name()
+            == filtration.get(filterKeys.ACCOUNT_TYPE)).collect(Collectors.toList());
+    }
+    if (filtration.containsKey(filterKeys.FIRM_ID)) {
+        userCredentialsList = userCredentialsList.stream().filter(userCredentials ->
+                userCredentials.getFirmId().toString().equals(filtration.get(filterKeys.FIRM_ID))).collect(Collectors.toList());
+    }
+    if (filtration.containsKey(filterKeys.USERNAME)) {
+        userCredentialsList = userCredentialsList.stream().filter(userCredentials ->
+                userCredentials.getUserName().equals(filtration.get(filterKeys.USERNAME))).collect(Collectors.toList());
+    }
+    return userCredentialsList;
   }
 }

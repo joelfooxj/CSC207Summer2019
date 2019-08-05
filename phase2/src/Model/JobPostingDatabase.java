@@ -184,7 +184,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     }
 
     //TODO: remove this method
-    public List<JobPosting> filterJobPostings(HashMap<jobFilters, Object> filtration){
+    public List<JobPosting> filterJobPostings(HashMap<jobFilters, Long> filtration){
         List<JobPosting> jobPostList = this.getListOfItems();
         if (filtration.containsKey(jobFilters.FIRM)){
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId()

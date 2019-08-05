@@ -2,7 +2,9 @@ package View;
 
 import Control.CommandHandler;
 import Model.JobApplication;
+import Model.JobApplicationDatabase;
 import Model.UserCredentials;
+import Model.UserCredentialsDatabase;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -76,8 +78,8 @@ public abstract class ApplicationByUserForm extends JDialog {
     }
 
     public void onFindUser(String search) {
-        List<UserCredentials> users = commandHandler.filterUserCredentials(new HashMap<String, String>() {{
-            put("user", search);
+        List<UserCredentials> users = commandHandler.filterUserCredentials(new HashMap<UserCredentialsDatabase.filterKeys, String>() {{
+            put(UserCredentialsDatabase.filterKeys.USERNAME, search);
         }});
         UserCredentials[] userArr =  users.toArray(new UserCredentials[users.size()]);
         userCredentialsJList = new JList<>(userArr);
@@ -88,8 +90,8 @@ public abstract class ApplicationByUserForm extends JDialog {
     }
 
     public void onSelectUser(UserCredentials user) {
-        List<JobApplication> appsList = commandHandler.filterJobApplication(new HashMap<String, Long>() {{
-            put("user", user.getUserID());
+        List<JobApplication> appsList = commandHandler.filterJobApplication(new HashMap<JobApplicationDatabase.filterKeys, Long>() {{
+            put(JobApplicationDatabase.filterKeys.APPLICANT_ID, user.getUserID());
         }});
         jobApplicationJList = new JList<>(appsList.toArray(new JobApplication[appsList.size()]));
         userCredentialsJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);

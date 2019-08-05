@@ -23,16 +23,16 @@ public abstract class CommandHandler {
         CommandHandler.sessionDate = sessionDate;
     }
 
-    public List<UserCredentials> filterUserCredentials(HashMap<String, String> user){
-        return null;
+    public List<UserCredentials> filterUserCredentials(HashMap<Model.UserCredentialsDatabase.filterKeys, String> filter){
+        return sessionData.usersDb.filter(filter);
     }
 
-    public List<JobApplication> filterJobApplication(HashMap<String, Long> user) {
-        return null;
+    public List<JobApplication> filterJobApplication(HashMap<Model.JobApplicationDatabase.filterKeys, Long> filter) {
+        return sessionData.jobAppsDb.filter(filter);
     }
 
-    public List<JobPosting> filterJobPosting(HashMap<String, Long> user) {
-        return null;
+    public List<JobPosting> filterJobPosting(HashMap<Model.JobPostingDatabase.jobFilters, Long> filter) {
+        return sessionData.jobPostingsDb.filterJobPostings(filter);
     }
 
 

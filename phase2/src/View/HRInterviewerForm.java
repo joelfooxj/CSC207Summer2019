@@ -29,9 +29,9 @@ public class HRInterviewerForm extends HRForm {
         setupAttributes();
         this.panel.setBorder(BorderFactory.createTitledBorder("Interviewer Assignment Options"));
         // Setup JobPosting JList ot only show open applications for this user's firm
-        List<JobPosting> jobPostingList = super.hrCH.filterJobPosting(new HashMap<String, Long>() {{
-            put("firm", Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
-            put("open", 1L);
+        List<JobPosting> jobPostingList = super.hrCH.filterJobPosting(new HashMap<JobPostingDatabase.jobFilters, Long>() {{
+            put(JobPostingDatabase.jobFilters.FIRM, Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
+            put(JobPostingDatabase.jobFilters.OPEN, 1L);
         }});
         JobPosting[] jobPostingsArr = jobPostingList.toArray(new JobPosting[jobPostingList.size()]);
         jobPostingJList = new JList<>(jobPostingsArr);
@@ -71,8 +71,8 @@ public class HRInterviewerForm extends HRForm {
 
     private void onJobSelection() {
         Long firm = Long.parseLong(super.hrCH.getFirmID());
-        List<JobPosting> jobList = super.hrCH.filterJobPosting(new HashMap<String, Long>() {{
-            put("firm", firm);
+        List<JobPosting> jobList = super.hrCH.filterJobPosting(new HashMap<Model.JobPostingDatabase.jobFilters, Long>() {{
+            put(JobPostingDatabase.jobFilters.FIRM, firm);
         }});
         JobApplication[] jobArr = jobList.toArray(new JobApplication[jobList.size()]);
         jobApplicationJList = new JList<>(jobArr);
@@ -88,9 +88,9 @@ public class HRInterviewerForm extends HRForm {
     }
 
     private void onChoose(JobApplication app) {
-        HashMap<String, String> filter = new HashMap<String, String>() { {
-            put("firm", HRInterviewerForm.super.hrCH.getFirmID());
-            put("accounttype", UserCredentials.userTypes.INTERVIEWER.name());
+        HashMap<Model.UserCredentialsDatabase.filterKeys, String> filter = new HashMap<Model.UserCredentialsDatabase.filterKeys, String>() {{
+            put(UserCredentialsDatabase.filterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER.name());
+            put(UserCredentialsDatabase.filterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
         }};
         SelectUser selectUser = new SelectUser(filter, super.hrCH);
         UserCredentials user = selectUser.getUser();

@@ -23,7 +23,7 @@ public class Filter {
         return new JobPostFilter(sessionData.jobPostingsDb.filter(filter));
     }
 
-    UserFilter users(HashMap<UserCredentialsDatabase.filterKeys, Long> filter){
+    UserFilter users(HashMap<UserCredentialsDatabase.filterKeys, String> filter){
         return new UserFilter(sessionData.usersDb.filter(filter));
     }
 

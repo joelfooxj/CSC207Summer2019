@@ -25,6 +25,8 @@ public class ApplicantForm extends JDialog {
         setContentPane(contentPane);
         setModal(true);
 
+        this.closedAppsTextArea.setEditable(false);
+
         this.contentPane.setBorder(BorderFactory.createTitledBorder(this.appCH.getUsername()));
         this.creationDateLabel.setText(this.appCH.getCreationDate());
         this.applicantIDLabel.setText(this.appCH.getApplicantID());

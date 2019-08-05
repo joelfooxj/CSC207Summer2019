@@ -140,7 +140,7 @@ public class JobApplication extends Observable implements Serializable {
                 "\n[job]: " + jobName +
                 "\n[applicant]: " + applicantName +
                 "\n[firm]: " + firmName +
-                        "\n[interviewer ID]: "+ interviewerID;
+                        "\n[interviewer ID]: "+ interviewerID + "\n";
     }
 
     public boolean isOpen() {

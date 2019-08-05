@@ -12,10 +12,12 @@ public class JobPostQuery {
     JobPostQuery(List<JobPosting> filteredJobApps){
         this.filteredJobPosts = filteredJobApps;
     }
+
     public List<String> getJobIDs(){
         List<String> jobIDs= new ArrayList<String>();
-        for (JobPosting job: filteredJobPosts){
-            jobIDs.add(String.valueOf(job.getJobId()));
+        for (JobPosting job : filteredJobPosts){
+            jobIDs.add(job.getJobId().toString());
+            System.out.println(job.getJobId());
         }
         return jobIDs;
     }

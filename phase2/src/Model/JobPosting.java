@@ -95,9 +95,8 @@ public class JobPosting implements Serializable {
     //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
                       DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
-                      List<String> skills, List<Model.requiredDocs> docs){
-        jobId = numberOfJobs;
-        numberOfJobs ++;
+                      List<String> skills, List<Model.requiredDocs> docs, Long jobId){
+        this.jobId = jobId;
         this.jobTitle = title;
         this.jobDetails = details;
         this.firmId = firmId;

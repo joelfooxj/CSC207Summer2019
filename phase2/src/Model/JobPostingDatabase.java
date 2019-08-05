@@ -22,7 +22,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
                        DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
                        List<String> skillList, List<requiredDocs> docsList){
         addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, interviewStages,
-                hashTags, skillList, docsList));
+                hashTags, skillList, docsList, super.getCurrID()));
     }
 
     /**
@@ -42,7 +42,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     public ArrayList<Long> getOpenPostingIds(){
 
         ArrayList<Long> result = new ArrayList<>();
-        ArrayList<JobPosting> openJobPostings = filterOpenJobPostings(this.getListOfItems());
+        List<JobPosting> openJobPostings = filterOpenJobPostings(this.getListOfItems());
 
         for (JobPosting jobPosting: openJobPostings){
             result.add(jobPosting.getJobId());
@@ -63,20 +63,20 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * key -> SearchBy.OPEN to filter for open jobs, value -> null, no value required
      * @return
      */
-    public ArrayList<String> filterBy(HashMap<SearchBy,Object> searchMap){
+    public List<String> filterBy(HashMap<SearchBy,Object> searchMap){
 
-        ArrayList<JobPosting> jobPostings = this.getListOfItems();
+        List<JobPosting> jobPostings = this.getListOfItems();
 
         if(searchMap.containsKey(SearchBy.FIRM)){
-            jobPostings = filterByFirm((Long)searchMap.get(SearchBy.FIRM),jobPostings);
+            jobPostings = filterByFirm((Long)searchMap.get(SearchBy.FIRM), jobPostings);
         }
 
         if(searchMap.containsKey(SearchBy.LOCATION)){
-            jobPostings = filterByLocation((String)searchMap.get(SearchBy.LOCATION),jobPostings);
+            jobPostings = filterByLocation((String)searchMap.get(SearchBy.LOCATION), jobPostings);
         }
 
         if(searchMap.containsKey(SearchBy.HASHTAG)){
-            jobPostings = getJobsWithHashTags((HashSet<String>) searchMap.get(SearchBy.HASHTAG),jobPostings);
+            jobPostings = getJobsWithHashTags((HashSet<String>) searchMap.get(SearchBy.HASHTAG), jobPostings);
         }
 
         if(searchMap.containsKey(SearchBy.OPEN)){
@@ -91,7 +91,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @param jobPostings
      * @return
      */
-    private ArrayList<JobPosting> filterOpenJobPostings(ArrayList<JobPosting> jobPostings){
+    private List<JobPosting> filterOpenJobPostings(List<JobPosting> jobPostings){
 
         jobPostings.removeIf(jobPosting -> !jobPosting.isOpen(sessionDate));
 
@@ -105,7 +105,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @param jobPostings
      * @return
      */
-    private ArrayList<JobPosting> filterByLocation(String location, ArrayList<JobPosting> jobPostings){
+    private List<JobPosting> filterByLocation(String location, List<JobPosting> jobPostings){
 
         jobPostings.removeIf(jobPosting -> !jobPosting.getLocation().equals(location));
 
@@ -118,7 +118,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @param jobPostings
      * @return
      */
-    private ArrayList<JobPosting> filterByFirm(Long firmId, ArrayList<JobPosting> jobPostings){
+    private List<JobPosting> filterByFirm(Long firmId, List<JobPosting> jobPostings){
 
         jobPostings.removeIf(jobPosting -> !jobPosting.getFirmId().equals(firmId));
 
@@ -131,7 +131,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @param hashTags - the collection of hashtags that are being searched for
      * @return
      */
-    private ArrayList<JobPosting> getJobsWithHashTags(HashSet<String> hashTags, ArrayList<JobPosting> jobPostings){
+    private List<JobPosting> getJobsWithHashTags(HashSet<String> hashTags, List<JobPosting> jobPostings){
 
         jobPostings.removeIf(jobPosting -> !jobPosting.containsAllHashTags(hashTags));
 
@@ -143,7 +143,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @param jobPostings
      * @return
      */
-    private ArrayList<String> print(ArrayList<JobPosting> jobPostings){
+    private List<String> print(List<JobPosting> jobPostings){
 
         ArrayList<String> result = new ArrayList<>();
 

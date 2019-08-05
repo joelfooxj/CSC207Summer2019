@@ -52,23 +52,12 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
         this.currID += 1;
     }
 
-    public void removeItemByID(Long id) {
-        this.data.remove(id);
-    }
-
-    public ArrayList<T> getListOfItems() {
-        ArrayList<T> ret = new ArrayList<T>();
-        for (Long id : this.data.keySet()) {
-            ret.add(this.data.get(id));
-        }
+    public List<T> getListOfItems() {
+        List<T> ret = new ArrayList<>();
+        ret.addAll(this.data.values());
         return ret;
     }
 
-    public void printAll() {
-        for (Long id : this.data.keySet()) {
-            System.out.println("[" + id.toString() + "] " + this.data.get(id).toString() + "\n");
-        }
-    }
 
     public long getCurrID() {
         return this.currID;
@@ -78,14 +67,6 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
         private int current = 0;
 
         @Override
-//        public boolean hasNext() {
-//            if(current<data.size()){
-//                return true;
-//            }
-//            else{
-//                return false;
-//            }
-//        }
         public boolean hasNext(){
             return current<getListOfItems().size();
         }

@@ -12,10 +12,11 @@ public class UserQuery {
     }
 
     public List<String> getRepresentations(){
-        if (filteredUsers.size() != 1){
-            return null;
+        List<String> ret = new ArrayList<>();
+        for (UserCredentials user : this.filteredUsers) {
+            ret.add(user.toString());
         }
-        return null;//filteredUsers.get(0).toString();
+        return ret;
     }
 
     public List<Long> getIDs() {

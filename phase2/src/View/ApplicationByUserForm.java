@@ -79,8 +79,8 @@ public abstract class ApplicationByUserForm extends JDialog {
 
     public void onFindUser(String search) {
 
-        HashMap<UserCredentialsDatabase.filterKeys, String> query = new HashMap<>();
-        query.put(UserCredentialsDatabase.filterKeys.USERNAME, search);
+        HashMap<UserCredentialsDatabase.usersFilterKeys, Object> query = new HashMap<>();
+        query.put(UserCredentialsDatabase.usersFilterKeys.USERNAME, search);
         List<Long> users = commandHandler.filter.getUsersFilter(query).getIDs();
 
         Long[] userArr =  users.toArray(new Long[users.size()]);
@@ -92,9 +92,9 @@ public abstract class ApplicationByUserForm extends JDialog {
     }
 
     public void onSelectUser(Long user) {
-        HashMap<JobApplicationDatabase.jobAppFilterKeys, Long> filter = new HashMap<>();
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, user);
-        List<Long> appsList = commandHandler.filter.getJobApplicationsFilter(filter).getApplicationIDs();
+        List<String> appsList = commandHandler.filter.getJobAppsFilter(filter).getJobAppsID();
         jobApplicationJList = new JList<>(appsList.toArray(new Long[appsList.size()]));
         userCredentialsJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userCredentialsJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
@@ -103,9 +103,9 @@ public abstract class ApplicationByUserForm extends JDialog {
     }
 
     public void onSelectApplication(Long app) {
-        HashMap<JobApplicationDatabase.jobAppFilterKeys, Long> filter = new HashMap<>();
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICATION_ID, app);
-        showDetails.setText(commandHandler.filter.getJobApplicationsFilter(filter).getStrings().get(0));
+        showDetails.setText(commandHandler.filter.getJobAppsFilter(filter).getRepresentation());
         selectApplication.setEnabled(true);
     }
 

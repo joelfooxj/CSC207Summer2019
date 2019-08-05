@@ -38,7 +38,7 @@ public class SelectUser extends JDialog {
             }
         });
 
-        List<String> userCredentialsList = this.commandHandler.filter.getUsersFilter(filter).getRepresentation();
+        List<String> userCredentialsList = this.commandHandler.filter.getUsersFilter(filter).getRepresentations();
         String[] userCredentials = userCredentialsList.toArray(new String[userCredentialsList.size()]);
         userCredentialsJList = new JList<>(userCredentials);
 
@@ -61,8 +61,8 @@ public class SelectUser extends JDialog {
     private void onSelect() {
         // add your code here
         if (userCredentialsJList.getSelectedValue() != null) {
-            HashMap<UserCredentialsDatabase.filterKeys, String> filter = new HashMap<>();
-            filter.put(UserCredentialsDatabase.filterKeys.USERNAME, userCredentialsJList.getSelectedValue());
+            HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
+            filter.put(UserCredentialsDatabase.usersFilterKeys.USERNAME, userCredentialsJList.getSelectedValue());
             this.user = commandHandler.filter.getUsersFilter(filter).getIDs().get(0);
             MessageBox messageBox = new MessageBox("Select User", "User " + this.user.toString() + " Selected!");
             dispose();

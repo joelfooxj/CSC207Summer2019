@@ -6,7 +6,9 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.List;
+import Model.JobApplicationDatabase.jobAppFilterKeys;
 
 public class ApplicantApplicationForm extends ApplicantForm {
     private JPanel contentPane;
@@ -60,7 +62,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
                 String selectedAppID = (String) appList.getSelectedValue();
                 checkCVCLButtonEnable(selectedAppID);
                 withdrawButton.setEnabled(true);
-                appTextArea.setText(appCH.getApplicationDesc(selectedAppID));
+                appTextArea.setText(appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation());
             }
         });
 
@@ -73,6 +75,16 @@ public class ApplicantApplicationForm extends ApplicantForm {
         });
     }
 
+    private HashMap<jobAppFilterKeys, Object> filterHM(String applicationID){
+        HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>(){
+            {
+                put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
+                put(jobAppFilterKeys.OPEN, 1L);
+            }
+        };
+        return newfilter;
+    }
+
     private void withdrawConfirmation(){
         boolean confirm = GUI.yesNoForm("Are you sure you want to withdraw? ");
         if(confirm){
@@ -82,13 +94,13 @@ public class ApplicantApplicationForm extends ApplicantForm {
             this.appTextArea.setText("");
             this.appList.clearSelection();
             this.appList.remove(selectedListIndex);
-            updateForm();
+            this.updateForm();
         }
     }
 
     private void openCVForm(){
         String selectedAppID = (String) this.appList.getSelectedValue();
-        String inCV = this.appCH.getApplicationCV(selectedAppID);
+        String inCV = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getResume();
         if (inCV == null){inCV = "";}
         String outCV = GUI.editTextForm(inCV, "CV editor");
         if (outCV != null){
@@ -98,7 +110,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
 
     private void openCoverLetterForm(){
         String selectedAppID = (String) this.appList.getSelectedValue();
-        String inCoverLetter = this.appCH.getApplicationCoverLetter(selectedAppID);
+        String inCoverLetter = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getCoverLetter();
         if (inCoverLetter == null) {inCoverLetter = "";}
         String outCoverLetter = GUI.editTextForm(inCoverLetter, "Cover Letter editor");
         if (outCoverLetter != null){
@@ -107,14 +119,20 @@ public class ApplicantApplicationForm extends ApplicantForm {
     }
 
     private void checkCVCLButtonEnable(String inJobAppID){
-        List<String> requiredDocsList = this.appCH.checkJobAppRequiredDocs(inJobAppID);
+        List<String> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
         this.CVButton.setEnabled(requiredDocsList.contains("CV"));
         this.coverletterButton.setEnabled(requiredDocsList.contains("Cover Letter"));
     }
 
     private void updateForm(){
         setButtonStatus(false);
-        List<Long> inJobAppIDs = this.appCH.getAllOpenApplicationIDs();
+        HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<jobAppFilterKeys, Object>(){
+            {
+                put(jobAppFilterKeys.OPEN, 1L);
+                put(jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
+            }
+        };
+        List<String> inJobAppIDs = this.appCH.filter.getJobAppsFilter(filterHM).getJobAppsID();
         if (inJobAppIDs.isEmpty()){
             this.appTextArea.setText("You have no open applications.");
         } else {

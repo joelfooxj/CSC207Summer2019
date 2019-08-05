@@ -22,8 +22,8 @@ public class HRJobOptionsForm extends HRForm {
     private JButton hireButton;
     private JButton rejectButton;
     private JButton exitButton;
-    private JLabel jobDescLabel;
-    private JLabel applicationDescLabel;
+    private JTextArea jobDesc;
+    private JTextArea appDesc;
 
     public HRJobOptionsForm(HrCommandHandler inHRCH) {
         super(inHRCH);
@@ -39,6 +39,9 @@ public class HRJobOptionsForm extends HRForm {
         this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Job Options"));
         setButtonEnabled(false);
         this.updateJobsList();
+
+        this.jobDesc.setEditable(false);
+        this.appDesc.setEditable(false);
 
         createJobButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -104,7 +107,7 @@ public class HRJobOptionsForm extends HRForm {
         HashMap<jobPostingFilters, Object> query = new HashMap<>();
         query.put(jobPostingFilters.JOB_ID, Long.parseLong(jobID));
         String jobDesc = super.hrCH.filter.getJobPostsFilter(query).getRepresentation();
-        this.jobDescLabel.setText(jobDesc);
+        this.jobDesc.setText(jobDesc);
     }
 
     private void setAppDesc(){
@@ -115,13 +118,13 @@ public class HRJobOptionsForm extends HRForm {
 
         String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
 
-        this.applicationDescLabel.setText(appDesc);
+        this.appDesc.setText(appDesc);
     }
 
     private void updateJobsList(){
         setButtonEnabled(false);
-        this.jobDescLabel.setText("");
-        this.applicationDescLabel.setText("");
+        this.jobDesc.setText("");
+        this.appDesc.setText("");
 
 
         HashMap<jobPostingFilters, Object> query = new HashMap<>();
@@ -132,7 +135,7 @@ public class HRJobOptionsForm extends HRForm {
 
         //List<String> inJobList = super.hrCH.getOpenJobsList();
         if (inJobList == null){
-            this.jobDescLabel.setText("There are no jobs.");
+            this.jobDesc.setText("There are no jobs.");
         } else {
             this.jobsList.setListData(inJobList.toArray());
         }
@@ -140,7 +143,7 @@ public class HRJobOptionsForm extends HRForm {
 
     private void updateAppList(){
         setButtonEnabled(false);
-        this.applicationDescLabel.setText("");
+        this.appDesc.setText("");
         String selectedJobID = (String) this.jobsList.getSelectedValue();
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
@@ -148,7 +151,7 @@ public class HRJobOptionsForm extends HRForm {
         List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
 
         if (inJobAppList == null){
-            this.applicationDescLabel.setText("There are no applications for this job.");
+            this.appDesc.setText("There are no applications for this job.");
         } else {
             this.associatedApplicationsList.setListData(inJobAppList.toArray());
         }

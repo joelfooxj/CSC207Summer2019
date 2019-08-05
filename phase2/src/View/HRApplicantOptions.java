@@ -151,7 +151,7 @@ public class HRApplicantOptions extends HRForm {
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.FIRM_ID, Long.parseLong(HRApplicantOptions.super.hrCH.getFirmID()));
         List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
-        if (applicantList.isEmpty()){
+        if (applicantList == null){
             this.applicantLabel.setText("There are no applicants.");
         } else{
             this.applicantList.setListData(applicantList.toArray());

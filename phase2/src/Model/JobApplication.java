@@ -162,10 +162,10 @@ public class JobApplication extends Observable implements Serializable {
      *
      * @param open: a boolean indicating if the job corresponding to this application is still open
      */
-    public void setOpen(boolean open) {
+    public void setOpen(boolean open, LocalDate sessionDate) {
         isOpen = open;
         if (!open){
-            setClosedDate(CommandHandler.sessionDate);
+            setClosedDate(sessionDate);
         }
     }
 

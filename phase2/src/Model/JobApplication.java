@@ -177,7 +177,7 @@ public class JobApplication extends Observable implements Serializable {
         List argument = new ArrayList();
         argument.add("hire");
         argument.add(this.applicantID);
-        argument.add(this.getFirmName());
+        argument.add(this.firmID);
         notifyObservers(argument);
     }
 
@@ -194,7 +194,7 @@ public class JobApplication extends Observable implements Serializable {
         List argument = new ArrayList();
         argument.add("reject");
         argument.add(this.applicantID);
-        argument.add(this.getFirmName());
+        argument.add(this.firmID);
         notifyObservers(argument);
     }
 
@@ -246,9 +246,5 @@ public class JobApplication extends Observable implements Serializable {
 
     public List<requiredDocs> getRequiredDocs(){
         return this.setDocs;
-    }
-
-    public String getFirmName() {
-        return firmName;
     }
 }

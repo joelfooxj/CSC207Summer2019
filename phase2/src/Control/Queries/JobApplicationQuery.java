@@ -57,6 +57,19 @@ public class JobApplicationQuery {
         return filteredJobApps.get(0).toString();
     }
 
+    public String getPrintout(){
+        if (filteredJobApps.size() < 1){
+            return null;
+        } else {
+            StringBuilder retString = new StringBuilder();
+            for (JobApplication jobApp:filteredJobApps){
+                retString.append(jobApp);
+                retString.append("\n");
+            }
+            return retString.toString();
+        }
+    }
+
     public List<String> getRequiredDocuments(){
         if (filteredJobApps.size()!= 1){
             return null;

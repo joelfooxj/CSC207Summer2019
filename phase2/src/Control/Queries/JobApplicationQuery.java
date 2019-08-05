@@ -88,4 +88,20 @@ public class JobApplicationQuery {
         return requiredDocuments;
     }
 
+    public List<Long> getApplicationIDs() {
+        ArrayList<Long> appIDs = new ArrayList<>();
+        for (JobApplication application : this.filteredJobApps) {
+            appIDs.add(application.getApplicationID());
+        }
+        return appIDs;
+    }
+
+    public List<String> getStrings() {
+        ArrayList<String> strings = new ArrayList<>();
+        for (JobApplication application : this.filteredJobApps) {
+            strings.add(application.toString());
+        }
+        return strings;
+    }
+
 }

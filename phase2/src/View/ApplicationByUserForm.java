@@ -21,9 +21,9 @@ public abstract class ApplicationByUserForm extends JDialog {
     private JTextField findUser;
     private JButton buttonFindUser;
     private JScrollPane userOptions;
-    private JList<UserCredentials> userCredentialsJList = new JList<>();
+    private JList<Long> userCredentialsJList = new JList<>();
     private JScrollPane appOptions;
-    private JList<JobApplication> jobApplicationJList = new JList<>();
+    private JList<Long> jobApplicationJList = new JList<>();
     private JTextArea showDetails;
     private JButton selectApplication;
     private JButton buttonExit;
@@ -73,7 +73,7 @@ public abstract class ApplicationByUserForm extends JDialog {
         return this.selectApplication;
     }
 
-    public JList<JobApplication> getJobApplicationJList() {
+    public JList<Long> getJobApplicationJList() {
         return this.jobApplicationJList;
     }
 
@@ -81,29 +81,31 @@ public abstract class ApplicationByUserForm extends JDialog {
 
         HashMap<UserCredentialsDatabase.filterKeys, String> query = new HashMap<>();
         query.put(UserCredentialsDatabase.filterKeys.USERNAME, search);
-        List<String> users = commandHandler.filter.getUsersFilter(query).getRepresentation();
+        List<Long> users = commandHandler.filter.getUsersFilter(query).getIDs();
 
-        UserCredentials[] userArr =  users.toArray(new UserCredentials[users.size()]);
-        userCredentialsJList = new JList<>(userArr);
+        Long[] userArr =  users.toArray(new Long[users.size()]);
+        userCredentialsJList = new JList<Long>(userArr);
         userCredentialsJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userCredentialsJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         userCredentialsJList.setVisibleRowCount(-1);
         userOptions.setViewportView(userCredentialsJList);
     }
 
-    public void onSelectUser(UserCredentials user) {
-        List<JobApplication> appsList = commandHandler.filterJobApplication(new HashMap<JobApplicationDatabase.filterKeys, Long>() {{
-            put(JobApplicationDatabase.filterKeys.APPLICANT_ID, user.getUserID());
-        }});
-        jobApplicationJList = new JList<>(appsList.toArray(new JobApplication[appsList.size()]));
+    public void onSelectUser(Long user) {
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Long> filter = new HashMap<>();
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, user);
+        List<Long> appsList = commandHandler.filter.getJobApplicationsFilter(filter).getApplicationIDs();
+        jobApplicationJList = new JList<>(appsList.toArray(new Long[appsList.size()]));
         userCredentialsJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userCredentialsJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         userCredentialsJList.setVisibleRowCount(-1);
         appOptions.setViewportView(jobApplicationJList);
     }
 
-    public void onSelectApplication(JobApplication app) {
-        showDetails.setText(app.toString());
+    public void onSelectApplication(Long app) {
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Long> filter = new HashMap<>();
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICATION_ID, app);
+        showDetails.setText(commandHandler.filter.getJobApplicationsFilter(filter).getStrings().get(0));
         selectApplication.setEnabled(true);
     }
 

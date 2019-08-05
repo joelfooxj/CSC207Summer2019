@@ -94,4 +94,12 @@ public class JobApplicationQuery {
     public List<JobApplication> getFilteredJobApps() {
         return filteredJobApps;
     }
+
+    public String getPrintout() {
+        String ret = "";
+        for (JobApplication application : this.filteredJobApps) {
+            ret = ret + application.toString();
+        }
+        return ret;
+    }
 }

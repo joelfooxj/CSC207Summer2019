@@ -142,9 +142,13 @@ public class HRCreateJob extends HRJobOptionsForm {
         }
         Number tmp = (Number) this.numLabourSpinner.getValue();
         Long numLabour = tmp.longValue();
-        super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), numLabour, tags,
-                this.selectedInterviews, jobLocation, this.selectedSkills, docs);
-        this.dispose();
+        if (numLabour <= 0) {
+            MessageBox msg = new MessageBox("Error", "Number of positions must be greater than 0!");
+        } else {
+            super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), numLabour, tags,
+                    this.selectedInterviews, jobLocation, this.selectedSkills, docs);
+            this.dispose();
+        }
     }
 
     private void createUIComponents() {

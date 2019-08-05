@@ -105,15 +105,6 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         return idList;
     }
 
-    // return all the applications in the application database
-    //TODO this can be replaced by getListOfItems in Template Database
-    public List<JobApplication> getAllApplications(){
-        List<JobApplication> jobApplicationList = new ArrayList<>();
-        for (JobApplication jobApplication: this){
-            jobApplicationList.add(jobApplication);
-        }
-        return jobApplicationList;
-    }
 
     public enum filterKeys {
         APPLICATION_ID,
@@ -123,7 +114,7 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     }
 
     public List<JobApplication> filter(HashMap<filterKeys, Long> filtration){
-        List<JobApplication> applicationList = this.getAllApplications();
+        List<JobApplication> applicationList = this.getListOfItems();
         if (filtration.containsKey(filterKeys.APPLICATION_ID)){
             applicationList = applicationList.stream().filter(app -> app.getApplicationID()
                     == filtration.get(filterKeys.APPLICATION_ID)).collect(Collectors.toList());

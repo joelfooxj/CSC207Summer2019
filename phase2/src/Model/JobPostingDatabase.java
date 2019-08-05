@@ -174,16 +174,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     }
 
 
-    //TODO: remove this as its already done by getListOfItems()
-    // Jacob's filter
-//    public List<JobPosting> getAllJobPostings(){
-//        List<JobPosting> jobPostList = new ArrayList<>();
-//        for (Long i = 0L; i<super.getCurrID();i++){
-//            jobPostList.add(this.getItemByID(i));
-//        }
-//        return jobPostList;
-//    }
-
     //TODO: remove this. Already done by SearchBy Enum
 //    public enum jobFilters {
 //        OPEN,
@@ -203,7 +193,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 
     //TODO: remove this method
 //    public List<JobPosting> filterJobPostings(HashMap<jobFilters, Object> filtration){
-//        List<JobPosting> jobPostList = this.getAllJobPostings();
+//        List<JobPosting> jobPostList = this.getListOfItems();
 //        if (filtration.containsKey(jobFilters.FIRM)){
 //            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId()
 //                    == filtration.get(jobFilters.FIRM)).collect(Collectors.toList());

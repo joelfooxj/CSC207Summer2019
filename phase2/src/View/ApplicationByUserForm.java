@@ -78,9 +78,11 @@ public abstract class ApplicationByUserForm extends JDialog {
     }
 
     public void onFindUser(String search) {
-        List<UserCredentials> users = commandHandler.filterUserCredentials(new HashMap<UserCredentialsDatabase.filterKeys, String>() {{
-            put(UserCredentialsDatabase.filterKeys.USERNAME, search);
-        }});
+
+        HashMap<UserCredentialsDatabase.filterKeys, String> query = new HashMap<>();
+        query.put(UserCredentialsDatabase.filterKeys.USERNAME, search);
+        List<String> users = commandHandler.filter.getUsersFilter(query).getRepresentation();
+
         UserCredentials[] userArr =  users.toArray(new UserCredentials[users.size()]);
         userCredentialsJList = new JList<>(userArr);
         userCredentialsJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);

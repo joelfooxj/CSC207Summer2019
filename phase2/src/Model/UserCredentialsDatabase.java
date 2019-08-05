@@ -82,7 +82,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
     }
     if (filtration.containsKey(filterKeys.USERNAME)) {
         userCredentialsList = userCredentialsList.stream().filter(userCredentials ->
-                userCredentials.getUserName().equals(filtration.get(filterKeys.USERNAME))).collect(Collectors.toList());
+                userCredentials.getUserName().contains(filtration.get(filterKeys.USERNAME))).collect(Collectors.toList());
     }
     return userCredentialsList;
   }

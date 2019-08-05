@@ -1,10 +1,13 @@
 package View;
 
 import Control.HrCommandHandler;
+import Model.JobApplicationDatabase.jobAppFilterKeys;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.List;
 
 public class HRJobOptionsForm extends HRForm {
@@ -119,7 +122,12 @@ public class HRJobOptionsForm extends HRForm {
         setButtonEnabled(false);
         this.applicationDescLabel.setText("");
         String selectedJobID = (String) this.jobsList.getSelectedValue();
-        List<String> inJobAppList = super.hrCH.getApplicationsIDbyJobID(selectedJobID);
+
+        HashMap<jobAppFilterKeys, Long> query = new HashMap<>();
+        query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
+
+        List<String> inJobAppList = super.hrCH.filter.getJobApplicationsFilter(query).getApplicantIDs();
+        //List<String> inJobAppList = super.hrCH.getApplicationsIDbyJobID(selectedJobID);
         if (inJobAppList.isEmpty()){
             this.applicationDescLabel.setText("There are no applications for this job.");
         } else {

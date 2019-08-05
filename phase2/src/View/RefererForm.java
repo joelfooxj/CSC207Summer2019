@@ -26,7 +26,7 @@ public class RefererForm extends ApplicationByUserForm {
         });
     }
 
-    public void onChooseApplication(JobApplication app) {
+    public void onChooseApplication(Long app) {
         TextEditorForm dialog = new TextEditorForm("", "Enter your reference letter");
         YesNo verify = new YesNo("Do you want to submit this reference letter?");
         if (verify.retBool) {

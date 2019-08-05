@@ -115,8 +115,9 @@ public class HRJobOptionsForm extends HRForm {
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(appID));
-
+        System.out.println(appID);
         String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
+        System.out.println(appDesc);
 
         this.appDesc.setText(appDesc);
     }
@@ -148,7 +149,7 @@ public class HRJobOptionsForm extends HRForm {
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
-        List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
+        List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
 
         if (inJobAppList == null){
             this.appDesc.setText("There are no applications for this job.");

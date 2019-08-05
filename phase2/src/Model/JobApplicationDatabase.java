@@ -28,7 +28,6 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
                 creationDate,
                 docs);
         super.addItem(newJobApplication);
-        System.out.println(jobID);
         return newJobApplication;
     }
 

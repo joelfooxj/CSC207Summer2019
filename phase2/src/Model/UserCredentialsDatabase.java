@@ -14,7 +14,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
   } 
 
   public UserCredentials getUserByCredentials(String userName) {
-    ArrayList<UserCredentials> userList = super.getListOfItems();
+    List<UserCredentials> userList = super.getListOfItems();
     for (UserCredentials user : userList) {
       if (user.getUserName().equals(userName)) {
         return user;
@@ -35,7 +35,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
   }
 
   public boolean userExists(String username) {
-    ArrayList<UserCredentials> userList = super.getListOfItems();
+    List<UserCredentials> userList = super.getListOfItems();
     for (UserCredentials user : userList) {
       if (user.getUserName().equals(username)) {
         return true;

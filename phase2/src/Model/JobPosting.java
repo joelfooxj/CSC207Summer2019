@@ -7,12 +7,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class JobPosting implements Serializable {
-
-    /**
-     * The total number of JobPostings that have been created
-     */
-    private static long numberOfJobs = 0;
-
     /**
      * The id of the job, used to store and retrieve in databases
      */
@@ -86,7 +80,6 @@ public class JobPosting implements Serializable {
      * @param title {@link #jobTitle}
      * @param details - {@link #jobDetails}
      * @param firmId - {@link #firmId}
-<<<<<<< HEAD
      * @param numberOfPositions {@link #numberOfPositions}
      * @param location {@link #location}
      * @param jobDateRange - contains {@link #publishDate} and {@link #expiryDate}
@@ -95,9 +88,8 @@ public class JobPosting implements Serializable {
     //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
                       DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
-                      List<String> skills, List<Model.requiredDocs> docs){
-        jobId = numberOfJobs;
-        numberOfJobs ++;
+                      List<String> skills, List<Model.requiredDocs> docs, Long jobId){
+        this.jobId = jobId;
         this.jobTitle = title;
         this.jobDetails = details;
         this.firmId = firmId;

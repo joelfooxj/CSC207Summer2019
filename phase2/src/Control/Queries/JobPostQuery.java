@@ -3,6 +3,7 @@ package Control.Queries;
 import Model.JobPosting;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class JobPostQuery {
@@ -33,4 +34,11 @@ public class JobPostQuery {
         return filteredJobPosts.get(0).toString();
     }
 
+    public List<String> getLocationList(){
+        HashSet<String> locationSet = new HashSet<>();
+        for (JobPosting job: filteredJobPosts){
+            locationSet.add(job.getLocation());
+        }
+        return new ArrayList<>(locationSet);
+    }
 }

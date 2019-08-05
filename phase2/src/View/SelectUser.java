@@ -3,6 +3,7 @@ package View;
 import Control.CommandHandler;
 import Model.JobApplication;
 import Model.UserCredentials;
+import Model.UserCredentialsDatabase;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -14,8 +15,8 @@ public class SelectUser extends JDialog {
     private JButton buttonSelect;
     private JButton buttonCancel;
     private JScrollPane userPane;
-    private JList<UserCredentials> userCredentialsJList;
-    private UserCredentials user;
+    private JList<String> userCredentialsJList;
+    private Long user;
     private CommandHandler commandHandler;
 
 
@@ -37,8 +38,8 @@ public class SelectUser extends JDialog {
             }
         });
 
-        List<UserCredentials> userCredentialsList = this.commandHandler.filterUserCredentials(filter);
-        UserCredentials[] userCredentials = userCredentialsList.toArray(new UserCredentials[userCredentialsList.size()]);
+        List<String> userCredentialsList = this.commandHandler.filter.getUsersFilter(filter).getRepresentation();
+        String[] userCredentials = userCredentialsList.toArray(new String[userCredentialsList.size()]);
         userCredentialsJList = new JList<>(userCredentials);
 
         // call onCancel() when cross is clicked
@@ -60,7 +61,9 @@ public class SelectUser extends JDialog {
     private void onSelect() {
         // add your code here
         if (userCredentialsJList.getSelectedValue() != null) {
-            this.user = userCredentialsJList.getSelectedValue();
+            HashMap<UserCredentialsDatabase.filterKeys, String> filter = new HashMap<>();
+            filter.put(UserCredentialsDatabase.filterKeys.USERNAME, userCredentialsJList.getSelectedValue());
+            this.user = commandHandler.filter.getUsersFilter(filter).getIDs().get(0);
             MessageBox messageBox = new MessageBox("Select User", "User " + this.user.toString() + " Selected!");
             dispose();
         } else {
@@ -73,7 +76,7 @@ public class SelectUser extends JDialog {
         dispose();
     }
 
-    public UserCredentials getUser() {
+    public Long getUser() {
         return user;
     }
 }

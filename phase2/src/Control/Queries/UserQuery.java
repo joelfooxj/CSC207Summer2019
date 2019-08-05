@@ -2,6 +2,7 @@ package Control.Queries;
 
 import Model.UserCredentials;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserQuery {
@@ -15,6 +16,14 @@ public class UserQuery {
             return null;
         }
         return null;//filteredUsers.get(0).toString();
+    }
+
+    public List<Long> getIDs() {
+        ArrayList<Long> ids = new ArrayList<>();
+        for (UserCredentials user : this.filteredUsers) {
+            ids.add(user.getUserID());
+        }
+        return ids;
     }
 
 

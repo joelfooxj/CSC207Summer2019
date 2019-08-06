@@ -16,6 +16,7 @@ class InterviewerForm extends JDialog {
     private JPanel contentPane;
     private JButton recommendButton;
     private JButton exitButton;
+    private JScrollPane appScroll;
     private JTextArea applicationText;
     private JList jobApplicationList;
     private JLabel errorLabel;
@@ -26,6 +27,7 @@ class InterviewerForm extends JDialog {
         this.iCH = commandHandler;
         setContentPane(contentPane);
         setModal(true);
+        this.applicationText.setEditable(false);
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(iCH.getUsername()));
         this.updateForm();
@@ -92,7 +94,7 @@ class InterviewerForm extends JDialog {
             this.applicationText.setText("You have no application assigned to you.");
         } else {
             this.jobApplicationList.setListData(inJobAppList.toArray());
-            this.applicationText.setText(jobApplicationQuery.getRepresentation());
+            this.applicationText.setText(jobApplicationQuery.getPrintout());
         }
     }
 

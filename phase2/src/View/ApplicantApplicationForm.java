@@ -153,9 +153,8 @@ public class ApplicantApplicationForm extends ApplicantForm {
         if (inJobAppIDs.isEmpty()) {
             this.appTextArea.setText("You have no open applications.");
             this.jobTextArea.setText("You have no open applications.");
-        } else {
-            this.appList.setListData(inJobAppIDs.toArray());
         }
+        this.appList.setListData(inJobAppIDs.toArray());
     }
 
     private void setButtonStatus(boolean enabled) {

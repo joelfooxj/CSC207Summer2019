@@ -47,14 +47,11 @@ public class JobApplicationQuery {
 
 
     public String getRefLetters() {
-        System.out.println(filteredJobApps.size());
         if (filteredJobApps.size() != 1) {
             return null;
         }
         StringBuilder referenceLetters = new StringBuilder();
-        System.out.println(filteredJobApps.get(0).getReferenceLetters().size());
         for (String referenceLetter : filteredJobApps.get(0).getReferenceLetters()) {
-            System.out.println(referenceLetter);
             referenceLetters.append(referenceLetter);
             referenceLetters.append("\n");
         }
@@ -81,6 +78,14 @@ public class JobApplicationQuery {
             return null;
         }
         return filteredJobApps.get(0).toString();
+    }
+
+    public String printOut() {
+        String printout = "";
+        for (JobApplication application : this.filteredJobApps) {
+            printout = printout + application.toString() + "\n----------\n";
+        }
+        return printout;
     }
 
     public List<String> getRequiredDocuments() {

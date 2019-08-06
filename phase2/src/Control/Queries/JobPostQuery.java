@@ -30,7 +30,7 @@ public class JobPostQuery {
     }
 
     public String getRepresentation(){
-        if (filteredJobPosts.size()!= 1){
+        if (filteredJobPosts.size() != 1){
             return null;
         }
         return filteredJobPosts.get(0).toString();

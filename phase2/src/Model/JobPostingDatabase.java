@@ -51,42 +51,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     }
 
     /**
-     * Allows the simultaneous application of multiple filters on job postings
-     * Filters based on SearchBy keys and Object arguments in HashMap parameter.
-     * e.g. if searchMap contains(SearchBy.LOCATION, "Toronto") and (SearchBy.FIRM, 7), then
-     * filterBy will filter for all job postings in Toronto by firm 7.
-     * @param searchMap
-     * values to put in searchMap are as follows:
-     * key -> SearchBy.FIRM to filter for jobs by firm id, value -> long of firm id
-     * key -> SearchBy.LOCATION filter for jobs by location, value -> String of location
-     * key -> SearchBy.HASHTAG to filter by hashtags, value -> HashSet with any hashtags your filtering for
-     * key -> SearchBy.OPEN to filter for open jobs, value -> null, no value required
-     * @return
-     */
-    public List<String> filterBy(HashMap<SearchBy,Object> searchMap){
-
-        List<JobPosting> jobPostings = this.getListOfItems();
-
-        if(searchMap.containsKey(SearchBy.FIRM)){
-            jobPostings = filterByFirm((Long)searchMap.get(SearchBy.FIRM), jobPostings);
-        }
-
-        if(searchMap.containsKey(SearchBy.LOCATION)){
-            jobPostings = filterByLocation((String)searchMap.get(SearchBy.LOCATION), jobPostings);
-        }
-
-        if(searchMap.containsKey(SearchBy.HASHTAG)){
-            jobPostings = getJobsWithHashTags((HashSet<String>) searchMap.get(SearchBy.HASHTAG), jobPostings);
-        }
-
-        if(searchMap.containsKey(SearchBy.OPEN)){
-            jobPostings = filterOpenJobPostings(jobPostings);
-        }
-
-        return print(jobPostings);
-    }
-
-    /**
      * Filters ArrayLists of job postings for open postings only
      * @param jobPostings
      * @return
@@ -175,7 +139,8 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         OPEN,
         FIRM,
         LOCATION,
-        JOB_ID
+        JOB_ID,
+        HASHTAG
         // 1. since hashmaps cannot have duplicate keys, I make 5 hashtag enums. e.g. if you want to search high-salary
         // and part time, you put (HASHTAG1, "high-salary"), (HASHTAG2, "part-time")
         // 2. The order does not matter because the fiter method only looks at values
@@ -183,17 +148,23 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         // in my code since java cannot convert hashset to Object.
 
     }
-
-    //TODO: remove this method
+//
+//    //TODO: remove this method
     public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration){
         List<JobPosting> jobPostList = this.getListOfItems();
         if (filtration.containsKey(jobPostingFilters.FIRM)){
-            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId()
-                    == filtration.get(jobPostingFilters.FIRM)).collect(Collectors.toList());
+            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId().equals(
+                    filtration.get(jobPostingFilters.FIRM))).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobPostingFilters.OPEN)){
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.isOpen(sessionDate)
             ).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(jobPostingFilters.LOCATION)) {
+            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getLocation().equals(filtration.get(jobPostingFilters.LOCATION))).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(jobPostingFilters.JOB_ID)) {
+            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getJobId().equals(filtration.get(jobPostingFilters.JOB_ID))).collect(Collectors.toList());
         }
         // You need to implement all the filtration requirements. As long as you write a true/ false statement after
         // "->", that will work

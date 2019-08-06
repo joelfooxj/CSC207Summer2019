@@ -102,7 +102,7 @@ public class HRJobOptionsForm extends HRForm {
     }
 
     private void setJobsDesc(){
-        String jobID = (String) this.jobsList.getSelectedValue();
+        String jobID = this.jobsList.getSelectedValue().toString();
 
         HashMap<jobPostingFilters, Object> query = new HashMap<>();
         query.put(jobPostingFilters.JOB_ID, Long.parseLong(jobID));
@@ -115,9 +115,7 @@ public class HRJobOptionsForm extends HRForm {
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(appID));
-        System.out.println(appID);
         String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
-        System.out.println(appDesc);
 
         this.appDesc.setText(appDesc);
     }

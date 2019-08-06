@@ -61,7 +61,7 @@ public class HRCreateJob extends HRJobOptionsForm {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
-        createUIComponents();
+        //createUIComponents();
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Create Job"));
         for(String interviewType:super.hrCH.getAllInterviewStages()){
@@ -146,13 +146,14 @@ public class HRCreateJob extends HRJobOptionsForm {
         if (numLabour <= 0) {
             MessageBox msg = new MessageBox("Error", "Number of positions must be greater than 0!");
         } else {
+            System.out.println("spinner: " + numLabour);
             super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), numLabour, tags,
                     this.selectedInterviews, jobLocation, this.selectedSkills, docs);
             this.dispose();
         }
     }
 
-    private void createUIComponents() {
-        this.numLabourSpinner = new JSpinner(new SpinnerNumberModel(1,1,10,1));
-    }
+//    private void createUIComponents() {
+//        this.numLabourSpinner = new JSpinner(new SpinnerNumberModel(1,1,10,1));
+//    }
 }

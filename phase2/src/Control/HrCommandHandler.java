@@ -60,7 +60,7 @@ public class HrCommandHandler extends CommandHandler {
         JobPosting inJob = sessionData.jobPostingsDb.getJobPostingByID(inApp.getJobID());
         sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID)).hire(sessionDate);
         long numHired = inJob.getNumberOfPositions();
-
+        System.out.println(numHired);
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, inJob.getJobId());
         for(JobApplication app: filter.getJobAppsFilter(query).getFilteredJobApps()){
@@ -69,8 +69,10 @@ public class HrCommandHandler extends CommandHandler {
             }
         }
         if (numHired == 0){
+            System.out.println(numHired);
             inJob.isFilled();
         }
+        System.out.println(numHired);
     }
 
     public void rejectApplicationID(String appID){

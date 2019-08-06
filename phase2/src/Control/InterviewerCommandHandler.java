@@ -25,6 +25,9 @@ public class InterviewerCommandHandler extends CommandHandler{
     public String getUsername(){
         return this.username;
     }
+    public Long getInterviewerID() {
+        return this.interviewerID;
+    }
 
     /**
      * returns a list of applications assigned to this interviewer

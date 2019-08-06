@@ -122,7 +122,9 @@ public class ApplicantJobsForm extends ApplicantForm {
         appQuery.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
         appQuery.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
         JobApplicationQuery jobApplicationQuery = this.appCH.filter.getJobAppsFilter(appQuery);
-        jobPostQuery.filterByHasApplied(jobApplicationQuery.getJobIDs());
+        if (jobApplicationQuery.getJobIDs() != null) {
+            jobPostQuery.filterByHasApplied(jobApplicationQuery.getJobIDs());
+        }
 
         String jobsRepr;
         if (jobPostQuery.getRepresentations() == null){

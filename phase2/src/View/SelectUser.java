@@ -60,7 +60,6 @@ public class SelectUser extends JDialog {
     }
 
     private void onSelect() {
-        // add your code here
         if (userCredentialsJList.getSelectedValue() != null) {
             HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
             filter.put(UserCredentialsDatabase.usersFilterKeys.ABS_USERNAME, userCredentialsJList.getSelectedValue());

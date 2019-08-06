@@ -1,11 +1,15 @@
 package View;
 
 import Control.InterviewerCommandHandler;
+import Control.Queries.JobApplicationQuery;
+import Model.JobApplicationDatabase;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.List;
 
 class InterviewerForm extends JDialog {
@@ -78,12 +82,16 @@ class InterviewerForm extends JDialog {
 
     private void updateForm(){
         setButtonState(false);
-        List<String> inJobAppList = iCH.getAssignedApplicationsIds();
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.INTERVIEWER_ID, iCH.getInterviewerID());
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
+        JobApplicationQuery jobApplicationQuery = iCH.filter.getJobAppsFilter(filter);
+        List<String> inJobAppList = jobApplicationQuery.getJobAppsID();
         if (inJobAppList == null){
             this.applicationText.setText("You have no application assigned to you.");
         } else{
             this.jobApplicationList.setListData(inJobAppList.toArray());
-            this.applicationText.setText(iCH.getAssignedApplicationsRepresentation());
+            this.applicationText.setText(jobApplicationQuery.getRepresentation());
         }
     }
 

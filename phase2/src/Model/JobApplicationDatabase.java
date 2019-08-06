@@ -70,8 +70,8 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
             applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.OPEN).equals(app.isOpen())).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.INTERVIEWER_ID)){
-            applicationList = applicationList.stream().filter(app -> app.getInterviewerID().
-                    equals(filtration.get(jobAppFilterKeys.INTERVIEWER_ID))).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.INTERVIEWER_ID).equals(
+                    app.getInterviewerID())).collect(Collectors.toList());
         }
         return applicationList;
     }

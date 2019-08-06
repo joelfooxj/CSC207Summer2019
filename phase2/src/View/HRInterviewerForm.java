@@ -110,5 +110,6 @@ public class HRInterviewerForm extends HRForm {
         if (userID != null) {
             super.hrCH.assignInterviewer(Long.parseLong(appID), userID);
         }
+        onJobSelection();
     }
 }

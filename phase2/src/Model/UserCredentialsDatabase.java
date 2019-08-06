@@ -68,7 +68,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
     ACCOUNT_TYPE,
     FIRM_ID,
     USERNAME,
-    ABS_USERNAME,
+    REPR,
     USER_ID
   }
 
@@ -86,9 +86,9 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
         userCredentialsList = userCredentialsList.stream().filter(userCredentials ->
                 userCredentials.getUserName().contains((String) filtration.get(usersFilterKeys.USERNAME))).collect(Collectors.toList());
     }
-    if (filtration.containsKey(usersFilterKeys.USERNAME)) {
+    if (filtration.containsKey(usersFilterKeys.REPR)) {
       userCredentialsList = userCredentialsList.stream().filter(userCredentials ->
-              userCredentials.getUserName().equals(filtration.get(usersFilterKeys.USERNAME))).collect(Collectors.toList());
+              userCredentials.toString().equals(filtration.get(usersFilterKeys.REPR))).collect(Collectors.toList());
     }
     if (filtration.containsKey(usersFilterKeys.USER_ID)) {
       userCredentialsList = userCredentialsList.stream().filter(userCredentials ->

@@ -40,8 +40,7 @@ public class SelectUser extends JDialog {
         });
 
         List<String> userCredentialsList = this.commandHandler.filter.getUsersFilter(filter).getRepresentations();
-        String[] userCredentials = userCredentialsList.toArray(new String[userCredentialsList.size()]);
-        userCredentialsJList = new JList<>(userCredentials);
+        userCredentialsJList.setListData(userCredentialsList.toArray(new String[userCredentialsList.size()]));
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -62,7 +61,7 @@ public class SelectUser extends JDialog {
     private void onSelect() {
         if (userCredentialsJList.getSelectedValue() != null) {
             HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
-            filter.put(UserCredentialsDatabase.usersFilterKeys.ABS_USERNAME, userCredentialsJList.getSelectedValue());
+            filter.put(UserCredentialsDatabase.usersFilterKeys.REPR, userCredentialsJList.getSelectedValue());
             this.user = commandHandler.filter.getUsersFilter(filter).getIDs().get(0);
             MessageBox messageBox = new MessageBox("Select User", "User " + this.user.toString() + " Selected!");
             dispose();

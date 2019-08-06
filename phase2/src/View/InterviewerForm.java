@@ -88,6 +88,7 @@ class InterviewerForm extends JDialog {
         JobApplicationQuery jobApplicationQuery = iCH.filter.getJobAppsFilter(filter);
         List<String> inJobAppList = jobApplicationQuery.getJobAppsID();
         if (inJobAppList.isEmpty()){
+            this.jobApplicationList.setListData(inJobAppList.toArray());
             this.applicationText.setText("You have no application assigned to you.");
         } else{
             this.jobApplicationList.setListData(inJobAppList.toArray());

@@ -84,9 +84,10 @@ public class JobApplication extends Observable implements Serializable {
     // the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
     // and the number of passed interview increases by 1
     public void recommend(){
-        leftInterviewProcess.remove(interviewProcess.get(passedInterviewNum));
-        this.passedInterviewNum ++;
+        leftInterviewProcess.remove(0);
+        this.passedInterviewNum++;
         if (leftInterviewProcess.isEmpty()) isSuccessful=true;
+        this.interviewerID = null;
     }
 
     // The input is a list of interviews. e.g. List["phone", "written test ", "in-person","in-person"]
@@ -110,9 +111,10 @@ public class JobApplication extends Observable implements Serializable {
         return
                 "[applicationID]: "+ applicationID +
                 "\n[Job ID]: " + this.jobID +
-                "\n[Applicant ID]: " + this.applicantID+
+                "\n[Applicant ID]: " + this.applicantID +
                 "\n[Firm]: " + this.firmID +
-                        "\n[interviewer ID]: "+ interviwerVal;
+                        "\n[interviewer ID]: " + interviwerVal +
+                "\n[Interviews Left]: " + this.leftInterviewProcess;
     }
 
     public boolean isOpen() {
@@ -172,6 +174,7 @@ public class JobApplication extends Observable implements Serializable {
         argument.add(this.applicantID);
         argument.add(this.firmID);
         notifyObservers(argument);
+        this.interviewerID = null;
     }
 
     // Similar with the hire() method, 3 variables will be changed.
@@ -189,6 +192,7 @@ public class JobApplication extends Observable implements Serializable {
         argument.add(this.applicantID);
         argument.add(this.firmID);
         notifyObservers(argument);
+        this.interviewerID = null;
     }
 
     public String getCV(){

@@ -75,7 +75,7 @@ public class InterviewerCommandHandler extends CommandHandler{
      */
     public void recommendApplication(Long ApplicationID){
         for (JobApplication app:this.getAssignedApplications()){
-            if(app.getApplicationID() == ApplicationID){
+            if(app.getApplicationID().equals(ApplicationID)) {
                 app.recommend();
                 return;
             }
@@ -84,7 +84,7 @@ public class InterviewerCommandHandler extends CommandHandler{
 
     public void rejectApplication(Long ApplicationID){
         for (JobApplication app:this.getAssignedApplications()){
-            if(app.getApplicationID() == ApplicationID){
+            if(app.getApplicationID().equals(ApplicationID)) {
                 app.reject(sessionDate);
                 return;
             }

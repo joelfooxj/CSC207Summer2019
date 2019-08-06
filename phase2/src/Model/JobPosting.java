@@ -181,6 +181,8 @@ public class JobPosting implements Serializable {
 
     public List<requiredDocs> getRequiredDocs(){ return this.setDocs; }
 
+    public List<String> getInterviewStages() { return this.interviewStages; }
+
     /**
      * Checks whether all of the hashtags being searched for are contained in the hashtags
      * variable of the job posting

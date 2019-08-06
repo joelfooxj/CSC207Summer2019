@@ -111,6 +111,7 @@ public class ApplicantCommandHandler extends CommandHandler{
                     sessionDate, docsList);
             newJobApp.createInterviewProcess(sessionData.jobPostingsDb.getJobPostingByID(Long.parseLong(jobID)).getInterviewStages());
             newJobApp.addObserver(this.currentUser);
+            sessionData.jobPostingsDb.getJobPostingByID(Long.parseLong(jobID)).addObserver(newJobApp);
         }
     }
 

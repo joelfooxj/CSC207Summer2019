@@ -78,8 +78,8 @@ public class Login extends JDialog {
     }
 
     private void onLogin() {
-        String userName = this.usernameField.getText();
-        String password = String.valueOf(this.passwordField.getPassword());
+        String userName = this.usernameField.getText().trim();
+        String password = String.valueOf(this.passwordField.getPassword()).trim();
 //        GUI.messageBox(userName + "\n" + password);
         // pass userName and password back to the interface, which will handle the query...
         // HyreLauncher.adduser -> userdb to add user...
@@ -96,8 +96,8 @@ public class Login extends JDialog {
     }
 
     private void onRegister() {
-        String userName = this.usernameField.getText();
-        String password = String.valueOf(this.passwordField.getPassword());
+        String userName = this.usernameField.getText().trim();
+        String password = String.valueOf(this.passwordField.getPassword()).trim();
         if (userName.equals("") || password.equals("")) {
             this.errorLabel.setText("Please enter a username and a password");
         } else if (session.getSessionData().usersDb.userExists(userName)) {
@@ -110,7 +110,7 @@ public class Login extends JDialog {
                         stringEnumLink.get(accountType), "");
                 dispose();
             } else {
-                String firmName = this.firmText.getText();
+                String firmName = this.firmText.getText().trim();
                 if (!firmName.equals("")) {
                     this.retUser = session.addUser(userName, password, stringEnumLink.get(accountType), firmName);
                     dispose();

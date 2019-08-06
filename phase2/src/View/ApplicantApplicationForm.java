@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.List;
+
 import Model.JobApplicationDatabase.jobAppFilterKeys;
 import Model.JobPostingDatabase.jobPostingFilters;
 
@@ -88,8 +89,8 @@ public class ApplicantApplicationForm extends ApplicantForm {
         });
     }
 
-    private HashMap<jobAppFilterKeys, Object> filterHM(String applicationID){
-        HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>(){
+    private HashMap<jobAppFilterKeys, Object> filterHM(String applicationID) {
+        HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>() {
             {
                 put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
                 put(jobAppFilterKeys.OPEN, Boolean.TRUE);
@@ -98,9 +99,9 @@ public class ApplicantApplicationForm extends ApplicantForm {
         return newfilter;
     }
 
-    private void withdrawConfirmation(){
+    private void withdrawConfirmation() {
         boolean confirm = GUI.yesNoForm("Are you sure you want to withdraw? ");
-        if(confirm){
+        if (confirm) {
             String selectedAppID = (String) this.appList.getSelectedValue();
             this.appCH.withdrawApplication(selectedAppID);
             this.appTextArea.setText("");
@@ -110,42 +111,46 @@ public class ApplicantApplicationForm extends ApplicantForm {
         }
     }
 
-    private void openCVForm(){
+    private void openCVForm() {
         String selectedAppID = (String) this.appList.getSelectedValue();
         String inCV = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getResume();
-        if (inCV == null){inCV = "";}
+        if (inCV == null) {
+            inCV = "";
+        }
         String outCV = GUI.editTextForm(inCV, "CV editor");
-        if (outCV != null){
+        if (outCV != null) {
             this.appCH.setApplicationCV(selectedAppID, outCV);
         }
     }
 
-    private void openCoverLetterForm(){
+    private void openCoverLetterForm() {
         String selectedAppID = (String) this.appList.getSelectedValue();
         String inCoverLetter = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getCoverLetter();
-        if (inCoverLetter == null) {inCoverLetter = "";}
+        if (inCoverLetter == null) {
+            inCoverLetter = "";
+        }
         String outCoverLetter = GUI.editTextForm(inCoverLetter, "Cover Letter editor");
-        if (outCoverLetter != null){
+        if (outCoverLetter != null) {
             this.appCH.setApplicationCoverLetter(selectedAppID, outCoverLetter);
         }
     }
 
-    private void checkCVCLButtonEnable(String inJobAppID){
+    private void checkCVCLButtonEnable(String inJobAppID) {
         List<String> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
         this.CVButton.setEnabled(requiredDocsList.contains("CV"));
         this.coverletterButton.setEnabled(requiredDocsList.contains("Cover Letter"));
     }
 
-    private void updateForm(){
+    private void updateForm() {
         setButtonStatus(false);
-        HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<jobAppFilterKeys, Object>(){
+        HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<jobAppFilterKeys, Object>() {
             {
                 put(jobAppFilterKeys.OPEN, Boolean.TRUE);
                 put(jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
             }
         };
         List<String> inJobAppIDs = this.appCH.filter.getJobAppsFilter(filterHM).getJobAppsID();
-        if (inJobAppIDs.isEmpty()){
+        if (inJobAppIDs.isEmpty()) {
             this.appTextArea.setText("You have no open applications.");
             this.jobTextArea.setText("You have no open applications.");
         } else {
@@ -153,7 +158,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
         }
     }
 
-    private void setButtonStatus(boolean enabled){
+    private void setButtonStatus(boolean enabled) {
         this.withdrawButton.setEnabled(enabled);
         this.coverletterButton.setEnabled(enabled);
         this.CVButton.setEnabled(enabled);

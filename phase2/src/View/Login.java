@@ -1,4 +1,5 @@
 package View;
+
 import Control.CommandHandler;
 import Control.HyreLauncher;
 import Control.HyreSession;
@@ -24,7 +25,7 @@ public class Login extends JDialog {
 
     public UserCredentials retUser;
 
-    private HashMap<String, UserCredentials.userTypes> stringEnumLink = new HashMap<String, UserCredentials.userTypes>(){
+    private HashMap<String, UserCredentials.userTypes> stringEnumLink = new HashMap<String, UserCredentials.userTypes>() {
         {
             put("Applicant", UserCredentials.userTypes.APPLICANT);
             put("Interviewer", UserCredentials.userTypes.INTERVIEWER);
@@ -40,7 +41,7 @@ public class Login extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonLogin);
 
-        for(String userType:stringEnumLink.keySet()){
+        for (String userType : stringEnumLink.keySet()) {
             this.userTypeBox.addItem(userType);
         }
 
@@ -86,7 +87,7 @@ public class Login extends JDialog {
 
 
         UserCredentials targetUser = session.getSessionData().usersDb.getUserByCredentials(userName, password);
-        if (targetUser == null){
+        if (targetUser == null) {
             this.errorLabel.setText("Incorrect username or password.");
             this.resetFields();
         } else {
@@ -105,7 +106,7 @@ public class Login extends JDialog {
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
             // todo: maybe combine the addUser methods?
-            if (accountType.equals("Applicant") || accountType.equals("Referer")){
+            if (accountType.equals("Applicant") || accountType.equals("Referer")) {
                 this.retUser = session.addUser(userName, password,
                         stringEnumLink.get(accountType), "");
                 dispose();
@@ -122,7 +123,7 @@ public class Login extends JDialog {
         }
     }
 
-    private void resetFields(){
+    private void resetFields() {
         this.usernameField.setText("");
         this.passwordField.setText("");
     }

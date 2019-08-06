@@ -62,14 +62,14 @@ public class ApplicantForm extends JDialog {
         });
     }
 
-    private void onJobs(){
+    private void onJobs() {
         ApplicantJobsForm appJobsForm = new ApplicantJobsForm(this.appCH);
         appJobsForm.pack();
         appJobsForm.setVisible(true);
         this.updateForm();
     }
 
-    private void onApps(){
+    private void onApps() {
         ApplicantApplicationForm appApplicationForm = new ApplicantApplicationForm(this.appCH);
         appApplicationForm.pack();
         appApplicationForm.setVisible(true);
@@ -77,13 +77,13 @@ public class ApplicantForm extends JDialog {
 
     }
 
-    private void updateForm(){
+    private void updateForm() {
         this.updateAppFields(Boolean.TRUE);
         this.updateAppFields(Boolean.FALSE);
         this.minDaysLabel.setText("It's been " + this.appCH.getMinDays() + " days since your last closed application.");
     }
 
-    private void updateAppFields(Boolean open){
+    private void updateAppFields(Boolean open) {
         HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<>();
         filterHM.put(jobAppFilterKeys.APPLICANT_ID, this.appCH.getApplicantID());
         filterHM.put(jobAppFilterKeys.OPEN, open);

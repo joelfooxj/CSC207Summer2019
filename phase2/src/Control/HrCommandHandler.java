@@ -16,7 +16,7 @@ public class HrCommandHandler extends CommandHandler {
             "Phone",
             "Technical");
 
-    private HashMap<String, requiredDocs> stringDocsHashMap = new HashMap<String, requiredDocs>(){
+    private HashMap<String, requiredDocs> stringDocsHashMap = new HashMap<String, requiredDocs>() {
         {
             put("CV", requiredDocs.CV);
             put("Cover Letter", requiredDocs.COVERLETTER);
@@ -24,7 +24,7 @@ public class HrCommandHandler extends CommandHandler {
         }
     };
 
-    public HrCommandHandler(UserCredentials hrUser){
+    public HrCommandHandler(UserCredentials hrUser) {
 
         this.username = hrUser.getUserName();
         this.firmID = String.valueOf(hrUser.getFirmId());
@@ -35,44 +35,44 @@ public class HrCommandHandler extends CommandHandler {
         GUI.hrForm(this);
     }
 
-    public List<String> getAllInterviewStages(){
+    public List<String> getAllInterviewStages() {
         return this.allInterviewStages;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return this.username;
     }
 
-    public String getFirmID(){
+    public String getFirmID() {
         return this.firmID;
     }
-
 
 
     /**
      * This method sets the selected JobApplication to hired.
      * If the JobPosting associated with this JobApplication has filled its required
      * number of positions, it will be closed.
+     *
      * @param appID: the ID associated to the JobApplication to be hired
      */
-    public void hireApplicationID(String appID){
+    public void hireApplicationID(String appID) {
         JobApplication inApp = sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID));
         JobPosting inJob = sessionData.jobPostingsDb.getJobPostingByID(inApp.getJobID());
         sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID)).hire(sessionDate);
         long numHired = inJob.getNumberOfPositions();
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, inJob.getJobId());
-        for(JobApplication app: filter.getJobAppsFilter(query).getFilteredJobApps()){
-            if (app.isSuccessful()){
+        for (JobApplication app : filter.getJobAppsFilter(query).getFilteredJobApps()) {
+            if (app.isSuccessful()) {
                 numHired--;
             }
         }
-        if (numHired == 0){
+        if (numHired == 0) {
             inJob.isFilled(sessionDate);
         }
     }
 
-    public void rejectApplicationID(String appID){
+    public void rejectApplicationID(String appID) {
         sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID)).reject(sessionDate);
     }
 
@@ -87,9 +87,9 @@ public class HrCommandHandler extends CommandHandler {
             String location,
             List<String> skills,
             List<String> docs
-    ){
+    ) {
         List<requiredDocs> docsList = new ArrayList<>();
-        for (String doc: docs) {
+        for (String doc : docs) {
             docsList.add(stringDocsHashMap.get(doc));
         }
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));

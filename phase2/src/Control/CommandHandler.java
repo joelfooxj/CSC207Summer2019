@@ -18,7 +18,7 @@ public abstract class CommandHandler {
         this.filter = new Filter(sessionData);
     }
 
-    public void setSessionDate(LocalDate sessionDate){
+    public void setSessionDate(LocalDate sessionDate) {
         this.sessionDate = sessionDate;
     }
 

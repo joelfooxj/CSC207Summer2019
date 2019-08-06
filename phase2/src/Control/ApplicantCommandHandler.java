@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class ApplicantCommandHandler extends CommandHandler{
+public class ApplicantCommandHandler extends CommandHandler {
     /**
      * This class handles all high-level commands for Applicant users
      * This class should call methods from the database and attended classes
@@ -21,14 +21,17 @@ public class ApplicantCommandHandler extends CommandHandler{
     private String username;
     private UserCredentials currentUser;
 
-    public ApplicantCommandHandler(UserCredentials user){
+    public ApplicantCommandHandler(UserCredentials user) {
         this.applicantID = user.getUserID();
         this.creationDate = user.getCreationDate();
         this.username = user.getUserName();
         this.currentUser = user;
         List<String> inboxMessages = user.getInbox();
-        if (!inboxMessages.isEmpty()){ GUI.messageBox("Messages", String.join("\n", inboxMessages)); }
-        else {GUI.messageBox("no message received",String.join("\n", inboxMessages));}
+        if (!inboxMessages.isEmpty()) {
+            GUI.messageBox("Messages", String.join("\n", inboxMessages));
+        } else {
+            GUI.messageBox("no message received", String.join("\n", inboxMessages));
+        }
 
     }
 
@@ -38,17 +41,19 @@ public class ApplicantCommandHandler extends CommandHandler{
         GUI.applicantForm(this);
     }
 
-    private JobApplication getApplication(String applicationID){
+    private JobApplication getApplication(String applicationID) {
         return sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(applicationID));
     }
 
-    public void withdrawApplication(String applicationID){
+    public void withdrawApplication(String applicationID) {
         this.getApplication(applicationID).setOpen(false, super.sessionDate);
     }
-    public void setApplicationCV(String applicationID, String inCV){
+
+    public void setApplicationCV(String applicationID, String inCV) {
         this.getApplication(applicationID).setCV(inCV);
     }
-    public void setApplicationCoverLetter(String applicationID, String inCoverLetter){
+
+    public void setApplicationCoverLetter(String applicationID, String inCoverLetter) {
         this.getApplication(applicationID).setCoverLetter(inCoverLetter);
     }
 
@@ -57,24 +62,25 @@ public class ApplicantCommandHandler extends CommandHandler{
      * 1. Open
      * 2. Unapplied For
      * 3. Are not expired
+     *
      * @return list of open & unapplied JobPosting
      */
-    private List<JobPosting> getOpenUnappliedJobs(){
+    private List<JobPosting> getOpenUnappliedJobs() {
         List<JobPosting> openJobs = new ArrayList<>();
-        if (sessionData.jobPostingsDb.isEmpty()){
+        if (sessionData.jobPostingsDb.isEmpty()) {
             return openJobs;
         }
-        for (Long jobID: sessionData.jobPostingsDb.getOpenPostingIds()){
+        for (Long jobID : sessionData.jobPostingsDb.getOpenPostingIds()) {
             boolean appliedForFlag = false;
-            if (!this.getAllApplications().isEmpty()){
-                for (JobApplication app: this.getAllApplications()){
-                    if (app.getJobID() == jobID){
+            if (!this.getAllApplications().isEmpty()) {
+                for (JobApplication app : this.getAllApplications()) {
+                    if (app.getJobID() == jobID) {
                         appliedForFlag = true;
                     }
                 }
             }
             JobPosting inJob = sessionData.jobPostingsDb.getJobPostingByID(jobID);
-            if (!appliedForFlag && !inJob.isExpired(sessionDate)){
+            if (!appliedForFlag && !inJob.isExpired(sessionDate)) {
                 openJobs.add(inJob);
             }
         }
@@ -83,14 +89,15 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     /**
      * This method returns a list of jobPostings filtered based on tags and location
-     * @param tags: list of hashtags of JobPosting
+     *
+     * @param tags:     list of hashtags of JobPosting
      * @param location: location of JobPosting
      * @return
      */
-    private List<JobPosting> getFilteredJobs(HashSet<String> tags, String location){
+    private List<JobPosting> getFilteredJobs(HashSet<String> tags, String location) {
         List<JobPosting> retJobList = new ArrayList<>();
-        for (JobPosting job: this.getOpenUnappliedJobs()){
-            if(job.containsAllHashTags(tags) && (job.getLocation().equals(location)||location.equals("All locations"))){
+        for (JobPosting job : this.getOpenUnappliedJobs()) {
+            if (job.containsAllHashTags(tags) && (job.getLocation().equals(location) || location.equals("All locations"))) {
                 retJobList.add(job);
             }
         }
@@ -98,10 +105,9 @@ public class ApplicantCommandHandler extends CommandHandler{
     }
 
 
-
     // todo: update addApplication() with less parameters
-    public void applyForJobs(List<String> jobIDs){
-        for (String jobID: jobIDs){
+    public void applyForJobs(List<String> jobIDs) {
+        for (String jobID : jobIDs) {
             long inputFirmID = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
             List<requiredDocs> docsList = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
             JobApplication newJobApp = sessionData.jobAppsDb.addApplication(
@@ -117,9 +123,10 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     /**
      * This method is just a shorthand
+     *
      * @return A list of applications associated with this Applicant
      */
-    private List<JobApplication> getAllApplications(){
+    private List<JobApplication> getAllApplications() {
         //return sessionData.jobAppsDb.getApplicationsByApplicantID(this.applicantID);
         HashMap requirement = new HashMap();
         requirement.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, this.applicantID);
@@ -128,12 +135,13 @@ public class ApplicantCommandHandler extends CommandHandler{
 
     /**
      * This method calculates the days between the current session and the last closed application
+     *
      * @return minDaysBetween
      */
-    public String getMinDays(){
+    public String getMinDays() {
         long minDaysBetween = 0;
-        for (JobApplication app:this.getAllApplications()) {
-            if(!app.isOpen()){
+        for (JobApplication app : this.getAllApplications()) {
+            if (!app.isOpen()) {
                 long daysBetween = ChronoUnit.DAYS.between(app.getClosedDate(), sessionDate);
                 if (minDaysBetween == 0) {
                     minDaysBetween = daysBetween;
@@ -145,15 +153,15 @@ public class ApplicantCommandHandler extends CommandHandler{
         return String.valueOf(minDaysBetween);
     }
 
-    public String getCreationDate(){
+    public String getCreationDate() {
         return this.creationDate.toString();
     }
 
-    public Long getApplicantID(){
+    public Long getApplicantID() {
         return this.applicantID;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return this.username;
     }
 
@@ -162,13 +170,18 @@ public class ApplicantCommandHandler extends CommandHandler{
      * to null if and only if all applications are closed AND at least 30 days
      * has passed since the last closed application.
      */
-    private void deleteCVAndCoverLetter(){
-        if (this.getAllApplications() == null){ return; }
-        for (JobApplication app:this.getAllApplications()){
-            if (app.isOpen()) {return;}
-            else if (ChronoUnit.DAYS.between(sessionDate, app.getClosedDate()) < 30){return; }
+    private void deleteCVAndCoverLetter() {
+        if (this.getAllApplications() == null) {
+            return;
         }
-        for (JobApplication app:this.getAllApplications()){
+        for (JobApplication app : this.getAllApplications()) {
+            if (app.isOpen()) {
+                return;
+            } else if (ChronoUnit.DAYS.between(sessionDate, app.getClosedDate()) < 30) {
+                return;
+            }
+        }
+        for (JobApplication app : this.getAllApplications()) {
             app.setCV(null);
             app.setCoverLetter(null);
         }

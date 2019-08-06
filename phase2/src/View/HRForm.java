@@ -20,7 +20,7 @@ public class HRForm extends JDialog {
         setModal(true);
 
         this.hrCH = inHRCH;
-        String userName= this.hrCH.getUsername();
+        String userName = this.hrCH.getUsername();
         String firmName = this.hrCH.getFirmID();
         this.subMenuTitle = "Firm " + firmName + ": " + userName;
 
@@ -59,21 +59,21 @@ public class HRForm extends JDialog {
         });
     }
 
-    private void onJobs(){
+    private void onJobs() {
         HRJobOptionsForm hrJobOptionsForm = new HRJobOptionsForm(this.hrCH);
         hrJobOptionsForm.setAlwaysOnTop(true);
         hrJobOptionsForm.pack();
         hrJobOptionsForm.setVisible(true);
     }
 
-    private void onApplicants(){
+    private void onApplicants() {
         HRApplicantOptions hrApplicantOptions = new HRApplicantOptions(this.hrCH);
         hrApplicantOptions.setAlwaysOnTop(true);
         hrApplicantOptions.pack();
         hrApplicantOptions.setVisible(true);
     }
 
-    private void onInterviewer(){
+    private void onInterviewer() {
         HRInterviewerForm hrInterviewerForm = new HRInterviewerForm(this.hrCH);
         hrInterviewerForm.setAlwaysOnTop(true);
         hrInterviewerForm.pack();

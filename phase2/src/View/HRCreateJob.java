@@ -36,7 +36,7 @@ public class HRCreateJob extends HRJobOptionsForm {
     private JCheckBox referenceLetterCheckBox;
     private JCheckBox coverLetterCheckBox;
 
-    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>(){
+    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>() {
         {
             put(fullTimeCheckBox, "Full-Time");
             put(partTimeCheckBox, "Part-time");
@@ -46,7 +46,7 @@ public class HRCreateJob extends HRJobOptionsForm {
         }
     };
 
-    private HashMap<JCheckBox, String> checkBoxDocsLink = new HashMap<JCheckBox, String>(){
+    private HashMap<JCheckBox, String> checkBoxDocsLink = new HashMap<JCheckBox, String>() {
         {
             put(CVCheckBox, "CV");
             put(coverLetterCheckBox, "Cover Letter");
@@ -63,11 +63,11 @@ public class HRCreateJob extends HRJobOptionsForm {
         setModal(true);
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Create Job"));
-        for(String interviewType:super.hrCH.getAllInterviewStages()){
+        for (String interviewType : super.hrCH.getAllInterviewStages()) {
             this.interviewCombo.addItem(interviewType);
         }
 
-        this.numLabourSpinner.setModel(new SpinnerNumberModel(1,1,10,1));
+        this.numLabourSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
 
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -126,19 +126,19 @@ public class HRCreateJob extends HRJobOptionsForm {
 
     }
 
-    private void createJob(){
+    private void createJob() {
         String jobTitle = this.jobTitleText.getText();
         String jobDesc = this.jobDescriptionText.getText();
         String jobLocation = this.jobLocationText.getText();
         List<String> tags = new ArrayList<>();
-        for (JCheckBox checkBox:checkBoxtagsLink.keySet()){
-            if (checkBox.isSelected()){
+        for (JCheckBox checkBox : checkBoxtagsLink.keySet()) {
+            if (checkBox.isSelected()) {
                 tags.add(checkBoxtagsLink.get(checkBox));
             }
         }
         List<String> docs = new ArrayList<>();
-        for (JCheckBox checkBox:checkBoxDocsLink.keySet()){
-            if(checkBox.isSelected()){
+        for (JCheckBox checkBox : checkBoxDocsLink.keySet()) {
+            if (checkBox.isSelected()) {
                 docs.add(checkBoxDocsLink.get(checkBox));
             }
         }

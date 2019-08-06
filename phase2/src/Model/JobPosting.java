@@ -67,7 +67,7 @@ public class JobPosting extends Observable implements Serializable {
     private List<String> skills;
 
     private List<requiredDocs> setDocs;
-    private HashMap<Model.requiredDocs, String> printDocsHashMap = new HashMap<Model.requiredDocs, String>(){
+    private HashMap<Model.requiredDocs, String> printDocsHashMap = new HashMap<Model.requiredDocs, String>() {
         {
             put(requiredDocs.COVERLETTER, "Cover Letter");
             put(requiredDocs.CV, "CV");
@@ -76,19 +76,20 @@ public class JobPosting extends Observable implements Serializable {
     };
 
     /**
-     *constructor for job postings
-     * @param title {@link #jobTitle}
-     * @param details - {@link #jobDetails}
-     * @param firmId - {@link #firmId}
+     * constructor for job postings
+     *
+     * @param title             {@link #jobTitle}
+     * @param details           - {@link #jobDetails}
+     * @param firmId            - {@link #firmId}
      * @param numberOfPositions {@link #numberOfPositions}
-     * @param location {@link #location}
-     * @param jobDateRange - contains {@link #publishDate} and {@link #expiryDate}
-     * @param hashTags - contains hashtags associated with a job
+     * @param location          {@link #location}
+     * @param jobDateRange      - contains {@link #publishDate} and {@link #expiryDate}
+     * @param hashTags          - contains hashtags associated with a job
      */
     //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
                       DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
-                      List<String> skills, List<Model.requiredDocs> docs, Long jobId){
+                      List<String> skills, List<Model.requiredDocs> docs, Long jobId) {
         this.jobId = jobId;
         this.jobTitle = title;
         this.jobDetails = details;
@@ -104,7 +105,7 @@ public class JobPosting extends Observable implements Serializable {
         this.setDocs = docs;
     }
 
-    public String getJobDetails(){
+    public String getJobDetails() {
         return this.jobDetails;
     }
 
@@ -114,25 +115,27 @@ public class JobPosting extends Observable implements Serializable {
 
     /**
      * Returns true if the job is not filled and has not expired
+     *
      * @return true or false
      */
-    public boolean isOpen(LocalDate todaysDate){
+    public boolean isOpen(LocalDate todaysDate) {
         return !getIsFilled() && !isExpired(todaysDate);
     }
 
     /**
      * Indicates whether the job has expired {@link #expiryDate}
+     *
      * @return
      */
 
-    public boolean isExpired(LocalDate todaysDate){
+    public boolean isExpired(LocalDate todaysDate) {
         return todaysDate.compareTo(expiryDate) > 0;
     }
 
     /**
      * Used to set a job as having been filled
      */
-    public void isFilled(LocalDate closedDate){
+    public void isFilled(LocalDate closedDate) {
         isFilled = true;
         setChanged();
         List<Object> arg = new ArrayList<>();
@@ -143,16 +146,17 @@ public class JobPosting extends Observable implements Serializable {
 
     /**
      * Indicates whether all the job positions have been filled or not
+     *
      * @return {@link #isFilled}
      */
-    private boolean getIsFilled(){
+    private boolean getIsFilled() {
         return isFilled;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         List<String> printDocs = new ArrayList<>();
-        for (Model.requiredDocs doc:this.setDocs){
+        for (Model.requiredDocs doc : this.setDocs) {
             printDocs.add(printDocsHashMap.get(doc));
         }
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
@@ -164,6 +168,7 @@ public class JobPosting extends Observable implements Serializable {
 
     /**
      * returns jobId
+     *
      * @return {@link #jobId}
      */
     public Long getJobId() {
@@ -172,6 +177,7 @@ public class JobPosting extends Observable implements Serializable {
 
     /**
      * returns firmId
+     *
      * @return {@link #firmId}
      */
     public Long getFirmId() {
@@ -182,15 +188,22 @@ public class JobPosting extends Observable implements Serializable {
         return numberOfPositions;
     }
 
-    public String getLocation(){return location;}
+    public String getLocation() {
+        return location;
+    }
 
-    public List<requiredDocs> getRequiredDocs(){ return this.setDocs; }
+    public List<requiredDocs> getRequiredDocs() {
+        return this.setDocs;
+    }
 
-    public List<String> getInterviewStages() { return this.interviewStages; }
+    public List<String> getInterviewStages() {
+        return this.interviewStages;
+    }
 
     /**
      * Checks whether all of the hashtags being searched for are contained in the hashtags
      * variable of the job posting
+     *
      * @param searchHashTags - a collection of hashtags being searched for
      * @return true or false
      */

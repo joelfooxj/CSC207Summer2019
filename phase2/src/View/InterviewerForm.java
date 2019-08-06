@@ -64,39 +64,39 @@ class InterviewerForm extends JDialog {
         });
     }
 
-    private void setRecommendedApps(){
-        for (Object value:this.jobApplicationList.getSelectedValuesList()){
+    private void setRecommendedApps() {
+        for (Object value : this.jobApplicationList.getSelectedValuesList()) {
             String selectedString = (String) value;
             iCH.recommendApplication(Long.parseLong(selectedString));
         }
         updateForm();
     }
 
-    private void setRejectedApps(){
-        for (Object value:this.jobApplicationList.getSelectedValuesList()){
+    private void setRejectedApps() {
+        for (Object value : this.jobApplicationList.getSelectedValuesList()) {
             String selectedString = (String) value;
             iCH.rejectApplication(Long.parseLong(selectedString));
         }
         updateForm();
     }
 
-    private void updateForm(){
+    private void updateForm() {
         setButtonState(false);
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.INTERVIEWER_ID, iCH.getInterviewerID());
         filter.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
         JobApplicationQuery jobApplicationQuery = iCH.filter.getJobAppsFilter(filter);
         List<String> inJobAppList = jobApplicationQuery.getJobAppsID();
-        if (inJobAppList.isEmpty()){
+        if (inJobAppList.isEmpty()) {
             this.jobApplicationList.setListData(inJobAppList.toArray());
             this.applicationText.setText("You have no application assigned to you.");
-        } else{
+        } else {
             this.jobApplicationList.setListData(inJobAppList.toArray());
             this.applicationText.setText(jobApplicationQuery.getRepresentation());
         }
     }
 
-    private void setButtonState(boolean enabled){
+    private void setButtonState(boolean enabled) {
         recommendButton.setEnabled(enabled);
         rejectButton.setEnabled(enabled);
     }

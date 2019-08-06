@@ -116,7 +116,7 @@ public class HRJobOptionsForm extends HRForm {
         }
     }
 
-    private void setAppDesc(){
+    private void setAppDesc() {
         String appID = (String) this.associatedApplicationsList.getSelectedValue();
         if (appID != null) {
             HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
@@ -129,7 +129,7 @@ public class HRJobOptionsForm extends HRForm {
         }
     }
 
-    private void updateJobsList(){
+    private void updateJobsList() {
         setButtonEnabled(false);
         this.jobsList.clearSelection();
         this.associatedApplicationsList.clearSelection();
@@ -144,14 +144,14 @@ public class HRJobOptionsForm extends HRForm {
 
 
         //List<String> inJobList = super.hrCH.getOpenJobsList();
-        if (inJobList.isEmpty()){
+        if (inJobList.isEmpty()) {
             this.jobDesc.setText("There are no jobs.");
         } else {
             this.jobsList.setListData(inJobList.toArray());
         }
     }
 
-    private void updateAppList(){
+    private void updateAppList() {
         setButtonEnabled(false);
         this.appDesc.setText("");
         String selectedJobID = (String) this.jobsList.getSelectedValue();
@@ -172,7 +172,7 @@ public class HRJobOptionsForm extends HRForm {
         }
     }
 
-    private void setButtonEnabled(boolean setEnabled){
+    private void setButtonEnabled(boolean setEnabled) {
         hireButton.setEnabled(setEnabled);
         rejectButton.setEnabled(setEnabled);
     }

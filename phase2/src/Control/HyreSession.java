@@ -32,7 +32,7 @@ public class HyreSession {
         }
     }
 
-    public LocalDate getSessionDate(){
+    public LocalDate getSessionDate() {
         return this.sessionDate;
     }
 

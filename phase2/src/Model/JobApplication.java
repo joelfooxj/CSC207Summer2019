@@ -1,4 +1,5 @@
 package Model;
+
 import Control.CommandHandler;
 import Control.HyreLauncher;
 
@@ -42,16 +43,16 @@ public class JobApplication extends Observable implements Serializable, Observer
     private List<String> leftInterviewProcess;
 
     // for each application creation, you need all these 5 parameters
+
     /**
-     *
      * @param applicationID: The Application's unique ID
-     * @param applicantID: The applicant's unique ID
-     * @param jobID: The unique ID of the job.
-     * @param firmID: The unique ID of the company
-     * @param creationDate: The creation date of this application
+     * @param applicantID:   The applicant's unique ID
+     * @param jobID:         The unique ID of the job.
+     * @param firmID:        The unique ID of the company
+     * @param creationDate:  The creation date of this application
      */
     public JobApplication(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate,
-                          List<Model.requiredDocs> docs){
+                          List<Model.requiredDocs> docs) {
         this.applicationID = applicationID;
         this.applicantID = applicantID;
         this.jobID = jobID;
@@ -59,6 +60,7 @@ public class JobApplication extends Observable implements Serializable, Observer
         this.creationDate = creationDate;
         this.setDocs = docs;
     }
+
     // The followings are necessarily used getter and setters
     public Long getApplicationID() {
         return applicationID;
@@ -84,20 +86,19 @@ public class JobApplication extends Observable implements Serializable, Observer
     // Everytime an interviewer recommend this application,
     // the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
     // and the number of passed interview increases by 1
-    public void recommend(){
+    public void recommend() {
         leftInterviewProcess.remove(0);
         this.passedInterviewNum++;
-        if (leftInterviewProcess.isEmpty()) isSuccessful=true;
+        if (leftInterviewProcess.isEmpty()) isSuccessful = true;
         this.interviewerID = null;
     }
 
     // The input is a list of interviews. e.g. List["phone", "written test ", "in-person","in-person"]
 
     /**
-     *
      * @param interviewProcess: a list of interview processes
      */
-    public void createInterviewProcess(List<String> interviewProcess){
+    public void createInterviewProcess(List<String> interviewProcess) {
         this.interviewProcess = interviewProcess;
         this.leftInterviewProcess = interviewProcess;
     }
@@ -106,16 +107,16 @@ public class JobApplication extends Observable implements Serializable, Observer
     @Override
     public String toString() {
         String interviwerVal = "No Interview invitation";
-        if (this.interviewerID != null){
+        if (this.interviewerID != null) {
             interviwerVal = String.valueOf(this.interviewerID);
         }
         return
-                "[applicationID]: "+ applicationID +
-                "\n[Job ID]: " + this.jobID +
-                "\n[Applicant ID]: " + this.applicantID +
-                "\n[Firm]: " + this.firmID +
+                "[applicationID]: " + applicationID +
+                        "\n[Job ID]: " + this.jobID +
+                        "\n[Applicant ID]: " + this.applicantID +
+                        "\n[Firm]: " + this.firmID +
                         "\n[interviewer ID]: " + interviwerVal +
-                "\n[Interviews Left]: " + this.leftInterviewProcess;
+                        "\n[Interviews Left]: " + this.leftInterviewProcess;
     }
 
     public boolean isOpen() {
@@ -124,12 +125,11 @@ public class JobApplication extends Observable implements Serializable, Observer
 
 
     /**
-     *
      * @param open: a boolean indicating if the job corresponding to this application is still open
      */
     public void setOpen(boolean open, LocalDate sessionDate) {
         isOpen = open;
-        if (!open){
+        if (!open) {
             setClosedDate(sessionDate);
         }
     }
@@ -139,7 +139,6 @@ public class JobApplication extends Observable implements Serializable, Observer
     }
 
     /**
-     *
      * @param closeDate: the close date of the job corresponding to this application
      */
     public void setClosedDate(LocalDate closeDate) {
@@ -147,14 +146,13 @@ public class JobApplication extends Observable implements Serializable, Observer
     }
 
     /**
-     *
      * @param targetInterviewerId: the id of the interviewer who is going to view this application/ applicant
      */
     public void setUpInterview(long targetInterviewerId) {
         this.interviewerID = targetInterviewerId;
     }
 
-    public boolean isSuccessful(){
+    public boolean isSuccessful() {
         return this.isSuccessful;
     }
 
@@ -162,7 +160,6 @@ public class JobApplication extends Observable implements Serializable, Observer
     // the application gets closed and the close date is right now.
 
     /**
-     *
      * @param date: the date when HR decides to hire this person
      */
     public void hire(LocalDate date) {
@@ -179,8 +176,8 @@ public class JobApplication extends Observable implements Serializable, Observer
     }
 
     // Similar with the hire() method, 3 variables will be changed.
+
     /**
-     *
      * @param date: the date when HR/ interviewer rejects the applicant of this application
      */
     public void reject(LocalDate date) {
@@ -196,36 +193,37 @@ public class JobApplication extends Observable implements Serializable, Observer
         this.interviewerID = null;
     }
 
-    public String getCV(){
-        if (this.setDocs.contains(Model.requiredDocs.CV)){
+    public String getCV() {
+        if (this.setDocs.contains(Model.requiredDocs.CV)) {
             return this.CV;
-        } else {return "CV not required."; }
+        } else {
+            return "CV not required.";
+        }
     }
 
     /**
-     *
      * @param inCV: the resume/ CV of this application
      */
-    public void setCV(String inCV){
+    public void setCV(String inCV) {
         this.CV = inCV;
     }
 
-    public String getCoverLetter(){
-        if (this.setDocs.contains(Model.requiredDocs.COVERLETTER)){
+    public String getCoverLetter() {
+        if (this.setDocs.contains(Model.requiredDocs.COVERLETTER)) {
             return this.coverLetter;
-        } else { return "Cover letter not required"; }
+        } else {
+            return "Cover letter not required";
+        }
     }
 
     /**
-     *
      * @param inCoverLetter: the cover letter of this application
      */
-    public void setCoverLetter(String inCoverLetter){
+    public void setCoverLetter(String inCoverLetter) {
         this.coverLetter = inCoverLetter;
     }
 
     /**
-     *
      * @param referenceLetter: the reference letter to be added
      */
     public void addReferenceLetter(String referenceLetter) {
@@ -233,16 +231,13 @@ public class JobApplication extends Observable implements Serializable, Observer
     }
 
     /**
-     *
      * @return reference letters for this application
      */
     public List<String> getReferenceLetters() {
-        if (this.setDocs.contains(Model.requiredDocs.REFERENCELETTERS)){
-            return this.referenceLetters;
-        } else { return new ArrayList<>(); }
+        return this.referenceLetters;
     }
 
-    public List<requiredDocs> getRequiredDocs(){
+    public List<requiredDocs> getRequiredDocs() {
         return this.setDocs;
     }
 

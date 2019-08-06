@@ -11,31 +11,35 @@ public class SaveFilesHandler {
     private String pathToSource = "";
 
 
-    public SaveFilesHandler(SessionData sessionData){
+    public SaveFilesHandler(SessionData sessionData) {
         this.sessionData = sessionData;
     }
 
-    /** changes the links to the saved files
-     *  any read/write operation will occur in the user's save files
+    /**
+     * changes the links to the saved files
+     * any read/write operation will occur in the user's save files
      */
-    private void setUserSavedData(){
+    private void setUserSavedData() {
         this.applicationsDbPath = pathToSource + "Applications.bin";
         this.jobsDbPath = pathToSource + "Jobs.bin";
         this.usersDbPath = pathToSource + "Users.bin";
         this.firmDbPath = pathToSource + "Firms.bin";
     }
 
-    /** changes the links to the saved files
-     *  any read/write operation will occur in the test files
+    /**
+     * changes the links to the saved files
+     * any read/write operation will occur in the test files
      */
-    private void setTestData(){
-        this.applicationsDbPath =  pathToSource + "TestApplications.bin";
+    private void setTestData() {
+        this.applicationsDbPath = pathToSource + "TestApplications.bin";
         this.jobsDbPath = this.pathToSource + "TestJobs.bin";
         this.usersDbPath = this.pathToSource + "TestUsers.bin";
         this.firmDbPath = this.pathToSource + "TestFirms.bin";
     }
 
-    /** saves all the data from the current session
+    /**
+     * saves all the data from the current session
+     *
      * @throws IOException
      */
     private void saveAll() throws IOException {
@@ -45,7 +49,8 @@ public class SaveFilesHandler {
         sessionData.firmsDb.saveDatabase(firmDbPath);
     }
 
-    /** loads saved data
+    /**
+     * loads saved data
      *
      * @throws IOException
      * @throws ClassNotFoundException
@@ -58,7 +63,9 @@ public class SaveFilesHandler {
     }
 
 
-    /** Loads saved test data
+    /**
+     * Loads saved test data
+     *
      * @throws ClassNotFoundException
      * @throws IOException
      */
@@ -71,7 +78,9 @@ public class SaveFilesHandler {
         }
     }
 
-    /** Loads the test files data
+    /**
+     * Loads the test files data
+     *
      * @throws IOException
      */
     public void loadUserSavedFiles() throws IOException {
@@ -84,7 +93,9 @@ public class SaveFilesHandler {
     }
 
 
-    /** Overrides the test files data with the current session's data
+    /**
+     * Overrides the test files data with the current session's data
+     *
      * @throws IOException
      */
     public void overrideTestData() throws IOException {
@@ -92,7 +103,9 @@ public class SaveFilesHandler {
         saveAll();
     }
 
-    /** Overrides the user's saved data with the current session's data
+    /**
+     * Overrides the user's saved data with the current session's data
+     *
      * @throws IOException
      */
     public void saveToUserData() throws IOException {

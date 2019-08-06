@@ -1,4 +1,5 @@
 package View;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.time.DateTimeException;
@@ -34,7 +35,9 @@ public class SetDate extends JDialog {
         });
 
         contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { onOK();}
+            public void actionPerformed(ActionEvent e) {
+                onOK();
+            }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         this.dayField.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
@@ -43,22 +46,22 @@ public class SetDate extends JDialog {
     }
 
     private void onOK() {
-        try{
+        try {
             int day = Integer.parseInt(dayField.getText());
             int month = Integer.parseInt(monthField.getText());
             int year = Integer.parseInt(yearField.getText());
             this.retDate = LocalDate.of(year, month, day);
             dispose();
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             this.errorLabel.setText("Enter integers only.");
             resetFields();
-        } catch (DateTimeException e){
+        } catch (DateTimeException e) {
             this.errorLabel.setText("Enter a valid date.");
             resetFields();
         }
     }
 
-    private void resetFields(){
+    private void resetFields() {
         this.dayField.setText("");
         this.monthField.setText("");
         this.yearField.setText("");

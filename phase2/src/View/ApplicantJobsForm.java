@@ -28,7 +28,7 @@ public class ApplicantJobsForm extends ApplicantForm {
     private JComboBox locationFilterCombo;
     private JCheckBox financeCheckBox;
 
-    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>(){
+    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>() {
         {
             put(fullTimeCheckBox, "Full-Time");
             put(partTimeCheckBox, "Part-time");
@@ -49,19 +49,19 @@ public class ApplicantJobsForm extends ApplicantForm {
         List<String> locationList = this.getLocations();
         this.locationFilterCombo.addItem("All locations");
 
-        for (String location:locationList){
+        for (String location : locationList) {
             this.locationFilterCombo.addItem(location);
         }
         this.locationFilterCombo.setSelectedIndex(0);
 
-        for (JCheckBox checkBox:checkBoxtagsLink.keySet()){
+        for (JCheckBox checkBox : checkBoxtagsLink.keySet()) {
             checkBox.setSelected(true);
             checkBox.addItemListener(new ItemListener() {
-                     @Override
-                     public void itemStateChanged(ItemEvent e) {
-                        updatejobsFields();
-                     }
-                 }
+                                         @Override
+                                         public void itemStateChanged(ItemEvent e) {
+                                             updatejobsFields();
+                                         }
+                                     }
             );
         }
 
@@ -92,19 +92,19 @@ public class ApplicantJobsForm extends ApplicantForm {
         });
     }
 
-    private void onApply(){
+    private void onApply() {
         List<String> jobIDs = new ArrayList<>();
-        for(Object obj:this.jobsList.getSelectedValuesList()){
+        for (Object obj : this.jobsList.getSelectedValuesList()) {
             jobIDs.add((String) obj);
         }
         this.appCH.applyForJobs(jobIDs);
         updatejobsFields();
     }
 
-    private void updatejobsFields(){
+    private void updatejobsFields() {
         HashSet<String> tagsList = new HashSet<>();
-        for (JCheckBox checkBox: checkBoxtagsLink.keySet()){
-            if (checkBox.isSelected()){
+        for (JCheckBox checkBox : checkBoxtagsLink.keySet()) {
+            if (checkBox.isSelected()) {
                 tagsList.add(checkBoxtagsLink.get(checkBox));
             }
         }
@@ -127,24 +127,27 @@ public class ApplicantJobsForm extends ApplicantForm {
         }
 
         String jobsRepr;
-        if (jobPostQuery.getRepresentations() == null){
-            jobsRepr ="There are no open job postings.";
+        if (jobPostQuery.getRepresentations() == null) {
+            jobsRepr = "There are no open job postings.";
         } else {
             jobsRepr = jobPostQuery.getRepresentations();
         }
 
-        this.jobsTextArea.setText((jobsRepr != null ? jobsRepr:" "));
+        this.jobsTextArea.setText((jobsRepr != null ? jobsRepr : " "));
 
 
         List<String> inJobsList = jobPostQuery.getJobIDs();
-        if (inJobsList != null){
+        if (inJobsList != null) {
             this.jobsList.setListData(inJobsList.toArray());
         }
     }
 
-    private List<String> getLocations(){
-        HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>(){
-            { put(jobPostingFilters.OPEN, Boolean.TRUE);}};
+    private List<String> getLocations() {
+        HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>() {
+            {
+                put(jobPostingFilters.OPEN, Boolean.TRUE);
+            }
+        };
         return this.appCH.filter.getJobPostsFilter(filterHM).getLocationList();
     }
 }

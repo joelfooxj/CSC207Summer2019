@@ -13,17 +13,16 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     //Add an application which contains applicant， job， firm and creation date info
 
     /**
-     *
-     * @param applicantID: the unique applicant id of this application
-     * @param jobID: the unique id of the job
-     * @param firmID: the unique id of the company
+     * @param applicantID:  the unique applicant id of this application
+     * @param jobID:        the unique id of the job
+     * @param firmID:       the unique id of the company
      * @param creationDate: the creation date of the application
      */
     public JobApplication addApplication(long applicantID,
                                          long jobID,
                                          long firmID,
                                          LocalDate creationDate,
-                                         List<requiredDocs> docs){
+                                         List<requiredDocs> docs) {
         JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobID, firmID,
                 creationDate,
                 docs);
@@ -33,7 +32,7 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
 
     //Since each application ID is unique, this returns 1 application
     // object with this application id
-    public JobApplication getApplicationByApplicationID(long applicationID){
+    public JobApplication getApplicationByApplicationID(long applicationID) {
         return super.getItemByID(applicationID);
     }
 
@@ -46,30 +45,30 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         INTERVIEWER_ID,
     }
 
-    public List<JobApplication> filterJobApps(HashMap<jobAppFilterKeys, Object> filtration){
+    public List<JobApplication> filterJobApps(HashMap<jobAppFilterKeys, Object> filtration) {
         List<JobApplication> applicationList = this.getListOfItems();
 
-        if (filtration.containsKey(jobAppFilterKeys.APPLICATION_ID)){
+        if (filtration.containsKey(jobAppFilterKeys.APPLICATION_ID)) {
             applicationList = applicationList.stream().filter(app -> app.getApplicationID().
                     equals(filtration.get(jobAppFilterKeys.APPLICATION_ID))).collect(Collectors.toList());
         }
-        if (filtration.containsKey(jobAppFilterKeys.APPLICANT_ID)){
+        if (filtration.containsKey(jobAppFilterKeys.APPLICANT_ID)) {
             applicationList = applicationList.stream().filter(app -> app.getApplicantID().
                     equals(filtration.get(jobAppFilterKeys.APPLICANT_ID))).collect(Collectors.toList());
         }
 
-        if (filtration.containsKey(jobAppFilterKeys.FIRM_ID)){
+        if (filtration.containsKey(jobAppFilterKeys.FIRM_ID)) {
             applicationList = applicationList.stream().filter(app -> app.getFirmID().
                     equals(filtration.get(jobAppFilterKeys.FIRM_ID))).collect(Collectors.toList());
         }
-        if (filtration.containsKey(jobAppFilterKeys.JOB_ID)){
+        if (filtration.containsKey(jobAppFilterKeys.JOB_ID)) {
             applicationList = applicationList.stream().filter(app -> app.getJobID().
                     equals(filtration.get(jobAppFilterKeys.JOB_ID))).collect(Collectors.toList());
         }
-        if (filtration.containsKey(jobAppFilterKeys.OPEN)){
+        if (filtration.containsKey(jobAppFilterKeys.OPEN)) {
             applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.OPEN).equals(app.isOpen())).collect(Collectors.toList());
         }
-        if (filtration.containsKey(jobAppFilterKeys.INTERVIEWER_ID)){
+        if (filtration.containsKey(jobAppFilterKeys.INTERVIEWER_ID)) {
             applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.INTERVIEWER_ID).equals(
                     app.getInterviewerID())).collect(Collectors.toList());
         }

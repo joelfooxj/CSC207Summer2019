@@ -8,22 +8,23 @@ import java.util.List;
 
 public class JobApplicationQuery {
     private List<JobApplication> filteredJobApps;
-    JobApplicationQuery(List<JobApplication> filteredJobApps){
+
+    JobApplicationQuery(List<JobApplication> filteredJobApps) {
         this.filteredJobApps = filteredJobApps;
     }
 
-    public List<String> getApplicantIDs(){
+    public List<String> getApplicantIDs() {
         List<String> applicantsIDs = new ArrayList<String>();
-        for (JobApplication jobApp: this.filteredJobApps){
+        for (JobApplication jobApp : this.filteredJobApps) {
             applicantsIDs.add(String.valueOf(jobApp.getApplicantID()));
         }
         return applicantsIDs;
     }
 
 
-    public List<String> getJobAppsID(){
+    public List<String> getJobAppsID() {
         List<String> applicantionsIDs = new ArrayList<String>();
-        for (JobApplication jobApp: this.filteredJobApps){
+        for (JobApplication jobApp : this.filteredJobApps) {
             applicantionsIDs.add(String.valueOf(jobApp.getApplicationID()));
         }
         return applicantionsIDs;
@@ -37,18 +38,23 @@ public class JobApplicationQuery {
         return jobIDs;
     }
 
-    public Long getJobID(){
-        if(filteredJobApps.size() != 1){return null;}
+    public Long getJobID() {
+        if (filteredJobApps.size() != 1) {
+            return null;
+        }
         return this.filteredJobApps.get(0).getJobID();
     }
 
 
-    public String getRefLetters(){
-        if (filteredJobApps.size()!= 1){
+    public String getRefLetters() {
+        System.out.println(filteredJobApps.size());
+        if (filteredJobApps.size() != 1) {
             return null;
         }
         StringBuilder referenceLetters = new StringBuilder();
-        for (String referenceLetter: filteredJobApps.get(0).getReferenceLetters()){
+        System.out.println(filteredJobApps.get(0).getReferenceLetters().size());
+        for (String referenceLetter : filteredJobApps.get(0).getReferenceLetters()) {
+            System.out.println(referenceLetter);
             referenceLetters.append(referenceLetter);
             referenceLetters.append("\n");
         }
@@ -56,40 +62,40 @@ public class JobApplicationQuery {
         return referenceLetters.toString();
     }
 
-    public String getResume(){
-        if (filteredJobApps.size()!= 1){
+    public String getResume() {
+        if (filteredJobApps.size() != 1) {
             return null;
         }
         return filteredJobApps.get(0).getCV();
     }
 
-    public String getCoverLetter(){
-        if (filteredJobApps.size()!= 1){
+    public String getCoverLetter() {
+        if (filteredJobApps.size() != 1) {
             return null;
         }
         return filteredJobApps.get(0).getCoverLetter();
     }
 
-    public String getRepresentation(){
-        if (filteredJobApps.size()!= 1){
+    public String getRepresentation() {
+        if (filteredJobApps.size() != 1) {
             return null;
         }
         return filteredJobApps.get(0).toString();
     }
 
-    public List<String> getRequiredDocuments(){
-        if (filteredJobApps.size()!= 1){
+    public List<String> getRequiredDocuments() {
+        if (filteredJobApps.size() != 1) {
             return null;
         }
         List<requiredDocs> inDocs = filteredJobApps.get(0).getRequiredDocs();
         List<String> requiredDocuments = new ArrayList<>();
-        if (inDocs.contains(requiredDocs.COVERLETTER)){
+        if (inDocs.contains(requiredDocs.COVERLETTER)) {
             requiredDocuments.add("Cover Letter");
         }
-        if(inDocs.contains(requiredDocs.CV)){
+        if (inDocs.contains(requiredDocs.CV)) {
             requiredDocuments.add("CV");
         }
-        if(inDocs.contains(requiredDocs.REFERENCELETTERS)){
+        if (inDocs.contains(requiredDocs.REFERENCELETTERS)) {
             requiredDocuments.add("Reference Letters");
         }
         return requiredDocuments;

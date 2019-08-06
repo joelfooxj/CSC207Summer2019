@@ -1,4 +1,5 @@
 package Model;
+
 import java.io.*;
 import java.util.*;
 
@@ -8,8 +9,7 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
     private long currID = 0;
 
 
-
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return data.isEmpty();
     }
 
@@ -57,20 +57,20 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
         return this.currID;
     }
 
-    public class AbstractDatabaseIterator implements Iterator<T>{
+    public class AbstractDatabaseIterator implements Iterator<T> {
         private int current = 0;
 
         @Override
-        public boolean hasNext(){
-            return current<getListOfItems().size();
+        public boolean hasNext() {
+            return current < getListOfItems().size();
         }
 
 
         @Override
-        public T next(){
-            if(hasNext()) {
+        public T next() {
+            if (hasNext()) {
                 T result = getListOfItems().get(current);
-                current ++;
+                current++;
                 return result;
             }
             throw new NoSuchElementException();

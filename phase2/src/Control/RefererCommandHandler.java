@@ -8,7 +8,7 @@ public class RefererCommandHandler extends CommandHandler {
 
     private UserCredentials user;
 
-    RefererCommandHandler(UserCredentials refUser){
+    RefererCommandHandler(UserCredentials refUser) {
         this.user = refUser;
 
     }
@@ -21,6 +21,8 @@ public class RefererCommandHandler extends CommandHandler {
     public void addReferenceLetter(Long appID, String referenceLetter) {
         JobApplication app = super.sessionData.jobAppsDb.getItemByID(appID);
         app.addReferenceLetter(referenceLetter);
+        System.out.println(referenceLetter);
+        System.out.println(app.getReferenceLetters());
     }
 
 }

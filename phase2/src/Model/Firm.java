@@ -10,7 +10,8 @@ public class Firm implements Serializable {
 
     /**
      * constructor for Firm
-     * @param firmId - id of firm
+     *
+     * @param firmId   - id of firm
      * @param firmName - name of firm
      */
     public Firm(long firmId, String firmName) {
@@ -29,6 +30,7 @@ public class Firm implements Serializable {
 
     /**
      * Firms can have multiple locations. This method adds a new location.
+     *
      * @param location - location of firm
      */
     public void addLocation(String location) {
@@ -36,7 +38,7 @@ public class Firm implements Serializable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "[firm id]: " + getFirmId()
                 + "\n[firm name]: " + getFirmName();
     }

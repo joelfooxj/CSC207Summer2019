@@ -40,7 +40,7 @@ public class HRApplicantOptions extends HRForm {
 
         cvButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!associatedApplicationsList.isSelectionEmpty()){
+                if (!associatedApplicationsList.isSelectionEmpty()) {
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
 
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
@@ -53,7 +53,7 @@ public class HRApplicantOptions extends HRForm {
 
         coverLetterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!associatedApplicationsList.isSelectionEmpty()){
+                if (!associatedApplicationsList.isSelectionEmpty()) {
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
 
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
@@ -66,7 +66,7 @@ public class HRApplicantOptions extends HRForm {
 
         refLetterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!associatedApplicationsList.isSelectionEmpty()){
+                if (!associatedApplicationsList.isSelectionEmpty()) {
                     String inAppID = (String) associatedApplicationsList.getSelectedValue();
 
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
@@ -109,7 +109,7 @@ public class HRApplicantOptions extends HRForm {
         });
     }
 
-    private void setApplicantDesc(){
+    private void setApplicantDesc() {
         String applicantID = (String) this.applicantList.getSelectedValue();
 
         HashMap<usersFilterKeys, Object> query = new HashMap<>();
@@ -120,7 +120,7 @@ public class HRApplicantOptions extends HRForm {
         this.applicantLabel.setText(applicantDesc);
     }
 
-    private void setApplicationDesc(){
+    private void setApplicationDesc() {
         String applicationID = (String) this.associatedApplicationsList.getSelectedValue();
 
 
@@ -131,7 +131,7 @@ public class HRApplicantOptions extends HRForm {
         this.applicationLabel.setText(applicationDesc);
     }
 
-    private void updateApplicationList(){
+    private void updateApplicationList() {
         disableButtons();
         String applicantID = (String) this.applicantList.getSelectedValue();
 
@@ -139,35 +139,35 @@ public class HRApplicantOptions extends HRForm {
         query.put(jobAppFilterKeys.APPLICANT_ID, Long.parseLong(applicantID));
         List<String> applicationList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
 
-        if (applicationList.isEmpty()){
-                this.applicationLabel.setText("This applicant has not applied for any jobs.");
-        } else{
+        if (applicationList.isEmpty()) {
+            this.applicationLabel.setText("This applicant has not applied for any jobs.");
+        } else {
             this.associatedApplicationsList.setListData(applicationList.toArray());
         }
 
     }
 
-    private void updateApplicantList(){
+    private void updateApplicantList() {
         disableButtons();
 
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.FIRM_ID, Long.parseLong(HRApplicantOptions.super.hrCH.getFirmID()));
         List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs().stream().distinct().collect(Collectors.toList());
-        if (applicantList.isEmpty()){
+        if (applicantList.isEmpty()) {
             this.applicantLabel.setText("There are no applicants.");
-        } else{
+        } else {
             this.applicantList.setListData(applicantList.toArray());
         }
     }
 
-    private void disableButtons(){
+    private void disableButtons() {
         coverLetterButton.setEnabled(false);
         cvButton.setEnabled(false);
         refLetterButton.setEnabled(false);
     }
 
-    private void checkRequiredButtonEnable(){
+    private void checkRequiredButtonEnable() {
         String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
 
 

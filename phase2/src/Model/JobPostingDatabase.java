@@ -100,9 +100,16 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         if (filtration.containsKey(jobPostingFilters.JOB_ID)) {
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getJobId().equals(filtration.get(jobPostingFilters.JOB_ID))).collect(Collectors.toList());
         }
+        if (filtration.containsKey(jobPostingFilters.HASHTAG)) {
+            jobPostList = jobPostList.stream().filter(jobPosting -> this.containsAllHashtags(jobPosting, filtration.get(jobPostingFilters.HASHTAG))).collect(Collectors.toList());
+        }
         // You need to implement all the filtration requirements. As long as you write a true/ false statement after
         // "->", that will work
         return jobPostList;
+    }
+
+    public boolean containsAllHashtags(JobPosting job, List<Object> hashtags) {
+        return job.getHashTags().containsAll(hashtags);
     }
 
 

@@ -59,6 +59,7 @@ public class HRJobOptionsForm extends HRForm {
             public void actionPerformed(ActionEvent e) {
                 String selectedAppID = (String) associatedApplicationsList.getSelectedValue();
                 HRJobOptionsForm.super.hrCH.hireApplicationID(selectedAppID);
+                updateJobsList();
                 updateAppList();
             }
         });
@@ -80,6 +81,7 @@ public class HRJobOptionsForm extends HRForm {
         jobsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                associatedApplicationsList.clearSelection();
                 updateAppList();
                 setJobsDesc();
             }
@@ -122,6 +124,8 @@ public class HRJobOptionsForm extends HRForm {
 
     private void updateJobsList(){
         setButtonEnabled(false);
+        this.jobsList.clearSelection();
+        this.associatedApplicationsList.clearSelection();
         this.jobDesc.setText("");
         this.appDesc.setText("");
 

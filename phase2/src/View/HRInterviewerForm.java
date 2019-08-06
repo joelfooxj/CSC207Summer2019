@@ -2,6 +2,7 @@ package View;
 
 import Control.HrCommandHandler;
 import Model.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -32,7 +33,7 @@ public class HRInterviewerForm extends HRForm {
         // Setup JobPosting JList ot only show open applications for this user's firm
         HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
         filter.put(JobPostingDatabase.jobPostingFilters.FIRM, Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
-        filter.put(JobPostingDatabase.jobPostingFilters.OPEN, 1L);
+        filter.put(JobPostingDatabase.jobPostingFilters.OPEN, Boolean.TRUE);
         List<String> jobPostingList = hrCH.filter.getJobPostsFilter(filter).getJobIDs();
         Long[] jobPostingsArr = jobPostingList.toArray(new Long[jobPostingList.size()]);
         jobPostingJList = new JList<>(jobPostingsArr);

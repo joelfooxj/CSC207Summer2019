@@ -81,7 +81,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
         HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>(){
             {
                 put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
-                put(jobAppFilterKeys.OPEN, 1L);
+                put(jobAppFilterKeys.OPEN, Boolean.TRUE);
             }
         };
         return newfilter;
@@ -128,7 +128,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
         setButtonStatus(false);
         HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<jobAppFilterKeys, Object>(){
             {
-                put(jobAppFilterKeys.OPEN, 1L);
+                put(jobAppFilterKeys.OPEN, Boolean.TRUE);
                 put(jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
             }
         };

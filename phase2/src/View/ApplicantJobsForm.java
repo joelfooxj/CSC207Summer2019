@@ -115,10 +115,12 @@ public class ApplicantJobsForm extends ApplicantForm {
         if (!(setLocation == null)) {
             query.put(jobPostingFilters.LOCATION, setLocation);
         }
+        query.put(jobPostingFilters.OPEN, Boolean.TRUE);
         JobPostQuery jobPostQuery = this.appCH.filter.getJobPostsFilter(query);
         jobPostQuery.applyHashtagFilter(tagsList);
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> appQuery = new HashMap<>();
         appQuery.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
+        appQuery.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
         JobApplicationQuery jobApplicationQuery = this.appCH.filter.getJobAppsFilter(appQuery);
         jobPostQuery.filterByHasApplied(jobApplicationQuery.getJobIDs());
 
@@ -140,7 +142,7 @@ public class ApplicantJobsForm extends ApplicantForm {
 
     private List<String> getLocations(){
         HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>(){
-            { put(jobPostingFilters.OPEN, 1L);}};
+            { put(jobPostingFilters.OPEN, Boolean.TRUE);}};
         return this.appCH.filter.getJobPostsFilter(filterHM).getLocationList();
     }
 }

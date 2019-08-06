@@ -72,8 +72,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         this.sessionDate = sessionDate;
     }
 
-
-    //TODO: remove this. Already done by SearchBy Enum
     public enum jobPostingFilters {
         OPEN,
         FIRM,
@@ -87,8 +85,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 
     }
 
-    //
-//    //TODO: remove this method
     public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration) {
         List<JobPosting> jobPostList = this.getListOfItems();
         if (filtration.containsKey(jobPostingFilters.FIRM)) {
@@ -96,7 +92,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
                     filtration.get(jobPostingFilters.FIRM))).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobPostingFilters.OPEN)) {
-            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.isOpen(sessionDate)
+            jobPostList = jobPostList.stream().filter(jobPosting -> filtration.get(jobPostingFilters.OPEN).equals(jobPosting.isOpen(sessionDate))
             ).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobPostingFilters.LOCATION)) {

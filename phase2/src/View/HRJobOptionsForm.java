@@ -131,7 +131,7 @@ public class HRJobOptionsForm extends HRForm {
 
 
         HashMap<jobPostingFilters, Object> query = new HashMap<>();
-        query.put(jobPostingFilters.OPEN, 1);
+        query.put(jobPostingFilters.OPEN, Boolean.TRUE);
 
         List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getJobIDs();
 
@@ -151,6 +151,7 @@ public class HRJobOptionsForm extends HRForm {
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
+        query.put(jobAppFilterKeys.OPEN, Boolean.TRUE);
         List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
 
         if (inJobAppList == null){

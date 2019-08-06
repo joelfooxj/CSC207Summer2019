@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class JobPosting implements Serializable {
+public class JobPosting extends Observable implements Serializable {
     /**
      * The id of the job, used to store and retrieve in databases
      */
@@ -132,8 +132,13 @@ public class JobPosting implements Serializable {
     /**
      * Used to set a job as having been filled
      */
-    public void isFilled(){
+    public void isFilled(LocalDate closedDate){
         isFilled = true;
+        setChanged();
+        List<Object> arg = new ArrayList<>();
+        arg.add("Closed");
+        arg.add(closedDate);
+        notifyObservers(arg);
     }
 
     /**

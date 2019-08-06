@@ -7,11 +7,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  */
-public class JobApplication extends Observable implements Serializable {
+public class JobApplication extends Observable implements Serializable, Observer {
     private Long applicationID;
     private Long applicantID;
     private Long jobID;
@@ -243,5 +244,12 @@ public class JobApplication extends Observable implements Serializable {
 
     public List<requiredDocs> getRequiredDocs(){
         return this.setDocs;
+    }
+
+    public void update(Observable o, Object arg) {
+        List arguments = (List) arg;
+        if (arguments.get(0).equals("Closed") && this.isOpen()) {
+            reject((LocalDate) arguments.get(1));
+        }
     }
 }

@@ -7,21 +7,22 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
 public class HRInterviewerForm extends HRForm {
     private JPanel panel;
     private JScrollPane jobPane;
-    private JList<Long> jobPostingJList = new JList<>();
+    private JList<String> jobPostingJList;
     private JScrollPane appPane;
-    private JList<java.lang.String> jobApplicationJList = new JList<>();
+    private JList<String> jobApplicationJList;
     private JTextArea detailedApp;
     private JButton buttonChooseInterviewer;
     private JButton buttonExit;
+    private JLabel jobItems;
+    private JLabel appItems;
+    private JLabel appDesc;
 
 
     public HRInterviewerForm(HrCommandHandler inHRCH) {
@@ -35,9 +36,12 @@ public class HRInterviewerForm extends HRForm {
         filter.put(JobPostingDatabase.jobPostingFilters.FIRM, Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
         filter.put(JobPostingDatabase.jobPostingFilters.OPEN, Boolean.TRUE);
         List<String> jobPostingList = hrCH.filter.getJobPostsFilter(filter).getJobIDs();
-        Long[] jobPostingsArr = jobPostingList.toArray(new Long[jobPostingList.size()]);
-        jobPostingJList = new JList<>(jobPostingsArr);
+        jobPostingJList.setListData(jobPostingList.toArray(new String[jobPostingList.size()]));
         buttonChooseInterviewer.setEnabled(false);
+
+        jobApplicationJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jobApplicationJList.setVisibleRowCount(-1);
+
     }
 
     private void setupAttributes() {
@@ -51,7 +55,9 @@ public class HRInterviewerForm extends HRForm {
         jobApplicationJList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                onAppSelection(jobApplicationJList.getSelectedValue());
+                if (jobApplicationJList.getSelectedValue() != null) {
+                    onAppSelection(jobApplicationJList.getSelectedValue());
+                }
             }
         });
 
@@ -72,16 +78,23 @@ public class HRInterviewerForm extends HRForm {
     }
 
     private void onJobSelection() {
-        Long firm = Long.parseLong(super.hrCH.getFirmID());
-        HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
-        filter.put(JobPostingDatabase.jobPostingFilters.FIRM, firm);
-        List<java.lang.String> jobList = hrCH.filter.getJobPostsFilter(filter).getJobIDs();
-        String[] jobArr = jobList.toArray(new String[jobList.size()]);
-        jobApplicationJList = new JList<>(jobArr);
-        jobApplicationJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        jobApplicationJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        jobApplicationJList.setVisibleRowCount(-1);
-        appPane.setViewportView(jobApplicationJList);
+//        Long firm = Long.parseLong(super.hrCH.getFirmID());
+//        HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
+//        filter.put(JobPostingDatabase.jobPostingFilters.FIRM, firm);
+//        List<String> jobList = hrCH.filter.getJobPostsFilter(filter).getJobIDs();
+
+        Long jobID = Long.parseLong(jobPostingJList.getSelectedValue());
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, jobID);
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
+        List<String> appList = hrCH.filter.getJobAppsFilter(filter).getJobAppsID();
+        if (appList != null) {
+            jobApplicationJList.setListData(appList.toArray(new String[appList.size()]));
+            appPane.setViewportView(jobApplicationJList);
+        } else {
+            jobApplicationJList.setListData(new String[0]);
+        }
+        detailedApp.setText("");
     }
 
     private void onAppSelection(String appID) {
@@ -92,11 +105,9 @@ public class HRInterviewerForm extends HRForm {
     }
 
     private void onChoose(String appID) {
-        HashMap<Model.UserCredentialsDatabase.usersFilterKeys, String> filter =
-                new HashMap<Model.UserCredentialsDatabase.usersFilterKeys, String>() {{
-            put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER.name());
-            put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
-        }};
+        HashMap<Model.UserCredentialsDatabase.usersFilterKeys, String> filter = new HashMap<>();
+        filter.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER.name());
+        filter.put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
         SelectUser selectUser = new SelectUser(filter, super.hrCH);
         Long userID = selectUser.getUser();
         if (userID != null) {

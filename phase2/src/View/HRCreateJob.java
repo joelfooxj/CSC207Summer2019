@@ -61,12 +61,13 @@ public class HRCreateJob extends HRJobOptionsForm {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
-        //createUIComponents();
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(super.subMenuTitle + " - Create Job"));
         for(String interviewType:super.hrCH.getAllInterviewStages()){
             this.interviewCombo.addItem(interviewType);
         }
+
+        this.numLabourSpinner.setModel(new SpinnerNumberModel(1,1,10,1));
 
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -152,8 +153,4 @@ public class HRCreateJob extends HRJobOptionsForm {
             this.dispose();
         }
     }
-
-//    private void createUIComponents() {
-//        this.numLabourSpinner = new JSpinner(new SpinnerNumberModel(1,1,10,1));
-//    }
 }

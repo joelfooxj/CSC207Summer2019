@@ -60,9 +60,11 @@ public class ApplicantApplicationForm extends ApplicantForm {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 String selectedAppID = (String) appList.getSelectedValue();
-                checkCVCLButtonEnable(selectedAppID);
-                withdrawButton.setEnabled(true);
-                appTextArea.setText(appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation());
+                if (selectedAppID != null) {
+                    checkCVCLButtonEnable(selectedAppID);
+                    withdrawButton.setEnabled(true);
+                    appTextArea.setText(appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation());
+                }
             }
         });
 
@@ -88,12 +90,10 @@ public class ApplicantApplicationForm extends ApplicantForm {
     private void withdrawConfirmation(){
         boolean confirm = GUI.yesNoForm("Are you sure you want to withdraw? ");
         if(confirm){
-            int selectedListIndex = this.appList.getSelectedIndex();
             String selectedAppID = (String) this.appList.getSelectedValue();
             this.appCH.withdrawApplication(selectedAppID);
             this.appTextArea.setText("");
             this.appList.clearSelection();
-            this.appList.remove(selectedListIndex);
             this.updateForm();
         }
     }

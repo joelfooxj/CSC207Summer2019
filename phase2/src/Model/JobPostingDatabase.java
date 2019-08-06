@@ -15,7 +15,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 
     /**
      * adds a job Posting by construction a job posting
-     * @see JobPosting#JobPosting(String, String, long, long, String, DateRange, List, Collection, List, List)
+     * @see JobPosting(String, String, long, long, String, DateRange, List, Collection, List, List)
      */
     //TODO change to addJobPosting; use addItem directly
     public void addJob(String title, String details, long firmId, long numsLabourRequired, String location,
@@ -50,41 +50,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         return result;
     }
 
-    /**
-     * Allows the simultaneous application of multiple filters on job postings
-     * Filters based on SearchBy keys and Object arguments in HashMap parameter.
-     * e.g. if searchMap contains(SearchBy.LOCATION, "Toronto") and (SearchBy.FIRM, 7), then
-     * filterBy will filter for all job postings in Toronto by firm 7.
-     * @param searchMap
-     * values to put in searchMap are as follows:
-     * key -> SearchBy.FIRM to filter for jobs by firm id, value -> long of firm id
-     * key -> SearchBy.LOCATION filter for jobs by location, value -> String of location
-     * key -> SearchBy.HASHTAG to filter by hashtags, value -> HashSet with any hashtags your filtering for
-     * key -> SearchBy.OPEN to filter for open jobs, value -> null, no value required
-     * @return
-     */
-    public List<String> filterBy(HashMap<SearchBy,Object> searchMap){
-
-        List<JobPosting> jobPostings = this.getListOfItems();
-
-        if(searchMap.containsKey(SearchBy.FIRM)){
-            jobPostings = filterByFirm((Long)searchMap.get(SearchBy.FIRM), jobPostings);
-        }
-
-        if(searchMap.containsKey(SearchBy.LOCATION)){
-            jobPostings = filterByLocation((String)searchMap.get(SearchBy.LOCATION), jobPostings);
-        }
-
-        if(searchMap.containsKey(SearchBy.HASHTAG)){
-            jobPostings = getJobsWithHashTags((HashSet<String>) searchMap.get(SearchBy.HASHTAG), jobPostings);
-        }
-
-        if(searchMap.containsKey(SearchBy.OPEN)){
-            jobPostings = filterOpenJobPostings(jobPostings);
-        }
-
-        return print(jobPostings);
-    }
 
     /**
      * Filters ArrayLists of job postings for open postings only
@@ -96,71 +61,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         jobPostings.removeIf(jobPosting -> !jobPosting.isOpen(sessionDate));
 
         return jobPostings;
-    }
-
-
-    /**
-     * Filters ArrayLists of job postings to those in a certain location
-     * @param location
-     * @param jobPostings
-     * @return
-     */
-    private List<JobPosting> filterByLocation(String location, List<JobPosting> jobPostings){
-
-        jobPostings.removeIf(jobPosting -> !jobPosting.getLocation().equals(location));
-
-        return jobPostings;
-    }
-
-    /**
-     * Filters ArrayLists of job postings to those associated with a specific firm
-     * @param firmId
-     * @param jobPostings
-     * @return
-     */
-    private List<JobPosting> filterByFirm(Long firmId, List<JobPosting> jobPostings){
-
-        jobPostings.removeIf(jobPosting -> !jobPosting.getFirmId().equals(firmId));
-
-        return jobPostings;
-    }
-
-
-    /**
-     * returns all job postings that have all of the hashtags being searched for
-     * @param hashTags - the collection of hashtags that are being searched for
-     * @return
-     */
-    private List<JobPosting> getJobsWithHashTags(HashSet<String> hashTags, List<JobPosting> jobPostings){
-
-        jobPostings.removeIf(jobPosting -> !jobPosting.containsAllHashTags(hashTags));
-
-        return jobPostings;
-    }
-
-    /**
-     * Method to print job postings
-     * @param jobPostings
-     * @return
-     */
-    private List<String> print(List<JobPosting> jobPostings){
-
-        ArrayList<String> result = new ArrayList<>();
-
-        for (JobPosting jobPosting: jobPostings
-             ) {
-            result.add(jobPosting.toString());
-        }
-
-        return result;
-    }
-
-    public enum filterKeys{
-        // todo
-    }
-
-    public List<JobPosting> filter(HashMap<filterKeys, Long> filter){
-        return null; //todo
     }
 
 

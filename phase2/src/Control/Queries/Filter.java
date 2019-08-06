@@ -16,7 +16,7 @@ public class Filter {
     }
 
     public JobApplicationQuery getJobAppsFilter(HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter){
-        return new JobApplicationQuery(sessionData.jobAppsDb.filter(filter));
+        return new JobApplicationQuery(sessionData.jobAppsDb.filterJobApps(filter));
     }
 
     public JobPostQuery getJobPostsFilter(HashMap<JobPostingDatabase.jobPostingFilters, Object> filter){
@@ -24,7 +24,7 @@ public class Filter {
     }
 
     public UserQuery getUsersFilter(HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter){
-        return new UserQuery(sessionData.usersDb.filter(filter));
+        return new UserQuery(sessionData.usersDb.filterUsers(filter));
     }
 
 }

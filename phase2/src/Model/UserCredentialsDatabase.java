@@ -54,7 +54,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
     return newUser;
   }
 
-  // for interviewers and hr coordinators
+  // for interviewers and hr
   public UserCredentials addUser(String userName,
                                  String password, 
                                  UserCredentials.userTypes type,
@@ -72,7 +72,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
     USER_ID
   }
 
-  public List<UserCredentials> filter(HashMap<usersFilterKeys, Object> filtration){
+  public List<UserCredentials> filterUsers(HashMap<usersFilterKeys, Object> filtration){
     List<UserCredentials> userCredentialsList = this.getListOfItems();
     if (filtration.containsKey(usersFilterKeys.ACCOUNT_TYPE)) {
         userCredentialsList = userCredentialsList.stream().filter(userCredentials -> userCredentials.getUserType().name()

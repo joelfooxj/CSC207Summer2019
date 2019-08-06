@@ -80,14 +80,6 @@ public class JobApplication extends Observable implements Serializable {
         return interviewerID;
     }
 
-    public void setJobID(long jobID) {
-        this.jobID = jobID;
-    }
-
-    public void setApplicantID(long applicantID) {
-        this.applicantID = applicantID;
-    }
-
     // Everytime an interviewer recommend this application,
     // the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
     // and the number of passed interview increases by 1

@@ -33,7 +33,7 @@ public class InterviewerCommandHandler extends CommandHandler{
     private List<JobApplication> getAssignedApplications(){
         HashMap requirement = new HashMap();
         requirement.put(JobApplicationDatabase.jobAppFilterKeys.INTERVIEWER_ID, this.interviewerID);
-        return sessionData.jobAppsDb.filter(requirement);
+        return sessionData.jobAppsDb.filterJobApps(requirement);
         //return sessionData.jobAppsDb.getApplicationByInterviewerID(this.interviewerID);
     }
 

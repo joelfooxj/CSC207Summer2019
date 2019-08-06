@@ -46,7 +46,7 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         INTERVIEWER_ID,
     }
 
-    public List<JobApplication> filter(HashMap<jobAppFilterKeys, Object> filtration){
+    public List<JobApplication> filterJobApps(HashMap<jobAppFilterKeys, Object> filtration){
         List<JobApplication> applicationList = this.getListOfItems();
 
         if (filtration.containsKey(jobAppFilterKeys.APPLICATION_ID)){

@@ -33,7 +33,7 @@ public class JobPostQuery {
         StringBuilder repr = new StringBuilder();
         for (JobPosting job: this.filteredJobPosts){
             repr.append(job.toString());
-            repr.append("\n");
+            repr.append("\n----------\n");
         }
         return repr.toString();
     }

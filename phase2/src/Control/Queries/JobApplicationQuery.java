@@ -103,7 +103,7 @@ public class JobApplicationQuery {
     public String getPrintout() {
         String ret = "";
         for (JobApplication application : this.filteredJobApps) {
-            ret = ret + application.toString();
+            ret = ret + application.toString() + "\n---------\n";
         }
         return ret;
     }

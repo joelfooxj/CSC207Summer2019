@@ -18,6 +18,7 @@ public class ApplicantJobsForm extends ApplicantForm {
     private JPanel contentPane;
     private JButton applyButton;
     private JButton exitButton;
+    private JScrollPane jobsTextScroll;
     private JTextArea jobsTextArea;
     private JList jobsList;
     private JCheckBox fullTimeCheckBox;
@@ -43,6 +44,7 @@ public class ApplicantJobsForm extends ApplicantForm {
         setModal(true);
 
         this.updatejobsFields();
+        this.jobsTextArea.setEditable(false);
 
         List<String> locationList = this.getLocations();
         this.locationFilterCombo.addItem("All locations");
@@ -75,7 +77,6 @@ public class ApplicantJobsForm extends ApplicantForm {
             }
         });
 
-        //todo: check this ActionListener...
         locationFilterCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updatejobsFields();

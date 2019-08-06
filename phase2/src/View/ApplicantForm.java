@@ -13,7 +13,9 @@ public class ApplicantForm extends JDialog {
     private JButton Applications;
     private JLabel creationDateLabel;
     private JLabel applicantIDLabel;
+    private JScrollPane openAppScroll;
     private JTextArea openAppsTextArea;
+    private JScrollPane closedAppScroll;
     private JTextArea closedAppsTextArea;
     private JLabel errorLabel;
     private JButton exitButton;
@@ -26,6 +28,7 @@ public class ApplicantForm extends JDialog {
         setModal(true);
 
         this.closedAppsTextArea.setEditable(false);
+        this.openAppsTextArea.setEditable(false);
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(this.appCH.getUsername()));
         this.creationDateLabel.setText(this.appCH.getCreationDate());

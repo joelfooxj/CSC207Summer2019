@@ -19,6 +19,8 @@ public class ApplicantApplicationForm extends ApplicantForm {
     private JTextArea appTextArea;
     private JButton withdrawButton;
     private JButton exitButton;
+    private JScrollPane jobScrollPane;
+    private JTextArea jobTextArea;
 
     private ApplicantCommandHandler appCH;
 
@@ -70,6 +72,8 @@ public class ApplicantApplicationForm extends ApplicantForm {
                     jobPostingHM.put(jobPostingFilters.JOB_ID, inJobPostingID);
                     jobPostingHM.put(jobPostingFilters.OPEN, Boolean.TRUE);
                     String inJobPostDesc = appCH.filter.getJobPostsFilter(jobPostingHM).getRepresentation();
+                    String inJobAppDesc = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation();
+                    jobTextArea.setText(inJobAppDesc);
                     appTextArea.setText(inJobPostDesc);
                 }
             }
@@ -100,6 +104,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
             String selectedAppID = (String) this.appList.getSelectedValue();
             this.appCH.withdrawApplication(selectedAppID);
             this.appTextArea.setText("");
+            this.jobTextArea.setText("");
             this.appList.clearSelection();
             this.updateForm();
         }
@@ -142,6 +147,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
         List<String> inJobAppIDs = this.appCH.filter.getJobAppsFilter(filterHM).getJobAppsID();
         if (inJobAppIDs.isEmpty()){
             this.appTextArea.setText("You have no open applications.");
+            this.jobTextArea.setText("You have no open applications.");
         } else {
             this.appList.setListData(inJobAppIDs.toArray());
         }

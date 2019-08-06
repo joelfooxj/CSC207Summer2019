@@ -108,13 +108,8 @@ public class ApplicantCommandHandler extends CommandHandler {
     // todo: update addApplication() with less parameters
     public void applyForJobs(List<String> jobIDs) {
         for (String jobID : jobIDs) {
-            long inputFirmID = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
-            List<requiredDocs> docsList = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
-            JobApplication newJobApp = sessionData.jobAppsDb.addApplication(
-                    this.applicantID,
-                    Long.parseLong(jobID),
-                    inputFirmID,
-                    sessionDate, docsList);
+            JobPosting inJobPosting = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID));
+            JobApplication newJobApp = sessionData.jobAppsDb.addApplication(this.applicantID, inJobPosting);
             newJobApp.createInterviewProcess(sessionData.jobPostingsDb.getJobPostingByID(Long.parseLong(jobID)).getInterviewStages());
             newJobApp.addObserver(this.currentUser);
             sessionData.jobPostingsDb.getJobPostingByID(Long.parseLong(jobID)).addObserver(newJobApp);

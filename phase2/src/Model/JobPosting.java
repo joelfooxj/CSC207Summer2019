@@ -108,6 +108,10 @@ public class JobPosting implements Serializable {
         return this.jobDetails;
     }
 
+    public Collection<String> getHashTags() {
+        return this.hashTags;
+    }
+
     /**
      * Returns true if the job is not filled and has not expired
      * @return true or false

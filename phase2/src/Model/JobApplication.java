@@ -28,7 +28,6 @@ public class JobApplication extends Observable implements Serializable, Observer
     // reference letters
     private List<String> referenceLetters = new ArrayList<>();
 
-    private LocalDate creationDate;
     private LocalDate closedDate;
 
     // The application is closed in the following conditions
@@ -47,18 +46,14 @@ public class JobApplication extends Observable implements Serializable, Observer
     /**
      * @param applicationID: The Application's unique ID
      * @param applicantID:   The applicant's unique ID
-     * @param jobID:         The unique ID of the job.
-     * @param firmID:        The unique ID of the company
-     * @param creationDate:  The creation date of this application
+     * @param jobPosting:    The job being applied to
      */
-    public JobApplication(long applicationID, long applicantID, long jobID, long firmID, LocalDate creationDate,
-                          List<Model.requiredDocs> docs) {
+    public JobApplication(long applicationID, long applicantID, JobPosting jobPosting) {
         this.applicationID = applicationID;
         this.applicantID = applicantID;
-        this.jobID = jobID;
-        this.firmID = firmID;
-        this.creationDate = creationDate;
-        this.setDocs = docs;
+        this.jobID = jobPosting.getJobId();
+        this.firmID = jobPosting.getFirmId();
+        this.setDocs = jobPosting.getRequiredDocs();
     }
 
     // The followings are necessarily used getter and setters
@@ -174,8 +169,6 @@ public class JobApplication extends Observable implements Serializable, Observer
         notifyObservers(argument);
         this.interviewerID = null;
     }
-
-    // Similar with the hire() method, 3 variables will be changed.
 
     /**
      * @param date: the date when HR/ interviewer rejects the applicant of this application

@@ -1,6 +1,7 @@
 package View;
 
 import Control.CommandHandler;
+import Control.DateRange;
 import Control.HrCommandHandler;
 import Control.HyreLauncher;
 

@@ -79,7 +79,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         FIRM,
         LOCATION,
         JOB_ID,
-        HASHTAG
         // 1. since hashmaps cannot have duplicate keys, I make 5 hashtag enums. e.g. if you want to search high-salary
         // and part time, you put (HASHTAG1, "high-salary"), (HASHTAG2, "part-time")
         // 2. The order does not matter because the fiter method only looks at values
@@ -101,7 +100,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
             ).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobPostingFilters.LOCATION)) {
-            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getLocation().equals(filtration.get(jobPostingFilters.LOCATION))).collect(Collectors.toList());
+            jobPostList = jobPostList.stream().filter(jobPosting -> this.checkLocations(filtration.get(jobPostingFilters.LOCATION), jobPosting)).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobPostingFilters.JOB_ID)) {
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getJobId().equals(filtration.get(jobPostingFilters.JOB_ID))).collect(Collectors.toList());
@@ -109,6 +108,14 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         // You need to implement all the filtration requirements. As long as you write a true/ false statement after
         // "->", that will work
         return jobPostList;
+    }
+
+    public boolean checkLocations(Object location, JobPosting jobPosting) {
+        if (location.equals("All locations") || location.equals(jobPosting.getLocation())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -44,6 +44,7 @@ public class ApplicantJobsForm extends ApplicantForm {
 
         List<String> locationList = this.getLocations();
         this.locationFilterCombo.addItem("All locations");
+
         for (String location:locationList){
             this.locationFilterCombo.addItem(location);
         }
@@ -108,7 +109,9 @@ public class ApplicantJobsForm extends ApplicantForm {
 
 
         HashMap<jobPostingFilters, Object> query = new HashMap<>();
-        query.put(jobPostingFilters.LOCATION, setLocation);
+        if (!(setLocation == null)) {
+            query.put(jobPostingFilters.LOCATION, setLocation);
+        }
         JobPostQuery jobPostQuery = this.appCH.filter.getJobPostsFilter(query);
         jobPostQuery.applyHashtagFilter(tagsList);
         String jobsRepr;
@@ -121,7 +124,7 @@ public class ApplicantJobsForm extends ApplicantForm {
         this.jobsTextArea.setText((jobsRepr != null ? jobsRepr:" "));
 
 
-        List<String> inJobsList = jobPostQuery.getRepresentationsList();
+        List<String> inJobsList = jobPostQuery.getJobIDs();
         if (inJobsList != null){
             this.jobsList.setListData(inJobsList.toArray());
         }

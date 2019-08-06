@@ -188,9 +188,13 @@ public class JobPosting implements Serializable {
      * @return true or false
      */
     public boolean containsAllHashTags(HashSet<String> searchHashTags) {
-        searchHashTags = (HashSet<String>) searchHashTags.clone();
-        Integer startSize = searchHashTags.size();
-        searchHashTags.retainAll(hashTags);
-        return startSize.equals(searchHashTags.size());
+        for (String hash : searchHashTags) {
+            System.out.println(hash);
+            System.out.println(this.getHashTags());
+            if (this.getHashTags().contains(hash)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

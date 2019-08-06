@@ -58,9 +58,8 @@ public class JobPostQuery {
 
     public void applyHashtagFilter(HashSet<String> tags){
         List<JobPosting> jobPostList = this.filteredJobPosts;
-        this.filteredJobPosts = jobPostList.stream().filter(jobPosting ->
+        jobPostList = jobPostList.stream().filter(jobPosting ->
                 jobPosting.containsAllHashTags(tags)).collect(Collectors.toList());
-
-
+        this.filteredJobPosts = jobPostList;
     }
 }

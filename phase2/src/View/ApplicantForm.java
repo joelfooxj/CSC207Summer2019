@@ -65,6 +65,7 @@ public class ApplicantForm extends JDialog {
     private void onJobs() {
         ApplicantJobsForm appJobsForm = new ApplicantJobsForm(this.appCH);
         appJobsForm.pack();
+        appJobsForm.setSize(500, 500);
         appJobsForm.setVisible(true);
         this.updateForm();
     }
@@ -72,6 +73,7 @@ public class ApplicantForm extends JDialog {
     private void onApps() {
         ApplicantApplicationForm appApplicationForm = new ApplicantApplicationForm(this.appCH);
         appApplicationForm.pack();
+        appApplicationForm.setSize(500, 500);
         appApplicationForm.setVisible(true);
         this.updateForm();
 

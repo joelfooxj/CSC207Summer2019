@@ -51,6 +51,7 @@ public class GUI {
     public static void interviewerForm(InterviewerCommandHandler commandHandler) {
         InterviewerForm dialog = new InterviewerForm(commandHandler);
         dialog.pack();
+        dialog.setSize(500, 500);
         dialog.setVisible(true);
     }
 
@@ -71,18 +72,21 @@ public class GUI {
     public static void applicantForm(ApplicantCommandHandler commandHandler) {
         ApplicantForm dialog = new ApplicantForm(commandHandler);
         dialog.pack();
+        dialog.setSize(500, 500);
         dialog.setVisible(true);
     }
 
     public static void hrForm(HrCommandHandler commandHandler) {
         HRForm dialog = new HRForm(commandHandler);
         dialog.pack();
+        dialog.setSize(500, 500);
         dialog.setVisible(true);
     }
 
     public static void refererForm(RefererCommandHandler commandHandler) {
         RefererForm dialog = new RefererForm(commandHandler);
         dialog.pack();
+        dialog.setSize(500, 500);
         dialog.setVisible(true);
     }
 }

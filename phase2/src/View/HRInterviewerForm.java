@@ -104,6 +104,7 @@ public class HRInterviewerForm extends HRForm {
         filter.put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
         SelectUser selectUser = new SelectUser(filter, super.hrCH);
         selectUser.pack();
+        selectUser.setSize(500, 500);
         selectUser.setVisible(true);
         selectUser.setAlwaysOnTop(true);
         Long userID = selectUser.getUser();

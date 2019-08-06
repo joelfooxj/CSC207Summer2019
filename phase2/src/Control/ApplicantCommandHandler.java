@@ -104,7 +104,6 @@ public class ApplicantCommandHandler extends CommandHandler{
         for (String jobID: jobIDs){
             long inputFirmID = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getFirmId();
             List<requiredDocs> docsList = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID)).getRequiredDocs();
-            System.out.println(inputFirmID);
             JobApplication newJobApp = sessionData.jobAppsDb.addApplication(
                     this.applicantID,
                     Long.parseLong(jobID),
@@ -112,7 +111,6 @@ public class ApplicantCommandHandler extends CommandHandler{
                     sessionDate, docsList);
 
             newJobApp.addObserver(this.currentUser);
-            System.out.println(newJobApp);
         }
     }
 
@@ -150,8 +148,8 @@ public class ApplicantCommandHandler extends CommandHandler{
         return this.creationDate.toString();
     }
 
-    public String getApplicantID(){
-        return String.valueOf(this.applicantID);
+    public Long getApplicantID(){
+        return this.applicantID;
     }
 
     public String getUsername(){

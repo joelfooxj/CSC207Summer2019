@@ -33,9 +33,14 @@ public class JobApplicationQuery {
             applicantionsIDs.add(String.valueOf(jobApp.getApplicationID()));
         }
         return applicantionsIDs;
+    }
 
-
-
+    public List<Long> getJobIDs() {
+        List<Long> jobIDs = new ArrayList<>();
+        for (JobApplication jobApplication : this.filteredJobApps) {
+            jobIDs.add(jobApplication.getJobID());
+        }
+        return jobIDs;
     }
 
 

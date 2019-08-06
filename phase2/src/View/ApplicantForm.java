@@ -29,7 +29,7 @@ public class ApplicantForm extends JDialog {
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(this.appCH.getUsername()));
         this.creationDateLabel.setText(this.appCH.getCreationDate());
-        this.applicantIDLabel.setText(this.appCH.getApplicantID());
+        this.applicantIDLabel.setText(this.appCH.getApplicantID().toString());
         this.updateForm();
 
         jobsButton.addActionListener(new ActionListener() {
@@ -82,7 +82,7 @@ public class ApplicantForm extends JDialog {
 
     private void updateAppFields(Long open){
         HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<>();
-        filterHM.put(jobAppFilterKeys.APPLICANT_ID, Long.parseLong(this.appCH.getApplicantID()));
+        filterHM.put(jobAppFilterKeys.APPLICANT_ID, this.appCH.getApplicantID());
         filterHM.put(jobAppFilterKeys.OPEN, open);
         String inJobAppPrintout = this.appCH.filter.getJobAppsFilter(filterHM).getPrintout();
         this.openAppsTextArea.setText(inJobAppPrintout);

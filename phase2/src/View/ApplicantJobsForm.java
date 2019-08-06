@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
+import Model.JobApplicationDatabase;
 import Model.JobPostingDatabase.jobPostingFilters;
 
 public class ApplicantJobsForm extends ApplicantForm {
@@ -114,6 +116,11 @@ public class ApplicantJobsForm extends ApplicantForm {
         }
         JobPostQuery jobPostQuery = this.appCH.filter.getJobPostsFilter(query);
         jobPostQuery.applyHashtagFilter(tagsList);
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> appQuery = new HashMap<>();
+        appQuery.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
+        JobApplicationQuery jobApplicationQuery = this.appCH.filter.getJobAppsFilter(appQuery);
+        jobPostQuery.filterByHasApplied(jobApplicationQuery.getJobIDs());
+
         String jobsRepr;
         if (jobPostQuery.getRepresentations() == null){
             jobsRepr ="There are no open job postings.";

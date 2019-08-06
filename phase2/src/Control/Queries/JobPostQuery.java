@@ -18,7 +18,6 @@ public class JobPostQuery {
         List<String> jobIDs= new ArrayList<String>();
         for (JobPosting job : filteredJobPosts){
             jobIDs.add(job.getJobId().toString());
-            System.out.println(job.getJobId());
         }
         return jobIDs;
     }
@@ -60,6 +59,13 @@ public class JobPostQuery {
         List<JobPosting> jobPostList = this.filteredJobPosts;
         jobPostList = jobPostList.stream().filter(jobPosting ->
                 jobPosting.containsAllHashTags(tags)).collect(Collectors.toList());
+        this.filteredJobPosts = jobPostList;
+    }
+
+    public void filterByHasApplied(List<Long> jobIDs) {
+        List<JobPosting> jobPostList = this.filteredJobPosts;
+        jobPostList = jobPostList.stream().filter(jobPosting ->
+                !jobIDs.contains(jobPosting.getJobId())).collect(Collectors.toList());
         this.filteredJobPosts = jobPostList;
     }
 }

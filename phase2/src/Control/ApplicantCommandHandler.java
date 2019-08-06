@@ -2,7 +2,6 @@ package Control;
 
 import Model.*;
 import View.GUI;
-import Model.JobPostingDatabase.jobPostingFilters;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -155,7 +154,7 @@ public class ApplicantCommandHandler extends CommandHandler{
         //return sessionData.jobAppsDb.getApplicationsByApplicantID(this.applicantID);
         HashMap requirement = new HashMap();
         requirement.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, this.applicantID);
-        return sessionData.jobAppsDb.filter(requirement);
+        return sessionData.jobAppsDb.filterJobApps(requirement);
     }
 
     /**

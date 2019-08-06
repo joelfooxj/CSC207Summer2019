@@ -7,13 +7,7 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
     HashMap<Long, T> data = new HashMap<Long, T>();
     private long currID = 0;
 
-    //added to deal with case when database is empty
-//    public boolean isEmpty(){
-//        if(data.isEmpty()){
-//            return true;
-//        }
-//        return false;
-//    }
+
 
     public boolean isEmpty(){
         return data.isEmpty();

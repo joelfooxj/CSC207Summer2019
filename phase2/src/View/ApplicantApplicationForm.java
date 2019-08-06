@@ -22,6 +22,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
     private JButton exitButton;
     private JScrollPane jobScrollPane;
     private JTextArea jobTextArea;
+    private JButton referenceLettersButton;
 
     private ApplicantCommandHandler appCH;
 
@@ -47,6 +48,12 @@ public class ApplicantApplicationForm extends ApplicantForm {
             }
         });
 
+        referenceLettersButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                openRefLettersForm();
+            }
+        });
+
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -65,7 +72,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
             public void valueChanged(ListSelectionEvent e) {
                 String selectedAppID = (String) appList.getSelectedValue();
                 if (selectedAppID != null) {
-                    checkCVCLButtonEnable(selectedAppID);
+                    checkCVCLRefButtonEnable(selectedAppID);
                     withdrawButton.setEnabled(true);
                     // get the job description for this application
                     Long inJobPostingID = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getJobID();
@@ -135,10 +142,20 @@ public class ApplicantApplicationForm extends ApplicantForm {
         }
     }
 
-    private void checkCVCLButtonEnable(String inJobAppID) {
+    private void openRefLettersForm(){
+        String selectedAppID = (String) this.appList.getSelectedValue();
+        String inRefLetters= this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRefLetters();
+        if (inRefLetters == null) {
+            inRefLetters = "";
+        }
+        GUI.messageBox(inRefLetters, "Reference Letters");
+    }
+
+    private void checkCVCLRefButtonEnable(String inJobAppID) {
         List<String> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
         this.CVButton.setEnabled(requiredDocsList.contains("CV"));
         this.coverletterButton.setEnabled(requiredDocsList.contains("Cover Letter"));
+        this.referenceLettersButton.setEnabled(requiredDocsList.contains("Reference Letters"));
     }
 
     private void updateForm() {
@@ -162,5 +179,6 @@ public class ApplicantApplicationForm extends ApplicantForm {
         this.coverletterButton.setEnabled(enabled);
         this.CVButton.setEnabled(enabled);
         this.coverletterButton.setEnabled(enabled);
+        this.referenceLettersButton.setEnabled(enabled);
     }
 }

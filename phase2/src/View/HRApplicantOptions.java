@@ -9,8 +9,11 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import Model.JobApplicationDatabase.jobAppFilterKeys;
 import Model.UserCredentialsDatabase.usersFilterKeys;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class HRApplicantOptions extends HRForm {
     private JPanel contentPane;
@@ -21,7 +24,7 @@ public class HRApplicantOptions extends HRForm {
     private JButton refLetterButton;
     private JButton exitButton;
     private JLabel applicantLabel;
-    private JLabel applicationLabel;
+    private JTextArea applicationLabel;
 
     public HRApplicantOptions(HrCommandHandler inHRCH) {
         super(inHRCH);
@@ -110,7 +113,7 @@ public class HRApplicantOptions extends HRForm {
         String applicantID = (String) this.applicantList.getSelectedValue();
 
         HashMap<usersFilterKeys, Object> query = new HashMap<>();
-        query.put(usersFilterKeys.USER_ID, applicantID);
+        query.put(usersFilterKeys.USER_ID, Long.parseLong(applicantID));
 
         String applicantDesc = super.hrCH.filter.getUsersFilter(query).getRepresentation();
 
@@ -150,7 +153,7 @@ public class HRApplicantOptions extends HRForm {
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.FIRM_ID, Long.parseLong(HRApplicantOptions.super.hrCH.getFirmID()));
-        List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs();
+        List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs().stream().distinct().collect(Collectors.toList());
         if (applicantList == null){
             this.applicantLabel.setText("There are no applicants.");
         } else{

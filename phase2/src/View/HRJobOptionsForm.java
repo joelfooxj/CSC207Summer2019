@@ -68,6 +68,7 @@ public class HRJobOptionsForm extends HRForm {
             public void actionPerformed(ActionEvent e) {
                 String selectedAppID = (String) associatedApplicationsList.getSelectedValue();
                 HRJobOptionsForm.super.hrCH.rejectApplicationID(selectedAppID);
+                updateJobsList();
                 updateAppList();
             }
         });
@@ -103,23 +104,29 @@ public class HRJobOptionsForm extends HRForm {
         });
     }
 
-    private void setJobsDesc(){
-        String jobID = this.jobsList.getSelectedValue().toString();
-
-        HashMap<jobPostingFilters, Object> query = new HashMap<>();
-        query.put(jobPostingFilters.JOB_ID, Long.parseLong(jobID));
-        String jobDesc = super.hrCH.filter.getJobPostsFilter(query).getRepresentation();
-        this.jobDesc.setText(jobDesc);
+    private void setJobsDesc() {
+        if (this.jobsList.getSelectedValue() != null) {
+            String jobID = this.jobsList.getSelectedValue().toString();
+            HashMap<jobPostingFilters, Object> query = new HashMap<>();
+            query.put(jobPostingFilters.JOB_ID, Long.parseLong(jobID));
+            String jobDesc = super.hrCH.filter.getJobPostsFilter(query).getRepresentation();
+            this.jobDesc.setText(jobDesc);
+        } else {
+            this.jobDesc.setText("");
+        }
     }
 
     private void setAppDesc(){
         String appID = (String) this.associatedApplicationsList.getSelectedValue();
+        if (appID != null) {
+            HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
+            query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(appID));
+            String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
 
-        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
-        query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(appID));
-        String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
-
-        this.appDesc.setText(appDesc);
+            this.appDesc.setText(appDesc);
+        } else {
+            this.appDesc.setText("");
+        }
     }
 
     private void updateJobsList(){
@@ -148,16 +155,20 @@ public class HRJobOptionsForm extends HRForm {
         setButtonEnabled(false);
         this.appDesc.setText("");
         String selectedJobID = (String) this.jobsList.getSelectedValue();
+        if (selectedJobID != null) {
+            HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
+            query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
+            query.put(jobAppFilterKeys.OPEN, Boolean.TRUE);
+            List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
 
-        HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
-        query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
-        query.put(jobAppFilterKeys.OPEN, Boolean.TRUE);
-        List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
-
-        if (inJobAppList.isEmpty()){
-            this.appDesc.setText("There are no applications for this job.");
+            if (inJobAppList.isEmpty()) {
+                this.appDesc.setText("There are no applications for this job.");
+            } else {
+                this.associatedApplicationsList.setListData(inJobAppList.toArray());
+            }
         } else {
-            this.associatedApplicationsList.setListData(inJobAppList.toArray());
+            this.associatedApplicationsList.setListData(new Object[0]);
+            this.appDesc.setText("");
         }
     }
 

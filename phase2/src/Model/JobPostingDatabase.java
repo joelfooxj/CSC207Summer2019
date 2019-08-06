@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable{
+public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable {
 
     /**
      * the date that the user is logged into the program on. i.e. today's date.
@@ -15,46 +15,51 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
 
     /**
      * adds a job Posting by construction a job posting
+     *
      * @see JobPosting(String, String, long, long, String, DateRange, List, Collection, List, List)
      */
     //TODO change to addJobPosting; use addItem directly
     public void addJob(String title, String details, long firmId, long numsLabourRequired, String location,
                        DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
-                       List<String> skillList, List<requiredDocs> docsList){
+                       List<String> skillList, List<requiredDocs> docsList) {
         addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, interviewStages,
                 hashTags, skillList, docsList, super.getCurrID()));
     }
 
     /**
      * returns the job post corresponding to job post id
+     *
      * @param - id of job posting
      * @return - Job Post
      */
-    public JobPosting getJobPostingByID(Long id){
+    public JobPosting getJobPostingByID(Long id) {
         return super.getItemByID(id);
     }
 
     /**
      * returns all ids of job postings that are open
+     *
      * @return ArrayList of Job Posting ids
      */
 
-    public ArrayList<Long> getOpenPostingIds(){
+    public ArrayList<Long> getOpenPostingIds() {
 
         ArrayList<Long> result = new ArrayList<>();
         List<JobPosting> openJobPostings = filterOpenJobPostings(this.getListOfItems());
 
-        for (JobPosting jobPosting: openJobPostings){
+        for (JobPosting jobPosting : openJobPostings) {
             result.add(jobPosting.getJobId());
         }
         return result;
     }
+
     /**
      * Filters ArrayLists of job postings for open postings only
+     *
      * @param jobPostings
      * @return
      */
-    private List<JobPosting> filterOpenJobPostings(List<JobPosting> jobPostings){
+    private List<JobPosting> filterOpenJobPostings(List<JobPosting> jobPostings) {
 
         jobPostings.removeIf(jobPosting -> !jobPosting.isOpen(sessionDate));
 
@@ -82,15 +87,16 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         // in my code since java cannot convert hashset to Object.
 
     }
-//
+
+    //
 //    //TODO: remove this method
-    public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration){
+    public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration) {
         List<JobPosting> jobPostList = this.getListOfItems();
-        if (filtration.containsKey(jobPostingFilters.FIRM)){
+        if (filtration.containsKey(jobPostingFilters.FIRM)) {
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId().equals(
                     filtration.get(jobPostingFilters.FIRM))).collect(Collectors.toList());
         }
-        if (filtration.containsKey(jobPostingFilters.OPEN)){
+        if (filtration.containsKey(jobPostingFilters.OPEN)) {
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.isOpen(sessionDate)
             ).collect(Collectors.toList());
         }
@@ -105,12 +111,4 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         return jobPostList;
     }
 
-
-// 4. If you want to keep hashset, 1 solution would be creating another filtration method that only takes care of tags
-public List<JobPosting> filterJobPostingsByTags(HashSet<String> tags){
-    List<JobPosting> jobPostList = this.getListOfItems();
-    jobPostList = jobPostList.stream().filter(jobPosting ->
-            jobPosting.containsAllHashTags(tags)).collect(Collectors.toList());
-    return jobPostList;
-}
 }

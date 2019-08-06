@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
+import Control.Queries.JobPostQuery;
 import Model.JobPostingDatabase.jobPostingFilters;
 
 public class ApplicantJobsForm extends ApplicantForm {
@@ -103,12 +105,24 @@ public class ApplicantJobsForm extends ApplicantForm {
             }
         }
         String setLocation = (String) this.locationFilterCombo.getSelectedItem();
-        String getJobsPrintout = this.appCH.getFilteredJobsPrintout(tagsList, setLocation);
-        this.jobsTextArea.setText((getJobsPrintout != null ? getJobsPrintout:" "));
 
 
-        List<String> inJobsList = this.appCH.getFilteredJobsList(tagsList, setLocation);
-        if (!inJobsList.isEmpty()){
+        HashMap<jobPostingFilters, Object> query = new HashMap<>();
+        query.put(jobPostingFilters.LOCATION, setLocation);
+        JobPostQuery jobPostQuery = this.appCH.filter.getJobPostsFilter(query);
+        jobPostQuery.applyHashtagFilter(tagsList);
+        String jobsRepr;
+        if (jobPostQuery.getRepresentations() == null){
+            jobsRepr ="There are no open job postings.";
+        } else {
+            jobsRepr = jobPostQuery.getRepresentations();
+        }
+
+        this.jobsTextArea.setText((jobsRepr != null ? jobsRepr:" "));
+
+
+        List<String> inJobsList = jobPostQuery.getRepresentationsList();
+        if (inJobsList != null){
             this.jobsList.setListData(inJobsList.toArray());
         }
     }

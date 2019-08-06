@@ -97,37 +97,7 @@ public class ApplicantCommandHandler extends CommandHandler{
         return retJobList;
     }
 
-    /**
-     * This method returns a single string containing all jobs that are open
-     * and have not already been applied for by this applicant.
-     * @return String openJobs
-     */
-    public String getFilteredJobsPrintout(HashSet<String> tags, String location){
-        if (this.getOpenUnappliedJobs().isEmpty()) {
-            return "There are no open job postings.";
-        } else {
-            StringBuilder openJobsPrintout = new StringBuilder();
-            for (JobPosting job: this.getFilteredJobs(tags, location)){
-                openJobsPrintout.append(job);
-                openJobsPrintout.append("\n");
-            }
-            return new String(openJobsPrintout);
-        }
-    }
 
-    /**
-     * This method returns a list of strings of JobIDs
-     * @return jobIDs
-     */
-    public List<String> getFilteredJobsList(HashSet<String> tags, String location){
-        List<String> jobList = new ArrayList<>();
-        if(!this.getOpenUnappliedJobs().isEmpty()) {
-            for (JobPosting job : this.getFilteredJobs(tags, location)) {
-                jobList.add(job.getJobId().toString());
-            }
-        }
-        return jobList;
-    }
 
     // todo: update addApplication() with less parameters
     public void applyForJobs(List<String> jobIDs){

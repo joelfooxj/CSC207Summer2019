@@ -5,6 +5,7 @@ import Model.JobPosting;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JobPostQuery {
 
@@ -22,13 +23,6 @@ public class JobPostQuery {
         return jobIDs;
     }
 
-    public String getDescription(){
-        if (filteredJobPosts.size()!= 1){
-            return null;
-        }
-        return filteredJobPosts.get(0).getJobDetails();
-    }
-
     public String getRepresentation(){
         if (filteredJobPosts.size() != 1){
             return null;
@@ -36,11 +30,37 @@ public class JobPostQuery {
         return filteredJobPosts.get(0).toString();
     }
 
+    public String getRepresentations(){
+        StringBuilder repr = new StringBuilder();
+        for (JobPosting job: this.filteredJobPosts){
+            repr.append(job.toString());
+            repr.append("\n");
+        }
+        return repr.toString();
+    }
+
+    public List<String> getRepresentationsList(){
+        List<String> reprList = new ArrayList<>();
+        for (JobPosting job: this.filteredJobPosts){
+            reprList.add(job.toString());
+        }
+        return reprList;
+    }
+
+
     public List<String> getLocationList(){
         HashSet<String> locationSet = new HashSet<>();
         for (JobPosting job: filteredJobPosts){
             locationSet.add(job.getLocation());
         }
         return new ArrayList<>(locationSet);
+    }
+
+    public void applyHashtagFilter(HashSet<String> tags){
+        List<JobPosting> jobPostList = this.filteredJobPosts;
+        this.filteredJobPosts = jobPostList.stream().filter(jobPosting ->
+                jobPosting.containsAllHashTags(tags)).collect(Collectors.toList());
+
+
     }
 }

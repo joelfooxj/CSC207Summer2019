@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.util.HashMap;
 import java.util.List;
 import Model.JobApplicationDatabase.jobAppFilterKeys;
+import Model.JobPostingDatabase.jobPostingFilters;
 
 public class ApplicantApplicationForm extends ApplicantForm {
     private JPanel contentPane;
@@ -63,7 +64,13 @@ public class ApplicantApplicationForm extends ApplicantForm {
                 if (selectedAppID != null) {
                     checkCVCLButtonEnable(selectedAppID);
                     withdrawButton.setEnabled(true);
-                    appTextArea.setText(appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation());
+                    // get the job description for this application
+                    Long inJobPostingID = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getJobID();
+                    HashMap<jobPostingFilters, Object> jobPostingHM = new HashMap<>();
+                    jobPostingHM.put(jobPostingFilters.JOB_ID, inJobPostingID);
+                    jobPostingHM.put(jobPostingFilters.OPEN, Boolean.TRUE);
+                    String inJobPostDesc = appCH.filter.getJobPostsFilter(jobPostingHM).getRepresentation();
+                    appTextArea.setText(inJobPostDesc);
                 }
             }
         });

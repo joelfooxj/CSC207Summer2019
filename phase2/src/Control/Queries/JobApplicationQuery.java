@@ -36,11 +36,17 @@ public class JobApplicationQuery {
     }
 
     public List<Long> getJobIDs() {
+        if (filteredJobApps.size() < 1){ return null;}
         List<Long> jobIDs = new ArrayList<>();
         for (JobApplication jobApplication : this.filteredJobApps) {
             jobIDs.add(jobApplication.getJobID());
         }
         return jobIDs;
+    }
+
+    public Long getJobID(){
+        if(filteredJobApps.size() != 1){return null;}
+        return this.filteredJobApps.get(0).getJobID();
     }
 
 

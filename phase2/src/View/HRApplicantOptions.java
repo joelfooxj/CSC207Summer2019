@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import Model.JobApplicationDatabase.jobAppFilterKeys;
 import Model.UserCredentialsDatabase.usersFilterKeys;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+//import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class HRApplicantOptions extends HRForm {
     private JPanel contentPane;

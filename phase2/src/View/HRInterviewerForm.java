@@ -77,11 +77,6 @@ public class HRInterviewerForm extends HRForm {
     }
 
     private void onJobSelection() {
-//        Long firm = Long.parseLong(super.hrCH.getFirmID());
-//        HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
-//        filter.put(JobPostingDatabase.jobPostingFilters.FIRM, firm);
-//        List<String> jobList = hrCH.filter.getJobPostsFilter(filter).getJobIDs();
-
         Long jobID = Long.parseLong(jobPostingJList.getSelectedValue());
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, jobID);
@@ -108,6 +103,9 @@ public class HRInterviewerForm extends HRForm {
         filter.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER.name());
         filter.put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
         SelectUser selectUser = new SelectUser(filter, super.hrCH);
+        selectUser.pack();
+        selectUser.setVisible(true);
+        selectUser.setAlwaysOnTop(true);
         Long userID = selectUser.getUser();
         if (userID != null) {
             super.hrCH.assignInterviewer(Long.parseLong(appID), userID);

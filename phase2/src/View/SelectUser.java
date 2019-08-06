@@ -16,6 +16,7 @@ public class SelectUser extends JDialog {
     private JButton buttonCancel;
     private JScrollPane userPane;
     private JList<String> userCredentialsJList;
+    private JLabel title;
     private Long user;
     private CommandHandler commandHandler;
 

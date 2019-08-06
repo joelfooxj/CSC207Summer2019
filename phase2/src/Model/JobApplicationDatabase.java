@@ -14,18 +14,11 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
 
     /**
      * @param applicantID:  the unique applicant id of this application
-     * @param jobID:        the unique id of the job
-     * @param firmID:       the unique id of the company
-     * @param creationDate: the creation date of the application
+     * @param jobPosting:   the jobPosting being applied to
      */
     public JobApplication addApplication(long applicantID,
-                                         long jobID,
-                                         long firmID,
-                                         LocalDate creationDate,
-                                         List<requiredDocs> docs) {
-        JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobID, firmID,
-                creationDate,
-                docs);
+                                         JobPosting jobPosting) {
+        JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobPosting);
         super.addItem(newJobApplication);
         return newJobApplication;
     }

@@ -79,7 +79,6 @@ public class GUI {
     public static void hrForm(HrCommandHandler commandHandler) {
         HRForm dialog = new HRForm(commandHandler);
         dialog.pack();
-        dialog.setSize(500, 500);
         dialog.setVisible(true);
     }
 

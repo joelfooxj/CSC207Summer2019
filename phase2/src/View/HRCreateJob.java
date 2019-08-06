@@ -1,9 +1,6 @@
 package View;
-
-import Control.CommandHandler;
-import Control.DateRange;
 import Control.HrCommandHandler;
-import Control.HyreLauncher;
+import Model.requiredDocs;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -46,11 +43,11 @@ public class HRCreateJob extends HRJobOptionsForm {
         }
     };
 
-    private HashMap<JCheckBox, String> checkBoxDocsLink = new HashMap<JCheckBox, String>() {
+    private HashMap<JCheckBox, requiredDocs> checkBoxDocsLink = new HashMap<JCheckBox, requiredDocs>() {
         {
-            put(CVCheckBox, "CV");
-            put(coverLetterCheckBox, "Cover Letter");
-            put(referenceLetterCheckBox, "Reference Letters");
+            put(CVCheckBox, requiredDocs.CV);
+            put(coverLetterCheckBox, requiredDocs.COVERLETTER);
+            put(referenceLetterCheckBox, requiredDocs.REFERENCELETTERS);
         }
     };
 
@@ -136,7 +133,7 @@ public class HRCreateJob extends HRJobOptionsForm {
                 tags.add(checkBoxtagsLink.get(checkBox));
             }
         }
-        List<String> docs = new ArrayList<>();
+        List<requiredDocs> docs = new ArrayList<>();
         for (JCheckBox checkBox : checkBoxDocsLink.keySet()) {
             if (checkBox.isSelected()) {
                 docs.add(checkBoxDocsLink.get(checkBox));

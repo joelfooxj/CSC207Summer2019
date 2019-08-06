@@ -1,6 +1,7 @@
 package View;
 
 import Control.ApplicantCommandHandler;
+import Model.requiredDocs;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -152,10 +153,10 @@ public class ApplicantApplicationForm extends ApplicantForm {
     }
 
     private void checkCVCLRefButtonEnable(String inJobAppID) {
-        List<String> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
-        this.CVButton.setEnabled(requiredDocsList.contains("CV"));
-        this.coverletterButton.setEnabled(requiredDocsList.contains("Cover Letter"));
-        this.referenceLettersButton.setEnabled(requiredDocsList.contains("Reference Letters"));
+        List<requiredDocs> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
+        this.CVButton.setEnabled(requiredDocsList.contains(requiredDocs.CV));
+        this.coverletterButton.setEnabled(requiredDocsList.contains(requiredDocs.COVERLETTER));
+        this.referenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
     }
 
     private void updateForm() {

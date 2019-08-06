@@ -86,12 +86,9 @@ public class HrCommandHandler extends CommandHandler {
             List<String> interviewStages,
             String location,
             List<String> skills,
-            List<String> docs
+            List<requiredDocs> docs
     ) {
         List<requiredDocs> docsList = new ArrayList<>();
-        for (String doc : docs) {
-            docsList.add(stringDocsHashMap.get(doc));
-        }
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
         sessionData.jobPostingsDb.addJob(title, details, Long.parseLong(firmID), numLabour, location, newRange,
                 interviewStages, hashTags, skills, docsList);

@@ -1,6 +1,7 @@
 package View;
 
 import Control.HrCommandHandler;
+import Model.requiredDocs;
 
 
 import javax.swing.*;
@@ -173,10 +174,9 @@ public class HRApplicantOptions extends HRForm {
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(selectedAppID));
-        List<String> inDocs = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRequiredDocuments();
-
-        coverLetterButton.setEnabled(inDocs.contains("Cover Letter"));
-        cvButton.setEnabled(inDocs.contains("CV"));
-        refLetterButton.setEnabled(inDocs.contains("Reference Letters"));
+        List<requiredDocs> inDocs = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRequiredDocuments();
+        coverLetterButton.setEnabled(inDocs.contains(requiredDocs.COVERLETTER));
+        cvButton.setEnabled(inDocs.contains(requiredDocs.CV));
+        refLetterButton.setEnabled(inDocs.contains(requiredDocs.REFERENCELETTERS));
     }
 }

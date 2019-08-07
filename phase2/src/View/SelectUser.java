@@ -59,14 +59,20 @@ public class SelectUser extends JDialog {
     }
 
     private void onSelect() {
+
+        MessageBox messageBox;
+
         if (userCredentialsJList.getSelectedValue() != null) {
+
             HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
             filter.put(UserCredentialsDatabase.usersFilterKeys.REPR, userCredentialsJList.getSelectedValue());
             this.user = commandHandler.filter.getUsersFilter(filter).getIDs().get(0);
-            MessageBox messageBox = new MessageBox("Select User", "User " + this.user.toString() + " Selected!");
+//            messageBox = new MessageBox("Select User", "User " + this.user.toString() + " Selected!");
+            GUI.messageBox("Select User", "User " + this.user.toString() + " Selected!");
             dispose();
         } else {
-            MessageBox messageBox = new MessageBox("Select User", "Select a User!");
+//            messageBox = new MessageBox("Select User", "Select a User!");
+            GUI.messageBox("Select User", "Select a User!");
         }
     }
 

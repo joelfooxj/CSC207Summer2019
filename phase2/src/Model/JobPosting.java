@@ -14,7 +14,7 @@ public class JobPosting extends Observable implements Serializable {
     private LocalDate publishDate;
     private LocalDate expiryDate;
     private String location;
-    private Collection<String> hashTags;
+    private Collection<jobTags> hashTags;
     private long numberOfPositions;
     private boolean isFilled = false;
     private List<String> interviewStages;
@@ -25,6 +25,16 @@ public class JobPosting extends Observable implements Serializable {
             put(requiredDocs.COVERLETTER, "Cover Letter");
             put(requiredDocs.CV, "CV");
             put(requiredDocs.REFERENCELETTERS, "Reference Letters");
+        }
+    };
+
+    private HashMap<jobTags, String> printJobTagsHM = new HashMap<jobTags, String>(){
+        {
+            put(jobTags.FULL_TIME, "Full-time");
+            put(jobTags.PART_TIME, "Part-time");
+            put(jobTags.FLEX_WORK, "Flex-work");
+            put(jobTags.TECH, "Tech");
+            put(jobTags.FINANCE, "Finance");
         }
     };
 
@@ -41,8 +51,8 @@ public class JobPosting extends Observable implements Serializable {
      */
     //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, Firm firm, long numberOfPositions, String location,
-                      DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
-                      List<String> skills, List<Model.requiredDocs> docs, Long jobId) {
+                      DateRange jobDateRange, List<String> interviewStages, Collection<jobTags> hashTags,
+                      List<String> skills, List<requiredDocs> docs, Long jobId) {
         this.jobId = jobId;
         this.jobTitle = title;
         this.jobDetails = details;
@@ -58,7 +68,7 @@ public class JobPosting extends Observable implements Serializable {
         this.setDocs = docs;
     }
 
-    public Collection<String> getHashTags() {
+    public Collection<jobTags> getHashTags() {
         return this.hashTags;
     }
 
@@ -108,10 +118,14 @@ public class JobPosting extends Observable implements Serializable {
         for (Model.requiredDocs doc : this.setDocs) {
             printDocs.add(printDocsHashMap.get(doc));
         }
+        List<String> printTags = new ArrayList<>();
+        for (jobTags tag: this.hashTags){
+            printTags.add(printJobTagsHM.get(tag));
+        }
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
                 jobDetails + "\n" + "Positions Available: " + numberOfPositions + "\n" +
                 "Date Published: " + publishDate + "\n" + "Deadline to apply: " + expiryDate + "\n"
-                + "HashTags: " + hashTags + "\n" + "Skills Required: " + skills + "\n" + "Required requiredDocs: "
+                + "HashTags: " + printTags + "\n" + "Skills Required: " + skills + "\n" + "Required requiredDocs: "
                 + printDocs;
     }
 
@@ -155,8 +169,8 @@ public class JobPosting extends Observable implements Serializable {
      * @param searchHashTags - a collection of hashtags being searched for
      * @return true or false
      */
-    public boolean containsAllHashTags(HashSet<String> searchHashTags) {
-        for (String hash : searchHashTags) {
+    public boolean containsAllHashTags(HashSet<jobTags> searchHashTags) {
+        for (jobTags hash : searchHashTags) {
             if (this.getHashTags().contains(hash)) {
                 return true;
             }

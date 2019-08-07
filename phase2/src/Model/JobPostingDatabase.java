@@ -20,7 +20,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      */
     //TODO change to addJobPosting; use addItem directly
     public void addJob(String title, String details, Firm firm, long numsLabourRequired, String location,
-                       DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
+                       DateRange jobDateRange, List<String> interviewStages, Collection<jobTags> hashTags,
                        List<String> skillList, List<requiredDocs> docsList) {
         addItem(new JobPosting(title, details, firm, numsLabourRequired, location, jobDateRange, interviewStages,
                 hashTags, skillList, docsList, super.getCurrID()));

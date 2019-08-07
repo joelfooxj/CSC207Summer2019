@@ -1,6 +1,7 @@
 package View;
 import Control.HrCommandHandler;
 import Model.requiredDocs;
+import Model.jobTags;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -33,13 +34,13 @@ public class HRCreateJob extends HRJobOptionsForm {
     private JCheckBox referenceLetterCheckBox;
     private JCheckBox coverLetterCheckBox;
 
-    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>() {
+    private HashMap<JCheckBox, jobTags> checkBoxtagsLink = new HashMap<JCheckBox, jobTags>() {
         {
-            put(fullTimeCheckBox, "Full-Time");
-            put(partTimeCheckBox, "Part-time");
-            put(flexWorkCheckBox, "Flex-work");
-            put(techCheckBox, "Tech");
-            put(financeCheckBox, "Finance");
+            put(fullTimeCheckBox, jobTags.FULL_TIME);
+            put(partTimeCheckBox, jobTags.PART_TIME);
+            put(flexWorkCheckBox, jobTags.FLEX_WORK);
+            put(techCheckBox, jobTags.TECH);
+            put(financeCheckBox, jobTags.FINANCE);
         }
     };
 
@@ -127,7 +128,7 @@ public class HRCreateJob extends HRJobOptionsForm {
         String jobTitle = this.jobTitleText.getText();
         String jobDesc = this.jobDescriptionText.getText();
         String jobLocation = this.jobLocationText.getText();
-        List<String> tags = new ArrayList<>();
+        List<jobTags> tags = new ArrayList<>();
         for (JCheckBox checkBox : checkBoxtagsLink.keySet()) {
             if (checkBox.isSelected()) {
                 tags.add(checkBoxtagsLink.get(checkBox));
@@ -139,14 +140,9 @@ public class HRCreateJob extends HRJobOptionsForm {
                 docs.add(checkBoxDocsLink.get(checkBox));
             }
         }
-        Number tmp = (Number) this.numLabourSpinner.getValue();
-        Long numLabour = tmp.longValue();
-        if (numLabour <= 0) {
-            MessageBox msg = new MessageBox("Error", "Number of positions must be greater than 0!");
-        } else {
-            super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), numLabour, tags,
-                    this.selectedInterviews, jobLocation, this.selectedSkills, docs);
-            this.dispose();
-        }
+        Long numLabour = ((Number) this.numLabourSpinner.getValue()).longValue();
+        super.hrCH.createJob(jobTitle, jobDesc, super.hrCH.getFirmID(), numLabour, tags,
+                this.selectedInterviews, jobLocation, this.selectedSkills, docs);
+        this.dispose();
     }
 }

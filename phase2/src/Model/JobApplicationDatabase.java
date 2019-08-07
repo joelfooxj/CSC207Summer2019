@@ -16,9 +16,9 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
      * @param applicantID:  the unique applicant id of this application
      * @param jobPosting:   the jobPosting being applied to
      */
-    public JobApplication addApplication(long applicantID,
+    public JobApplication addApplication(UserCredentials user,
                                          JobPosting jobPosting) {
-        JobApplication newJobApplication = new JobApplication(super.getCurrID(), applicantID, jobPosting);
+        JobApplication newJobApplication = new JobApplication(super.getCurrID(), user, jobPosting);
         super.addItem(newJobApplication);
         return newJobApplication;
     }
@@ -36,6 +36,8 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         JOB_ID,
         OPEN,
         INTERVIEWER_ID,
+        LIST_STRING,
+        APPLICANT_REPR
     }
 
     public List<JobApplication> filterJobApps(HashMap<jobAppFilterKeys, Object> filtration) {
@@ -64,6 +66,15 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         if (filtration.containsKey(jobAppFilterKeys.INTERVIEWER_ID)) {
             applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.INTERVIEWER_ID).equals(
                     app.getInterviewerID())).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(jobAppFilterKeys.LIST_STRING)) {
+            applicationList = applicationList.stream().filter(application -> filtration.get(jobAppFilterKeys.LIST_STRING).equals(
+                    application.listString())).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(jobAppFilterKeys.APPLICANT_REPR)) {
+            applicationList = applicationList.stream().filter(application -> filtration.get(jobAppFilterKeys.APPLICANT_REPR).equals(
+                    application.getUser().toString()
+            )).collect(Collectors.toList());
         }
         return applicationList;
     }

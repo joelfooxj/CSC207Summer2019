@@ -19,10 +19,10 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * @see JobPosting(String, String, long, long, String, DateRange, List, Collection, List, List)
      */
     //TODO change to addJobPosting; use addItem directly
-    public void addJob(String title, String details, long firmId, long numsLabourRequired, String location,
+    public void addJob(String title, String details, Firm firm, long numsLabourRequired, String location,
                        DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
                        List<String> skillList, List<requiredDocs> docsList) {
-        addItem(new JobPosting(title, details, firmId, numsLabourRequired, location, jobDateRange, interviewStages,
+        addItem(new JobPosting(title, details, firm, numsLabourRequired, location, jobDateRange, interviewStages,
                 hashTags, skillList, docsList, super.getCurrID()));
     }
 
@@ -77,6 +77,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         FIRM,
         LOCATION,
         JOB_ID,
+        LIST_STRING
         // 1. since hashmaps cannot have duplicate keys, I make 5 hashtag enums. e.g. if you want to search high-salary
         // and part time, you put (HASHTAG1, "high-salary"), (HASHTAG2, "part-time")
         // 2. The order does not matter because the fiter method only looks at values
@@ -100,6 +101,11 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         }
         if (filtration.containsKey(jobPostingFilters.JOB_ID)) {
             jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getJobId().equals(filtration.get(jobPostingFilters.JOB_ID))).collect(Collectors.toList());
+        }
+        if (filtration.containsKey(jobPostingFilters.LIST_STRING)) {
+            jobPostList = jobPostList.stream().filter(jobPosting -> filtration.get(jobPostingFilters.LIST_STRING).equals(
+                    jobPosting.listString()
+            )).collect(Collectors.toList());
         }
         // You need to implement all the filtration requirements. As long as you write a true/ false statement after
         // "->", that will work

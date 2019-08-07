@@ -90,8 +90,8 @@ public class HrCommandHandler extends CommandHandler {
     ) {
         List<requiredDocs> docsList = new ArrayList<>();
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
-        sessionData.jobPostingsDb.addJob(title, details, Long.parseLong(firmID), numLabour, location, newRange,
-                interviewStages, hashTags, skills, docsList);
+        sessionData.jobPostingsDb.addJob(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)), numLabour, location, newRange,
+                interviewStages, hashTags, skills, docs);
     }
 
     public void assignInterviewer(Long application, Long interviewer) {

@@ -39,8 +39,7 @@ public class Firm implements Serializable {
 
     @Override
     public String toString() {
-        return "[firm id]: " + getFirmId()
-                + "\n[firm name]: " + getFirmName();
+        return "[" + getFirmId() + "] " + getFirmName();
     }
 
 }

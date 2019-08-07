@@ -21,7 +21,7 @@ public class RefererForm extends JDialog {
     private JTextField findUser;
     private JButton buttonFindUser;
     private JScrollPane userOptions;
-    private JList<Long> userCredentialsJList = new JList<>();
+    private JList<String> userCredentialsJList = new JList<>();
     private JScrollPane appOptions;
     private JList<String> jobApplicationJList = new JList<>();
     private JTextArea showDetails;
@@ -87,17 +87,17 @@ public class RefererForm extends JDialog {
         HashMap<UserCredentialsDatabase.usersFilterKeys, Object> query = new HashMap<>();
         query.put(UserCredentialsDatabase.usersFilterKeys.USERNAME, search);
         query.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.APPLICANT.name());
-        List<Long> users = commandHandler.filter.getUsersFilter(query).getIDs();
+        List<String> users = commandHandler.filter.getUsersFilter(query).getRepresentations();
 
-        userCredentialsJList.setListData(users.toArray(new Long[users.size()]));
+        userCredentialsJList.setListData(users.toArray(new String[users.size()]));
         userOptions.setViewportView(userCredentialsJList);
     }
 
-    public void onSelectUser(Long user) {
+    public void onSelectUser(String userREPR) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
-        filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, user);
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_REPR, userREPR);
         filter.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
-        List<String> appsList = commandHandler.filter.getJobAppsFilter(filter).getJobAppsID();
+        List<String> appsList = commandHandler.filter.getJobAppsFilter(filter).getListStrings();
         jobApplicationJList.setListData(appsList.toArray(new String[appsList.size()]));
         appOptions.setViewportView(jobApplicationJList);
         addReferenceLetterButton.setEnabled(false);
@@ -105,7 +105,7 @@ public class RefererForm extends JDialog {
 
     public void onSelectApplication(String app) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
-        filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICATION_ID, Long.parseLong(app));
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.LIST_STRING, app);
         showDetails.setText(commandHandler.filter.getJobAppsFilter(filter).getRepresentation());
         addReferenceLetterButton.setEnabled(true);
     }

@@ -109,7 +109,7 @@ public class ApplicantCommandHandler extends CommandHandler {
     public void applyForJobs(List<String> jobIDs) {
         for (String jobID : jobIDs) {
             JobPosting inJobPosting = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID));
-            JobApplication newJobApp = sessionData.jobAppsDb.addApplication(this.applicantID, inJobPosting);
+            JobApplication newJobApp = sessionData.jobAppsDb.addApplication(this.currentUser, inJobPosting);
             newJobApp.createInterviewProcess(sessionData.jobPostingsDb.getJobPostingByID(Long.parseLong(jobID)).getInterviewStages());
             newJobApp.addObserver(this.currentUser);
             sessionData.jobPostingsDb.getJobPostingByID(Long.parseLong(jobID)).addObserver(newJobApp);
@@ -122,7 +122,6 @@ public class ApplicantCommandHandler extends CommandHandler {
      * @return A list of applications associated with this Applicant
      */
     private List<JobApplication> getAllApplications() {
-        //return sessionData.jobAppsDb.getApplicationsByApplicantID(this.applicantID);
         HashMap requirement = new HashMap();
         requirement.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, this.applicantID);
         return sessionData.jobAppsDb.filterJobApps(requirement);

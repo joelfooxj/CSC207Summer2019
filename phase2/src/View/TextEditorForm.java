@@ -18,6 +18,8 @@ public class TextEditorForm extends JDialog {
         this.text = inText;
         this.editTextArea.setText(inText);
 
+        this.contentPane.setBorder(BorderFactory.createTitledBorder(title));
+
         buttonSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onSave();

@@ -141,7 +141,7 @@ class InterviewerForm extends JDialog {
 
     private void onRefLettersButton(){
         String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
-        String inRefLetters = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getResume();
+        String inRefLetters = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getRefLetters();
         GUI.messageBox("Reference Letters", inRefLetters);
     }
 

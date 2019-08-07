@@ -46,7 +46,7 @@ public class HRApplicantOptions extends HRForm {
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
                     String inCV = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getResume();
-                    GUI.messageBox("CV", "<html>" + inCV + "</html>");
+                    GUI.messageBox("CV", inCV);
                 }
             }
         });
@@ -59,7 +59,7 @@ public class HRApplicantOptions extends HRForm {
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
                     String inCL = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getCoverLetter();
-                    GUI.messageBox("Cover Letter", "<html>" + inCL + "</html>");
+                    GUI.messageBox("Cover Letter", inCL);
                 }
             }
         });
@@ -73,7 +73,7 @@ public class HRApplicantOptions extends HRForm {
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
                     String inRL = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRefLetters();
 
-                    GUI.messageBox("Reference Letters", "<html>" + inRL + "</html>");
+                    GUI.messageBox("Reference Letters", inRL);
                 }
             }
         });

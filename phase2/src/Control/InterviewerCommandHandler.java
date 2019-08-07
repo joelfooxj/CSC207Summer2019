@@ -5,7 +5,6 @@ import Model.JobApplicationDatabase;
 import Model.UserCredentials;
 import View.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class InterviewerCommandHandler extends CommandHandler {
     private String username;
 
 
-    public InterviewerCommandHandler(UserCredentials user) {
+    InterviewerCommandHandler(UserCredentials user) {
         this.interviewerID = user.getUserID();
         this.username = user.getUserName();
 

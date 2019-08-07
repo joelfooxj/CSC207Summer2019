@@ -16,7 +16,7 @@ public class HrCommandHandler extends CommandHandler {
             "Phone",
             "Technical");
 
-    public HrCommandHandler(UserCredentials hrUser) {
+    HrCommandHandler(UserCredentials hrUser) {
 
         this.username = hrUser.getUserName();
         this.firmID = String.valueOf(hrUser.getFirmId());
@@ -68,7 +68,6 @@ public class HrCommandHandler extends CommandHandler {
         sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID)).reject(sessionDate);
     }
 
-    // todo: create a job object here instead?
     public void createJob(
             String title,
             String details,
@@ -81,12 +80,8 @@ public class HrCommandHandler extends CommandHandler {
             List<requiredDocs> docs
     ) {
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
-        //sessionData.jobPostingsDb.addJob(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)), numLabour, location, newRange,
-        //        interviewStages, hashTags, skills, docs);
         sessionData.jobPostingsDb.addItem(new JobPosting(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)), numLabour, location, newRange,
                      interviewStages, hashTags, skills, docs,sessionData.firmsDb.getCurrID()));
-//        sessionData.jobPostingsDb.addJob(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)),
-//                numLabour, location, newRange, interviewStages, hashTags, skills, docs);
     }
 
     public void assignInterviewer(Long application, Long interviewer) {

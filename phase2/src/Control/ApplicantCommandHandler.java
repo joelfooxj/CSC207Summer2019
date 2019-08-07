@@ -5,9 +5,7 @@ import View.GUI;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class ApplicantCommandHandler extends CommandHandler {
@@ -21,7 +19,7 @@ public class ApplicantCommandHandler extends CommandHandler {
     private String username;
     private UserCredentials currentUser;
 
-    public ApplicantCommandHandler(UserCredentials user) {
+    ApplicantCommandHandler(UserCredentials user) {
         this.applicantID = user.getUserID();
         this.creationDate = user.getCreationDate();
         this.username = user.getUserName();
@@ -57,7 +55,6 @@ public class ApplicantCommandHandler extends CommandHandler {
         this.getApplication(applicationID).setCoverLetter(inCoverLetter);
     }
 
-    // todo: update addApplication() with less parameters
     public void applyForJobs(List<String> jobIDs) {
         for (String jobID : jobIDs) {
             JobPosting inJobPosting = sessionData.jobPostingsDb.getItemByID(Long.parseLong(jobID));

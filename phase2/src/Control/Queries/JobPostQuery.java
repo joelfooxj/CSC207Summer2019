@@ -16,14 +16,6 @@ public class JobPostQuery {
         this.filteredJobPosts = filteredJobApps;
     }
 
-    public List<String> getJobIDs() {
-        List<String> jobIDs = new ArrayList<String>();
-        for (JobPosting job : filteredJobPosts) {
-            jobIDs.add(job.getJobId().toString());
-        }
-        return jobIDs;
-    }
-
     public String getRepresentation() {
         if (filteredJobPosts.size() != 1) {
             return null;
@@ -39,15 +31,6 @@ public class JobPostQuery {
         }
         return repr.toString();
     }
-
-    public List<String> getRepresentationsList() {
-        List<String> reprList = new ArrayList<>();
-        for (JobPosting job : this.filteredJobPosts) {
-            reprList.add(job.toString());
-        }
-        return reprList;
-    }
-
 
     public List<String> getLocationList() {
         HashSet<String> locationSet = new HashSet<>();

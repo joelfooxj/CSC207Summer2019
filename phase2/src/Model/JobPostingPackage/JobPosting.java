@@ -172,6 +172,11 @@ public class JobPosting extends Observable implements Serializable {
      * @return true or false
      */
     public boolean containsAllHashTags(HashSet<jobTags> searchHashTags) {
+
+        if(searchHashTags.isEmpty()){
+            return true;
+        }
+
         for (jobTags hash : searchHashTags) {
             if (!this.getHashTags().contains(hash)) {
                 return false;

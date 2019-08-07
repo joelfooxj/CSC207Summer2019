@@ -57,59 +57,6 @@ public class ApplicantCommandHandler extends CommandHandler {
         this.getApplication(applicationID).setCoverLetter(inCoverLetter);
     }
 
-    /**
-     * This methods returns a list of JobPostings that are:
-     * 1. Open
-     * 2. Unapplied For
-     * 3. Are not expired
-     *
-     * @return list of open & unapplied JobPosting
-     */
-    private List<JobPosting> getOpenUnappliedJobs() {
-        List<JobPosting> openJobs = new ArrayList<>();
-        if (sessionData.jobPostingsDb.isEmpty()) {
-            return openJobs;
-        }
-        HashMap<JobPostingDatabase.jobPostingFilters, Object> jobFilter = new HashMap<>();
-        jobFilter.put(JobPostingDatabase.jobPostingFilters.OPEN, Boolean.TRUE);
-        List<String> openPostings = filter.getJobPostsFilter(jobFilter).getJobIDs();
-
-        for (String jobIDString : openPostings) {
-            Long jobID = Long.parseLong(jobIDString);
-            boolean appliedForFlag = false;
-            if (!this.getAllApplications().isEmpty()) {
-                for (JobApplication app : this.getAllApplications()) {
-                    if (app.getJobID() == jobID) {
-                        appliedForFlag = true;
-                    }
-                }
-            }
-            JobPosting inJob = sessionData.jobPostingsDb.getJobPostingByID(jobID);
-            if (!appliedForFlag && !inJob.isExpired(sessionDate)) {
-                openJobs.add(inJob);
-            }
-        }
-        return openJobs;
-    }
-
-    /**
-     * This method returns a list of jobPostings filtered based on tags and location
-     *
-     * @param tags:     list of hashtags of JobPosting
-     * @param location: location of JobPosting
-     * @return
-     */
-    private List<JobPosting> getFilteredJobs(HashSet<String> tags, String location) {
-        List<JobPosting> retJobList = new ArrayList<>();
-        for (JobPosting job : this.getOpenUnappliedJobs()) {
-            if (job.containsAllHashTags(tags) && (job.getLocation().equals(location) || location.equals("All locations"))) {
-                retJobList.add(job);
-            }
-        }
-        return retJobList;
-    }
-
-
     // todo: update addApplication() with less parameters
     public void applyForJobs(List<String> jobIDs) {
         for (String jobID : jobIDs) {
@@ -127,7 +74,7 @@ public class ApplicantCommandHandler extends CommandHandler {
      * @return A list of applications associated with this Applicant
      */
     private List<JobApplication> getAllApplications() {
-        HashMap requirement = new HashMap();
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> requirement = new HashMap<>();
         requirement.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, this.applicantID);
         return sessionData.jobAppsDb.filterJobApps(requirement);
     }

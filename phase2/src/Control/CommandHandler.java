@@ -7,8 +7,8 @@ import java.time.LocalDate;
 
 public abstract class CommandHandler {
 
-    public SessionData sessionData;
-    public LocalDate sessionDate;
+    SessionData sessionData;
+    LocalDate sessionDate;
     public Filter filter;
 
     // todo: use constructor

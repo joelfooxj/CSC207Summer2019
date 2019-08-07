@@ -32,10 +32,6 @@ public class HyreSession {
         }
     }
 
-    public LocalDate getSessionDate() {
-        return this.sessionDate;
-    }
-
     private void updateDataStatus() {
         sessionData.jobPostingsDb.updateDb(sessionDate);
     }

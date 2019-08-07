@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class DateRange {
 
-    LocalDate startDate;
-    LocalDate endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public DateRange(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;

@@ -38,42 +38,9 @@ public class InterviewerCommandHandler extends CommandHandler {
      * @return List of JobApplications
      */
     private List<JobApplication> getAssignedApplications() {
-        HashMap requirement = new HashMap();
+        HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> requirement = new HashMap<>();
         requirement.put(JobApplicationDatabase.jobAppFilterKeys.INTERVIEWER_ID, this.interviewerID);
         return sessionData.jobAppsDb.filterJobApps(requirement);
-        //return sessionData.jobAppsDb.getApplicationByInterviewerID(this.interviewerID);
-    }
-
-    /**
-     * returns a list of ids of all the assigned job applications for this interviewer
-     *
-     * @return list of ids
-     */
-    public List<String> getAssignedApplicationsIds() {
-        List<String> idList = new ArrayList<>();
-        if (!this.getAssignedApplications().isEmpty()) {
-            for (JobApplication app : this.getAssignedApplications()) {
-                idList.add(String.valueOf(app.getApplicationID()));
-            }
-        }
-        return idList;
-    }
-
-    /**
-     * gets a string representation of the assigned applications to this interviewer
-     *
-     * @return a string representation of applications
-     */
-    public String getAssignedApplicationsRepresentation() {
-        StringBuilder applicationText = new StringBuilder();
-        if (this.getAssignedApplications().isEmpty()) {
-            return "";
-        }
-        for (JobApplication app : this.getAssignedApplications()) {
-            applicationText.append(app);
-            applicationText.append("\n");
-        }
-        return new String(applicationText);
     }
 
     /**

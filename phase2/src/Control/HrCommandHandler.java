@@ -16,14 +16,6 @@ public class HrCommandHandler extends CommandHandler {
             "Phone",
             "Technical");
 
-    private HashMap<String, requiredDocs> stringDocsHashMap = new HashMap<String, requiredDocs>() {
-        {
-            put("CV", requiredDocs.CV);
-            put("Cover Letter", requiredDocs.COVERLETTER);
-            put("Reference Letters", requiredDocs.REFERENCELETTERS);
-        }
-    };
-
     public HrCommandHandler(UserCredentials hrUser) {
 
         this.username = hrUser.getUserName();
@@ -88,7 +80,6 @@ public class HrCommandHandler extends CommandHandler {
             List<String> skills,
             List<requiredDocs> docs
     ) {
-        List<requiredDocs> docsList = new ArrayList<>();
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
         sessionData.jobPostingsDb.addJob(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)), numLabour, location, newRange,
                 interviewStages, hashTags, skills, docs);

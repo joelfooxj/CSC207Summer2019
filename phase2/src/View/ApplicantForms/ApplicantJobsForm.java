@@ -11,9 +11,9 @@ import java.util.List;
 
 import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
-import Model.JobApplicationDatabase;
-import Model.JobPostingDatabase.jobPostingFilters;
-import Model.jobTags;
+import Model.JobApplicationPackage.JobApplicationDatabase;
+import Model.JobPostingPackage.JobPostingDatabase.jobPostingFilters;
+import Model.JobPostingPackage.jobTags;
 
 public class ApplicantJobsForm extends ApplicantForm {
     private JPanel contentPane;
@@ -44,7 +44,6 @@ public class ApplicantJobsForm extends ApplicantForm {
         setContentPane(contentPane);
         setModal(true);
 
-        this.updateJobsFields();
         this.jobsTextArea.setEditable(false);
 
         this.locationFilterCombo.addItem("All locations");
@@ -72,6 +71,7 @@ public class ApplicantJobsForm extends ApplicantForm {
                 dispose();
             }
         });
+        this.updateJobsFields();
     }
 
     private void onApply() {

@@ -3,8 +3,8 @@ package View.HRForms;
 import Control.CommandHandlers.HrCommandHandler;
 import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
-import Model.JobApplicationDatabase.jobAppFilterKeys;
-import Model.JobPostingDatabase.jobPostingFilters;
+import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
+import Model.JobPostingPackage.JobPostingDatabase.jobPostingFilters;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

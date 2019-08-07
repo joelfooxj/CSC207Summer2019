@@ -1,6 +1,8 @@
-package Model;
+package Model.JobPostingPackage;
 
 import Control.DateRange;
+import Model.FirmPackage.Firm;
+import Model.requiredDocs;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -142,7 +144,7 @@ public class JobPosting extends Observable implements Serializable {
         return jobId;
     }
 
-    Long getFirmId() {
+    public Long getFirmId() {
         return this.firm.getFirmId();
     }
 

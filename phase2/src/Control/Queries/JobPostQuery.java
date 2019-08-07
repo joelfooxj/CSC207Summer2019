@@ -1,7 +1,7 @@
 package Control.Queries;
 
-import Model.JobPosting;
-import Model.jobTags;
+import Model.JobPostingPackage.JobPosting;
+import Model.JobPostingPackage.jobTags;
 
 import java.util.ArrayList;
 import java.util.HashSet;

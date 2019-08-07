@@ -1,4 +1,6 @@
-package Model;
+package Model.UserCredentialsPackage;
+
+import Model.TemplateDatabase;
 
 import java.time.LocalDate;
 import java.util.HashMap;

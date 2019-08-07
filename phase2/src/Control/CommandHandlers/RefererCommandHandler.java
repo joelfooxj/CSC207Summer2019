@@ -1,6 +1,6 @@
 package Control.CommandHandlers;
 
-import Model.JobApplication;
+import Model.JobApplicationPackage.JobApplication;
 import View.GUI;
 
 public class RefererCommandHandler extends CommandHandler {

@@ -1,7 +1,7 @@
 package View.Common;
 
 import Control.CommandHandlers.CommandHandler;
-import Model.UserCredentialsDatabase;
+import Model.UserCredentialsPackage.UserCredentialsDatabase;
 import View.GUI;
 
 import javax.swing.*;

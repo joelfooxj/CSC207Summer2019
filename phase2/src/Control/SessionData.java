@@ -1,9 +1,9 @@
 package Control;
 
-import Model.FirmDatabase;
-import Model.JobApplicationDatabase;
-import Model.JobPostingDatabase;
-import Model.UserCredentialsDatabase;
+import Model.FirmPackage.FirmDatabase;
+import Model.JobApplicationPackage.JobApplicationDatabase;
+import Model.JobPostingPackage.JobPostingDatabase;
+import Model.UserCredentialsPackage.UserCredentialsDatabase;
 
 public class SessionData {
     public JobApplicationDatabase jobAppsDb = new JobApplicationDatabase();

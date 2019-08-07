@@ -1,6 +1,6 @@
 package Control.CommandHandlers;
 
-import Model.UserCredentials;
+import Model.UserCredentialsPackage.UserCredentials;
 
 public class CommandHandlerFactory {
 

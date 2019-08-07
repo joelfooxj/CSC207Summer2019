@@ -7,7 +7,7 @@ import Control.CommandHandlers.ApplicantCommandHandler;
 import Control.CommandHandlers.HrCommandHandler;
 import Control.CommandHandlers.InterviewerCommandHandler;
 import Control.CommandHandlers.RefererCommandHandler;
-import Model.UserCredentials;
+import Model.UserCredentialsPackage.UserCredentials;
 import View.ApplicantForms.ApplicantForm;
 import View.Common.MessageBox;
 import View.Common.SetDate;

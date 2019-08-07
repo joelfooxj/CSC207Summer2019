@@ -1,7 +1,7 @@
 package View;
 
 import Control.HyreSession;
-import Model.UserCredentials;
+import Model.UserCredentialsPackage.UserCredentials;
 
 import javax.swing.*;
 import java.awt.event.*;

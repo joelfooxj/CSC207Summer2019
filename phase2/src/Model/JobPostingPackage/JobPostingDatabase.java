@@ -1,4 +1,6 @@
-package Model;
+package Model.JobPostingPackage;
+
+import Model.TemplateDatabase;
 
 import java.time.LocalDate;
 import java.util.*;

@@ -1,6 +1,9 @@
 package Control.CommandHandlers;
 
-import Model.*;
+import Model.JobApplicationPackage.JobApplication;
+import Model.JobApplicationPackage.JobApplicationDatabase;
+import Model.JobPostingPackage.JobPosting;
+import Model.UserCredentialsPackage.UserCredentials;
 import View.GUI;
 
 import java.time.LocalDate;

@@ -3,7 +3,10 @@ package View.HRForms;
 import Control.CommandHandlers.HrCommandHandler;
 import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
-import Model.*;
+import Model.JobApplicationPackage.JobApplicationDatabase;
+import Model.JobPostingPackage.JobPostingDatabase;
+import Model.UserCredentialsPackage.UserCredentials;
+import Model.UserCredentialsPackage.UserCredentialsDatabase;
 import View.Common.SelectUser;
 
 import javax.swing.*;
@@ -84,7 +87,7 @@ public class HRInterviewerForm extends HRForm {
     }
 
     private void onChoose(String appListString) {
-        HashMap<Model.UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
+        HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
         filter.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER);
         filter.put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
         SelectUser selectUser = new SelectUser(filter, super.hrCH);

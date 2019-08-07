@@ -1,4 +1,4 @@
-package Model;
+package Model.JobPostingPackage;
 
 public enum jobTags {
     FULL_TIME,

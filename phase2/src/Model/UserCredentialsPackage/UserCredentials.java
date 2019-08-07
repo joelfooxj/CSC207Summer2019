@@ -1,4 +1,4 @@
-package Model;
+package Model.UserCredentialsPackage;
 
 import java.io.Serializable;
 import java.time.LocalDate;

@@ -2,7 +2,7 @@ package View;
 
 import Control.CommandHandlers.InterviewerCommandHandler;
 import Control.Queries.JobApplicationQuery;
-import Model.JobApplicationDatabase.jobAppFilterKeys;
+import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
 import Model.requiredDocs;
 
 import javax.swing.*;

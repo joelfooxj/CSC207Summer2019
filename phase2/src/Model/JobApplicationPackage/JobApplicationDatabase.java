@@ -1,4 +1,8 @@
-package Model;
+package Model.JobApplicationPackage;
+
+import Model.JobPostingPackage.JobPosting;
+import Model.TemplateDatabase;
+import Model.UserCredentialsPackage.UserCredentials;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,7 @@
 package View.HRForms;
 import Control.CommandHandlers.HrCommandHandler;
 import Model.requiredDocs;
-import Model.jobTags;
+import Model.JobPostingPackage.jobTags;
 
 import javax.swing.*;
 import java.awt.event.*;

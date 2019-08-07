@@ -2,6 +2,11 @@ package Control.CommandHandlers;
 
 import Control.DateRange;
 import Model.*;
+import Model.JobApplicationPackage.JobApplication;
+import Model.JobApplicationPackage.JobApplicationDatabase;
+import Model.JobPostingPackage.JobPosting;
+import Model.JobPostingPackage.jobTags;
+import Model.UserCredentialsPackage.UserCredentials;
 import View.GUI;
 
 import java.util.*;

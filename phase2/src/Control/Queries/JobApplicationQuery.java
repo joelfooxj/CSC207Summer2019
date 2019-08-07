@@ -1,6 +1,6 @@
 package Control.Queries;
 
-import Model.JobApplication;
+import Model.JobApplicationPackage.JobApplication;
 import Model.requiredDocs;
 
 import java.util.ArrayList;

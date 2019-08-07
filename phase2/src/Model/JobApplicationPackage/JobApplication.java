@@ -1,4 +1,8 @@
-package Model;
+package Model.JobApplicationPackage;
+
+import Model.JobPostingPackage.JobPosting;
+import Model.UserCredentialsPackage.UserCredentials;
+import Model.requiredDocs;
 
 import java.io.Serializable;
 import java.time.LocalDate;

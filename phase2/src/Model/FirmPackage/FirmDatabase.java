@@ -1,4 +1,6 @@
-package Model;
+package Model.FirmPackage;
+
+import Model.TemplateDatabase;
 
 public class FirmDatabase extends TemplateDatabase<Firm> {
     public void addFirm(String firmName) {

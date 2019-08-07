@@ -2,7 +2,8 @@ package Control;
 
 import Control.CommandHandlers.CommandHandler;
 import Control.CommandHandlers.CommandHandlerFactory;
-import Model.*;
+import Model.FirmPackage.Firm;
+import Model.UserCredentialsPackage.UserCredentials;
 import View.GUI;
 
 import java.io.IOException;

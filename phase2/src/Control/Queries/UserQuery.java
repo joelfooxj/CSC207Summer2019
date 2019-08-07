@@ -1,6 +1,6 @@
 package Control.Queries;
 
-import Model.UserCredentials;
+import Model.UserCredentialsPackage.UserCredentials;
 
 import java.util.ArrayList;
 import java.util.List;

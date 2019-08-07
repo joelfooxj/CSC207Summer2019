@@ -1,7 +1,7 @@
 package View.ApplicantForms;
 
 import Control.CommandHandlers.ApplicantCommandHandler;
-import Model.JobApplicationDatabase.jobAppFilterKeys;
+import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
 
 import javax.swing.*;
 import java.awt.event.*;

@@ -1,7 +1,9 @@
 package Control.Queries;
 
 import Control.SessionData;
-import Model.*;
+import Model.JobApplicationPackage.JobApplicationDatabase;
+import Model.JobPostingPackage.JobPostingDatabase;
+import Model.UserCredentialsPackage.UserCredentialsDatabase;
 
 import java.util.HashMap;
 

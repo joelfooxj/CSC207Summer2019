@@ -41,7 +41,7 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
         this.currID += 1;
     }
 
-    List<T> getListOfItems() {
+    public List<T> getListOfItems() {
         return new ArrayList<>(this.data.values());
     }
 

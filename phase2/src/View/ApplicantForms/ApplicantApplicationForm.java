@@ -9,8 +9,8 @@ import java.awt.event.*;
 import java.util.HashMap;
 import java.util.List;
 
-import Model.JobApplicationDatabase.jobAppFilterKeys;
-import Model.JobPostingDatabase.jobPostingFilters;
+import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
+import Model.JobPostingPackage.JobPostingDatabase.jobPostingFilters;
 import View.GUI;
 
 public class ApplicantApplicationForm extends ApplicantForm {

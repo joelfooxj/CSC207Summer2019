@@ -2,9 +2,9 @@ package View;
 
 import Control.Queries.JobApplicationQuery;
 import Control.CommandHandlers.RefererCommandHandler;
-import Model.JobApplicationDatabase;
-import Model.UserCredentials;
-import Model.UserCredentialsDatabase;
+import Model.JobApplicationPackage.JobApplicationDatabase;
+import Model.UserCredentialsPackage.UserCredentials;
+import Model.UserCredentialsPackage.UserCredentialsDatabase;
 import View.Common.MessageBox;
 
 import javax.swing.*;

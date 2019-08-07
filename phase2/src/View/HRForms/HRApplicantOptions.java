@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Model.JobApplicationDatabase.jobAppFilterKeys;
+import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
 import View.GUI;
 
 public class HRApplicantOptions extends HRForm {

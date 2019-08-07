@@ -7,10 +7,6 @@ import Model.UserCredentials;
 import Model.UserCredentialsDatabase;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.HashMap;
 
@@ -30,7 +26,7 @@ public class RefererForm extends JDialog {
 
     private RefererCommandHandler commandHandler;
 
-    public RefererForm(RefererCommandHandler commandHandler) {
+    RefererForm(RefererCommandHandler commandHandler) {
         setContentPane(panel);
         setModal(true);
         this.commandHandler = commandHandler;
@@ -45,44 +41,20 @@ public class RefererForm extends JDialog {
         jobApplicationJList.setVisibleRowCount(-1);
     }
 
-    public void setupAttributes() {
-        buttonExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                dispose();
-            }
-        });
-        buttonFindUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                onFindUser(findUser.getText());
-            }
-        });
-        userCredentialsJList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                onSelectUser(userCredentialsJList.getSelectedValue());
-            }
-        });
+    private void setupAttributes() {
+        buttonExit.addActionListener(actionEvent -> dispose());
+        buttonFindUser.addActionListener(actionEvent -> onFindUser(findUser.getText()));
+        userCredentialsJList.addListSelectionListener(listSelectionEvent -> onSelectUser(userCredentialsJList.getSelectedValue()));
+        addReferenceLetterButton.addActionListener(actionEvent -> onChooseApplication(jobApplicationJList.getSelectedValue()));
 
-        jobApplicationJList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                if (jobApplicationJList.getSelectedValue() != null) {
-                    onSelectApplication(jobApplicationJList.getSelectedValue());
-                }
-            }
-        });
-
-        addReferenceLetterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                onChooseApplication(jobApplicationJList.getSelectedValue());
+        jobApplicationJList.addListSelectionListener(listSelectionEvent -> {
+            if (jobApplicationJList.getSelectedValue() != null) {
+                onSelectApplication(jobApplicationJList.getSelectedValue());
             }
         });
     }
 
-    public void onFindUser(String search) {
+    private void onFindUser(String search) {
 
         HashMap<UserCredentialsDatabase.usersFilterKeys, Object> query = new HashMap<>();
         query.put(UserCredentialsDatabase.usersFilterKeys.USERNAME, search);
@@ -93,7 +65,7 @@ public class RefererForm extends JDialog {
         userOptions.setViewportView(userCredentialsJList);
     }
 
-    public void onSelectUser(String userREPR) {
+    private void onSelectUser(String userREPR) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_REPR, userREPR);
         filter.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
@@ -103,14 +75,14 @@ public class RefererForm extends JDialog {
         addReferenceLetterButton.setEnabled(false);
     }
 
-    public void onSelectApplication(String app) {
+    private void onSelectApplication(String app) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.LIST_STRING, app);
         showDetails.setText(commandHandler.filter.getJobAppsFilter(filter).getRepresentation());
         addReferenceLetterButton.setEnabled(true);
     }
 
-    public void onChooseApplication(String app) {
+    private void onChooseApplication(String app) {
         String refLetter = GUI.editTextForm("", "Cover Letter editor");
         boolean verify = GUI.yesNoForm("Do you want to submit this reference letter?");
         if (verify) {

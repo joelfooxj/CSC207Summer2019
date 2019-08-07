@@ -17,12 +17,11 @@ public class ApplicantForm extends JDialog {
     private JTextArea openAppsTextArea;
     private JScrollPane closedAppScroll;
     private JTextArea closedAppsTextArea;
-    private JLabel errorLabel;
     private JButton exitButton;
     private JLabel minDaysLabel;
-    protected ApplicantCommandHandler appCH;
+    ApplicantCommandHandler appCH;
 
-    public ApplicantForm(ApplicantCommandHandler appCH) {
+    ApplicantForm(ApplicantCommandHandler appCH) {
         this.appCH = appCH;
         setContentPane(contentPane);
         setModal(true);
@@ -35,25 +34,10 @@ public class ApplicantForm extends JDialog {
         this.applicantIDLabel.setText(this.appCH.getApplicantID().toString());
         this.updateForm();
 
-        jobsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onJobs();
-            }
-        });
+        jobsButton.addActionListener(actionEvent -> onJobs());
+        Applications.addActionListener(actionEvent -> onApps());
+        exitButton.addActionListener(actionEvent -> dispose());
 
-        Applications.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onApps();
-            }
-        });
-
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

@@ -26,7 +26,7 @@ public class HRApplicantOptions extends HRForm {
     private JLabel applicantLabel;
     private JTextArea applicationLabel;
 
-    public HRApplicantOptions(HrCommandHandler inHRCH) {
+    HRApplicantOptions(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
@@ -94,13 +94,8 @@ public class HRApplicantOptions extends HRForm {
             }
         });
 
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        exitButton.addActionListener(actionEvent -> dispose());
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

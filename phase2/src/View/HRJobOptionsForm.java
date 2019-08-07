@@ -45,41 +45,10 @@ public class HRJobOptionsForm extends HRForm {
         this.jobDesc.setEditable(false);
         this.appDesc.setEditable(false);
 
-        createJobButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                HRCreateJob createJob = new HRCreateJob(HRJobOptionsForm.super.hrCH);
-                setAlwaysOnTop(false);
-                createJob.setAlwaysOnTop(true);
-                createJob.pack();
-                createJob.setVisible(true);
-                setAlwaysOnTop(true);
-                updateJobsList();
-            }
-        });
-
-        hireButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
-                HRJobOptionsForm.super.hrCH.hireApplicationID(selectedAppID);
-                updateJobsList();
-                updateAppList();
-            }
-        });
-
-        rejectButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
-                HRJobOptionsForm.super.hrCH.rejectApplicationID(selectedAppID);
-                updateJobsList();
-                updateAppList();
-            }
-        });
-
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        createJobButton.addActionListener(actionEvent -> onCreateJob());
+        hireButton.addActionListener(actionEvent -> onHire());
+        rejectButton.addActionListener(actionEvent -> onReject());
+        exitButton.addActionListener(actionEvent -> dispose());
 
         jobsList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -104,6 +73,30 @@ public class HRJobOptionsForm extends HRForm {
                 dispose();
             }
         });
+    }
+
+    private void onCreateJob() {
+        HRCreateJob createJob = new HRCreateJob(HRJobOptionsForm.super.hrCH);
+        setAlwaysOnTop(false);
+        createJob.setAlwaysOnTop(true);
+        createJob.pack();
+        createJob.setVisible(true);
+        setAlwaysOnTop(true);
+        updateJobsList();
+    }
+
+    private void onHire() {
+        String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
+        HRJobOptionsForm.super.hrCH.hireApplicationID(selectedAppID);
+        updateJobsList();
+        updateAppList();
+    }
+
+    private void onReject() {
+        String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
+        HRJobOptionsForm.super.hrCH.rejectApplicationID(selectedAppID);
+        updateJobsList();
+        updateAppList();
     }
 
     private void setJobsDesc() {

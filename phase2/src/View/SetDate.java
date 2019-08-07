@@ -13,20 +13,15 @@ public class SetDate extends JDialog {
     private JTextField yearField;
     private JTextField dayField;
 
-    public LocalDate retDate = LocalDate.of(2019, 1, 1);
+    LocalDate retDate = LocalDate.of(2019, 1, 1);
 
-    public SetDate() {
+    SetDate() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

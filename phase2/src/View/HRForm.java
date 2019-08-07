@@ -12,10 +12,10 @@ public class HRForm extends JDialog {
     private JButton interviewerButton;
     private JButton exitButton;
 
-    protected HrCommandHandler hrCH;
-    protected String subMenuTitle;
+    HrCommandHandler hrCH;
+    String subMenuTitle;
 
-    public HRForm(HrCommandHandler inHRCH) {
+    HRForm(HrCommandHandler inHRCH) {
         setContentPane(contentPane);
         setModal(true);
 
@@ -26,31 +26,11 @@ public class HRForm extends JDialog {
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(this.subMenuTitle));
 
-        jobsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onJobs();
-            }
-        });
+        jobsButton.addActionListener(actionEvent -> onJobs());
+        applicantsButton.addActionListener(actionEvent -> onApplicants());
+        interviewerButton.addActionListener(actionEvent -> onInterviewer());
+        exitButton.addActionListener(actionEvent -> dispose());
 
-        applicantsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onApplicants();
-            }
-        });
-
-        interviewerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onInterviewer();
-            }
-        });
-
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

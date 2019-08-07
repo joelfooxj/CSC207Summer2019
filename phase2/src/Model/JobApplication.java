@@ -78,8 +78,9 @@ public class JobApplication extends Observable implements Serializable, Observer
      * and the number of passed interview increases by 1
      */
     public void recommend() {
-        leftInterviewProcess.remove(0);
-        if (leftInterviewProcess.isEmpty()) isSuccessful = true;
+        if (!leftInterviewProcess.isEmpty()) {
+            leftInterviewProcess.remove(0);
+        }
         this.interviewerID = null;
     }
 

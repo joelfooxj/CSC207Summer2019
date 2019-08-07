@@ -26,7 +26,7 @@ public class ApplicantJobsForm extends ApplicantForm {
     private JCheckBox partTimeCheckBox;
     private JCheckBox flexWorkCheckBox;
     private JCheckBox techCheckBox;
-    private JComboBox locationFilterCombo;
+    private JComboBox<String> locationFilterCombo;
     private JCheckBox financeCheckBox;
 
     private HashMap<JCheckBox, jobTags> checkBoxtagsLink = new HashMap<JCheckBox, jobTags>() {
@@ -56,32 +56,14 @@ public class ApplicantJobsForm extends ApplicantForm {
 
         for (JCheckBox checkBox : checkBoxtagsLink.keySet()) {
             checkBox.setSelected(true);
-            checkBox.addItemListener(new ItemListener() {
-                     @Override
-                     public void itemStateChanged(ItemEvent e) {
-                         updateJobsFields();
-                     }
-                 }
-            );
+            checkBox.addItemListener(itemEvent -> updateJobsFields());
         }
 
-        applyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onApply();
-            }
-        });
+        applyButton.addActionListener(actionEvent -> onApply());
 
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        exitButton.addActionListener(actionEvent -> dispose());
 
-        locationFilterCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                updateJobsFields();
-            }
-        });
+        locationFilterCombo.addActionListener(actionEvent -> updateJobsFields());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

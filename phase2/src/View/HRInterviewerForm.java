@@ -8,7 +8,6 @@ import Model.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.*;
 import java.util.List;
 import java.util.HashMap;
 
@@ -26,7 +25,7 @@ public class HRInterviewerForm extends HRForm {
     private JLabel appDesc;
 
 
-    public HRInterviewerForm(HrCommandHandler inHRCH) {
+    HRInterviewerForm(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(panel);
         setModal(true);
@@ -46,12 +45,7 @@ public class HRInterviewerForm extends HRForm {
     }
 
     private void setupAttributes() {
-        jobPostingJList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                onJobSelection();
-            }
-        });
+        jobPostingJList.addListSelectionListener(listSelectionEvent -> onJobSelection());
 
         jobApplicationJList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -62,20 +56,8 @@ public class HRInterviewerForm extends HRForm {
             }
         });
 
-        buttonChooseInterviewer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                onChoose(jobApplicationJList.getSelectedValue());
-            }
-        });
-
-        buttonExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                dispose();
-            }
-        });
-
+        buttonChooseInterviewer.addActionListener(actionEvent -> onChoose(jobApplicationJList.getSelectedValue()));
+        buttonExit.addActionListener(actionEvent -> dispose());
     }
 
     private void onJobSelection() {
@@ -110,11 +92,6 @@ public class HRInterviewerForm extends HRForm {
         selectUser.pack();
         selectUser.setSize(500, 500);
         selectUser.setVisible(true);
-
-//        selectUser.pack();
-//        selectUser.setSize(500, 500);
-//        selectUser.setVisible(true);
-//        selectUser.setAlwaysOnTop(true);
 
         Long userID = selectUser.getUser();
         if (userID != null) {

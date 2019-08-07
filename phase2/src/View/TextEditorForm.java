@@ -20,19 +20,10 @@ public class TextEditorForm extends JDialog {
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(title));
 
-        buttonSave.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onSave();
-            }
-        });
+        buttonSave.addActionListener(e -> onSave());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

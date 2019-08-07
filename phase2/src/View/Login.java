@@ -18,7 +18,7 @@ public class Login extends JDialog {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JLabel errorLabel;
-    private JComboBox userTypeBox;
+    private JComboBox<String> userTypeBox;
     private JTextField firmText;
     private LocalDate sessionDate;
     private HyreSession session;
@@ -45,27 +45,16 @@ public class Login extends JDialog {
             this.userTypeBox.addItem(userType);
         }
 
-        buttonLogin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onLogin();
-            }
-        });
+        buttonLogin.addActionListener(e -> onLogin());
 
-        buttonRegister.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onRegister();
-            }
-        });
+        buttonRegister.addActionListener(e -> onRegister());
 
-        userTypeBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (userTypeBox.getSelectedItem().equals("Applicant") || userTypeBox.getSelectedItem().equals("Referer")) {
-                    firmText.setText("");
-                    firmText.setEditable(false);
-                } else {
-                    firmText.setEditable(true);
-                }
+        userTypeBox.addActionListener(actionEvent -> {
+            if (userTypeBox.getSelectedItem().equals("Applicant") || userTypeBox.getSelectedItem().equals("Referer")) {
+                firmText.setText("");
+                firmText.setEditable(false);
+            } else {
+                firmText.setEditable(true);
             }
         });
 

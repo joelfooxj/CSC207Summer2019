@@ -15,19 +15,9 @@ public class YesNo extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonYes);
 
-        buttonYes.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onYes();
-            }
-        });
+        buttonYes.addActionListener(e -> onYes());
+        buttonNo.addActionListener(e -> onNo());
 
-        buttonNo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onNo();
-            }
-        });
-
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -39,13 +29,11 @@ public class YesNo extends JDialog {
     }
 
     private void onYes() {
-        // add your code here
         this.retBool = true;
         dispose();
     }
 
     private void onNo() {
-        // add your code here if necessary
         this.retBool = false;
         dispose();
     }

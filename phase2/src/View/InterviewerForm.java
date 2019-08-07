@@ -19,7 +19,6 @@ class InterviewerForm extends JDialog {
     private JScrollPane appScroll;
     private JTextArea applicationText;
     private JList jobApplicationList;
-    private JLabel errorLabel;
     private JButton rejectButton;
     private JButton seeCVButton;
     private JButton seeCoverLetterButton;
@@ -35,41 +34,16 @@ class InterviewerForm extends JDialog {
         this.contentPane.setBorder(BorderFactory.createTitledBorder(iCH.getUsername()));
         this.updateForm();
 
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        exitButton.addActionListener(actionEvent -> dispose());
+        recommendButton.addActionListener(e -> setRecommendedApps());
 
-        recommendButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setRecommendedApps();
-            }
-        });
+        rejectButton.addActionListener(e -> setRejectedApps());
 
-        rejectButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setRejectedApps();
-            }
-        });
+        seeCVButton.addActionListener(e -> onCVButton());
 
-        seeCVButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCVButton();
-            }
-        });
+        seeCoverLetterButton.addActionListener(e -> onCoverLetterButton());
 
-        seeCoverLetterButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCoverLetterButton();
-            }
-        });
-
-        seeReferenceLettersButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onRefLettersButton();
-            }
-        });
+        seeReferenceLettersButton.addActionListener(e -> onRefLettersButton());
 
         jobApplicationList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -84,7 +58,6 @@ class InterviewerForm extends JDialog {
             }
         });
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -153,12 +126,11 @@ class InterviewerForm extends JDialog {
         JobApplicationQuery jobApplicationQuery = iCH.filter.getJobAppsFilter(filter);
         List<String> inJobAppList = jobApplicationQuery.getListStrings();
         if (inJobAppList.isEmpty()) {
-            this.jobApplicationList.setListData(inJobAppList.toArray());
             this.applicationText.setText("You have no application assigned to you.");
         } else {
-            this.jobApplicationList.setListData(inJobAppList.toArray());
             this.applicationText.setText(jobApplicationQuery.getPrintout());
         }
+        this.jobApplicationList.setListData(inJobAppList.toArray());
     }
 
     private void setButtonState(boolean enabled) {

@@ -27,22 +27,12 @@ public class SelectUser extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonSelect);
 
-        buttonSelect.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onSelect();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonSelect.addActionListener(e -> onSelect());
+        buttonCancel.addActionListener(e -> onCancel());
 
         List<String> userCredentialsList = this.commandHandler.filter.getUsersFilter(filter).getRepresentations();
         userCredentialsJList.setListData(userCredentialsList.toArray(new String[userCredentialsList.size()]));
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -50,34 +40,23 @@ public class SelectUser extends JDialog {
             }
         });
 
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onSelect() {
-
-        MessageBox messageBox;
-
         if (userCredentialsJList.getSelectedValue() != null) {
 
             HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
             filter.put(UserCredentialsDatabase.usersFilterKeys.REPR, userCredentialsJList.getSelectedValue());
             this.user = commandHandler.filter.getUsersFilter(filter).getIDs().get(0);
-//            messageBox = new MessageBox("Select User", "User " + this.user.toString() + " Selected!");
             GUI.messageBox("Select User", "User " + this.user.toString() + " Selected!");
             dispose();
         } else {
-//            messageBox = new MessageBox("Select User", "Select a User!");
             GUI.messageBox("Select User", "Select a User!");
         }
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

@@ -5,8 +5,6 @@ import Control.Queries.JobApplicationQuery;
 import Model.requiredDocs;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +26,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
 
     private ApplicantCommandHandler appCH;
 
-    public ApplicantApplicationForm(ApplicantCommandHandler appCH) {
+    ApplicantApplicationForm(ApplicantCommandHandler appCH) {
         super(appCH);
         this.appCH = super.appCH;
         setContentPane(contentPane);
@@ -38,35 +36,11 @@ public class ApplicantApplicationForm extends ApplicantForm {
 
         this.updateForm();
 
-        CVButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                openCVForm();
-            }
-        });
-
-        coverletterButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                openCoverLetterForm();
-            }
-        });
-
-        referenceLettersButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                openRefLettersForm();
-            }
-        });
-
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-
-        withdrawButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                withdrawConfirmation();
-            }
-        });
+        CVButton.addActionListener(actionEvent -> openCVForm());
+        coverletterButton.addActionListener(actionEvent -> openCoverLetterForm());
+        referenceLettersButton.addActionListener(actionEvent -> openRefLettersForm());
+        exitButton.addActionListener(actionEvent -> dispose());
+        withdrawButton.addActionListener(actionEvent -> withdrawConfirmation());
 
         /**
          * On selecting a jobApplication from appList, do the following:
@@ -74,26 +48,8 @@ public class ApplicantApplicationForm extends ApplicantForm {
          * - Enable withdraw button .
          * - Set the descriptions for the jobApplication and the jobPosting associated with it.
          */
-        appList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                String selectedAppID = (String) appList.getSelectedValue();
-                if (selectedAppID != null) {
-                    checkCVCLRefButtonEnable(selectedAppID);
-                    withdrawButton.setEnabled(true);
-                    Long inJobPostingID = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getJobID();
-                    HashMap<jobPostingFilters, Object> jobPostingHM = new HashMap<>();
-                    jobPostingHM.put(jobPostingFilters.JOB_ID, inJobPostingID);
-                    jobPostingHM.put(jobPostingFilters.OPEN, Boolean.TRUE);
-                    String inJobPostDesc = appCH.filter.getJobPostsFilter(jobPostingHM).getRepresentation();
-                    String inJobAppDesc = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation();
-                    jobTextArea.setText(inJobAppDesc);
-                    appTextArea.setText(inJobPostDesc);
-                }
-            }
-        });
+        appList.addListSelectionListener(listSelectionEvent -> appListSelection());
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -109,6 +65,22 @@ public class ApplicantApplicationForm extends ApplicantForm {
                 put(jobAppFilterKeys.OPEN, Boolean.TRUE);
             }
         };
+    }
+
+    private void appListSelection() {
+        String selectedAppID = (String) appList.getSelectedValue();
+        if (selectedAppID != null) {
+            checkCVCLRefButtonEnable(selectedAppID);
+            withdrawButton.setEnabled(true);
+            Long inJobPostingID = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getJobID();
+            HashMap<jobPostingFilters, Object> jobPostingHM = new HashMap<>();
+            jobPostingHM.put(jobPostingFilters.JOB_ID, inJobPostingID);
+            jobPostingHM.put(jobPostingFilters.OPEN, Boolean.TRUE);
+            String inJobPostDesc = appCH.filter.getJobPostsFilter(jobPostingHM).getRepresentation();
+            String inJobAppDesc = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation();
+            jobTextArea.setText(inJobAppDesc);
+            appTextArea.setText(inJobPostDesc);
+        }
     }
 
     private void withdrawConfirmation() {

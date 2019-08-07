@@ -22,7 +22,7 @@ public class HRCreateJob extends HRJobOptionsForm {
     private JCheckBox techCheckBox;
     private JCheckBox financeCheckBox;
     private JList interviewList;
-    private JComboBox interviewCombo;
+    private JComboBox<String> interviewCombo;
     private JButton addInterviewButton;
     private JButton removeInterviewButton;
     private JSpinner numLabourSpinner;
@@ -55,7 +55,7 @@ public class HRCreateJob extends HRJobOptionsForm {
     private List<String> selectedInterviews = new ArrayList<>();
     private List<String> selectedSkills = new ArrayList<>();
 
-    public HRCreateJob(HrCommandHandler inHRCH) {
+    HRCreateJob(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);
         setModal(true);
@@ -67,17 +67,9 @@ public class HRCreateJob extends HRJobOptionsForm {
 
         this.numLabourSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
 
-        createButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                createJob();
-            }
-        });
+        createButton.addActionListener(actionEvent -> createJob());
 
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        exitButton.addActionListener(actionEvent -> dispose());
 
         addInterviewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -114,7 +106,6 @@ public class HRCreateJob extends HRJobOptionsForm {
             }
         });
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

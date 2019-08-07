@@ -1,5 +1,7 @@
 package Control;
 
+import Control.CommandHandlers.CommandHandler;
+import Control.CommandHandlers.CommandHandlerFactory;
 import Model.*;
 import View.GUI;
 

@@ -1,6 +1,6 @@
 package View;
 
-import Control.InterviewerCommandHandler;
+import Control.CommandHandlers.InterviewerCommandHandler;
 import Control.Queries.JobApplicationQuery;
 import Model.JobApplicationDatabase.jobAppFilterKeys;
 import Model.requiredDocs;

@@ -1,11 +1,19 @@
 package View;
 
-import java.sql.Ref;
 import java.time.LocalDate;
 
 import Control.*;
+import Control.CommandHandlers.ApplicantCommandHandler;
+import Control.CommandHandlers.HrCommandHandler;
+import Control.CommandHandlers.InterviewerCommandHandler;
+import Control.CommandHandlers.RefererCommandHandler;
 import Model.UserCredentials;
-import Model.UserCredentialsDatabase;
+import View.ApplicantForms.ApplicantForm;
+import View.Common.MessageBox;
+import View.Common.SetDate;
+import View.Common.TextEditorForm;
+import View.Common.YesNo;
+import View.HRForms.HRForm;
 
 public class GUI {
     /**
@@ -37,7 +45,7 @@ public class GUI {
         SetDate dialog = new SetDate();
         dialog.pack();
         dialog.setVisible(true);
-        return dialog.retDate;
+        return dialog.getRetDate();
     }
 
     public static UserCredentials loginForm(HyreSession session) {

@@ -9,6 +9,6 @@ public class SessionData {
     public JobApplicationDatabase jobAppsDb = new JobApplicationDatabase();
     public JobPostingDatabase jobPostingsDb = new JobPostingDatabase();
     public UserCredentialsDatabase usersDb = new UserCredentialsDatabase();
-    FirmDatabase firmsDb = new FirmDatabase();
+    public FirmDatabase firmsDb = new FirmDatabase();
 
 }

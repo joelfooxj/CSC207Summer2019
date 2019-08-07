@@ -1,10 +1,11 @@
 package View;
 
 import Control.Queries.JobApplicationQuery;
-import Control.RefererCommandHandler;
+import Control.CommandHandlers.RefererCommandHandler;
 import Model.JobApplicationDatabase;
 import Model.UserCredentials;
 import Model.UserCredentialsDatabase;
+import View.Common.MessageBox;
 
 import javax.swing.*;
 import java.util.List;

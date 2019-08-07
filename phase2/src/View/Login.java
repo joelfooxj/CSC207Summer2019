@@ -1,10 +1,7 @@
 package View;
 
-import Control.CommandHandler;
-import Control.HyreLauncher;
 import Control.HyreSession;
 import Model.UserCredentials;
-import Model.UserCredentialsDatabase;
 
 import javax.swing.*;
 import java.awt.event.*;

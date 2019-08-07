@@ -1,6 +1,7 @@
 package View;
 
 import Control.ApplicantCommandHandler;
+import Control.Queries.JobApplicationQuery;
 import Model.requiredDocs;
 
 import javax.swing.*;
@@ -97,10 +98,10 @@ public class ApplicantApplicationForm extends ApplicantForm {
         });
     }
 
-    private HashMap<jobAppFilterKeys, Object> filterHM(String applicationID) {
+    private HashMap<jobAppFilterKeys, Object> filterHM(String appListString) {
         HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>() {
             {
-                put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
+                put(jobAppFilterKeys.LIST_STRING, appListString);
                 put(jobAppFilterKeys.OPEN, Boolean.TRUE);
             }
         };
@@ -110,8 +111,8 @@ public class ApplicantApplicationForm extends ApplicantForm {
     private void withdrawConfirmation() {
         boolean confirm = GUI.yesNoForm("Are you sure you want to withdraw? ");
         if (confirm) {
-            String selectedAppID = (String) this.appList.getSelectedValue();
-            this.appCH.withdrawApplication(selectedAppID);
+            String appListString = (String) this.appList.getSelectedValue();
+            this.appCH.withdrawApplication(JobApplicationQuery.parseListString(appListString));
             this.appTextArea.setText("");
             this.jobTextArea.setText("");
             this.appList.clearSelection();
@@ -120,40 +121,40 @@ public class ApplicantApplicationForm extends ApplicantForm {
     }
 
     private void openCVForm() {
-        String selectedAppID = (String) this.appList.getSelectedValue();
-        String inCV = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getResume();
+        String selectedAppListString = (String) this.appList.getSelectedValue();
+        String inCV = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getResume();
         if (inCV == null) {
             inCV = "";
         }
         String outCV = GUI.editTextForm(inCV, "CV editor");
         if (outCV != null) {
-            this.appCH.setApplicationCV(selectedAppID, outCV);
+            this.appCH.setApplicationCV(JobApplicationQuery.parseListString(selectedAppListString), outCV);
         }
     }
 
     private void openCoverLetterForm() {
-        String selectedAppID = (String) this.appList.getSelectedValue();
-        String inCoverLetter = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getCoverLetter();
+        String selectedAppListString = (String) this.appList.getSelectedValue();
+        String inCoverLetter = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getCoverLetter();
         if (inCoverLetter == null) {
             inCoverLetter = "";
         }
         String outCoverLetter = GUI.editTextForm(inCoverLetter, "Cover Letter editor");
         if (outCoverLetter != null) {
-            this.appCH.setApplicationCoverLetter(selectedAppID, outCoverLetter);
+            this.appCH.setApplicationCoverLetter(JobApplicationQuery.parseListString(selectedAppListString), outCoverLetter);
         }
     }
 
     private void openRefLettersForm(){
-        String selectedAppID = (String) this.appList.getSelectedValue();
-        String inRefLetters= this.appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRefLetters();
+        String selectedAppListString = (String) this.appList.getSelectedValue();
+        String inRefLetters= this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getRefLetters();
         if (inRefLetters == null) {
             inRefLetters = "";
         }
         GUI.messageBox(inRefLetters, "Reference Letters");
     }
 
-    private void checkCVCLRefButtonEnable(String inJobAppID) {
-        List<requiredDocs> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
+    private void checkCVCLRefButtonEnable(String appListString) {
+        List<requiredDocs> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(appListString)).getRequiredDocuments();
         this.CVButton.setEnabled(requiredDocsList.contains(requiredDocs.CV));
         this.coverletterButton.setEnabled(requiredDocsList.contains(requiredDocs.COVERLETTER));
         this.referenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
@@ -167,7 +168,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
                 put(jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
             }
         };
-        List<String> inJobAppIDs = this.appCH.filter.getJobAppsFilter(filterHM).getJobAppsID();
+        List<String> inJobAppIDs = this.appCH.filter.getJobAppsFilter(filterHM).getListStrings();
         if (inJobAppIDs.isEmpty()) {
             this.appTextArea.setText("You have no open applications.");
             this.jobTextArea.setText("You have no open applications.");

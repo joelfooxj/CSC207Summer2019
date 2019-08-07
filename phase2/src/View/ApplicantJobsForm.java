@@ -95,7 +95,8 @@ public class ApplicantJobsForm extends ApplicantForm {
     private void onApply() {
         List<String> jobIDs = new ArrayList<>();
         for (Object obj : this.jobsList.getSelectedValuesList()) {
-            jobIDs.add((String) obj);
+            String jobListString = (String) obj;
+            jobIDs.add(JobApplicationQuery.parseListString(jobListString));
         }
         this.appCH.applyForJobs(jobIDs);
         updatejobsFields();
@@ -136,10 +137,8 @@ public class ApplicantJobsForm extends ApplicantForm {
         this.jobsTextArea.setText((jobsRepr != null ? jobsRepr : " "));
 
 
-        List<String> inJobsList = jobPostQuery.getJobIDs();
-        if (inJobsList != null) {
-            this.jobsList.setListData(inJobsList.toArray());
-        }
+        List<String> inJobsList = jobPostQuery.getListStrings();
+        this.jobsList.setListData(inJobsList.toArray());
     }
 
     private List<String> getLocations() {

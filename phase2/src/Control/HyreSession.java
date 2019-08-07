@@ -1,5 +1,7 @@
 package Control;
 
+import Control.CommandHandlers.CommandHandler;
+import Control.CommandHandlers.CommandHandlerFactory;
 import Model.*;
 import View.GUI;
 
@@ -10,7 +12,6 @@ public class HyreSession {
 
     private SessionData sessionData = new SessionData();
     private CommandHandlerFactory commandHandlerFactory = new CommandHandlerFactory();
-    private UserCredentials currentUser;
     private LocalDate sessionDate;
     private SaveFilesHandler saveFilesHandler = new SaveFilesHandler(sessionData);
 
@@ -54,12 +55,12 @@ public class HyreSession {
         }
     }
 
-    public void launchSession() throws IOException, ClassNotFoundException {
+    void launchSession() throws IOException, ClassNotFoundException {
         loadProgramData();
         while (true) {
 
             sessionDate = GUI.setDateForm();
-            currentUser = GUI.loginForm(this);
+            UserCredentials currentUser = GUI.loginForm(this);
             updateDataStatus();
             CommandHandler commandHandler = commandHandlerFactory.getCommandHandler(currentUser);
 

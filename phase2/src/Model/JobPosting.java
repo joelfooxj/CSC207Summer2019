@@ -68,7 +68,7 @@ public class JobPosting extends Observable implements Serializable {
         this.setDocs = docs;
     }
 
-    public Collection<jobTags> getHashTags() {
+    private Collection<jobTags> getHashTags() {
         return this.hashTags;
     }
 
@@ -77,17 +77,17 @@ public class JobPosting extends Observable implements Serializable {
      *
      * @return true or false
      */
-    public boolean isOpen(LocalDate todaysDate) {
+    boolean isOpen(LocalDate todaysDate) {
         return !getIsFilled() && !isExpired(todaysDate);
     }
 
     /**
      * Indicates whether the job has expired {@link #expiryDate}
      *
-     * @return
+     * @return whether this job has expired
      */
 
-    public boolean isExpired(LocalDate todaysDate) {
+    private boolean isExpired(LocalDate todaysDate) {
         return todaysDate.compareTo(expiryDate) > 0;
     }
 
@@ -142,7 +142,7 @@ public class JobPosting extends Observable implements Serializable {
         return jobId;
     }
 
-    public Long getFirmId() {
+    Long getFirmId() {
         return this.firm.getFirmId();
     }
 

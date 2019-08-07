@@ -60,15 +60,15 @@ public class JobApplication extends Observable implements Serializable, Observer
         return this.jobPosting.getJobId();
     }
 
-    public Long getApplicantID() {
+    Long getApplicantID() {
         return this.user.getUserID();
     }
 
-    public Long getFirmID() {
+    Long getFirmID() {
         return this.jobPosting.getFirmId();
     }
 
-    public Long getInterviewerID() {
+    Long getInterviewerID() {
         return interviewerID;
     }
 
@@ -78,8 +78,9 @@ public class JobApplication extends Observable implements Serializable, Observer
      * and the number of passed interview increases by 1
      */
     public void recommend() {
-        leftInterviewProcess.remove(0);
-        if (leftInterviewProcess.isEmpty()) isSuccessful = true;
+        if (!leftInterviewProcess.isEmpty()) {
+            leftInterviewProcess.remove(0);
+        }
         this.interviewerID = null;
     }
 
@@ -127,7 +128,7 @@ public class JobApplication extends Observable implements Serializable, Observer
     /**
      * @param closeDate: the close date of the job corresponding to this application
      */
-    public void setClosedDate(LocalDate closeDate) {
+    private void setClosedDate(LocalDate closeDate) {
         this.closedDate = closeDate;
     }
 
@@ -154,7 +155,7 @@ public class JobApplication extends Observable implements Serializable, Observer
         setChanged();
         // This ArrayList contains a String indicating the applicant of this job application is hired; the 2nd element
         // indicate the applicant ID of this job posting. The 3rd element indicates the firm ID of this job posting.
-        List argument = new ArrayList();
+        List<Object> argument = new ArrayList<>();
         argument.add("hire");
         argument.add(this.getApplicantID());
         argument.add(this.getFirmID());
@@ -171,7 +172,7 @@ public class JobApplication extends Observable implements Serializable, Observer
         this.closedDate = date;
         setChanged();
         // this ArrayList is similar as hire() method
-        List argument = new ArrayList();
+        List<Object> argument = new ArrayList<>();
         argument.add("reject");
         argument.add(this.getApplicantID());
         argument.add(this.getFirmID());

@@ -2,7 +2,7 @@ package Control;
 
 import java.io.IOException;
 
-public class SaveFilesHandler {
+class SaveFilesHandler {
     private String applicationsDbPath = "Applications.bin";
     private String jobsDbPath = "Jobs.bin";
     private String usersDbPath = "Users.bin";
@@ -11,7 +11,7 @@ public class SaveFilesHandler {
     private String pathToSource = "";
 
 
-    public SaveFilesHandler(SessionData sessionData) {
+    SaveFilesHandler(SessionData sessionData) {
         this.sessionData = sessionData;
     }
 
@@ -40,7 +40,7 @@ public class SaveFilesHandler {
     /**
      * saves all the data from the current session
      *
-     * @throws IOException
+     * @throws IOException if file doesn't exist
      */
     private void saveAll() throws IOException {
         sessionData.jobAppsDb.saveDatabase(applicationsDbPath);
@@ -52,8 +52,8 @@ public class SaveFilesHandler {
     /**
      * loads saved data
      *
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @throws IOException if file doesn't exist
+     * @throws ClassNotFoundException if class is not found
      */
     private void readAll() throws IOException, ClassNotFoundException {
         sessionData.jobAppsDb.readDatabase(applicationsDbPath);
@@ -66,10 +66,10 @@ public class SaveFilesHandler {
     /**
      * Loads saved test data
      *
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @throws ClassNotFoundException if class is not found
+     * @throws IOException if file doesn't exist
      */
-    public void loadTestFiles() throws ClassNotFoundException, IOException {
+    void loadTestFiles() throws ClassNotFoundException, IOException {
         setTestData();
         try {
             readAll();
@@ -81,9 +81,9 @@ public class SaveFilesHandler {
     /**
      * Loads the test files data
      *
-     * @throws IOException
+     * @throws IOException if file is not found
      */
-    public void loadUserSavedFiles() throws IOException {
+    void loadUserSavedFiles() throws IOException {
         setUserSavedData();
         try {
             readAll();
@@ -96,9 +96,9 @@ public class SaveFilesHandler {
     /**
      * Overrides the test files data with the current session's data
      *
-     * @throws IOException
+     * @throws IOException if file is not found
      */
-    public void overrideTestData() throws IOException {
+    void overrideTestData() throws IOException {
         setTestData();
         saveAll();
     }
@@ -106,9 +106,9 @@ public class SaveFilesHandler {
     /**
      * Overrides the user's saved data with the current session's data
      *
-     * @throws IOException
+     * @throws IOException if file is not found
      */
-    public void saveToUserData() throws IOException {
+    void saveToUserData() throws IOException {
         setUserSavedData();
         saveAll();
     }

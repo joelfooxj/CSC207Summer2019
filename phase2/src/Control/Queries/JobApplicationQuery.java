@@ -1,7 +1,6 @@
 package Control.Queries;
 
 import Model.JobApplication;
-import Model.UserCredentials;
 import Model.requiredDocs;
 
 import java.util.ArrayList;
@@ -64,14 +63,6 @@ public class JobApplicationQuery {
         return filteredJobApps.get(0).toString();
     }
 
-    public String printOut() {
-        String printout = "";
-        for (JobApplication application : this.filteredJobApps) {
-            printout = printout + application.toString() + "\n----------\n";
-        }
-        return printout;
-    }
-
     public List<requiredDocs> getRequiredDocuments() {
         if (filteredJobApps.size() != 1) {
             return null;
@@ -84,11 +75,12 @@ public class JobApplicationQuery {
     }
 
     public String getPrintout() {
-        String ret = "";
+        StringBuilder printout = new StringBuilder();
         for (JobApplication application : this.filteredJobApps) {
-            ret = ret + application.toString() + "\n---------\n";
+            printout.append(application.toString());
+            printout.append("\n---------\n");
         }
-        return ret;
+        return printout.toString();
     }
 
     public List<String> getListStrings() {

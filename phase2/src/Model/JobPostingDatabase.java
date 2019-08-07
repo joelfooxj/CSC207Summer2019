@@ -1,7 +1,5 @@
 package Model;
 
-import Control.DateRange;
-
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,19 +10,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
      * the date that the user is logged into the program on. i.e. today's date.
      */
     private LocalDate sessionDate;
-
-    /**
-     * adds a job Posting by construction a job posting
-     *
-     * @see JobPosting(String, String, long, long, String, DateRange, List, Collection, List, List)
-     */
-    //TODO change to addJobPosting; use addItem directly
-    public void addJob(String title, String details, Firm firm, long numsLabourRequired, String location,
-                       DateRange jobDateRange, List<String> interviewStages, Collection<jobTags> hashTags,
-                       List<String> skillList, List<requiredDocs> docsList) {
-        addItem(new JobPosting(title, details, firm, numsLabourRequired, location, jobDateRange, interviewStages,
-                hashTags, skillList, docsList, super.getCurrID()));
-    }
 
     /**
      * returns the job post corresponding to job post id

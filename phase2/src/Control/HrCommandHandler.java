@@ -81,7 +81,7 @@ public class HrCommandHandler extends CommandHandler {
     ) {
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
         sessionData.jobPostingsDb.addItem(new JobPosting(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)), numLabour, location, newRange,
-                     interviewStages, hashTags, skills, docs,sessionData.firmsDb.getCurrID()));
+                     interviewStages, hashTags, skills, docs, sessionData.jobPostingsDb.getCurrID()));
     }
 
     public void assignInterviewer(Long application, Long interviewer) {

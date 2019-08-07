@@ -19,7 +19,7 @@ class CommandHandlerFactory {
         } else if (userCredentials.getUserType() == UserCredentials.userTypes.HR) {
             commandHandler = new HrCommandHandler(userCredentials);
         } else if (userCredentials.getUserType() == UserCredentials.userTypes.REFERER) {
-            commandHandler = new RefererCommandHandler(userCredentials);
+            commandHandler = new RefererCommandHandler();
         } else {
             return null;
         }

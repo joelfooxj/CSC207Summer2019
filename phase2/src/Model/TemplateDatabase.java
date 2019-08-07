@@ -5,13 +5,8 @@ import java.util.*;
 
 public abstract class TemplateDatabase<T> implements Iterable<T> {
 
-    HashMap<Long, T> data = new HashMap<Long, T>();
+    private HashMap<Long, T> data = new HashMap<>();
     private long currID = 0;
-
-
-    public boolean isEmpty() {
-        return data.isEmpty();
-    }
 
     @Override
     public Iterator<T> iterator() {
@@ -46,10 +41,8 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
         this.currID += 1;
     }
 
-    public List<T> getListOfItems() {
-        List<T> ret = new ArrayList<>();
-        ret.addAll(this.data.values());
-        return ret;
+    List<T> getListOfItems() {
+        return new ArrayList<>(this.data.values());
     }
 
 

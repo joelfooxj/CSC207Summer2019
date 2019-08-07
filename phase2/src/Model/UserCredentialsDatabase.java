@@ -7,21 +7,9 @@ import java.util.stream.Collectors;
 
 public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
 
-    public UserCredentials getUserByCredentials(String userName) {
-        List<UserCredentials> userList = super.getListOfItems();
-        for (UserCredentials user : userList) {
-            if (user.getUserName().equals(userName)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-
     public UserCredentials getUserByCredentials(String userName, String password) {
-        UserCredentials user = this.getUserByCredentials(userName);
-        if (user != null) {
-            if (user.getPassword().equals(password)) {
+        for (UserCredentials user : this) {
+            if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
                 return user;
             }
         }

@@ -59,7 +59,7 @@ public class UserCredentials implements Serializable, Observer {
         return this.userName;
     }
 
-    public String getPassword() {
+    String getPassword() {
         return this.password;
     }
 

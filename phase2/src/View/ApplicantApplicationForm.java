@@ -150,7 +150,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
         if (inRefLetters == null) {
             inRefLetters = "";
         }
-        GUI.messageBox(inRefLetters, "Reference Letters");
+        GUI.messageBox("Reference Letters", inRefLetters);
     }
 
     private void checkCVCLRefButtonEnable(String appListString) {

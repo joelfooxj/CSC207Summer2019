@@ -1,5 +1,6 @@
 package View;
 
+import Control.Queries.JobApplicationQuery;
 import Control.RefererCommandHandler;
 import Model.JobApplicationDatabase;
 import Model.UserCredentials;
@@ -12,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.HashMap;
-
-import static View.GUI.yesNoForm;
 
 public class RefererForm extends JDialog {
 
@@ -69,14 +68,15 @@ public class RefererForm extends JDialog {
         jobApplicationJList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                onSelectApplication(jobApplicationJList.getSelectedValue());
+                if (jobApplicationJList.getSelectedValue() != null) {
+                    onSelectApplication(jobApplicationJList.getSelectedValue());
+                }
             }
         });
 
         addReferenceLetterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println(jobApplicationJList.getSelectedValue());
                 onChooseApplication(jobApplicationJList.getSelectedValue());
             }
         });
@@ -86,7 +86,7 @@ public class RefererForm extends JDialog {
 
         HashMap<UserCredentialsDatabase.usersFilterKeys, Object> query = new HashMap<>();
         query.put(UserCredentialsDatabase.usersFilterKeys.USERNAME, search);
-        query.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.APPLICANT.name());
+        query.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.APPLICANT);
         List<String> users = commandHandler.filter.getUsersFilter(query).getRepresentations();
 
         userCredentialsJList.setListData(users.toArray(new String[users.size()]));
@@ -114,7 +114,7 @@ public class RefererForm extends JDialog {
         String refLetter = GUI.editTextForm("", "Cover Letter editor");
         boolean verify = GUI.yesNoForm("Do you want to submit this reference letter?");
         if (verify) {
-            this.commandHandler.addReferenceLetter(Long.parseLong(app), refLetter);
+            this.commandHandler.addReferenceLetter(Long.parseLong(JobApplicationQuery.parseListString(app)), refLetter);
             MessageBox messageBox = new MessageBox("Reference Letter Submission", "Reference letter submitted!");
         } else {
             MessageBox messageBox = new MessageBox("Reference Letter Submission", "Reference letter not submitted, good choice!");

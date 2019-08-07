@@ -14,23 +14,6 @@ public class JobApplicationQuery {
         this.filteredJobApps = filteredJobApps;
     }
 
-    public List<String> getApplicantIDs() {
-        List<String> applicantsIDs = new ArrayList<String>();
-        for (JobApplication jobApp : this.filteredJobApps) {
-            applicantsIDs.add(String.valueOf(jobApp.getApplicantID()));
-        }
-        return applicantsIDs;
-    }
-
-
-    public List<String> getJobAppsID() {
-        List<String> applicantionsIDs = new ArrayList<String>();
-        for (JobApplication jobApp : this.filteredJobApps) {
-            applicantionsIDs.add(String.valueOf(jobApp.getApplicationID()));
-        }
-        return applicantionsIDs;
-    }
-
     public List<Long> getJobIDs() {
         List<Long> jobIDs = new ArrayList<>();
         for (JobApplication jobApplication : this.filteredJobApps) {

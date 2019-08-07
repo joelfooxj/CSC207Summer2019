@@ -48,9 +48,9 @@ public class HrCommandHandler extends CommandHandler {
      * @param appID: the ID associated to the JobApplication to be hired
      */
     public void hireApplicationID(String appID) {
-        JobApplication inApp = sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID));
-        JobPosting inJob = sessionData.jobPostingsDb.getJobPostingByID(inApp.getJobID());
-        sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID)).hire(sessionDate);
+        JobApplication inApp = sessionData.jobAppsDb.getItemByID(Long.parseLong(appID));
+        JobPosting inJob = sessionData.jobPostingsDb.getItemByID(inApp.getJobID());
+        inApp.hire(sessionDate);
         long numHired = inJob.getNumberOfPositions();
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, inJob.getJobId());

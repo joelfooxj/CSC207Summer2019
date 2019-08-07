@@ -1,6 +1,8 @@
 package View;
 
 import Control.HrCommandHandler;
+import Control.Queries.JobApplicationQuery;
+import Control.Queries.JobPostQuery;
 import Model.JobApplicationDatabase.jobAppFilterKeys;
 import Model.JobPostingDatabase.jobPostingFilters;
 
@@ -57,7 +59,7 @@ public class HRJobOptionsForm extends HRForm {
 
         hireButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String selectedAppID = (String) associatedApplicationsList.getSelectedValue();
+                String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
                 HRJobOptionsForm.super.hrCH.hireApplicationID(selectedAppID);
                 updateJobsList();
                 updateAppList();
@@ -66,7 +68,7 @@ public class HRJobOptionsForm extends HRForm {
 
         rejectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String selectedAppID = (String) associatedApplicationsList.getSelectedValue();
+                String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
                 HRJobOptionsForm.super.hrCH.rejectApplicationID(selectedAppID);
                 updateJobsList();
                 updateAppList();
@@ -106,9 +108,9 @@ public class HRJobOptionsForm extends HRForm {
 
     private void setJobsDesc() {
         if (this.jobsList.getSelectedValue() != null) {
-            String jobID = this.jobsList.getSelectedValue().toString();
+            String jobList = this.jobsList.getSelectedValue().toString();
             HashMap<jobPostingFilters, Object> query = new HashMap<>();
-            query.put(jobPostingFilters.JOB_ID, Long.parseLong(jobID));
+            query.put(jobPostingFilters.LIST_STRING, jobList);
             String jobDesc = super.hrCH.filter.getJobPostsFilter(query).getRepresentation();
             this.jobDesc.setText(jobDesc);
         } else {
@@ -117,10 +119,10 @@ public class HRJobOptionsForm extends HRForm {
     }
 
     private void setAppDesc() {
-        String appID = (String) this.associatedApplicationsList.getSelectedValue();
-        if (appID != null) {
+        String appString = (String) this.associatedApplicationsList.getSelectedValue();
+        if (appString != null) {
             HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
-            query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(appID));
+            query.put(jobAppFilterKeys.LIST_STRING, appString);
             String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
 
             this.appDesc.setText(appDesc);
@@ -140,7 +142,7 @@ public class HRJobOptionsForm extends HRForm {
         HashMap<jobPostingFilters, Object> query = new HashMap<>();
         query.put(jobPostingFilters.OPEN, Boolean.TRUE);
 
-        List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getJobIDs();
+        List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getListStrings();
 
 
         //List<String> inJobList = super.hrCH.getOpenJobsList();
@@ -154,12 +156,13 @@ public class HRJobOptionsForm extends HRForm {
     private void updateAppList() {
         setButtonEnabled(false);
         this.appDesc.setText("");
-        String selectedJobID = (String) this.jobsList.getSelectedValue();
+        String selectedJobID =(String) this.jobsList.getSelectedValue();
         if (selectedJobID != null) {
+            selectedJobID = JobPostQuery.parseListString((String) this.jobsList.getSelectedValue());
             HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
             query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
             query.put(jobAppFilterKeys.OPEN, Boolean.TRUE);
-            List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
+            List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getListStrings();
 
             if (inJobAppList.isEmpty()) {
                 this.appDesc.setText("There are no applications for this job.");

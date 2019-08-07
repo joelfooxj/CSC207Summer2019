@@ -77,4 +77,8 @@ public class JobPostQuery {
         }
         return listString;
     }
+
+    public static String parseListString(String listString) {
+        return listString.substring(1, listString.indexOf("]"));
+    }
 }

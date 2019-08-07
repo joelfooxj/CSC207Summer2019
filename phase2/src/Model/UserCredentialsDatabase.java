@@ -77,7 +77,7 @@ public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
     public List<UserCredentials> filterUsers(HashMap<usersFilterKeys, Object> filtration) {
         List<UserCredentials> userCredentialsList = this.getListOfItems();
         if (filtration.containsKey(usersFilterKeys.ACCOUNT_TYPE)) {
-            userCredentialsList = userCredentialsList.stream().filter(userCredentials -> userCredentials.getUserType().name().equals(
+            userCredentialsList = userCredentialsList.stream().filter(userCredentials -> userCredentials.getUserType().equals(
                     filtration.get(usersFilterKeys.ACCOUNT_TYPE))).collect(Collectors.toList());
         }
         if (filtration.containsKey(usersFilterKeys.FIRM_ID)) {

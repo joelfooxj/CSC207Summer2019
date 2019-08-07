@@ -1,6 +1,7 @@
 package Control.Queries;
 
 import Model.JobApplication;
+import Model.UserCredentials;
 import Model.requiredDocs;
 
 import java.util.ArrayList;
@@ -113,5 +114,17 @@ public class JobApplicationQuery {
             listStrings.add(application.listString());
         }
         return listStrings;
+    }
+
+    public static String parseListString(String listString) {
+        return listString.substring(1, listString.indexOf("]"));
+    }
+
+    public List<String> getApplicantStrings() {
+        List<String> applicantList = new ArrayList<>();
+        for (JobApplication application : this.filteredJobApps) {
+            applicantList.add(application.getUser().toString());
+        }
+        return applicantList;
     }
 }

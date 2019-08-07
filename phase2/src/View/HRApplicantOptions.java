@@ -1,6 +1,7 @@
 package View;
 
 import Control.HrCommandHandler;
+import Control.Queries.JobApplicationQuery;
 import Model.requiredDocs;
 
 
@@ -42,7 +43,7 @@ public class HRApplicantOptions extends HRForm {
         cvButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!associatedApplicationsList.isSelectionEmpty()) {
-                    String inAppID = (String) associatedApplicationsList.getSelectedValue();
+                    String inAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
 
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
@@ -55,7 +56,7 @@ public class HRApplicantOptions extends HRForm {
         coverLetterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!associatedApplicationsList.isSelectionEmpty()) {
-                    String inAppID = (String) associatedApplicationsList.getSelectedValue();
+                    String inAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
 
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
@@ -68,7 +69,7 @@ public class HRApplicantOptions extends HRForm {
         refLetterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!associatedApplicationsList.isSelectionEmpty()) {
-                    String inAppID = (String) associatedApplicationsList.getSelectedValue();
+                    String inAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
 
                     HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
                     query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(inAppID));
@@ -111,18 +112,13 @@ public class HRApplicantOptions extends HRForm {
     }
 
     private void setApplicantDesc() {
-        String applicantID = (String) this.applicantList.getSelectedValue();
-
-        HashMap<usersFilterKeys, Object> query = new HashMap<>();
-        query.put(usersFilterKeys.USER_ID, Long.parseLong(applicantID));
-
-        String applicantDesc = super.hrCH.filter.getUsersFilter(query).getRepresentation();
+        String applicantDesc = (String) this.applicantList.getSelectedValue();
 
         this.applicantLabel.setText(applicantDesc);
     }
 
     private void setApplicationDesc() {
-        String applicationID = (String) this.associatedApplicationsList.getSelectedValue();
+        String applicationID = JobApplicationQuery.parseListString((String) this.associatedApplicationsList.getSelectedValue());
 
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
@@ -134,11 +130,11 @@ public class HRApplicantOptions extends HRForm {
 
     private void updateApplicationList() {
         disableButtons();
-        String applicantID = (String) this.applicantList.getSelectedValue();
+        String applicantString = (String) this.applicantList.getSelectedValue();
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
-        query.put(jobAppFilterKeys.APPLICANT_ID, Long.parseLong(applicantID));
-        List<String> applicationList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getJobAppsID();
+        query.put(jobAppFilterKeys.APPLICANT_REPR, applicantString);
+        List<String> applicationList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getListStrings();
 
         if (applicationList.isEmpty()) {
             this.applicationLabel.setText("This applicant has not applied for any jobs.");
@@ -154,7 +150,7 @@ public class HRApplicantOptions extends HRForm {
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.FIRM_ID, Long.parseLong(HRApplicantOptions.super.hrCH.getFirmID()));
-        List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantIDs().stream().distinct().collect(Collectors.toList());
+        List<String> applicantList = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getApplicantStrings().stream().distinct().collect(Collectors.toList());
         if (applicantList.isEmpty()) {
             this.applicantLabel.setText("There are no applicants.");
         } else {
@@ -169,11 +165,11 @@ public class HRApplicantOptions extends HRForm {
     }
 
     private void checkRequiredButtonEnable() {
-        String selectedAppID = (String) this.associatedApplicationsList.getSelectedValue();
+        String selectedAppString = (String) this.associatedApplicationsList.getSelectedValue();
 
 
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
-        query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(selectedAppID));
+        query.put(jobAppFilterKeys.LIST_STRING, selectedAppString);
         List<requiredDocs> inDocs = HRApplicantOptions.super.hrCH.filter.getJobAppsFilter(query).getRequiredDocuments();
         coverLetterButton.setEnabled(inDocs.contains(requiredDocs.COVERLETTER));
         cvButton.setEnabled(inDocs.contains(requiredDocs.CV));

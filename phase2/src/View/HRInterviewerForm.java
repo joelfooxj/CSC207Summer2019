@@ -1,6 +1,8 @@
 package View;
 
 import Control.HrCommandHandler;
+import Control.Queries.JobApplicationQuery;
+import Control.Queries.JobPostQuery;
 import Model.*;
 
 import javax.swing.*;
@@ -79,7 +81,7 @@ public class HRInterviewerForm extends HRForm {
     private void onJobSelection() {
         String jobListString = jobPostingJList.getSelectedValue();
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
-        filter.put(JobApplicationDatabase.jobAppFilterKeys.LIST_STRING, jobListString);
+        filter.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, Long.parseLong(JobPostQuery.parseListString(jobListString)));
         filter.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
         List<String> appList = hrCH.filter.getJobAppsFilter(filter).getListStrings();
         if (appList != null) {
@@ -98,9 +100,9 @@ public class HRInterviewerForm extends HRForm {
         buttonChooseInterviewer.setEnabled(true);
     }
 
-    private void onChoose(String appID) {
-        HashMap<Model.UserCredentialsDatabase.usersFilterKeys, String> filter = new HashMap<>();
-        filter.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER.name());
+    private void onChoose(String appListString) {
+        HashMap<Model.UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
+        filter.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER);
         filter.put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
         SelectUser selectUser = new SelectUser(filter, super.hrCH);
 
@@ -116,7 +118,7 @@ public class HRInterviewerForm extends HRForm {
 
         Long userID = selectUser.getUser();
         if (userID != null) {
-            super.hrCH.assignInterviewer(Long.parseLong(appID), userID);
+            super.hrCH.assignInterviewer(Long.parseLong(JobApplicationQuery.parseListString(appListString)), userID);
         }
         onJobSelection();
     }

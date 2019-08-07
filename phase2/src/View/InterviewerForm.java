@@ -74,9 +74,9 @@ class InterviewerForm extends JDialog {
         jobApplicationList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                String selectedAppID = (String) jobApplicationList.getSelectedValue();
-                if (selectedAppID != null) {
-                    checkCVCLRefButtonEnable(selectedAppID);
+                String selectedAppString = (String) jobApplicationList.getSelectedValue();
+                if (selectedAppString != null) {
+                    checkCVCLRefButtonEnable(selectedAppString);
                    rejectButton.setEnabled(true);
                    recommendButton.setEnabled(true);
                 }
@@ -96,7 +96,7 @@ class InterviewerForm extends JDialog {
     private void setRecommendedApps() {
         for (Object value : this.jobApplicationList.getSelectedValuesList()) {
             String selectedString = (String) value;
-            iCH.recommendApplication(Long.parseLong(selectedString));
+            iCH.recommendApplication(Long.parseLong(JobApplicationQuery.parseListString(selectedString)));
         }
         updateForm();
     }
@@ -104,15 +104,15 @@ class InterviewerForm extends JDialog {
     private void setRejectedApps() {
         for (Object value : this.jobApplicationList.getSelectedValuesList()) {
             String selectedString = (String) value;
-            iCH.rejectApplication(Long.parseLong(selectedString));
+            iCH.rejectApplication(Long.parseLong(JobApplicationQuery.parseListString(selectedString)));
         }
         updateForm();
     }
 
-    private HashMap<jobAppFilterKeys, Object> filterHM(String applicationID) {
+    private HashMap<jobAppFilterKeys, Object> filterHM(String applicationString) {
         HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>() {
             {
-                put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
+                put(jobAppFilterKeys.LIST_STRING, applicationString);
                 put(jobAppFilterKeys.OPEN, Boolean.TRUE);
             }
         };
@@ -120,28 +120,28 @@ class InterviewerForm extends JDialog {
     }
 
 
-    private void checkCVCLRefButtonEnable(String inJobAppID) {
-        List<requiredDocs> requiredDocsList = this.iCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
+    private void checkCVCLRefButtonEnable(String inJobAppString) {
+        List<requiredDocs> requiredDocsList = this.iCH.filter.getJobAppsFilter(filterHM(inJobAppString)).getRequiredDocuments();
         this.seeCVButton.setEnabled(requiredDocsList.contains(requiredDocs.CV));
         this.seeCoverLetterButton.setEnabled(requiredDocsList.contains(requiredDocs.COVERLETTER));
         this.seeReferenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
     }
 
     private void onCVButton(){
-        String selectedAppID = (String) this.jobApplicationList.getSelectedValue();
-        String inCV = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getResume();
+        String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
+        String inCV = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getResume();
         GUI.messageBox("CV", inCV);
     }
 
     private void onCoverLetterButton(){
-        String selectedAppID = (String) this.jobApplicationList.getSelectedValue();
-        String inCoverLetter = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getCoverLetter();
+        String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
+        String inCoverLetter = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getCoverLetter();
         GUI.messageBox("Cover Letter", inCoverLetter);
     }
 
     private void onRefLettersButton(){
-        String selectedAppID = (String) this.jobApplicationList.getSelectedValue();
-        String inRefLetters = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getResume();
+        String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
+        String inRefLetters = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getResume();
         GUI.messageBox("Reference Letters", inRefLetters);
     }
 
@@ -151,7 +151,7 @@ class InterviewerForm extends JDialog {
         filter.put(jobAppFilterKeys.INTERVIEWER_ID, iCH.getInterviewerID());
         filter.put(jobAppFilterKeys.OPEN, Boolean.TRUE);
         JobApplicationQuery jobApplicationQuery = iCH.filter.getJobAppsFilter(filter);
-        List<String> inJobAppList = jobApplicationQuery.getJobAppsID();
+        List<String> inJobAppList = jobApplicationQuery.getListStrings();
         if (inJobAppList.isEmpty()) {
             this.jobApplicationList.setListData(inJobAppList.toArray());
             this.applicationText.setText("You have no application assigned to you.");

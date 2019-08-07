@@ -86,6 +86,12 @@ public class JobApplication extends Observable implements Serializable, Observer
             leftInterviewProcess.remove(0);
         }
         this.interviewerID = null;
+        setChanged();
+        List<Object> argument = new ArrayList<>();
+        argument.add("recommend");
+        argument.add(this.getApplicantID());
+        argument.add(this.getFirmID());
+        notifyObservers(argument);
     }
 
     /**

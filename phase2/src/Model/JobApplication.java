@@ -72,8 +72,6 @@ public class JobApplication extends Observable implements Serializable, Observer
         return interviewerID;
     }
 
-
-
     /**
      * Everytime an interviewer recommend this application,
      * the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
@@ -144,8 +142,6 @@ public class JobApplication extends Observable implements Serializable, Observer
         return this.isSuccessful;
     }
 
-
-
     /**
      * When an HR decides to hire this person, 3 variables(status) will be changed.
      * the application gets closed and the close date is right now.
@@ -156,6 +152,8 @@ public class JobApplication extends Observable implements Serializable, Observer
         this.isOpen = false;
         this.closedDate = date;
         setChanged();
+        // This ArrayList contains a String indicating the applicant of this job application is hired; the 2nd element
+        // indicate the applicant ID of this job posting. The 3rd element indicates the firm ID of this job posting.
         List argument = new ArrayList();
         argument.add("hire");
         argument.add(this.getApplicantID());
@@ -172,6 +170,7 @@ public class JobApplication extends Observable implements Serializable, Observer
         this.isOpen = false;
         this.closedDate = date;
         setChanged();
+        // this ArrayList is similar as hire() method
         List argument = new ArrayList();
         argument.add("reject");
         argument.add(this.getApplicantID());

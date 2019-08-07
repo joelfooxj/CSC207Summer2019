@@ -57,20 +57,20 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
                     equals(filtration.get(jobAppFilterKeys.JOB_ID))).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.OPEN)) {
-            applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.OPEN).equals(app.isOpen())).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.OPEN).equals
+                    (app.isOpen())).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.INTERVIEWER_ID)) {
-            applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.INTERVIEWER_ID).equals(
-                    app.getInterviewerID())).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(app -> filtration.get(jobAppFilterKeys.INTERVIEWER_ID).
+                    equals(app.getInterviewerID())).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.LIST_STRING)) {
-            applicationList = applicationList.stream().filter(application -> filtration.get(jobAppFilterKeys.LIST_STRING).equals(
-                    application.listString())).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(application -> filtration.get(jobAppFilterKeys
+                    .LIST_STRING).equals(application.listString())).collect(Collectors.toList());
         }
         if (filtration.containsKey(jobAppFilterKeys.APPLICANT_REPR)) {
-            applicationList = applicationList.stream().filter(application -> filtration.get(jobAppFilterKeys.APPLICANT_REPR).equals(
-                    application.getUser().toString()
-            )).collect(Collectors.toList());
+            applicationList = applicationList.stream().filter(application -> filtration.get(jobAppFilterKeys
+                    .APPLICANT_REPR).equals(application.getUser().toString())).collect(Collectors.toList());
         }
         return applicationList;
     }

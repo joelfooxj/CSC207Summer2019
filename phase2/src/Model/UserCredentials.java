@@ -94,9 +94,11 @@ public class UserCredentials implements Serializable, Observer {
     public void update(Observable o, Object arg) {
         List argument = (ArrayList) arg;
         if (argument.get(0).equals("hire") && argument.get(1).equals(this.userId)) {
-            inbox.add("You get a message from " + argument.get(2) + " You are hired by our company. You are welcome!");
+            inbox.add("You get a message from company" + argument.get(2) +
+                    " You are hired by our company. You are welcome!");
         } else if (argument.get(0).equals("reject") && argument.get(1).equals(this.userId)) {
-            inbox.add("You get a message from " + argument.get(2) + " Congratulations! You are kindly rejected");
+            inbox.add("You get a message from company" + argument.get(2) +
+                    " Congratulations! You are kindly rejected by us");
         }
     }
 

@@ -74,7 +74,7 @@ public class HrCommandHandler extends CommandHandler {
             String details,
             String firmID,
             Long numLabour,
-            List<String> hashTags,
+            List<jobTags> hashTags,
             List<String> interviewStages,
             String location,
             List<String> skills,
@@ -85,6 +85,8 @@ public class HrCommandHandler extends CommandHandler {
         //        interviewStages, hashTags, skills, docs);
         sessionData.jobPostingsDb.addItem(new JobPosting(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)), numLabour, location, newRange,
                      interviewStages, hashTags, skills, docs,sessionData.firmsDb.getCurrID()));
+        sessionData.jobPostingsDb.addJob(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)),
+                numLabour, location, newRange, interviewStages, hashTags, skills, docs);
     }
 
     public void assignInterviewer(Long application, Long interviewer) {

@@ -68,7 +68,12 @@ public class ApplicantApplicationForm extends ApplicantForm {
             }
         });
 
-        // on changing selection, get app desc
+        /**
+         * On selecting a jobApplication from appList, do the following:
+         * - Enable buttons for CV, CoverLetter and Reference Letters accordingly.
+         * - Enable withdraw button .
+         * - Set the descriptions for the jobApplication and the jobPosting associated with it.
+         */
         appList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -76,7 +81,6 @@ public class ApplicantApplicationForm extends ApplicantForm {
                 if (selectedAppID != null) {
                     checkCVCLRefButtonEnable(selectedAppID);
                     withdrawButton.setEnabled(true);
-                    // get the job description for this application
                     Long inJobPostingID = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getJobID();
                     HashMap<jobPostingFilters, Object> jobPostingHM = new HashMap<>();
                     jobPostingHM.put(jobPostingFilters.JOB_ID, inJobPostingID);
@@ -99,13 +103,12 @@ public class ApplicantApplicationForm extends ApplicantForm {
     }
 
     private HashMap<jobAppFilterKeys, Object> filterHM(String appListString) {
-        HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>() {
+        return new HashMap<jobAppFilterKeys, Object>() {
             {
                 put(jobAppFilterKeys.LIST_STRING, appListString);
                 put(jobAppFilterKeys.OPEN, Boolean.TRUE);
             }
         };
-        return newfilter;
     }
 
     private void withdrawConfirmation() {

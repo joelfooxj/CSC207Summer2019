@@ -47,7 +47,6 @@ public class GUI {
         return dialog.retUser;
     }
 
-    // todo: remove this method - too specific to the InterviewerCommandHandler
     public static void interviewerForm(InterviewerCommandHandler commandHandler) {
         InterviewerForm dialog = new InterviewerForm(commandHandler);
         dialog.pack();
@@ -68,7 +67,6 @@ public class GUI {
         return dialog.text;
     }
 
-    // todo: remove this method - too specific to the ApplicantCommandHandler
     public static void applicantForm(ApplicantCommandHandler commandHandler) {
         ApplicantForm dialog = new ApplicantForm(commandHandler);
         dialog.pack();

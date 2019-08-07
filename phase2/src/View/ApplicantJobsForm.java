@@ -13,6 +13,7 @@ import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
 import Model.JobApplicationDatabase;
 import Model.JobPostingDatabase.jobPostingFilters;
+import Model.jobTags;
 
 public class ApplicantJobsForm extends ApplicantForm {
     private JPanel contentPane;
@@ -28,13 +29,13 @@ public class ApplicantJobsForm extends ApplicantForm {
     private JComboBox locationFilterCombo;
     private JCheckBox financeCheckBox;
 
-    private HashMap<JCheckBox, String> checkBoxtagsLink = new HashMap<JCheckBox, String>() {
+    private HashMap<JCheckBox, jobTags> checkBoxtagsLink = new HashMap<JCheckBox, jobTags>() {
         {
-            put(fullTimeCheckBox, "Full-Time");
-            put(partTimeCheckBox, "Part-time");
-            put(flexWorkCheckBox, "Flex-work");
-            put(techCheckBox, "Tech");
-            put(financeCheckBox, "Finance");
+            put(fullTimeCheckBox, jobTags.FULL_TIME);
+            put(partTimeCheckBox, jobTags.PART_TIME);
+            put(flexWorkCheckBox, jobTags.FLEX_WORK);
+            put(techCheckBox, jobTags.TECH);
+            put(financeCheckBox, jobTags.FINANCE);
         }
     };
 
@@ -43,13 +44,12 @@ public class ApplicantJobsForm extends ApplicantForm {
         setContentPane(contentPane);
         setModal(true);
 
-        this.updatejobsFields();
+        this.updateJobsFields();
         this.jobsTextArea.setEditable(false);
 
-        List<String> locationList = this.getLocations();
         this.locationFilterCombo.addItem("All locations");
 
-        for (String location : locationList) {
+        for (String location : this.getLocations()) {
             this.locationFilterCombo.addItem(location);
         }
         this.locationFilterCombo.setSelectedIndex(0);
@@ -57,11 +57,11 @@ public class ApplicantJobsForm extends ApplicantForm {
         for (JCheckBox checkBox : checkBoxtagsLink.keySet()) {
             checkBox.setSelected(true);
             checkBox.addItemListener(new ItemListener() {
-                                         @Override
-                                         public void itemStateChanged(ItemEvent e) {
-                                             updatejobsFields();
-                                         }
-                                     }
+                     @Override
+                     public void itemStateChanged(ItemEvent e) {
+                         updateJobsFields();
+                     }
+                 }
             );
         }
 
@@ -79,7 +79,7 @@ public class ApplicantJobsForm extends ApplicantForm {
 
         locationFilterCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                updatejobsFields();
+                updateJobsFields();
             }
         });
 
@@ -99,11 +99,14 @@ public class ApplicantJobsForm extends ApplicantForm {
             jobIDs.add(JobApplicationQuery.parseListString(jobListString));
         }
         this.appCH.applyForJobs(jobIDs);
-        updatejobsFields();
+        updateJobsFields();
     }
 
-    private void updatejobsFields() {
-        HashSet<String> tagsList = new HashSet<>();
+    /**
+     * This method updates and populates the jLists of this form.
+     */
+    private void updateJobsFields() {
+        HashSet<jobTags> tagsList = new HashSet<>();
         for (JCheckBox checkBox : checkBoxtagsLink.keySet()) {
             if (checkBox.isSelected()) {
                 tagsList.add(checkBoxtagsLink.get(checkBox));
@@ -135,7 +138,6 @@ public class ApplicantJobsForm extends ApplicantForm {
         }
 
         this.jobsTextArea.setText((jobsRepr != null ? jobsRepr : " "));
-
 
         List<String> inJobsList = jobPostQuery.getListStrings();
         this.jobsList.setListData(inJobsList.toArray());

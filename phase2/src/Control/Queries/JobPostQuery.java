@@ -1,6 +1,7 @@
 package Control.Queries;
 
 import Model.JobPosting;
+import Model.jobTags;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,7 +57,7 @@ public class JobPostQuery {
         return new ArrayList<>(locationSet);
     }
 
-    public void applyHashtagFilter(HashSet<String> tags) {
+    public void applyHashtagFilter(HashSet<jobTags> tags) {
         List<JobPosting> jobPostList = this.filteredJobPosts;
         jobPostList = jobPostList.stream().filter(jobPosting ->
                 jobPosting.containsAllHashTags(tags)).collect(Collectors.toList());

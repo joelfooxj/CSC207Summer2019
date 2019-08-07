@@ -35,30 +35,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         LIST_STRING
     }
 
-//    public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration) {
-//        List<JobPosting> jobPostList = this.getListOfItems();
-//        if (filtration.containsKey(jobPostingFilters.FIRM)) {
-//            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getFirmId().equals(
-//                    filtration.get(jobPostingFilters.FIRM))).collect(Collectors.toList());
-//        }
-//        if (filtration.containsKey(jobPostingFilters.OPEN)) {
-//            jobPostList = jobPostList.stream().filter(jobPosting -> filtration.get(jobPostingFilters.OPEN).equals(jobPosting.isOpen(sessionDate))
-//            ).collect(Collectors.toList());
-//        }
-//        if (filtration.containsKey(jobPostingFilters.LOCATION)) {
-//            jobPostList = jobPostList.stream().filter(jobPosting -> this.checkLocations(filtration.get(jobPostingFilters.LOCATION), jobPosting)).collect(Collectors.toList());
-//        }
-//        if (filtration.containsKey(jobPostingFilters.JOB_ID)) {
-//            jobPostList = jobPostList.stream().filter(jobPosting -> jobPosting.getJobId().equals(filtration.get(jobPostingFilters.JOB_ID))).collect(Collectors.toList());
-//        }
-//        if (filtration.containsKey(jobPostingFilters.LIST_STRING)) {
-//            jobPostList = jobPostList.stream().filter(jobPosting -> filtration.get(jobPostingFilters.LIST_STRING).equals(
-//                    jobPosting.listString()
-//            )).collect(Collectors.toList());
-//        }
-//        return jobPostList;
-//    }
-
     public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration) {
         List<JobPosting> jobPostList = this.getListOfItems();
         if (filtration.containsKey(jobPostingFilters.FIRM)) {

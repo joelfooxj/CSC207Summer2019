@@ -1,7 +1,5 @@
 package Model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,10 +8,8 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     public JobApplicationDatabase() {
     }
 
-    //Add an application which contains applicant， job， firm and creation date info
-
     /**
-     * @param applicantID:  the unique applicant id of this application
+     * @param user:         the user making the application
      * @param jobPosting:   the jobPosting being applied to
      */
     public JobApplication addApplication(UserCredentials user,

@@ -23,9 +23,8 @@ public class UserCredentials implements Serializable, Observer {
         REFERER
     }
 
-    // this constructor is only for the HR & interviewers
-
     /**
+     * this constructor is only for the HR & interviewers
      * @param userName: the login username of the HR/ interviewer (applicant does NOT use this constructor)
      * @param password: the password of the account
      * @param type:     the type of the user. It is either HR or interviewer
@@ -40,9 +39,8 @@ public class UserCredentials implements Serializable, Observer {
         this.userId = userId;
     }
 
-    // this constructor is only for the applicants
-
     /**
+     * this constructor is only for the applicants
      * @param userName:     the login username of the applicant (HR& interviewer do NOT use this constructor)
      * @param password:     the password of this account
      * @param type:         the type of the user, which is applicant

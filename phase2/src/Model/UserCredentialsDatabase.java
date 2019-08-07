@@ -1,19 +1,11 @@
 package Model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Control.HyreLauncher;
-
 public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
-
-    public UserCredentials getUserByID(Long id) {
-        return super.getItemByID(id);
-    }
 
     public UserCredentials getUserByCredentials(String userName) {
         List<UserCredentials> userList = super.getListOfItems();

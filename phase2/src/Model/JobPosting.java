@@ -7,65 +7,18 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class JobPosting extends Observable implements Serializable {
-    /**
-     * The id of the job, used to store and retrieve in databases
-     */
     private Long jobId;
-
-    /**
-     * The title of the job
-     */
     private String jobTitle;
-
-    /**
-     * The details and requirements of the job
-     */
     private String jobDetails;
-
-    /**
-     * The id of the firm that is offering the job
-     */
-    private long firmId;
-
-    /**
-     * The date the job posting was published
-     */
+    private Firm firm;
     private LocalDate publishDate;
-
-    /**
-     * The date the job expires, where applications can no longer be submitted
-     */
     private LocalDate expiryDate;
-
-    /**
-     * The location of the job
-     */
     private String location;
-
-    /**
-     * A list of hashtags related to a job posting
-     */
     private Collection<String> hashTags;
-
-    //TODO: allow numLabourRequired to be changeable
-    /**
-     * The number of positions open for a job posting
-     */
     private long numberOfPositions;
-
-    /**
-     * True all the job positions for a posting have been filled by candidates
-     */
     private boolean isFilled = false;
-
-    /**
-     * The list of interview stages set for this job posting
-     */
     private List<String> interviewStages;
-
-    // todo: add stuff for these new attributes
     private List<String> skills;
-
     private List<requiredDocs> setDocs;
     private HashMap<Model.requiredDocs, String> printDocsHashMap = new HashMap<Model.requiredDocs, String>() {
         {
@@ -74,8 +27,6 @@ public class JobPosting extends Observable implements Serializable {
             put(requiredDocs.REFERENCELETTERS, "Reference Letters");
         }
     };
-
-    private Firm firm;
 
     /**
      * constructor for job postings
@@ -95,7 +46,6 @@ public class JobPosting extends Observable implements Serializable {
         this.jobId = jobId;
         this.jobTitle = title;
         this.jobDetails = details;
-        this.firmId = firm.getFirmId();
         this.firm = firm;
         this.numberOfPositions = numberOfPositions;
         this.location = location;
@@ -106,10 +56,6 @@ public class JobPosting extends Observable implements Serializable {
         this.interviewStages = interviewStages;
         this.skills = skills;
         this.setDocs = docs;
-    }
-
-    public String getJobDetails() {
-        return this.jobDetails;
     }
 
     public Collection<String> getHashTags() {
@@ -182,13 +128,8 @@ public class JobPosting extends Observable implements Serializable {
         return jobId;
     }
 
-    /**
-     * returns firmId
-     *
-     * @return {@link #firmId}
-     */
     public Long getFirmId() {
-        return firmId;
+        return this.firm.getFirmId();
     }
 
     public long getNumberOfPositions() {

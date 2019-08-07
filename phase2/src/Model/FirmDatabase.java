@@ -6,16 +6,6 @@ public class FirmDatabase extends TemplateDatabase<Firm> {
     }
 
     /**
-     * returns a firm based on its id
-     *
-     * @param id - id of firm
-     * @return Firm object
-     */
-    public Firm getFirmByID(long id) {
-        return super.getItemByID(id);
-    }
-
-    /**
      * returns a firm based on its name
      *
      * @param firmName - name of firm

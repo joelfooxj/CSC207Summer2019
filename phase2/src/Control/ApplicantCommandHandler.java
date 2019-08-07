@@ -70,7 +70,12 @@ public class ApplicantCommandHandler extends CommandHandler {
         if (sessionData.jobPostingsDb.isEmpty()) {
             return openJobs;
         }
-        for (Long jobID : sessionData.jobPostingsDb.getOpenPostingIds()) {
+        HashMap<JobPostingDatabase.jobPostingFilters, Object> jobFilter = new HashMap<>();
+        jobFilter.put(JobPostingDatabase.jobPostingFilters.OPEN, Boolean.TRUE);
+        List<String> openPostings = filter.getJobPostsFilter(jobFilter).getJobIDs();
+
+        for (String jobIDString : openPostings) {
+            Long jobID = Long.parseLong(jobIDString);
             boolean appliedForFlag = false;
             if (!this.getAllApplications().isEmpty()) {
                 for (JobApplication app : this.getAllApplications()) {

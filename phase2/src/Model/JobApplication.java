@@ -1,8 +1,5 @@
 package Model;
 
-import Control.CommandHandler;
-import Control.HyreLauncher;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,17 +12,13 @@ import java.util.Observer;
  */
 public class JobApplication extends Observable implements Serializable, Observer {
     private Long applicationID;
-    private Long applicantID;
-    private Long jobID;
-    private Long firmID;
-
     private Long interviewerID;
-    private int passedInterviewNum;
+    private JobPosting jobPosting;
+    private UserCredentials user;
 
     private List<Model.requiredDocs> setDocs;
     private String CV;
     private String coverLetter;
-    // reference letters
     private List<String> referenceLetters = new ArrayList<>();
 
     private LocalDate closedDate;
@@ -38,13 +31,7 @@ public class JobApplication extends Observable implements Serializable, Observer
     private boolean isRejected = false;
 
     //dynamic interview process
-    private List<String> interviewProcess;
     private List<String> leftInterviewProcess;
-
-    private JobPosting jobPosting;
-    private UserCredentials user;
-
-    // for each application creation, you need all these 5 parameters
 
     /**
      * @param applicationID: The Application's unique ID
@@ -53,12 +40,9 @@ public class JobApplication extends Observable implements Serializable, Observer
      */
     public JobApplication(long applicationID, UserCredentials user, JobPosting jobPosting) {
         this.applicationID = applicationID;
-        this.applicantID = user.getUserID();
         this.user = user;
-        this.jobID = jobPosting.getJobId();
-        this.firmID = jobPosting.getFirmId();
-        this.setDocs = jobPosting.getRequiredDocs();
         this.jobPosting = jobPosting;
+        this.setDocs = jobPosting.getRequiredDocs();
     }
 
     public String listString() {
@@ -76,42 +60,41 @@ public class JobApplication extends Observable implements Serializable, Observer
 
 
     public Long getJobID() {
-        return jobID;
+        return this.jobPosting.getJobId();
     }
 
     public Long getApplicantID() {
-        return applicantID;
+        return this.user.getUserID();
     }
 
     public Long getFirmID() {
-        return firmID;
+        return this.jobPosting.getFirmId();
     }
 
     public Long getInterviewerID() {
         return interviewerID;
     }
 
-    // Everytime an interviewer recommend this application,
-    // the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
-    // and the number of passed interview increases by 1
+
+
+    /**
+     * Everytime an interviewer recommend this application,
+     * the applicant pass 1 more round(1 phone interview + 3 in-person interviews),
+     * and the number of passed interview increases by 1
+     */
     public void recommend() {
         leftInterviewProcess.remove(0);
-        this.passedInterviewNum++;
         if (leftInterviewProcess.isEmpty()) isSuccessful = true;
         this.interviewerID = null;
     }
-
-    // The input is a list of interviews. e.g. List["phone", "written test ", "in-person","in-person"]
 
     /**
      * @param interviewProcess: a list of interview processes
      */
     public void createInterviewProcess(List<String> interviewProcess) {
-        this.interviewProcess = interviewProcess;
         this.leftInterviewProcess = interviewProcess;
     }
 
-    // Note the unique application number is inside a square bracket
     @Override
     public String toString() {
         String interviwerVal = "No Interview invitation";
@@ -120,9 +103,9 @@ public class JobApplication extends Observable implements Serializable, Observer
         }
         return
                 "[applicationID]: " + applicationID +
-                        "\n[Job ID]: " + this.jobID +
-                        "\n[Applicant ID]: " + this.applicantID +
-                        "\n[Firm]: " + this.firmID +
+                        "\n[Job ID]: " + this.jobPosting.getJobId() +
+                        "\n[Applicant ID]: " + this.user.getUserID() +
+                        "\n[Firm]: " + this.jobPosting.getFirmId() +
                         "\n[interviewer ID]: " + interviwerVal +
                         "\n[Interviews Left]: " + this.leftInterviewProcess;
     }
@@ -164,10 +147,11 @@ public class JobApplication extends Observable implements Serializable, Observer
         return this.isSuccessful;
     }
 
-    // When an HR decides to hire this person, 3 variables(status) will be changed.
-    // the application gets closed and the close date is right now.
+
 
     /**
+     * When an HR decides to hire this person, 3 variables(status) will be changed.
+     * the application gets closed and the close date is right now.
      * @param date: the date when HR decides to hire this person
      */
     public void hire(LocalDate date) {
@@ -177,8 +161,8 @@ public class JobApplication extends Observable implements Serializable, Observer
         setChanged();
         List argument = new ArrayList();
         argument.add("hire");
-        argument.add(this.applicantID);
-        argument.add(this.firmID);
+        argument.add(this.getApplicantID());
+        argument.add(this.getFirmID());
         notifyObservers(argument);
         this.interviewerID = null;
     }
@@ -193,8 +177,8 @@ public class JobApplication extends Observable implements Serializable, Observer
         setChanged();
         List argument = new ArrayList();
         argument.add("reject");
-        argument.add(this.applicantID);
-        argument.add(this.firmID);
+        argument.add(this.getApplicantID());
+        argument.add(this.getFirmID());
         notifyObservers(argument);
         this.interviewerID = null;
     }

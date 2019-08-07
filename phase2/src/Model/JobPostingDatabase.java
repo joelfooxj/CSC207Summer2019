@@ -29,45 +29,13 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     /**
      * returns the job post corresponding to job post id
      *
-     * @param - id of job posting
+     * @param id  - id of job posting
      * @return - Job Post
      */
     public JobPosting getJobPostingByID(Long id) {
         return super.getItemByID(id);
     }
 
-    /**
-     * returns all ids of job postings that are open
-     *
-     * @return ArrayList of Job Posting ids
-     */
-
-    public ArrayList<Long> getOpenPostingIds() {
-
-        ArrayList<Long> result = new ArrayList<>();
-        List<JobPosting> openJobPostings = filterOpenJobPostings(this.getListOfItems());
-
-        for (JobPosting jobPosting : openJobPostings) {
-            result.add(jobPosting.getJobId());
-        }
-        return result;
-    }
-
-    /**
-     * Filters ArrayLists of job postings for open postings only
-     *
-     * @param jobPostings
-     * @return
-     */
-    private List<JobPosting> filterOpenJobPostings(List<JobPosting> jobPostings) {
-
-        jobPostings.removeIf(jobPosting -> !jobPosting.isOpen(sessionDate));
-
-        return jobPostings;
-    }
-
-
-    //TODO consider renaming to updateDbTime
     public void updateDb(LocalDate sessionDate) {
         this.sessionDate = sessionDate;
     }
@@ -78,12 +46,6 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         LOCATION,
         JOB_ID,
         LIST_STRING
-        // 1. since hashmaps cannot have duplicate keys, I make 5 hashtag enums. e.g. if you want to search high-salary
-        // and part time, you put (HASHTAG1, "high-salary"), (HASHTAG2, "part-time")
-        // 2. The order does not matter because the fiter method only looks at values
-        // 3. You can keep using hashset, e.g. (HASHTAG, ["high-salary", "part-time"]), but this requires some changes
-        // in my code since java cannot convert hashset to Object.
-
     }
 
     public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration) {
@@ -107,17 +69,11 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
                     jobPosting.listString()
             )).collect(Collectors.toList());
         }
-        // You need to implement all the filtration requirements. As long as you write a true/ false statement after
-        // "->", that will work
         return jobPostList;
     }
 
-    public boolean checkLocations(Object location, JobPosting jobPosting) {
-        if (location.equals("All locations") || location.equals(jobPosting.getLocation())) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean checkLocations(Object location, JobPosting jobPosting) {
+        return (location.equals("All locations") || location.equals(jobPosting.getLocation()));
     }
 
 }

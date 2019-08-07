@@ -3,6 +3,7 @@ package View;
 import Control.InterviewerCommandHandler;
 import Control.Queries.JobApplicationQuery;
 import Model.JobApplicationDatabase.jobAppFilterKeys;
+import Model.requiredDocs;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -120,10 +121,10 @@ class InterviewerForm extends JDialog {
 
 
     private void checkCVCLRefButtonEnable(String inJobAppID) {
-        List<String> requiredDocsList = this.iCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
-        this.seeCVButton.setEnabled(requiredDocsList.contains("CV"));
-        this.seeCoverLetterButton.setEnabled(requiredDocsList.contains("Cover Letter"));
-        this.seeReferenceLettersButton.setEnabled(requiredDocsList.contains("Reference Letters"));
+        List<requiredDocs> requiredDocsList = this.iCH.filter.getJobAppsFilter(filterHM(inJobAppID)).getRequiredDocuments();
+        this.seeCVButton.setEnabled(requiredDocsList.contains(requiredDocs.CV));
+        this.seeCoverLetterButton.setEnabled(requiredDocsList.contains(requiredDocs.COVERLETTER));
+        this.seeReferenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
     }
 
     private void onCVButton(){

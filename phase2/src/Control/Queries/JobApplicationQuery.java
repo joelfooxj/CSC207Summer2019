@@ -88,22 +88,11 @@ public class JobApplicationQuery {
         return printout;
     }
 
-    public List<String> getRequiredDocuments() {
+    public List<requiredDocs> getRequiredDocuments() {
         if (filteredJobApps.size() != 1) {
             return null;
         }
-        List<requiredDocs> inDocs = filteredJobApps.get(0).getRequiredDocs();
-        List<String> requiredDocuments = new ArrayList<>();
-        if (inDocs.contains(requiredDocs.COVERLETTER)) {
-            requiredDocuments.add("Cover Letter");
-        }
-        if (inDocs.contains(requiredDocs.CV)) {
-            requiredDocuments.add("CV");
-        }
-        if (inDocs.contains(requiredDocs.REFERENCELETTERS)) {
-            requiredDocuments.add("Reference Letters");
-        }
-        return requiredDocuments;
+        return filteredJobApps.get(0).getRequiredDocs();
     }
 
     public List<JobApplication> getFilteredJobApps() {

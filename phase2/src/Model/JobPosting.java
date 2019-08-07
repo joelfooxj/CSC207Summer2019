@@ -75,25 +75,28 @@ public class JobPosting extends Observable implements Serializable {
         }
     };
 
+    private Firm firm;
+
     /**
      * constructor for job postings
      *
      * @param title             {@link #jobTitle}
      * @param details           - {@link #jobDetails}
-     * @param firmId            - {@link #firmId}
+     * @param firm              Firm where job exists
      * @param numberOfPositions {@link #numberOfPositions}
      * @param location          {@link #location}
      * @param jobDateRange      - contains {@link #publishDate} and {@link #expiryDate}
      * @param hashTags          - contains hashtags associated with a job
      */
     //TODO code smell: too many paramaters.
-    public JobPosting(String title, String details, long firmId, long numberOfPositions, String location,
+    public JobPosting(String title, String details, Firm firm, long numberOfPositions, String location,
                       DateRange jobDateRange, List<String> interviewStages, Collection<String> hashTags,
                       List<String> skills, List<Model.requiredDocs> docs, Long jobId) {
         this.jobId = jobId;
         this.jobTitle = title;
         this.jobDetails = details;
-        this.firmId = firmId;
+        this.firmId = firm.getFirmId();
+        this.firm = firm;
         this.numberOfPositions = numberOfPositions;
         this.location = location;
         this.publishDate = jobDateRange.getStartDate();
@@ -164,6 +167,10 @@ public class JobPosting extends Observable implements Serializable {
                 "Date Published: " + publishDate + "\n" + "Deadline to apply: " + expiryDate + "\n"
                 + "HashTags: " + hashTags + "\n" + "Skills Required: " + skills + "\n" + "Required requiredDocs: "
                 + printDocs;
+    }
+
+    public String listString() {
+        return "[" + this.jobId + "] " + this.jobTitle + " @ " + this.firm.toString();
     }
 
     /**

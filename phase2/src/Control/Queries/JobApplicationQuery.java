@@ -106,4 +106,12 @@ public class JobApplicationQuery {
         }
         return ret;
     }
+
+    public List<String> getListStrings() {
+        List<String> listStrings = new ArrayList<>();
+        for (JobApplication application : this.filteredJobApps) {
+            listStrings.add(application.listString());
+        }
+        return listStrings;
+    }
 }

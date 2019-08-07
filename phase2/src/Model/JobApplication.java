@@ -41,19 +41,32 @@ public class JobApplication extends Observable implements Serializable, Observer
     private List<String> interviewProcess;
     private List<String> leftInterviewProcess;
 
+    private JobPosting jobPosting;
+    private UserCredentials user;
+
     // for each application creation, you need all these 5 parameters
 
     /**
      * @param applicationID: The Application's unique ID
-     * @param applicantID:   The applicant's unique ID
+     * @param user:          The user
      * @param jobPosting:    The job being applied to
      */
-    public JobApplication(long applicationID, long applicantID, JobPosting jobPosting) {
+    public JobApplication(long applicationID, UserCredentials user, JobPosting jobPosting) {
         this.applicationID = applicationID;
-        this.applicantID = applicantID;
+        this.applicantID = user.getUserID();
+        this.user = user;
         this.jobID = jobPosting.getJobId();
         this.firmID = jobPosting.getFirmId();
         this.setDocs = jobPosting.getRequiredDocs();
+        this.jobPosting = jobPosting;
+    }
+
+    public String listString() {
+        return "[" + this.applicationID + "] " + user.getUserName() + " application for " + this.jobPosting.listString();
+    }
+
+    public UserCredentials getUser() {
+        return this.user;
     }
 
     // The followings are necessarily used getter and setters

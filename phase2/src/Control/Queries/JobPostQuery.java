@@ -69,4 +69,12 @@ public class JobPostQuery {
                 !jobIDs.contains(jobPosting.getJobId())).collect(Collectors.toList());
         this.filteredJobPosts = jobPostList;
     }
+
+    public List<String> getListStrings() {
+        List<String> listString = new ArrayList<>();
+        for (JobPosting jobPosting : this.filteredJobPosts) {
+            listString.add(jobPosting.listString());
+        }
+        return listString;
+    }
 }

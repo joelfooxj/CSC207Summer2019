@@ -27,9 +27,10 @@ public class RefererForm extends JDialog {
     private RefererCommandHandler commandHandler;
 
     /**
-     * Form for Referers
+     * This form provides Referers with the following options:
+     * - Choose a JobApplication and add a reference letter for it
      *
-     * @param commandHandler the command handler for this form to use
+     * @param commandHandler the RefererCommandHandler that calls this form
      */
     RefererForm(RefererCommandHandler commandHandler) {
         setContentPane(panel);
@@ -60,7 +61,7 @@ public class RefererForm extends JDialog {
     }
 
     /**
-     * This method displays the list of Applicant whose usernames match the text in the Find User
+     * Displays the list of Applicant whose usernames match the text in the Find User
      * text field.
      * @param search: The text in the Find User text field
      */
@@ -76,7 +77,7 @@ public class RefererForm extends JDialog {
     }
 
     /**
-     * This method gets the list of open JobApplications associated with the selected Applicant and
+     * Gets the list of open JobApplications associated with the selected Applicant and
      * displays them, and disables the Reference Letter button.
      * @param userREPR: The username of the Applicant
      */
@@ -91,7 +92,7 @@ public class RefererForm extends JDialog {
     }
 
     /**
-     * This method sets the description text to the description of the selected JobApplication
+     * Displays the description of the selected JobApplication
      * and enables the Reference Letter button.
      * @param app: The String representation of the selected JobApplication.
      */
@@ -103,7 +104,7 @@ public class RefererForm extends JDialog {
     }
 
     /**
-     * This method opens the text editor form and adds a reference letter text for this
+     * Opens the text editor form and adds a reference letter text for this
      * application.
      * @param app: The String representation of the selected JobApplication
      */

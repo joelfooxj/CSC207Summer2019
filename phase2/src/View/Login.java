@@ -32,11 +32,10 @@ public class Login extends JDialog {
         }
     };
 
-
     /**
      * Form for different types of users to login
      *
-     * @param session
+     * @param session: the HyreSession calling this form
      */
     public Login(HyreSession session) {
         this.sessionDate = sessionDate;
@@ -71,7 +70,7 @@ public class Login extends JDialog {
     }
 
     /**
-     * This method gets the username and password and returns the appropriate UserCredentials.
+     * Gets the username and password and returns the appropriate UserCredentials.
      * Resets the username and password text fields if not found, or incorrect.
      */
     private void onLogin() {
@@ -89,7 +88,7 @@ public class Login extends JDialog {
     }
 
     /**
-     * This method registers the username, password, and Applicant Type as UserCredential
+     * Registers the username, password, and Applicant Type as UserCredential
      * and returns that UserCredential.
      */
     private void onRegister() {

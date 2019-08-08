@@ -16,6 +16,13 @@ public class HRForm extends JDialog {
     HrCommandHandler hrCH;
     String subMenuTitle;
 
+    /**
+     * This form is the main menu for the HR user, calls the following sub-menus
+     * - Jobs
+     * - Interviewers
+     * - Applicants
+     * @param inHRCH: the HrCommandHandler that calls this form
+     */
     public HRForm(HrCommandHandler inHRCH) {
         setContentPane(contentPane);
         setModal(true);
@@ -41,7 +48,7 @@ public class HRForm extends JDialog {
     }
 
     /**
-     * This method calls the HRJobOptionsForm form
+     * Calls the HRJobOptionsForm form
      */
     private void onJobs() {
         HRJobOptionsForm hrJobOptionsForm = new HRJobOptionsForm(this.hrCH);
@@ -52,7 +59,7 @@ public class HRForm extends JDialog {
     }
 
     /**
-     * This method calls the HRApplicantOptions form
+     * Calls the HRApplicantOptions form
      */
     private void onApplicants() {
         HRApplicantOptions hrApplicantOptions = new HRApplicantOptions(this.hrCH);
@@ -63,7 +70,7 @@ public class HRForm extends JDialog {
     }
 
     /**
-     * This method calls the HRInterviewerForm form
+     * Calls the HRInterviewerForm form
      */
     private void onInterviewer() {
         HRInterviewerForm hrInterviewerForm = new HRInterviewerForm(this.hrCH);

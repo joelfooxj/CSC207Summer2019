@@ -27,6 +27,14 @@ public class ApplicantApplicationForm extends ApplicantForm {
 
     private ApplicantCommandHandler appCH;
 
+    /**
+     * This form provides Applicant Application options, including:
+     * - Withdrawing from a JobApplication
+     * - Editing the CV of a JobApplication
+     * - Editing the cover letter of a JobApplication
+     * - Seeing the reference letters of a JobApplication
+     * @param appCH: the ApplicantCommandHandler of the parent form
+     */
     ApplicantApplicationForm(ApplicantCommandHandler appCH) {
         super(appCH);
         this.appCH = super.appCH;
@@ -90,6 +98,9 @@ public class ApplicantApplicationForm extends ApplicantForm {
         }
     }
 
+    /**
+     * Withdraws from a JobApplication and removes it from the JobApplication list
+     */
     private void withdrawConfirmation() {
         boolean confirm = GUI.yesNoForm("Are you sure you want to withdraw? ");
         if (confirm) {
@@ -102,6 +113,9 @@ public class ApplicantApplicationForm extends ApplicantForm {
         }
     }
 
+    /**
+     * Opens a TextEditorForm for editing the CV of the selected JobApplication
+     */
     private void openCVForm() {
         String selectedAppListString = (String) this.appList.getSelectedValue();
         String inCV = this.appCH.query.getJobAppsFilter(filterHM(selectedAppListString)).getResume();
@@ -114,6 +128,9 @@ public class ApplicantApplicationForm extends ApplicantForm {
         }
     }
 
+    /**
+     * Opens a TextEditorForm for editing the cover letter of the selected JobApplication
+     */
     private void openCoverLetterForm() {
         String selectedAppListString = (String) this.appList.getSelectedValue();
         String inCoverLetter = this.appCH.query.getJobAppsFilter(filterHM(selectedAppListString)).getCoverLetter();
@@ -127,6 +144,9 @@ public class ApplicantApplicationForm extends ApplicantForm {
     }
 
 
+    /**
+     * Opens a messageBox displaying the reference letters for the selected JobApplication
+     */
     private void openRefLettersForm() {
         String selectedAppListString = (String) this.appList.getSelectedValue();
         String inRefLetters= this.appCH.query.getJobAppsFilter(filterHM(selectedAppListString)).getRefLetters();

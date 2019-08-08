@@ -22,6 +22,10 @@ public class ApplicantForm extends JDialog {
     private JLabel minDaysLabel;
     ApplicantCommandHandler appCH;
 
+    /**
+     * This form is the main menu for the Applicant user
+     * @param appCH: ApplicantCommandHandler that calls this form
+     */
     public ApplicantForm(ApplicantCommandHandler appCH) {
         this.appCH = appCH;
         setContentPane(contentPane);
@@ -47,6 +51,9 @@ public class ApplicantForm extends JDialog {
         });
     }
 
+    /**
+     * Calls the ApplicantJobsForm sub-form
+     */
     private void onJobs() {
         ApplicantJobsForm appJobsForm = new ApplicantJobsForm(this.appCH);
         appJobsForm.pack();
@@ -55,7 +62,9 @@ public class ApplicantForm extends JDialog {
         this.updateForm();
     }
 
-
+    /**
+     * Calls the ApplicantApplicationForm sub-form
+     */
     private void onApps() {
         ApplicantApplicationForm appApplicationForm = new ApplicantApplicationForm(this.appCH);
         appApplicationForm.pack();
@@ -65,6 +74,10 @@ public class ApplicantForm extends JDialog {
 
     }
 
+    /**
+     * Updates closed and open JobApplications, and notifies the user
+     * of the days since the last closed application
+     */
     private void updateForm() {
         this.updateAppFields(Boolean.TRUE);
         this.updateAppFields(Boolean.FALSE);
@@ -75,7 +88,8 @@ public class ApplicantForm extends JDialog {
      * Displays the list of JobApplications that are closed and open in the appropriate
      * text boxes.
      *
-     * @param open
+     * @param open: boolean for the JobApplication list to update.
+     *            true for open JobApplications, false for closed JobApplications
      */
     private void updateAppFields(Boolean open) {
         HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<>();

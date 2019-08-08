@@ -39,6 +39,12 @@ public class ApplicantJobsForm extends ApplicantForm {
         }
     };
 
+    /**
+     * This form provides Applicant Job options, including:
+     * - Filtering for JobApplications
+     * - Applying to a JobApplication
+     * @param appCH: the ApplicantCommandHandler of the parent form
+     */
     ApplicantJobsForm(ApplicantCommandHandler appCH) {
         super(appCH);
         setContentPane(contentPane);
@@ -75,7 +81,7 @@ public class ApplicantJobsForm extends ApplicantForm {
     }
 
     /**
-     * This method applies for the JobPostings that are selected.
+     * Applies for the JobPostings that are selected.
      */
     private void onApply() {
         List<String> jobIDs = new ArrayList<>();
@@ -88,8 +94,8 @@ public class ApplicantJobsForm extends ApplicantForm {
     }
 
     /**
-     * This method checks for the selected tags and the selected location,
-     * and updates and displays the list of JobPostings accordingly.
+     * Checks for the selected tags and the selected location,
+     * and updates and displays the filtered list of JobPostings accordingly.
      */
     private void updateJobsFields() {
         HashSet<jobTags> tagsList = new HashSet<>();
@@ -130,9 +136,9 @@ public class ApplicantJobsForm extends ApplicantForm {
     }
 
     /**
-     * Get the list of locations from all JobPostings
+     * Gets the list of locations from all JobPostings
      *
-     * @return
+     * @return List of String locations
      */
     private List<String> getLocations() {
         HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>() {

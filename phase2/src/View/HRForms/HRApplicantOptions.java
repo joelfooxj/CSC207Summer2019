@@ -28,6 +28,14 @@ public class HRApplicantOptions extends HRForm {
     private JLabel applicantLabel;
     private JTextArea applicationLabel;
 
+    /**
+     * This form provides HR Applicant options, including:
+     * - See CV of a JobApplication of an Applicant
+     * - See cover letter of a JobApplication of an Applicant
+     * - See reference letters of a JobApplication of an Applicant
+     * @param inHRCH: the HrCommandHandler of the parent form
+     */
+
     HRApplicantOptions(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);
@@ -167,7 +175,7 @@ public class HRApplicantOptions extends HRForm {
     }
 
     /**
-     * This method gets the list of required documents for the selected JobApplication
+     * Gets the list of required documents for the selected JobApplication
      * and enables the required documents buttons accordingly
      */
     private void checkRequiredButtonEnable() {

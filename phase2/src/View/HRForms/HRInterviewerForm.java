@@ -28,6 +28,11 @@ public class HRInterviewerForm extends HRForm {
     private JLabel appItems;
     private JLabel appDesc;
 
+    /**
+     * This form provides HR Interviewer options, including:
+     * - Assigning Interviewers to JobApplications
+     * @param inHRCH: HrCommandHandler of the parent form
+     */
 
     HRInterviewerForm(HrCommandHandler inHRCH) {
         super(inHRCH);
@@ -35,7 +40,6 @@ public class HRInterviewerForm extends HRForm {
         setModal(true);
         setupAttributes();
         this.panel.setBorder(BorderFactory.createTitledBorder("Interviewer Assignment Options"));
-        // Setup JobPosting JList ot only show open applications for this user's firm
         HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
         filter.put(JobPostingDatabase.jobPostingFilters.FIRM, HRInterviewerForm.super.hrCH.getFirmID());
         filter.put(JobPostingDatabase.jobPostingFilters.OPEN, Boolean.TRUE);
@@ -45,7 +49,6 @@ public class HRInterviewerForm extends HRForm {
 
         jobApplicationJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jobApplicationJList.setVisibleRowCount(-1);
-
     }
 
     private void setupAttributes() {
@@ -65,7 +68,7 @@ public class HRInterviewerForm extends HRForm {
     }
 
     /**
-     * This method gets and displays the JobApplications associated with the selected JobPosting
+     * Gets and displays the JobApplications associated with the selected JobPosting
      */
     private void onJobSelection() {
         String jobListString = jobPostingJList.getSelectedValue();
@@ -83,7 +86,7 @@ public class HRInterviewerForm extends HRForm {
     }
 
     /**
-     * This method displays and the description of the selected JobApplication and
+     * Displays and the description of the selected JobApplication and
      * enables the Choose button
      * @param appListString: The String representation of the selected JobApplication
      */
@@ -95,7 +98,7 @@ public class HRInterviewerForm extends HRForm {
     }
 
     /**
-     * This calls the selectUser dialog form to select an Interviewer, and assigns
+     * Calls the selectUser dialog form to select an Interviewer, and assigns
      * that Interviewer to the selected JobApplication
      * @param appListString: The String representation of the selected JobApplication
      */

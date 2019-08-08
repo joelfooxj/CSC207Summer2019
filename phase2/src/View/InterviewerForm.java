@@ -27,9 +27,11 @@ class InterviewerForm extends JDialog {
     private InterviewerCommandHandler iCH;
 
     /**
-     * Form for Interviewer Users
+     * This form provides the Interviewer user with the following options:
+     * - View required documents for a JobApplication
+     * - Reject/Recommend a JobApplication
      *
-     * @param commandHandler
+     * @param commandHandler: InterviewerCommandHandler that calls this form
      */
 
     InterviewerForm(InterviewerCommandHandler commandHandler) {

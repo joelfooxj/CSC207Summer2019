@@ -25,6 +25,14 @@ public class HRJobOptionsForm extends HRForm {
     private JTextArea jobDesc;
     private JTextArea appDesc;
 
+    /**
+     * This form provides JobPosting options, including:
+     * - Setting JobApplications to Hired
+     * - Setting JobApplication to Rejected
+     * - Creating a new JobPosting
+     * @param inHRCH: HrCommandHandler of the parent form
+     */
+
     public HRJobOptionsForm(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);

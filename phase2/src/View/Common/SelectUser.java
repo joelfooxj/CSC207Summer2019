@@ -25,8 +25,8 @@ public class SelectUser extends JDialog {
     /**
      * This form displays Users for selection and returns the selected User ID
      *
-     * @param filter
-     * @param commandHandler
+     * @param filter: the HashMap filter
+     * @param commandHandler: the CommandHandler calling this form, or of the parent form
      */
     public SelectUser(HashMap filter, CommandHandler commandHandler) {
         this.commandHandler = commandHandler;

@@ -12,8 +12,7 @@ import java.util.HashMap;
 
 public class GUI {
     /**
-     * - This class provides the interface to the different form types
-     * - Handles the setup and teardown of the forms
+     * This class provides the interface to the different form types
      */
 
     /**

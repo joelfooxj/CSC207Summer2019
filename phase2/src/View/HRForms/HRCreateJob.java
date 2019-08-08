@@ -59,6 +59,11 @@ public class HRCreateJob extends HRJobOptionsForm {
     private List<String> selectedInterviews = new ArrayList<>();
     private List<String> selectedSkills = new ArrayList<>();
 
+    /**
+     * This form creates JobPostings
+     * @param inHRCH: the HrCommandHandler of the parent form
+     */
+
     HRCreateJob(HrCommandHandler inHRCH) {
         super(inHRCH);
         setContentPane(contentPane);
@@ -120,7 +125,7 @@ public class HRCreateJob extends HRJobOptionsForm {
     }
 
     /**
-     * This method gets the following data from this form and associated CommandHandler and creates a new JobPosting:
+     * Gets the following data from this form and associated CommandHandler and creates a new JobPosting:
      * - Title
      * - Description
      * - Location

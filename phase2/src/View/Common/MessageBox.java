@@ -8,6 +8,7 @@ public class MessageBox extends JDialog {
     private JButton buttonOK;
     private JTextArea mainText;
 
+
     public MessageBox(String inTitle, String inputString) {
         setContentPane(contentPane);
         setModal(true);

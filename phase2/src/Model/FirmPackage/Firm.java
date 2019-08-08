@@ -22,7 +22,7 @@ public class Firm implements Serializable {
         return this.firmId;
     }
 
-    String getFirmName() {
+    public String getFirmName() {
         return this.firmName;
     }
 

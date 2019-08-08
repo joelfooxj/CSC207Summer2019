@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class UserCredentialsDatabase extends TemplateDatabase<UserCredentials> {
 
     public UserCredentials getUserByCredentials(String userName, String password) {
-        for (UserCredentials user : this) {
+        for (UserCredentials user : this.getListOfItems()) {
             if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
                 return user;
             }

@@ -16,6 +16,7 @@ public class HrCommandHandler extends CommandHandler {
     private final int JOBLIFESPAN = 30;
     private String username;
     private String firmID;
+
     private List<String> allInterviewStages = Arrays.asList(
             "One-on-one",
             "Group",

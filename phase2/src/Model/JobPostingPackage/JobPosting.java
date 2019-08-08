@@ -148,6 +148,10 @@ public class JobPosting extends Observable implements Serializable {
         return this.firm.getFirmId();
     }
 
+    public String getFirmName(){
+        return this.firm.getFirmName();
+    }
+
     public long getNumberOfPositions() {
         return numberOfPositions;
     }

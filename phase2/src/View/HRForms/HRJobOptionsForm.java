@@ -134,9 +134,10 @@ public class HRJobOptionsForm extends HRForm {
 
         HashMap<jobPostingFilters, Object> query = new HashMap<>();
         query.put(jobPostingFilters.OPEN, Boolean.TRUE);
+        query.put(jobPostingFilters.FIRM, super.hrCH.getFirmID());
 
         List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getListStrings();
-
+        System.out.println(inJobList);
 
         //List<String> inJobList = super.hrCH.getOpenJobsList();
         if (inJobList.isEmpty()) {

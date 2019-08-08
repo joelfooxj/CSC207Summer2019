@@ -40,6 +40,13 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
         APPLICANT_REPR
     }
 
+    /**
+     * Returns a list of job applications that meet the criteria of filters and their values contained
+     * in the HashMap. For list of filters see enum jobAppFilterKeys.
+     * @param filtration - HashMap containing filters that are being applied
+     * @return
+     */
+
     public List<JobApplication> filterJobApps(HashMap<jobAppFilterKeys, Object> filtration) {
         List<JobApplication> applicationList = this.getListOfItems();
 

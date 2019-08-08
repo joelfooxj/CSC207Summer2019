@@ -4,9 +4,13 @@ import Model.UserCredentialsPackage.UserCredentials;
 import View.*;
 
 public class InterviewerCommandHandler extends CommandHandler {
+    /**
+     * This class handles all high-level commands for Interviewers
+     * This class should call methods from the database and attended classes
+     */
+
     private Long interviewerID;
     private String username;
-
 
     InterviewerCommandHandler(UserCredentials user) {
         this.interviewerID = user.getUserID();

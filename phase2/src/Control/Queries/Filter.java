@@ -9,6 +9,9 @@ import java.util.HashMap;
 
 
 public class Filter {
+    /**
+     * Class constructs different types of Queries by providing filter HashMaps from databases
+     */
 
     private SessionData sessionData;
 

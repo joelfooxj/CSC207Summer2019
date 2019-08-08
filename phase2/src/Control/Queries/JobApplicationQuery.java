@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JobApplicationQuery {
+
+    /**
+     * Class provides information from filtered lists of Job Applications to forms in the View Package
+     */
+
     private List<JobApplication> filteredJobApps;
 
     JobApplicationQuery(List<JobApplication> filteredJobApps) {

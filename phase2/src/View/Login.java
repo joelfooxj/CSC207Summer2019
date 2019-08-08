@@ -31,6 +31,11 @@ public class Login extends JDialog {
         }
     };
 
+
+    /**
+     * Form for different types of users to login
+     * @param session
+     */
     public Login(HyreSession session) {
         this.sessionDate = sessionDate;
         this.session = session;

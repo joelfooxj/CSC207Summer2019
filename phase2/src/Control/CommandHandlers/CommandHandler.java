@@ -8,6 +8,11 @@ import java.time.LocalDate;
 
 public abstract class CommandHandler {
 
+    /**
+     * Abstract class to provide concrete command handlers with
+     * session data, session date and handleCommands method.
+     */
+
     SessionData sessionData;
     LocalDate sessionDate;
     public Filter filter;
@@ -23,6 +28,10 @@ public abstract class CommandHandler {
         this.sessionDate = sessionDate;
     }
 
-
+    /**
+     * Abstract method used to execute different commands based on the user type,
+     * and pass the CommandHandler object to the GUI so the GUI can interact
+     * with the CommandHandler.
+     */
     public abstract void handleCommands();
 }

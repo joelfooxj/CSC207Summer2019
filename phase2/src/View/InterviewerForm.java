@@ -25,6 +25,11 @@ class InterviewerForm extends JDialog {
     private JButton seeReferenceLettersButton;
     private InterviewerCommandHandler iCH;
 
+    /**
+     * Form for Interviewer Users
+     * @param commandHandler
+     */
+
     InterviewerForm(InterviewerCommandHandler commandHandler) {
         this.iCH = commandHandler;
         setContentPane(contentPane);

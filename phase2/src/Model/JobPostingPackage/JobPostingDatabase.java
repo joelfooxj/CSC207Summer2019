@@ -35,6 +35,13 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         LIST_STRING
     }
 
+    /**
+     * Returns a list of job postings that meet the criteria of filters and their values contained
+     * in the HashMap. For list of filters see enum jobPostingFilters.
+     * @param filtration - HashMap containing filters that are being applied
+     * @return
+     */
+
     public List<JobPosting> filterJobPostings(HashMap<jobPostingFilters, Object> filtration) {
         List<JobPosting> jobPostList = this.getListOfItems();
         if (filtration.containsKey(jobPostingFilters.FIRM)) {

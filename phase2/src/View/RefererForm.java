@@ -27,6 +27,11 @@ public class RefererForm extends JDialog {
 
     private RefererCommandHandler commandHandler;
 
+
+    /**
+     * Form for Referers
+     * @param commandHandler
+     */
     RefererForm(RefererCommandHandler commandHandler) {
         setContentPane(panel);
         setModal(true);

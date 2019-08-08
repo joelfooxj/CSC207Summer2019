@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class TextEditorForm extends JDialog {
+
+    /**
+     * Form for editing and saving text
+     */
+
     private JPanel contentPane;
     private JButton buttonSave;
     private JButton buttonCancel;

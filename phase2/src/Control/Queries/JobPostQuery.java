@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 
 public class JobPostQuery {
 
+    /**
+     * Class provides information from filtered lists of Job Postings to forms in the View Package
+     */
+
     private List<JobPosting> filteredJobPosts;
 
     JobPostQuery(List<JobPosting> filteredJobApps) {

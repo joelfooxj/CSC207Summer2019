@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserQuery {
+
+    /**
+     * Class provides information from filtered lists of User Credentials to forms in the View Package
+     */
+
     private List<UserCredentials> filteredUsers;
 
     UserQuery(List<UserCredentials> filteredUsers) {

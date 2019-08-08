@@ -5,9 +5,20 @@ import java.util.*;
 
 public abstract class TemplateDatabase<T>{
 
+    /**
+     * Generic database that provides concrete database with HashMap to store
+     * objects and basic getters and setters.
+     */
+
     private HashMap<Long, T> data = new HashMap<>();
     private long currID = 0;
 
+    /**
+     * Reads file into database
+     * @param fileName
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void readDatabase(String fileName) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
         this.data = (HashMap<Long, T>) ois.readObject();
@@ -17,7 +28,6 @@ public abstract class TemplateDatabase<T>{
             this.currID = Collections.max(this.data.keySet()) + 1;
         }
     }
-
 
     public void saveDatabase(String fileName) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));

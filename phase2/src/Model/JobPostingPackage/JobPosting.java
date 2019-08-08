@@ -30,6 +30,7 @@ public class JobPosting extends Observable implements Serializable {
         }
     };
 
+
     private HashMap<jobTags, String> printJobTagsHM = new HashMap<jobTags, String>(){
         {
             put(jobTags.FULL_TIME, "Full-time");
@@ -43,11 +44,11 @@ public class JobPosting extends Observable implements Serializable {
     /**
      * constructor for job postings
      *
-     * @param title             {@link #jobTitle}
-     * @param details           - {@link #jobDetails}
+     * @param title             title of job posting
+     * @param details           details of job
      * @param firm              Firm where job exists
-     * @param numberOfPositions {@link #numberOfPositions}
-     * @param location          {@link #location}
+     * @param numberOfPositions number of positions job is hiring for
+     * @param location          location of job
      * @param jobDateRange      - contains {@link #publishDate} and {@link #expiryDate}
      * @param hashTags          - contains hashtags associated with a job
      */

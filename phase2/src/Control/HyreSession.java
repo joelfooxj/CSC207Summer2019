@@ -16,6 +16,12 @@ public class HyreSession {
     private LocalDate sessionDate;
     private SaveFilesHandler saveFilesHandler = new SaveFilesHandler(sessionData);
 
+    /**
+     * Loads program data with the option of loading test files or user saved files
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+
     private void loadProgramData() throws IOException, ClassNotFoundException {
         boolean response = GUI.yesNoForm("Do you want to import the default test setup? (y/n): ");
         if (response) {
@@ -25,6 +31,10 @@ public class HyreSession {
         }
     }
 
+    /**
+     * Saves session data, with the option of overriding the test data
+     * @throws IOException
+     */
     private void saveSessionData() throws IOException {
         boolean willOverwrite = GUI.yesNoForm("Do you want to overwrite the default test setup? (y/n): ");
         if (!willOverwrite) {
@@ -34,6 +44,9 @@ public class HyreSession {
         }
     }
 
+    /**
+     * Updates the session date of the Jobs Database
+     */
     private void updateDataStatus() {
         sessionData.jobPostingsDb.updateDb(sessionDate);
     }
@@ -42,6 +55,14 @@ public class HyreSession {
         return sessionData;
     }
 
+    /**
+     * Adds user to user credentials database and returns user credentials object
+     * @param userName
+     * @param password
+     * @param accountType
+     * @param firmName
+     * @return UserCredentials object
+     */
     public UserCredentials addUser(String userName, String password,
                                    UserCredentials.userTypes accountType, String firmName) {
         if (firmName.equals("")) {
@@ -56,6 +77,13 @@ public class HyreSession {
         }
     }
 
+    /**
+     * Main program loop.
+     * Launches session by getting date, current user and initializing command handler.
+     * Allows exiting of program.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     void launchSession() throws IOException, ClassNotFoundException {
         loadProgramData();
         while (true) {

@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class YesNo extends JDialog {
+
+    /**
+     * Form for selecting yes or no
+     */
+
     private JPanel contentPane;
     private JButton buttonYes;
     private JButton buttonNo;

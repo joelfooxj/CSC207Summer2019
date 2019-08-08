@@ -3,7 +3,9 @@ package Control.CommandHandlers;
 import Model.UserCredentialsPackage.UserCredentials;
 
 public class CommandHandlerFactory {
-
+/**
+ * Class to construct command handlers by type
+ */
 
     /**
      * @param userCredentials The user that is currently logged in

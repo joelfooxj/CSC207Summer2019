@@ -4,6 +4,10 @@ import java.time.LocalDate;
 
 public class DateRange {
 
+    /**
+     * A class containing start and end date for Job Postings.
+     */
+
     private LocalDate startDate;
     private LocalDate endDate;
 

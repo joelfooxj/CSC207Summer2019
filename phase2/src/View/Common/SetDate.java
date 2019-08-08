@@ -6,6 +6,10 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public class SetDate extends JDialog {
+    /**
+     * For for setting date
+     */
+
     private JPanel contentPane;
     private JButton buttonOK;
     private JLabel errorLabel;

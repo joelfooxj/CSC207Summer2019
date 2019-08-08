@@ -13,6 +13,11 @@ import java.util.*;
 
 public class HrCommandHandler extends CommandHandler {
 
+    /**
+     * This class handles all high-level commands for HR users
+     * This class should call methods from the database and attended classes
+     */
+
     private final int JOBLIFESPAN = 30;
     private String username;
     private Long firmID;
@@ -71,6 +76,10 @@ public class HrCommandHandler extends CommandHandler {
         }
     }
 
+    /**
+     * Reject application by Application ID
+     * @param appID
+     */
     public void rejectApplicationID(String appID) {
         sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID)).reject(sessionDate);
     }
@@ -91,6 +100,11 @@ public class HrCommandHandler extends CommandHandler {
                      interviewStages, hashTags, skills, docs, sessionData.jobPostingsDb.getCurrID()));
     }
 
+    /**
+     * Assign interviewer to application based on IDs
+     * @param application
+     * @param interviewer
+     */
     public void assignInterviewer(Long application, Long interviewer) {
         sessionData.jobAppsDb.getItemByID(application).setUpInterview(interviewer);
     }

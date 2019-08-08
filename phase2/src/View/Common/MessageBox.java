@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class MessageBox extends JDialog {
+    /**
+     * Form for displaying a message
+     */
+
     private JPanel contentPane;
     private JButton buttonOK;
     private JTextArea mainText;

@@ -106,43 +106,47 @@ public class HRApplicantOptions extends HRForm {
         });
     }
 
+    /**
+     * Gets and displays the selected Applicant name
+     */
     private void setApplicantDesc() {
         String applicantDesc = (String) this.applicantList.getSelectedValue();
-
         this.applicantLabel.setText(applicantDesc);
     }
 
+    /**
+     * Gets and displays the JobApplication description for the selected JobApplication
+     */
     private void setApplicationDesc() {
         String applicationID = JobApplicationQuery.parseListString((String) this.associatedApplicationsList.getSelectedValue());
-
-
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICATION_ID, Long.parseLong(applicationID));
         String applicationDesc = super.hrCH.query.getJobAppsFilter(query).getRepresentation();
-
         this.applicationLabel.setText(applicationDesc);
     }
 
+    /**
+     * Disables required documents buttons, and sets and displays the JobApplication list associated
+     * with the selected JobApplicant
+     */
     private void updateApplicationList() {
         disableButtons();
         String applicantString = (String) this.applicantList.getSelectedValue();
-
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.APPLICANT_REPR, applicantString);
         List<String> applicationList = HRApplicantOptions.super.hrCH.query.getJobAppsFilter(query).getListStrings();
-
         if (applicationList.isEmpty()) {
             this.applicationLabel.setText("This applicant has not applied for any jobs.");
         } else {
             this.associatedApplicationsList.setListData(applicationList.toArray());
         }
-
     }
 
+    /**
+     * Disables required documents buttons, and refreshes the Applicant list and the JobApplication list
+     */
     private void updateApplicantList() {
         disableButtons();
-
-
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.FIRM_ID, HRApplicantOptions.super.hrCH.getFirmID());
         List<String> applicantList = HRApplicantOptions.super.hrCH.query.getJobAppsFilter(query).getApplicantStrings().stream().distinct().collect(Collectors.toList());
@@ -153,16 +157,21 @@ public class HRApplicantOptions extends HRForm {
         }
     }
 
+    /**
+     * Disables all required documents buttons
+     */
     private void disableButtons() {
         coverLetterButton.setEnabled(false);
         cvButton.setEnabled(false);
         refLetterButton.setEnabled(false);
     }
 
+    /**
+     * This method gets the list of required documents for the selected JobApplication
+     * and enables the required documents buttons accordingly
+     */
     private void checkRequiredButtonEnable() {
         String selectedAppString = (String) this.associatedApplicationsList.getSelectedValue();
-
-
         HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(jobAppFilterKeys.LIST_STRING, selectedAppString);
         List<requiredDocs> inDocs = HRApplicantOptions.super.hrCH.query.getJobAppsFilter(query).getRequiredDocuments();

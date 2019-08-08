@@ -64,6 +64,9 @@ public class HRInterviewerForm extends HRForm {
         buttonExit.addActionListener(actionEvent -> dispose());
     }
 
+    /**
+     * This method gets and displays the JobApplications associated with the selected JobPosting
+     */
     private void onJobSelection() {
         String jobListString = jobPostingJList.getSelectedValue();
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
@@ -79,6 +82,11 @@ public class HRInterviewerForm extends HRForm {
         detailedApp.setText("");
     }
 
+    /**
+     * This method displays and the description of the selected JobApplication and
+     * enables the Choose button
+     * @param appListString: The String representation of the selected JobApplication
+     */
     private void onAppSelection(String appListString) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.LIST_STRING, appListString);
@@ -86,6 +94,11 @@ public class HRInterviewerForm extends HRForm {
         buttonChooseInterviewer.setEnabled(true);
     }
 
+    /**
+     * This calls the selectUser dialog form to select an Interviewer, and assigns
+     * that Interviewer to the selected JobApplication
+     * @param appListString: The String representation of the selected JobApplication
+     */
     private void onChoose(String appListString) {
         HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
         filter.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER);

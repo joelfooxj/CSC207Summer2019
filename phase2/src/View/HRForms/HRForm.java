@@ -40,6 +40,9 @@ public class HRForm extends JDialog {
         });
     }
 
+    /**
+     * This method calls the HRJobOptionsForm form
+     */
     private void onJobs() {
         HRJobOptionsForm hrJobOptionsForm = new HRJobOptionsForm(this.hrCH);
         hrJobOptionsForm.setAlwaysOnTop(true);
@@ -48,6 +51,9 @@ public class HRForm extends JDialog {
         hrJobOptionsForm.setVisible(true);
     }
 
+    /**
+     * This method calls the HRApplicantOptions form
+     */
     private void onApplicants() {
         HRApplicantOptions hrApplicantOptions = new HRApplicantOptions(this.hrCH);
         hrApplicantOptions.setAlwaysOnTop(true);
@@ -56,6 +62,9 @@ public class HRForm extends JDialog {
         hrApplicantOptions.setVisible(true);
     }
 
+    /**
+     * This method calls the HRInterviewerForm form
+     */
     private void onInterviewer() {
         HRInterviewerForm hrInterviewerForm = new HRInterviewerForm(this.hrCH);
         hrInterviewerForm.setAlwaysOnTop(true);

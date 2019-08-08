@@ -119,6 +119,18 @@ public class HRCreateJob extends HRJobOptionsForm {
 
     }
 
+    /**
+     * This method gets the following data from this form and associated CommandHandler and creates a new JobPosting:
+     * - Title
+     * - Description
+     * - Location
+     * - Checked Tags
+     * - Check required documents
+     * - Number of positions
+     * - The firmID of this form's associated HrCommandHandler
+     * - The list of added interview stages
+     * - The list of added skills
+     */
     private void createJob() {
         String jobTitle = this.jobTitleText.getText();
         String jobDesc = this.jobDescriptionText.getText();

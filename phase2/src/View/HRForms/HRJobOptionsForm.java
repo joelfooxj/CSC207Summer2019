@@ -73,6 +73,10 @@ public class HRJobOptionsForm extends HRForm {
         });
     }
 
+    /**
+     * This method calls the HRCreateJob form and updates the information
+     * in this form once completed/closed
+     */
     private void onCreateJob() {
         HRCreateJob createJob = new HRCreateJob(HRJobOptionsForm.super.hrCH);
         setAlwaysOnTop(false);
@@ -83,6 +87,9 @@ public class HRJobOptionsForm extends HRForm {
         updateJobsList();
     }
 
+    /**
+     * This gets the selected JobApplication and sets it to Hired.
+     */
     private void onHire() {
         String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
         HRJobOptionsForm.super.hrCH.hireApplicationID(selectedAppID);
@@ -90,6 +97,9 @@ public class HRJobOptionsForm extends HRForm {
         updateAppList();
     }
 
+    /**
+     * This gets the selected JobApplication and sets it to Rejected.
+     */
     private void onReject() {
         String selectedAppID = JobApplicationQuery.parseListString((String) associatedApplicationsList.getSelectedValue());
         HRJobOptionsForm.super.hrCH.rejectApplicationID(selectedAppID);
@@ -97,6 +107,9 @@ public class HRJobOptionsForm extends HRForm {
         updateAppList();
     }
 
+    /**
+     * This gets the selected JobPosting and displays its description
+     */
     private void setJobsDesc() {
         if (this.jobsList.getSelectedValue() != null) {
             String jobList = this.jobsList.getSelectedValue().toString();
@@ -109,6 +122,9 @@ public class HRJobOptionsForm extends HRForm {
         }
     }
 
+    /**
+     * This gets the selected JobApplication and displays its description.
+     */
     private void setAppDesc() {
         String appString = (String) this.associatedApplicationsList.getSelectedValue();
         if (appString != null) {
@@ -122,6 +138,10 @@ public class HRJobOptionsForm extends HRForm {
         }
     }
 
+    /**
+     * This gets disables the hire and reject button, and refreshes the
+     * JobPosting list
+     */
     private void updateJobsList() {
         setButtonEnabled(false);
         this.jobsList.clearSelection();
@@ -143,6 +163,10 @@ public class HRJobOptionsForm extends HRForm {
         }
     }
 
+    /**
+     * This disables the hire and reject button, and refreshes the JobApplication list
+     * to the JobPosting that is selected.
+     */
     private void updateAppList() {
         setButtonEnabled(false);
         this.appDesc.setText("");
@@ -165,6 +189,10 @@ public class HRJobOptionsForm extends HRForm {
         }
     }
 
+    /**
+     * This sets the hire and reject button to enabled/disabled
+     * @param setEnabled: The boolean state to set these buttons to
+     */
     private void setButtonEnabled(boolean setEnabled) {
         hireButton.setEnabled(setEnabled);
         rejectButton.setEnabled(setEnabled);

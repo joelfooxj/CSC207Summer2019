@@ -37,7 +37,7 @@ public class HRInterviewerForm extends HRForm {
         this.panel.setBorder(BorderFactory.createTitledBorder("Interviewer Assignment Options"));
         // Setup JobPosting JList ot only show open applications for this user's firm
         HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
-        filter.put(JobPostingDatabase.jobPostingFilters.FIRM, Long.parseLong(HRInterviewerForm.super.hrCH.getFirmID()));
+        filter.put(JobPostingDatabase.jobPostingFilters.FIRM, HRInterviewerForm.super.hrCH.getFirmID());
         filter.put(JobPostingDatabase.jobPostingFilters.OPEN, Boolean.TRUE);
         List<String> jobPostingList = hrCH.filter.getJobPostsFilter(filter).getListStrings();
         jobPostingJList.setListData(jobPostingList.toArray(new String[jobPostingList.size()]));

@@ -15,7 +15,7 @@ public class HrCommandHandler extends CommandHandler {
 
     private final int JOBLIFESPAN = 30;
     private String username;
-    private String firmID;
+    private Long firmID;
 
     private List<String> allInterviewStages = Arrays.asList(
             "One-on-one",
@@ -26,7 +26,7 @@ public class HrCommandHandler extends CommandHandler {
     HrCommandHandler(UserCredentials hrUser) {
 
         this.username = hrUser.getUserName();
-        this.firmID = String.valueOf(hrUser.getFirmId());
+        this.firmID = hrUser.getFirmId();
 
     }
 
@@ -42,7 +42,7 @@ public class HrCommandHandler extends CommandHandler {
         return this.username;
     }
 
-    public String getFirmID() {
+    public Long getFirmID() {
         return this.firmID;
     }
 
@@ -78,7 +78,7 @@ public class HrCommandHandler extends CommandHandler {
     public void createJob(
             String title,
             String details,
-            String firmID,
+            Long firmID,
             Long numLabour,
             List<jobTags> hashTags,
             List<String> interviewStages,
@@ -87,7 +87,7 @@ public class HrCommandHandler extends CommandHandler {
             List<requiredDocs> docs
     ) {
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
-        sessionData.jobPostingsDb.addItem(new JobPosting(title, details, sessionData.firmsDb.getItemByID(Long.parseLong(firmID)), numLabour, location, newRange,
+        sessionData.jobPostingsDb.addItem(new JobPosting(title, details, sessionData.firmsDb.getItemByID(firmID), numLabour, location, newRange,
                      interviewStages, hashTags, skills, docs, sessionData.jobPostingsDb.getCurrID()));
     }
 

@@ -21,7 +21,7 @@ public class HRForm extends JDialog {
 
         this.hrCH = inHRCH;
         String userName = this.hrCH.getUsername();
-        String firmName = this.hrCH.getFirmID();
+        Long firmName = this.hrCH.getFirmID();
         this.subMenuTitle = "Firm " + firmName + ": " + userName;
 
         this.contentPane.setBorder(BorderFactory.createTitledBorder(this.subMenuTitle));

@@ -86,7 +86,7 @@ public class RefererForm extends JDialog {
     private void onChooseApplication(String app) {
         String refLetter = GUI.editTextForm("", "Cover Letter editor");
         boolean verify = GUI.yesNoForm("Do you want to submit this reference letter?");
-        if (verify) {
+        if (verify && refLetter != null) {
             this.commandHandler.addReferenceLetter(Long.parseLong(JobApplicationQuery.parseListString(app)), refLetter);
             MessageBox messageBox = new MessageBox("Reference Letter Submission", "Reference letter submitted!");
         } else {

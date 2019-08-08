@@ -137,7 +137,6 @@ public class HRJobOptionsForm extends HRForm {
         query.put(jobPostingFilters.FIRM, super.hrCH.getFirmID());
 
         List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getListStrings();
-        System.out.println(inJobList);
 
         //List<String> inJobList = super.hrCH.getOpenJobsList();
         if (inJobList.isEmpty()) {

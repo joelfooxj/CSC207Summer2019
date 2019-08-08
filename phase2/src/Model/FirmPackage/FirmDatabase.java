@@ -14,7 +14,7 @@ public class FirmDatabase extends TemplateDatabase<Firm> {
      * @return Firm object
      */
     public Firm getFirmByFirmName(String firmName) {
-        for (Firm firm : this) {
+        for (Firm firm : this.getListOfItems()) {
             if (firm.getFirmName().equals(firmName)) {
                 return firm;
             }

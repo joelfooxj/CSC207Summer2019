@@ -74,6 +74,9 @@ public class ApplicantJobsForm extends ApplicantForm {
         this.updateJobsFields();
     }
 
+    /**
+     * This method applies for the JobPostings that are selected.
+     */
     private void onApply() {
         List<String> jobIDs = new ArrayList<>();
         for (Object obj : this.jobsList.getSelectedValuesList()) {
@@ -85,7 +88,8 @@ public class ApplicantJobsForm extends ApplicantForm {
     }
 
     /**
-     * This method updates and populates the jLists of this form.
+     * This method checks for the selected tags and the selected location,
+     * and updates and displays the list of JobPostings accordingly.
      */
     private void updateJobsFields() {
         HashSet<jobTags> tagsList = new HashSet<>();
@@ -125,6 +129,10 @@ public class ApplicantJobsForm extends ApplicantForm {
         this.jobsList.setListData(inJobsList.toArray());
     }
 
+    /**
+     * Get the list of locations from all JobPostings
+     * @return
+     */
     private List<String> getLocations() {
         HashMap<jobPostingFilters, Object> filterHM = new HashMap<jobPostingFilters, Object>() {
             {

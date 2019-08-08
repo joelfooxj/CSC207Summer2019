@@ -43,12 +43,6 @@ public class ApplicantApplicationForm extends ApplicantForm {
         exitButton.addActionListener(actionEvent -> dispose());
         withdrawButton.addActionListener(actionEvent -> withdrawConfirmation());
 
-        /**
-         * On selecting a jobApplication from appList, do the following:
-         * - Enable buttons for CV, CoverLetter and Reference Letters accordingly.
-         * - Enable withdraw button .
-         * - Set the descriptions for the jobApplication and the jobPosting associated with it.
-         */
         appList.addListSelectionListener(listSelectionEvent -> appListSelection());
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -59,6 +53,12 @@ public class ApplicantApplicationForm extends ApplicantForm {
         });
     }
 
+    /**
+     * This returns a HashMap filter that filters for JobApplications that are Open and
+     * associated with the JobApplication
+     * @param appListString: the selected JobApplication ID
+     * @return HashMap filter to pass to the Query class
+     */
     private HashMap<jobAppFilterKeys, Object> filterHM(String appListString) {
         return new HashMap<jobAppFilterKeys, Object>() {
             {
@@ -68,6 +68,11 @@ public class ApplicantApplicationForm extends ApplicantForm {
         };
     }
 
+    /**
+     * This executes the following when selecting an item from the JobApplication list:
+     * - Enables CV, Cover Letter, Reference Letters, Withdraw button accordingly
+     * - Gets and displays the JobApplication description and JobPosting description
+     */
     private void appListSelection() {
         String selectedAppID = (String) appList.getSelectedValue();
         if (selectedAppID != null) {
@@ -120,6 +125,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
         }
     }
 
+
     private void openRefLettersForm(){
         String selectedAppListString = (String) this.appList.getSelectedValue();
         String inRefLetters= this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getRefLetters();
@@ -129,6 +135,11 @@ public class ApplicantApplicationForm extends ApplicantForm {
         GUI.messageBox("Reference Letters", inRefLetters);
     }
 
+    /**
+     * This method checks for the required Documents of the selected JobApplication and
+     * enables the document buttons appropriately.
+     * @param appListString: The ID of the selected JobApplication
+     */
     private void checkCVCLRefButtonEnable(String appListString) {
         List<requiredDocs> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(appListString)).getRequiredDocuments();
         this.CVButton.setEnabled(requiredDocsList.contains(requiredDocs.CV));
@@ -136,6 +147,10 @@ public class ApplicantApplicationForm extends ApplicantForm {
         this.referenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
     }
 
+    /**
+     * This methods gets a list of open JobApplication names associated with
+     * this applicant, and populates the JobApplication list
+     */
     private void updateForm() {
         setButtonStatus(false);
         HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<jobAppFilterKeys, Object>() {
@@ -152,11 +167,19 @@ public class ApplicantApplicationForm extends ApplicantForm {
         this.appList.setListData(inJobAppIDs.toArray());
     }
 
+    /**
+     * This method sets the following buttons to enabled if true,
+     * disabled if false:
+     * - Withdraw
+     * - Cover Letter
+     * - CV
+     * - Reference Letters
+     * @param enabled: boolean representing the button state
+     */
     private void setButtonStatus(boolean enabled) {
         this.withdrawButton.setEnabled(enabled);
         this.coverletterButton.setEnabled(enabled);
         this.CVButton.setEnabled(enabled);
-        this.coverletterButton.setEnabled(enabled);
         this.referenceLettersButton.setEnabled(enabled);
     }
 }

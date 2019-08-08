@@ -20,6 +20,11 @@ public class SelectUser extends JDialog {
     private CommandHandler commandHandler;
 
 
+    /**
+     * This form display Users for selection and returns the selected User ID
+     * @param filter
+     * @param commandHandler
+     */
     public SelectUser(HashMap filter, CommandHandler commandHandler) {
         this.commandHandler = commandHandler;
         setContentPane(contentPane);
@@ -39,8 +44,11 @@ public class SelectUser extends JDialog {
             }
         });
 
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
+
 
     private void onSelect() {
         if (userCredentialsJList.getSelectedValue() != null) {

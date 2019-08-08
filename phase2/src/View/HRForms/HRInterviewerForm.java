@@ -1,5 +1,7 @@
 package View.HRForms;
 
+import View.GUI;
+import View.GUI.*;
 import Control.CommandHandlers.HrCommandHandler;
 import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
@@ -90,14 +92,7 @@ public class HRInterviewerForm extends HRForm {
         HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
         filter.put(UserCredentialsDatabase.usersFilterKeys.ACCOUNT_TYPE, UserCredentials.userTypes.INTERVIEWER);
         filter.put(UserCredentialsDatabase.usersFilterKeys.FIRM_ID, HRInterviewerForm.super.hrCH.getFirmID());
-        SelectUser selectUser = new SelectUser(filter, super.hrCH);
-
-        selectUser.setAlwaysOnTop(true);
-        selectUser.pack();
-        selectUser.setSize(500, 500);
-        selectUser.setVisible(true);
-
-        Long userID = selectUser.getUser();
+        Long userID = GUI.selectUser(filter, super.hrCH);
         if (userID != null) {
             super.hrCH.assignInterviewer(Long.parseLong(JobApplicationQuery.parseListString(appListString)), userID);
         }

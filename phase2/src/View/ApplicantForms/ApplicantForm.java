@@ -54,6 +54,7 @@ public class ApplicantForm extends JDialog {
         this.updateForm();
     }
 
+
     private void onApps() {
         ApplicantApplicationForm appApplicationForm = new ApplicantApplicationForm(this.appCH);
         appApplicationForm.pack();
@@ -69,6 +70,11 @@ public class ApplicantForm extends JDialog {
         this.minDaysLabel.setText("It's been " + this.appCH.getMinDays() + " days since your last closed application.");
     }
 
+    /**
+     * Displays the list of JobApplications that are closed and open in the appropriate
+     * text boxes.
+     * @param open
+     */
     private void updateAppFields(Boolean open) {
         HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<>();
         filterHM.put(jobAppFilterKeys.APPLICANT_ID, this.appCH.getApplicantID());

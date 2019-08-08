@@ -1,18 +1,13 @@
 package View;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import Control.*;
-import Control.CommandHandlers.ApplicantCommandHandler;
-import Control.CommandHandlers.HrCommandHandler;
-import Control.CommandHandlers.InterviewerCommandHandler;
-import Control.CommandHandlers.RefererCommandHandler;
+import Control.CommandHandlers.*;
 import Model.UserCredentialsPackage.UserCredentials;
 import View.ApplicantForms.ApplicantForm;
-import View.Common.MessageBox;
-import View.Common.SetDate;
-import View.Common.TextEditorForm;
-import View.Common.YesNo;
+import View.Common.*;
 import View.HRForms.HRForm;
 
 public class GUI {
@@ -93,5 +88,14 @@ public class GUI {
         dialog.pack();
         dialog.setSize(500, 500);
         dialog.setVisible(true);
+    }
+
+    public static Long selectUser(HashMap filter, CommandHandler inCH){
+        SelectUser selectUser = new SelectUser(filter, inCH);
+        selectUser.setAlwaysOnTop(true);
+        selectUser.pack();
+        selectUser.setSize(500, 500);
+        selectUser.setVisible(true);
+        return selectUser.getUser();
     }
 }

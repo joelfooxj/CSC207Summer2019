@@ -66,7 +66,7 @@ public class HrCommandHandler extends CommandHandler {
         long numHired = inJob.getNumberOfPositions();
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> query = new HashMap<>();
         query.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, inJob.getJobId());
-        for (JobApplication app : filter.getJobAppsFilter(query).getFilteredJobApps()) {
+        for (JobApplication app : this.query.getJobAppsFilter(query).getFilteredJobApps()) {
             if (app.isSuccessful()) {
                 numHired--;
             }

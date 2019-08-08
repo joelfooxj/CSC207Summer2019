@@ -20,6 +20,9 @@ public class JobPostQuery {
         this.filteredJobPosts = filteredJobApps;
     }
 
+    /**
+     * @return A string representation of the selected job
+     */
     public String getRepresentation() {
         if (filteredJobPosts.size() != 1) {
             return null;
@@ -27,6 +30,9 @@ public class JobPostQuery {
         return filteredJobPosts.get(0).toString();
     }
 
+    /**
+     * @return a string representation of all the selected jobs
+     */
     public String getRepresentations() {
         StringBuilder repr = new StringBuilder();
         for (JobPosting job : this.filteredJobPosts) {
@@ -36,6 +42,9 @@ public class JobPostQuery {
         return repr.toString();
     }
 
+    /**
+     * @return A list of string containing the unique set of locations in the filtered jobs
+     */
     public List<String> getLocationList() {
         HashSet<String> locationSet = new HashSet<>();
         for (JobPosting job : filteredJobPosts) {
@@ -44,6 +53,9 @@ public class JobPostQuery {
         return new ArrayList<>(locationSet);
     }
 
+    /** filters out the jobs that don't contain any of the tags provided
+     * @param tags
+     */
     public void applyHashtagFilter(HashSet<jobTags> tags) {
         List<JobPosting> jobPostList = this.filteredJobPosts;
         jobPostList = jobPostList.stream().filter(jobPosting ->
@@ -51,14 +63,20 @@ public class JobPostQuery {
         this.filteredJobPosts = jobPostList;
     }
 
-    public void filterByHasApplied(List<Long> jobIDs) {
+    /** filters out the jobs that don't who's ID is not provided in the list JobIDs
+     * @param jobIDs list of jobs to keep
+     */
+    public void filterJobsByJobIDs(List<Long> jobIDs) {
         List<JobPosting> jobPostList = this.filteredJobPosts;
         jobPostList = jobPostList.stream().filter(jobPosting ->
                 !jobIDs.contains(jobPosting.getJobId())).collect(Collectors.toList());
         this.filteredJobPosts = jobPostList;
     }
 
-    public List<String> getListStrings() {
+    /**
+     * @return a list of strings of the job posts representation
+     */
+    public List<String> getRepresentationsList() {
         List<String> listString = new ArrayList<>();
         for (JobPosting jobPosting : this.filteredJobPosts) {
             listString.add(jobPosting.listString());

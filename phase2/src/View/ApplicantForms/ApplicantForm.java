@@ -79,7 +79,7 @@ public class ApplicantForm extends JDialog {
         HashMap<jobAppFilterKeys, Object> filterHM = new HashMap<>();
         filterHM.put(jobAppFilterKeys.APPLICANT_ID, this.appCH.getApplicantID());
         filterHM.put(jobAppFilterKeys.OPEN, open);
-        String inJobAppPrintout = this.appCH.filter.getJobAppsFilter(filterHM).getPrintout();
+        String inJobAppPrintout = this.appCH.query.getJobAppsFilter(filterHM).getRepresentations();
         if (open.equals(true)) {
             this.openAppsTextArea.setText(inJobAppPrintout);
         } else {

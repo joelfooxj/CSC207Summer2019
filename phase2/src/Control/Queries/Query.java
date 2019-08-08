@@ -8,14 +8,14 @@ import Model.UserCredentialsPackage.UserCredentialsDatabase;
 import java.util.HashMap;
 
 
-public class Filter {
+public class Query {
     /**
-     * Class constructs different types of Queries by providing filter HashMaps from databases
+     * Class constructs different types of Queries by providing query HashMaps from databases
      */
 
     private SessionData sessionData;
 
-    public Filter(SessionData sessionData) {
+    public Query(SessionData sessionData) {
         this.sessionData = sessionData;
     }
 

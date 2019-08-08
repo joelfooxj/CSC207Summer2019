@@ -6,6 +6,9 @@ import Model.requiredDocs;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class JobApplicationQuery {
 
     /**
@@ -18,6 +21,9 @@ public class JobApplicationQuery {
         this.filteredJobApps = filteredJobApps;
     }
 
+    /**
+     * @return a list containing job post identifiers
+     */
     public List<Long> getJobIDs() {
         List<Long> jobIDs = new ArrayList<>();
         for (JobApplication jobApplication : this.filteredJobApps) {
@@ -26,6 +32,9 @@ public class JobApplicationQuery {
         return jobIDs;
     }
 
+    /**
+     * @return the identifier of the job selected
+     */
     public Long getJobID() {
         if (filteredJobApps.size() != 1) {
             return null;
@@ -34,6 +43,9 @@ public class JobApplicationQuery {
     }
 
 
+    /**
+     * @return A String that contains all the reference letters given for this application
+     */
     public String getRefLetters() {
         if (filteredJobApps.size() != 1) {
             return null;
@@ -47,6 +59,9 @@ public class JobApplicationQuery {
         return referenceLetters.toString();
     }
 
+    /**
+     * @return A string representation of the resume submitted in the application
+     */
     public String getResume() {
         if (filteredJobApps.size() != 1) {
             return null;
@@ -54,6 +69,9 @@ public class JobApplicationQuery {
         return filteredJobApps.get(0).getCV();
     }
 
+    /**
+     * @return A string representation of the coverletter submitted in the application
+     */
     public String getCoverLetter() {
         if (filteredJobApps.size() != 1) {
             return null;
@@ -61,6 +79,9 @@ public class JobApplicationQuery {
         return filteredJobApps.get(0).getCoverLetter();
     }
 
+    /**
+     * @return A representation of the selected job application
+     */
     public String getRepresentation() {
         if (filteredJobApps.size() != 1) {
             return null;
@@ -68,6 +89,9 @@ public class JobApplicationQuery {
         return filteredJobApps.get(0).toString();
     }
 
+    /**
+     * @return a list of required documents in a job application
+     */
     public List<requiredDocs> getRequiredDocuments() {
         if (filteredJobApps.size() != 1) {
             return null;
@@ -79,7 +103,10 @@ public class JobApplicationQuery {
         return filteredJobApps;
     }
 
-    public String getPrintout() {
+    /**
+     * @return a string representation of all the applications selected
+     */
+    public String getRepresentations() {
         StringBuilder printout = new StringBuilder();
         for (JobApplication application : this.filteredJobApps) {
             printout.append(application.toString());
@@ -88,6 +115,9 @@ public class JobApplicationQuery {
         return printout.toString();
     }
 
+    /**
+     * @return a list containing the representation of all the job applications selected
+     */
     public List<String> getListStrings() {
         List<String> listStrings = new ArrayList<>();
         for (JobApplication application : this.filteredJobApps) {
@@ -100,6 +130,9 @@ public class JobApplicationQuery {
         return listString.substring(1, listString.indexOf("]"));
     }
 
+    /**
+     * @return a list containing the representation of all the applicants in the job applications selected
+     */
     public List<String> getApplicantStrings() {
         List<String> applicantList = new ArrayList<>();
         for (JobApplication application : this.filteredJobApps) {

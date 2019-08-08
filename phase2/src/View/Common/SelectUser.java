@@ -23,7 +23,7 @@ public class SelectUser extends JDialog {
 
 
     /**
-     * This form display Users for selection and returns the selected User ID
+     * This form displays Users for selection and returns the selected User ID
      *
      * @param filter
      * @param commandHandler

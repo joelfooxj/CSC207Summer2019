@@ -70,6 +70,10 @@ public class Login extends JDialog {
         });
     }
 
+    /**
+     * This method gets the username and password and returns the appropriate UserCredentials.
+     * Resets the username and password text fields if not found, or incorrect.
+     */
     private void onLogin() {
         String userName = this.usernameField.getText().trim();
         String password = String.valueOf(this.passwordField.getPassword()).trim();
@@ -84,6 +88,10 @@ public class Login extends JDialog {
         }
     }
 
+    /**
+     * This method registers the username, password, and Applicant Type as UserCredential
+     * and returns that UserCredential.
+     */
     private void onRegister() {
         String userName = this.usernameField.getText().trim();
         String password = String.valueOf(this.passwordField.getPassword()).trim();
@@ -110,6 +118,9 @@ public class Login extends JDialog {
         }
     }
 
+    /**
+     * This method resets the username and password text fields.
+     */
     private void resetFields() {
         this.usernameField.setText("");
         this.passwordField.setText("");

@@ -24,9 +24,7 @@ public class RefererForm extends JDialog {
     private JButton addReferenceLetterButton;
     private JButton buttonExit;
 
-
     private RefererCommandHandler commandHandler;
-
 
     /**
      * Form for Referers
@@ -61,6 +59,11 @@ public class RefererForm extends JDialog {
         });
     }
 
+    /**
+     * This method displays the list of Applicant whose usernames match the text in the Find User
+     * text field.
+     * @param search: The text in the Find User text field
+     */
     private void onFindUser(String search) {
 
         HashMap<UserCredentialsDatabase.usersFilterKeys, Object> query = new HashMap<>();
@@ -72,6 +75,11 @@ public class RefererForm extends JDialog {
         userOptions.setViewportView(userCredentialsJList);
     }
 
+    /**
+     * This method gets the list of open JobApplications associated with the selected Applicant and
+     * displays them, and disables the Reference Letter button.
+     * @param userREPR: The username of the Applicant
+     */
     private void onSelectUser(String userREPR) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_REPR, userREPR);
@@ -82,6 +90,11 @@ public class RefererForm extends JDialog {
         addReferenceLetterButton.setEnabled(false);
     }
 
+    /**
+     * This method sets the description text to the description of the selected JobApplication
+     * and enables the Reference Letter button.
+     * @param app: The String representation of the selected JobApplication.
+     */
     private void onSelectApplication(String app) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.LIST_STRING, app);
@@ -89,6 +102,11 @@ public class RefererForm extends JDialog {
         addReferenceLetterButton.setEnabled(true);
     }
 
+    /**
+     * This method opens the text editor form and adds a reference letter text for this
+     * application.
+     * @param app: The String representation of the selected JobApplication
+     */
     private void onChooseApplication(String app) {
         String refLetter = GUI.editTextForm("", "Reference Letter editor");
         boolean verify = GUI.yesNoForm("Do you want to submit this reference letter?");

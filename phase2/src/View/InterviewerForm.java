@@ -73,6 +73,10 @@ class InterviewerForm extends JDialog {
         });
     }
 
+    /**
+     * This method recommends the selected JobApplications and updates the list
+     * of JobApplications accordingly
+     */
     private void setRecommendedApps() {
         for (Object value : this.jobApplicationList.getSelectedValuesList()) {
             String selectedString = (String) value;
@@ -81,6 +85,10 @@ class InterviewerForm extends JDialog {
         updateForm();
     }
 
+    /**
+     * This method rejects the selected JobApplications and updates the list
+     * of JobApplications accordingly
+     */
     private void setRejectedApps() {
         for (Object value : this.jobApplicationList.getSelectedValuesList()) {
             String selectedString = (String) value;
@@ -89,6 +97,12 @@ class InterviewerForm extends JDialog {
         updateForm();
     }
 
+    /**
+     * This creates the HashMap filter for JobApplications that are open and match
+     * the given String representation.
+     * @param applicationString: The String representation of the selected JobApplication
+     * @return HashMap filter
+     */
     private HashMap<jobAppFilterKeys, Object> filterHM(String applicationString) {
         HashMap<jobAppFilterKeys, Object> newfilter = new HashMap<jobAppFilterKeys, Object>() {
             {
@@ -100,6 +114,11 @@ class InterviewerForm extends JDialog {
     }
 
 
+    /**
+     * This method enables/disables the required documents buttons based on
+     * the selected JobApplications.
+     * @param inJobAppString: The String representation of the selected JobApplication
+     */
     private void checkCVCLRefButtonEnable(String inJobAppString) {
         List<requiredDocs> requiredDocsList = this.iCH.query.getJobAppsFilter(filterHM(inJobAppString)).getRequiredDocuments();
         this.seeCVButton.setEnabled(requiredDocsList.contains(requiredDocs.CV));
@@ -107,24 +126,37 @@ class InterviewerForm extends JDialog {
         this.seeReferenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
     }
 
+    /**
+     * This method displays the selected JobApplications's CV.
+     */
     private void onCVButton() {
         String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
         String inCV = this.iCH.query.getJobAppsFilter(filterHM(selectedAppString)).getResume();
         GUI.messageBox("CV", inCV);
     }
 
+    /**
+     * This method displays the selected JobApplications's cover letter.
+     */
     private void onCoverLetterButton() {
         String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
         String inCoverLetter = this.iCH.query.getJobAppsFilter(filterHM(selectedAppString)).getCoverLetter();
         GUI.messageBox("Cover Letter", inCoverLetter);
     }
 
+    /**
+     * This method displays the selected JobApplication's Reference Letters
+     */
     private void onRefLettersButton() {
         String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
         String inRefLetters = this.iCH.query.getJobAppsFilter(filterHM(selectedAppString)).getRefLetters();
         GUI.messageBox("Reference Letters", inRefLetters);
     }
 
+    /**
+     * This method gets the list of JobApplications that have been assigned to this
+     * interviewer and displays them for selection.
+     */
     private void updateForm() {
         setButtonState(false);
         HashMap<jobAppFilterKeys, Object> filter = new HashMap<>();
@@ -140,6 +172,13 @@ class InterviewerForm extends JDialog {
         this.jobApplicationList.setListData(inJobAppList.toArray());
     }
 
+    /**
+     * This sets the state of the following buttons to enabled/disabled:
+     * - Recommend
+     * - Reject
+     * - Required Document buttons
+     * @param enabled: the boolean state to set the buttons to
+     */
     private void setButtonState(boolean enabled) {
         recommendButton.setEnabled(enabled);
         rejectButton.setEnabled(enabled);

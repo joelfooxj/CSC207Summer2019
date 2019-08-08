@@ -18,6 +18,7 @@ public class HyreSession {
 
     /**
      * Loads program data with the option of loading test files or user saved files
+     *
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -33,6 +34,7 @@ public class HyreSession {
 
     /**
      * Saves session data, with the option of overriding the test data
+     *
      * @throws IOException
      */
     private void saveSessionData() throws IOException {
@@ -57,6 +59,7 @@ public class HyreSession {
 
     /**
      * Adds user to user credentials database and returns user credentials object
+     *
      * @param userName
      * @param password
      * @param accountType
@@ -81,6 +84,7 @@ public class HyreSession {
      * Main program loop.
      * Launches session by getting date, current user and initializing command handler.
      * Allows exiting of program.
+     *
      * @throws IOException
      * @throws ClassNotFoundException
      */

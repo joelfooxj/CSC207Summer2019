@@ -25,6 +25,7 @@ public class UserCredentials implements Serializable, Observer {
 
     /**
      * this constructor is only for the HR & interviewers
+     *
      * @param userName: the login username of the HR/ interviewer (applicant does NOT use this constructor)
      * @param password: the password of the account
      * @param type:     the type of the user. It is either HR or interviewer
@@ -41,6 +42,7 @@ public class UserCredentials implements Serializable, Observer {
 
     /**
      * this constructor is only for the applicants
+     *
      * @param userName:     the login username of the applicant (HR& interviewer do NOT use this constructor)
      * @param password:     the password of this account
      * @param type:         the type of the user, which is applicant
@@ -71,15 +73,9 @@ public class UserCredentials implements Serializable, Observer {
         return firmId;
     }
 
-    @Override
-    public String toString() {
-        return "Username: " + this.userName;
-    }
-
     public LocalDate getCreationDate() {
         return this.creationDate;
     }
-
 
     public Long getUserID() {
         return this.userId;
@@ -89,19 +85,23 @@ public class UserCredentials implements Serializable, Observer {
         return this.inbox;
     }
 
+    @Override
+    public String toString() {
+        return "Username: " + this.userName;
+    }
 
     @Override
     public void update(Observable o, Object arg) {
         List argument = (ArrayList) arg;
         if (argument.get(0).equals("hire") && argument.get(1).equals(this.userId)) {
             inbox.add("You get a message from company " + argument.get(2) +
-                    " You are hired by our company. You are welcome!");
+                    "! You are hired by our company. You are welcome!");
         } else if (argument.get(0).equals("reject") && argument.get(1).equals(this.userId)) {
             inbox.add("You get a message from company " + argument.get(2) +
-                    " Congratulations! You are kindly rejected by us");
+                    "! Congratulations! You are kindly rejected by us");
         } else if (argument.get(0).equals("recommend") && argument.get(1).equals(this.userId)) {
             inbox.add("You get a message from company " + argument.get(2) +
-                    "Congratulations! You are recommended to the next round of interviews!");
+                    "! Congratulations! You are recommended to the next round of interviews!");
         }
     }
 

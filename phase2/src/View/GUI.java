@@ -1,14 +1,14 @@
 package View;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-
-import Control.*;
 import Control.CommandHandlers.*;
+import Control.HyreSession;
 import Model.UserCredentialsPackage.UserCredentials;
 import View.ApplicantForms.ApplicantForm;
 import View.Common.*;
 import View.HRForms.HRForm;
+
+import java.time.LocalDate;
+import java.util.HashMap;
 
 public class GUI {
     /**
@@ -90,7 +90,7 @@ public class GUI {
         dialog.setVisible(true);
     }
 
-    public static Long selectUser(HashMap filter, CommandHandler inCH){
+    public static Long selectUser(HashMap filter, CommandHandler inCH) {
         SelectUser selectUser = new SelectUser(filter, inCH);
         selectUser.setAlwaysOnTop(true);
         selectUser.pack();

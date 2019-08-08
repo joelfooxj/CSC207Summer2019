@@ -8,13 +8,11 @@ import Model.JobPostingPackage.JobPostingDatabase.jobPostingFilters;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
-
-import java.util.List;
-
-
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
+import java.util.List;
 
 public class HRJobOptionsForm extends HRForm {
     private JPanel contentPane;
@@ -138,7 +136,6 @@ public class HRJobOptionsForm extends HRForm {
 
         List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getListStrings();
 
-        //List<String> inJobList = super.hrCH.getOpenJobsList();
         if (inJobList.isEmpty()) {
             this.jobDesc.setText("There are no jobs.");
         } else {
@@ -149,7 +146,7 @@ public class HRJobOptionsForm extends HRForm {
     private void updateAppList() {
         setButtonEnabled(false);
         this.appDesc.setText("");
-        String selectedJobID =(String) this.jobsList.getSelectedValue();
+        String selectedJobID = (String) this.jobsList.getSelectedValue();
         if (selectedJobID != null) {
             selectedJobID = JobPostQuery.parseListString((String) this.jobsList.getSelectedValue());
             HashMap<jobAppFilterKeys, Object> query = new HashMap<>();

@@ -2,16 +2,16 @@ package View.ApplicantForms;
 
 import Control.CommandHandlers.ApplicantCommandHandler;
 import Control.Queries.JobApplicationQuery;
-import Model.requiredDocs;
-
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.HashMap;
-import java.util.List;
-
 import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
 import Model.JobPostingPackage.JobPostingDatabase.jobPostingFilters;
+import Model.requiredDocs;
 import View.GUI;
+
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.List;
 
 public class ApplicantApplicationForm extends ApplicantForm {
     private JPanel contentPane;
@@ -56,6 +56,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
     /**
      * This returns a HashMap filter that filters for JobApplications that are Open and
      * associated with the JobApplication
+     *
      * @param appListString: the selected JobApplication ID
      * @return HashMap filter to pass to the Query class
      */
@@ -126,9 +127,9 @@ public class ApplicantApplicationForm extends ApplicantForm {
     }
 
 
-    private void openRefLettersForm(){
+    private void openRefLettersForm() {
         String selectedAppListString = (String) this.appList.getSelectedValue();
-        String inRefLetters= this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getRefLetters();
+        String inRefLetters = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getRefLetters();
         if (inRefLetters == null) {
             inRefLetters = "";
         }
@@ -138,6 +139,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
     /**
      * This method checks for the required Documents of the selected JobApplication and
      * enables the document buttons appropriately.
+     *
      * @param appListString: The ID of the selected JobApplication
      */
     private void checkCVCLRefButtonEnable(String appListString) {
@@ -174,6 +176,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
      * - Cover Letter
      * - CV
      * - Reference Letters
+     *
      * @param enabled: boolean representing the button state
      */
     private void setButtonStatus(boolean enabled) {

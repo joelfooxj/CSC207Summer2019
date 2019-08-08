@@ -2,19 +2,20 @@ package View.HRForms;
 
 import Control.CommandHandlers.HrCommandHandler;
 import Control.Queries.JobApplicationQuery;
+import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
 import Model.requiredDocs;
-
+import View.GUI;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
-import View.GUI;
 
 public class HRApplicantOptions extends HRForm {
     private JPanel contentPane;

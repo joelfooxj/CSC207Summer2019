@@ -1,7 +1,5 @@
 package View.HRForms;
 
-import View.GUI;
-import View.GUI.*;
 import Control.CommandHandlers.HrCommandHandler;
 import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
@@ -9,13 +7,13 @@ import Model.JobApplicationPackage.JobApplicationDatabase;
 import Model.JobPostingPackage.JobPostingDatabase;
 import Model.UserCredentialsPackage.UserCredentials;
 import Model.UserCredentialsPackage.UserCredentialsDatabase;
-import View.Common.SelectUser;
+import View.GUI;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 
 public class HRInterviewerForm extends HRForm {
     private JPanel panel;

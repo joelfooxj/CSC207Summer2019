@@ -4,7 +4,8 @@ import Control.CommandHandlers.ApplicantCommandHandler;
 import Model.JobApplicationPackage.JobApplicationDatabase.jobAppFilterKeys;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 
 public class ApplicantForm extends JDialog {
@@ -73,6 +74,7 @@ public class ApplicantForm extends JDialog {
     /**
      * Displays the list of JobApplications that are closed and open in the appropriate
      * text boxes.
+     *
      * @param open
      */
     private void updateAppFields(Boolean open) {

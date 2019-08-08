@@ -3,8 +3,8 @@ package Model.JobPostingPackage;
 import Model.TemplateDatabase;
 
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
 
 public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements java.io.Serializable {
 
@@ -16,7 +16,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     /**
      * returns the job post corresponding to job post id
      *
-     * @param id  - id of job posting
+     * @param id - id of job posting
      * @return - Job Post
      */
     public JobPosting getJobPostingByID(Long id) {
@@ -38,6 +38,7 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
     /**
      * Returns a list of job postings that meet the criteria of filters and their values contained
      * in the HashMap. For list of filters see enum jobPostingFilters.
+     *
      * @param filtration - HashMap containing filters that are being applied
      * @return
      */
@@ -46,12 +47,12 @@ public class JobPostingDatabase extends TemplateDatabase<JobPosting> implements 
         List<JobPosting> jobPostList = this.getListOfItems();
         if (filtration.containsKey(jobPostingFilters.FIRM)) {
             jobPostList.removeIf(jobPosting -> !jobPosting.getFirmId().equals(filtration.get(jobPostingFilters.FIRM)));
-    }
+        }
         if (filtration.containsKey(jobPostingFilters.OPEN)) {
             jobPostList.removeIf(jobPosting -> !jobPosting.isOpen(sessionDate));
         }
         if (filtration.containsKey(jobPostingFilters.LOCATION)) {
-            jobPostList.removeIf(jobPosting -> !checkLocations(filtration.get(jobPostingFilters.LOCATION),jobPosting));
+            jobPostList.removeIf(jobPosting -> !checkLocations(filtration.get(jobPostingFilters.LOCATION), jobPosting));
         }
         if (filtration.containsKey(jobPostingFilters.JOB_ID)) {
             jobPostList.removeIf(jobPosting -> !jobPosting.getJobId().equals(filtration.get(jobPostingFilters.JOB_ID)));

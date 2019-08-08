@@ -1,15 +1,17 @@
 package Control.CommandHandlers;
 
 import Control.DateRange;
-import Model.*;
 import Model.JobApplicationPackage.JobApplication;
 import Model.JobApplicationPackage.JobApplicationDatabase;
 import Model.JobPostingPackage.JobPosting;
 import Model.JobPostingPackage.jobTags;
 import Model.UserCredentialsPackage.UserCredentials;
+import Model.requiredDocs;
 import View.GUI;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class HrCommandHandler extends CommandHandler {
 
@@ -78,7 +80,8 @@ public class HrCommandHandler extends CommandHandler {
 
     /**
      * Reject application by Application ID
-     * @param appID
+     *
+     * @param appID id of the application to reject
      */
     public void rejectApplicationID(String appID) {
         sessionData.jobAppsDb.getApplicationByApplicationID(Long.parseLong(appID)).reject(sessionDate);
@@ -97,13 +100,14 @@ public class HrCommandHandler extends CommandHandler {
     ) {
         DateRange newRange = new DateRange(sessionDate, sessionDate.plusDays(this.JOBLIFESPAN));
         sessionData.jobPostingsDb.addItem(new JobPosting(title, details, sessionData.firmsDb.getItemByID(firmID), numLabour, location, newRange,
-                     interviewStages, hashTags, skills, docs, sessionData.jobPostingsDb.getCurrID()));
+                interviewStages, hashTags, skills, docs, sessionData.jobPostingsDb.getCurrID()));
     }
 
     /**
      * Assign interviewer to application based on IDs
-     * @param application
-     * @param interviewer
+     *
+     * @param application  id of application to assign interviewer to
+     * @param interviewer  id of user to assign as the interviewer for the application
      */
     public void assignInterviewer(Long application, Long interviewer) {
         sessionData.jobAppsDb.getItemByID(application).setUpInterview(interviewer);

@@ -8,7 +8,8 @@ import Model.requiredDocs;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,7 @@ class InterviewerForm extends JDialog {
 
     /**
      * Form for Interviewer Users
+     *
      * @param commandHandler
      */
 
@@ -56,8 +58,8 @@ class InterviewerForm extends JDialog {
                 String selectedAppString = (String) jobApplicationList.getSelectedValue();
                 if (selectedAppString != null) {
                     checkCVCLRefButtonEnable(selectedAppString);
-                   rejectButton.setEnabled(true);
-                   recommendButton.setEnabled(true);
+                    rejectButton.setEnabled(true);
+                    recommendButton.setEnabled(true);
                 }
 
             }
@@ -105,19 +107,19 @@ class InterviewerForm extends JDialog {
         this.seeReferenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
     }
 
-    private void onCVButton(){
+    private void onCVButton() {
         String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
         String inCV = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getResume();
         GUI.messageBox("CV", inCV);
     }
 
-    private void onCoverLetterButton(){
+    private void onCoverLetterButton() {
         String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
         String inCoverLetter = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getCoverLetter();
         GUI.messageBox("Cover Letter", inCoverLetter);
     }
 
-    private void onRefLettersButton(){
+    private void onRefLettersButton() {
         String selectedAppString = (String) this.jobApplicationList.getSelectedValue();
         String inRefLetters = this.iCH.filter.getJobAppsFilter(filterHM(selectedAppString)).getRefLetters();
         GUI.messageBox("Reference Letters", inRefLetters);

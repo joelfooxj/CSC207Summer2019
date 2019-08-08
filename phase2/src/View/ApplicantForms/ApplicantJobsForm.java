@@ -1,19 +1,19 @@
 package View.ApplicantForms;
 
 import Control.CommandHandlers.ApplicantCommandHandler;
-
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-
 import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
 import Model.JobApplicationPackage.JobApplicationDatabase;
 import Model.JobPostingPackage.JobPostingDatabase.jobPostingFilters;
 import Model.JobPostingPackage.jobTags;
+
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class ApplicantJobsForm extends ApplicantForm {
     private JPanel contentPane;
@@ -131,6 +131,7 @@ public class ApplicantJobsForm extends ApplicantForm {
 
     /**
      * Get the list of locations from all JobPostings
+     *
      * @return
      */
     private List<String> getLocations() {

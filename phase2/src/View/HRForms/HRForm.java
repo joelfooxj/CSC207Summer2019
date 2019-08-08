@@ -3,7 +3,8 @@ package View.HRForms;
 import Control.CommandHandlers.HrCommandHandler;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class HRForm extends JDialog {
     private JPanel contentPane;

@@ -1,7 +1,7 @@
 package Control.CommandHandlers;
 
 import Model.UserCredentialsPackage.UserCredentials;
-import View.*;
+import View.GUI;
 
 public class InterviewerCommandHandler extends CommandHandler {
     /**

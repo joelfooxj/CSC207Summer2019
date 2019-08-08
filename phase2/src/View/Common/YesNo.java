@@ -1,7 +1,8 @@
 package View.Common;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class YesNo extends JDialog {
 

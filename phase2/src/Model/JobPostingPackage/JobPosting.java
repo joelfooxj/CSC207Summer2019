@@ -31,7 +31,7 @@ public class JobPosting extends Observable implements Serializable {
     };
 
 
-    private HashMap<jobTags, String> printJobTagsHM = new HashMap<jobTags, String>(){
+    private HashMap<jobTags, String> printJobTagsHM = new HashMap<jobTags, String>() {
         {
             put(jobTags.FULL_TIME, "Full-time");
             put(jobTags.PART_TIME, "Part-time");
@@ -52,7 +52,6 @@ public class JobPosting extends Observable implements Serializable {
      * @param jobDateRange      - contains {@link #publishDate} and {@link #expiryDate}
      * @param hashTags          - contains hashtags associated with a job
      */
-    //TODO code smell: too many paramaters.
     public JobPosting(String title, String details, Firm firm, long numberOfPositions, String location,
                       DateRange jobDateRange, List<String> interviewStages, Collection<jobTags> hashTags,
                       List<String> skills, List<requiredDocs> docs, Long jobId) {
@@ -122,7 +121,7 @@ public class JobPosting extends Observable implements Serializable {
             printDocs.add(printDocsHashMap.get(doc));
         }
         List<String> printTags = new ArrayList<>();
-        for (jobTags tag: this.hashTags){
+        for (jobTags tag : this.hashTags) {
             printTags.add(printJobTagsHM.get(tag));
         }
         return "Job ID: " + jobId + "\n" + "Job Title: " + jobTitle + "\n" + "Job Description: " +
@@ -149,7 +148,7 @@ public class JobPosting extends Observable implements Serializable {
         return this.firm.getFirmId();
     }
 
-    public String getFirmName(){
+    public String getFirmName() {
         return this.firm.getFirmName();
     }
 
@@ -178,7 +177,7 @@ public class JobPosting extends Observable implements Serializable {
      */
     public boolean containsAllHashTags(HashSet<jobTags> searchHashTags) {
 
-        if(searchHashTags.isEmpty()){
+        if (searchHashTags.isEmpty()) {
             return true;
         }
 

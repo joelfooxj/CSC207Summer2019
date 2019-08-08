@@ -156,6 +156,7 @@ public class JobApplication extends Observable implements Serializable, Observer
     /**
      * When an HR decides to hire this person, 3 variables(status) will be changed.
      * the application gets closed and the close date is right now.
+     *
      * @param date: the date when HR decides to hire this person
      */
     public void hire(LocalDate date) {
@@ -181,7 +182,6 @@ public class JobApplication extends Observable implements Serializable, Observer
         this.isOpen = false;
         this.closedDate = date;
         setChanged();
-        // this ArrayList is similar as hire() method
         List<Object> argument = new ArrayList<>();
         argument.add("reject");
         argument.add(this.getApplicantID());

@@ -52,7 +52,7 @@ class SaveFilesHandler {
     /**
      * loads saved data
      *
-     * @throws IOException if file doesn't exist
+     * @throws IOException            if file doesn't exist
      * @throws ClassNotFoundException if class is not found
      */
     private void readAll() throws IOException, ClassNotFoundException {
@@ -67,7 +67,7 @@ class SaveFilesHandler {
      * Loads saved test data
      *
      * @throws ClassNotFoundException if class is not found
-     * @throws IOException if file doesn't exist
+     * @throws IOException            if file doesn't exist
      */
     void loadTestFiles() throws ClassNotFoundException, IOException {
         setTestData();

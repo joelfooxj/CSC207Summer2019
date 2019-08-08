@@ -13,8 +13,8 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     }
 
     /**
-     * @param user:         the user making the application
-     * @param jobPosting:   the jobPosting being applied to
+     * @param user:       the user making the application
+     * @param jobPosting: the jobPosting being applied to
      */
     public JobApplication addApplication(UserCredentials user,
                                          JobPosting jobPosting) {
@@ -43,6 +43,7 @@ public class JobApplicationDatabase extends TemplateDatabase<JobApplication> {
     /**
      * Returns a list of job applications that meet the criteria of filters and their values contained
      * in the HashMap. For list of filters see enum jobAppFilterKeys.
+     *
      * @param filtration - HashMap containing filters that are being applied
      * @return
      */

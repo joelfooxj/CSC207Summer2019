@@ -17,7 +17,6 @@ public abstract class CommandHandler {
     LocalDate sessionDate;
     public Filter filter;
 
-    // todo: use constructor
     public void setSessionData(SessionData sessionData) {
 
         this.sessionData = sessionData;

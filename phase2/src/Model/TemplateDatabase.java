@@ -1,9 +1,12 @@
 package Model;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
-public abstract class TemplateDatabase<T>{
+public abstract class TemplateDatabase<T> {
 
     /**
      * Generic database that provides concrete database with HashMap to store
@@ -15,6 +18,7 @@ public abstract class TemplateDatabase<T>{
 
     /**
      * Reads file into database
+     *
      * @param fileName
      * @throws IOException
      * @throws ClassNotFoundException

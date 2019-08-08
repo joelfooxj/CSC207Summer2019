@@ -4,7 +4,8 @@ import Control.HyreSession;
 import Model.UserCredentialsPackage.UserCredentials;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -34,6 +35,7 @@ public class Login extends JDialog {
 
     /**
      * Form for different types of users to login
+     *
      * @param session
      */
     public Login(HyreSession session) {
@@ -60,7 +62,6 @@ public class Login extends JDialog {
             }
         });
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -72,10 +73,6 @@ public class Login extends JDialog {
     private void onLogin() {
         String userName = this.usernameField.getText().trim();
         String password = String.valueOf(this.passwordField.getPassword()).trim();
-//        GUI.messageBox(userName + "\n" + password);
-        // pass userName and password back to the interface, which will handle the query...
-        // HyreLauncher.adduser -> userdb to add user...
-
 
         UserCredentials targetUser = session.getSessionData().usersDb.getUserByCredentials(userName, password);
         if (targetUser == null) {
@@ -96,7 +93,6 @@ public class Login extends JDialog {
             this.errorLabel.setText("User already exists");
         } else {
             String accountType = (String) this.userTypeBox.getSelectedItem();
-            // todo: maybe combine the addUser methods?
             if (accountType.equals("Applicant") || accountType.equals("Referer")) {
                 this.retUser = session.addUser(userName, password,
                         stringEnumLink.get(accountType), "");

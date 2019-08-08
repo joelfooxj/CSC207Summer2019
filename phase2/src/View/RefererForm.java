@@ -1,15 +1,15 @@
 package View;
 
-import Control.Queries.JobApplicationQuery;
 import Control.CommandHandlers.RefererCommandHandler;
+import Control.Queries.JobApplicationQuery;
 import Model.JobApplicationPackage.JobApplicationDatabase;
 import Model.UserCredentialsPackage.UserCredentials;
 import Model.UserCredentialsPackage.UserCredentialsDatabase;
 import View.Common.MessageBox;
 
 import javax.swing.*;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 
 public class RefererForm extends JDialog {
 
@@ -30,7 +30,8 @@ public class RefererForm extends JDialog {
 
     /**
      * Form for Referers
-     * @param commandHandler
+     *
+     * @param commandHandler the command handler for this form to use
      */
     RefererForm(RefererCommandHandler commandHandler) {
         setContentPane(panel);
@@ -89,7 +90,7 @@ public class RefererForm extends JDialog {
     }
 
     private void onChooseApplication(String app) {
-        String refLetter = GUI.editTextForm("", "Cover Letter editor");
+        String refLetter = GUI.editTextForm("", "Reference Letter editor");
         boolean verify = GUI.yesNoForm("Do you want to submit this reference letter?");
         if (verify && refLetter != null) {
             this.commandHandler.addReferenceLetter(Long.parseLong(JobApplicationQuery.parseListString(app)), refLetter);

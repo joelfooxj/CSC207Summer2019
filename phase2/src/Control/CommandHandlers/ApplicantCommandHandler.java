@@ -31,7 +31,7 @@ public class ApplicantCommandHandler extends CommandHandler {
         if (!inboxMessages.isEmpty()) {
             GUI.messageBox("Messages", String.join("\n", inboxMessages));
         } else {
-            GUI.messageBox("Messages", String.join("\n",  "You Have no messages!"));
+            GUI.messageBox("Messages", String.join("\n", "You Have no messages!"));
         }
 
     }

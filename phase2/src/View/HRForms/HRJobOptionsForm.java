@@ -102,7 +102,7 @@ public class HRJobOptionsForm extends HRForm {
             String jobList = this.jobsList.getSelectedValue().toString();
             HashMap<jobPostingFilters, Object> query = new HashMap<>();
             query.put(jobPostingFilters.LIST_STRING, jobList);
-            String jobDesc = super.hrCH.filter.getJobPostsFilter(query).getRepresentation();
+            String jobDesc = super.hrCH.query.getJobPostsFilter(query).getRepresentation();
             this.jobDesc.setText(jobDesc);
         } else {
             this.jobDesc.setText("");
@@ -114,7 +114,7 @@ public class HRJobOptionsForm extends HRForm {
         if (appString != null) {
             HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
             query.put(jobAppFilterKeys.LIST_STRING, appString);
-            String appDesc = super.hrCH.filter.getJobAppsFilter(query).getRepresentation();
+            String appDesc = super.hrCH.query.getJobAppsFilter(query).getRepresentation();
 
             this.appDesc.setText(appDesc);
         } else {
@@ -134,7 +134,7 @@ public class HRJobOptionsForm extends HRForm {
         query.put(jobPostingFilters.OPEN, Boolean.TRUE);
         query.put(jobPostingFilters.FIRM, super.hrCH.getFirmID());
 
-        List<String> inJobList = super.hrCH.filter.getJobPostsFilter(query).getListStrings();
+        List<String> inJobList = super.hrCH.query.getJobPostsFilter(query).getRepresentationsList();
 
         if (inJobList.isEmpty()) {
             this.jobDesc.setText("There are no jobs.");
@@ -152,7 +152,7 @@ public class HRJobOptionsForm extends HRForm {
             HashMap<jobAppFilterKeys, Object> query = new HashMap<>();
             query.put(jobAppFilterKeys.JOB_ID, Long.parseLong(selectedJobID));
             query.put(jobAppFilterKeys.OPEN, Boolean.TRUE);
-            List<String> inJobAppList = super.hrCH.filter.getJobAppsFilter(query).getListStrings();
+            List<String> inJobAppList = super.hrCH.query.getJobAppsFilter(query).getListStrings();
 
             if (inJobAppList.isEmpty()) {
                 this.appDesc.setText("There are no applications for this job.");

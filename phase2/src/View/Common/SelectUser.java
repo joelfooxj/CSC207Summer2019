@@ -37,7 +37,7 @@ public class SelectUser extends JDialog {
         buttonSelect.addActionListener(e -> onSelect());
         buttonCancel.addActionListener(e -> onCancel());
 
-        List<String> userCredentialsList = this.commandHandler.filter.getUsersFilter(filter).getRepresentations();
+        List<String> userCredentialsList = this.commandHandler.query.getUsersFilter(filter).getRepresentations();
         userCredentialsJList.setListData(userCredentialsList.toArray(new String[userCredentialsList.size()]));
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -58,7 +58,7 @@ public class SelectUser extends JDialog {
 
             HashMap<UserCredentialsDatabase.usersFilterKeys, Object> filter = new HashMap<>();
             filter.put(UserCredentialsDatabase.usersFilterKeys.REPR, userCredentialsJList.getSelectedValue());
-            this.user = commandHandler.filter.getUsersFilter(filter).getIDs().get(0);
+            this.user = commandHandler.query.getUsersFilter(filter).getIDs().get(0);
             GUI.messageBox("Select User", "User " + this.user.toString() + " Selected!");
             dispose();
         } else {

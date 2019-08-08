@@ -1,5 +1,6 @@
 package View.HRForms;
 
+import View.GUI;
 import Control.CommandHandlers.HrCommandHandler;
 import Control.Queries.JobApplicationQuery;
 import Control.Queries.JobPostQuery;
@@ -7,7 +8,6 @@ import Model.JobApplicationPackage.JobApplicationDatabase;
 import Model.JobPostingPackage.JobPostingDatabase;
 import Model.UserCredentialsPackage.UserCredentials;
 import Model.UserCredentialsPackage.UserCredentialsDatabase;
-import View.GUI;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -39,7 +39,7 @@ public class HRInterviewerForm extends HRForm {
         HashMap<JobPostingDatabase.jobPostingFilters, Object> filter = new HashMap<>();
         filter.put(JobPostingDatabase.jobPostingFilters.FIRM, HRInterviewerForm.super.hrCH.getFirmID());
         filter.put(JobPostingDatabase.jobPostingFilters.OPEN, Boolean.TRUE);
-        List<String> jobPostingList = hrCH.filter.getJobPostsFilter(filter).getListStrings();
+        List<String> jobPostingList = hrCH.query.getJobPostsFilter(filter).getRepresentationsList();
         jobPostingJList.setListData(jobPostingList.toArray(new String[jobPostingList.size()]));
         buttonChooseInterviewer.setEnabled(false);
 
@@ -69,7 +69,7 @@ public class HRInterviewerForm extends HRForm {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.JOB_ID, Long.parseLong(JobPostQuery.parseListString(jobListString)));
         filter.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
-        List<String> appList = hrCH.filter.getJobAppsFilter(filter).getListStrings();
+        List<String> appList = hrCH.query.getJobAppsFilter(filter).getListStrings();
         if (appList != null) {
             jobApplicationJList.setListData(appList.toArray(new String[appList.size()]));
             appPane.setViewportView(jobApplicationJList);
@@ -82,7 +82,7 @@ public class HRInterviewerForm extends HRForm {
     private void onAppSelection(String appListString) {
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> filter = new HashMap<>();
         filter.put(JobApplicationDatabase.jobAppFilterKeys.LIST_STRING, appListString);
-        detailedApp.setText(hrCH.filter.getJobAppsFilter(filter).getRepresentation());
+        detailedApp.setText(hrCH.query.getJobAppsFilter(filter).getRepresentation());
         buttonChooseInterviewer.setEnabled(true);
     }
 

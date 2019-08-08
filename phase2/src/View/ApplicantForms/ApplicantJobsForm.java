@@ -106,14 +106,14 @@ public class ApplicantJobsForm extends ApplicantForm {
             query.put(jobPostingFilters.LOCATION, setLocation);
         }
         query.put(jobPostingFilters.OPEN, Boolean.TRUE);
-        JobPostQuery jobPostQuery = this.appCH.filter.getJobPostsFilter(query);
+        JobPostQuery jobPostQuery = this.appCH.query.getJobPostsFilter(query);
         jobPostQuery.applyHashtagFilter(tagsList);
         HashMap<JobApplicationDatabase.jobAppFilterKeys, Object> appQuery = new HashMap<>();
         appQuery.put(JobApplicationDatabase.jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
         appQuery.put(JobApplicationDatabase.jobAppFilterKeys.OPEN, Boolean.TRUE);
-        JobApplicationQuery jobApplicationQuery = this.appCH.filter.getJobAppsFilter(appQuery);
+        JobApplicationQuery jobApplicationQuery = this.appCH.query.getJobAppsFilter(appQuery);
         if (jobApplicationQuery.getJobIDs() != null) {
-            jobPostQuery.filterByHasApplied(jobApplicationQuery.getJobIDs());
+            jobPostQuery.filterJobsByJobIDs(jobApplicationQuery.getJobIDs());
         }
 
         String jobsRepr;
@@ -125,7 +125,7 @@ public class ApplicantJobsForm extends ApplicantForm {
 
         this.jobsTextArea.setText((jobsRepr != null ? jobsRepr : " "));
 
-        List<String> inJobsList = jobPostQuery.getListStrings();
+        List<String> inJobsList = jobPostQuery.getRepresentationsList();
         this.jobsList.setListData(inJobsList.toArray());
     }
 
@@ -140,6 +140,6 @@ public class ApplicantJobsForm extends ApplicantForm {
                 put(jobPostingFilters.OPEN, Boolean.TRUE);
             }
         };
-        return this.appCH.filter.getJobPostsFilter(filterHM).getLocationList();
+        return this.appCH.query.getJobPostsFilter(filterHM).getLocationList();
     }
 }

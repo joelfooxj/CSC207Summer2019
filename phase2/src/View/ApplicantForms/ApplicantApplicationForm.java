@@ -54,11 +54,11 @@ public class ApplicantApplicationForm extends ApplicantForm {
     }
 
     /**
-     * This returns a HashMap filter that filters for JobApplications that are Open and
+     * This returns a HashMap query that filters for JobApplications that are Open and
      * associated with the JobApplication
      *
      * @param appListString: the selected JobApplication ID
-     * @return HashMap filter to pass to the Query class
+     * @return HashMap query to pass to the Query class
      */
     private HashMap<jobAppFilterKeys, Object> filterHM(String appListString) {
         return new HashMap<jobAppFilterKeys, Object>() {
@@ -79,12 +79,12 @@ public class ApplicantApplicationForm extends ApplicantForm {
         if (selectedAppID != null) {
             checkCVCLRefButtonEnable(selectedAppID);
             withdrawButton.setEnabled(true);
-            Long inJobPostingID = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getJobID();
+            Long inJobPostingID = appCH.query.getJobAppsFilter(filterHM(selectedAppID)).getJobID();
             HashMap<jobPostingFilters, Object> jobPostingHM = new HashMap<>();
             jobPostingHM.put(jobPostingFilters.JOB_ID, inJobPostingID);
             jobPostingHM.put(jobPostingFilters.OPEN, Boolean.TRUE);
-            String inJobPostDesc = appCH.filter.getJobPostsFilter(jobPostingHM).getRepresentation();
-            String inJobAppDesc = appCH.filter.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation();
+            String inJobPostDesc = appCH.query.getJobPostsFilter(jobPostingHM).getRepresentation();
+            String inJobAppDesc = appCH.query.getJobAppsFilter(filterHM(selectedAppID)).getRepresentation();
             jobTextArea.setText(inJobAppDesc);
             appTextArea.setText(inJobPostDesc);
         }
@@ -104,7 +104,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
 
     private void openCVForm() {
         String selectedAppListString = (String) this.appList.getSelectedValue();
-        String inCV = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getResume();
+        String inCV = this.appCH.query.getJobAppsFilter(filterHM(selectedAppListString)).getResume();
         if (inCV == null) {
             inCV = "";
         }
@@ -116,7 +116,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
 
     private void openCoverLetterForm() {
         String selectedAppListString = (String) this.appList.getSelectedValue();
-        String inCoverLetter = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getCoverLetter();
+        String inCoverLetter = this.appCH.query.getJobAppsFilter(filterHM(selectedAppListString)).getCoverLetter();
         if (inCoverLetter == null) {
             inCoverLetter = "";
         }
@@ -129,7 +129,8 @@ public class ApplicantApplicationForm extends ApplicantForm {
 
     private void openRefLettersForm() {
         String selectedAppListString = (String) this.appList.getSelectedValue();
-        String inRefLetters = this.appCH.filter.getJobAppsFilter(filterHM(selectedAppListString)).getRefLetters();
+        String inRefLetters= this.appCH.query.getJobAppsFilter(filterHM(selectedAppListString)).getRefLetters();
+
         if (inRefLetters == null) {
             inRefLetters = "";
         }
@@ -143,7 +144,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
      * @param appListString: The ID of the selected JobApplication
      */
     private void checkCVCLRefButtonEnable(String appListString) {
-        List<requiredDocs> requiredDocsList = this.appCH.filter.getJobAppsFilter(filterHM(appListString)).getRequiredDocuments();
+        List<requiredDocs> requiredDocsList = this.appCH.query.getJobAppsFilter(filterHM(appListString)).getRequiredDocuments();
         this.CVButton.setEnabled(requiredDocsList.contains(requiredDocs.CV));
         this.coverletterButton.setEnabled(requiredDocsList.contains(requiredDocs.COVERLETTER));
         this.referenceLettersButton.setEnabled(requiredDocsList.contains(requiredDocs.REFERENCELETTERS));
@@ -161,7 +162,7 @@ public class ApplicantApplicationForm extends ApplicantForm {
                 put(jobAppFilterKeys.APPLICANT_ID, appCH.getApplicantID());
             }
         };
-        List<String> inJobAppIDs = this.appCH.filter.getJobAppsFilter(filterHM).getListStrings();
+        List<String> inJobAppIDs = this.appCH.query.getJobAppsFilter(filterHM).getListStrings();
         if (inJobAppIDs.isEmpty()) {
             this.appTextArea.setText("You have no open applications.");
             this.jobTextArea.setText("You have no open applications.");

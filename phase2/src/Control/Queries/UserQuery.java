@@ -17,6 +17,9 @@ public class UserQuery {
         this.filteredUsers = filteredUsers;
     }
 
+    /**
+     * @return
+     */
     public List<String> getRepresentations() {
         List<String> userReps = new ArrayList<>();
         for (UserCredentials user : filteredUsers) {
@@ -25,6 +28,9 @@ public class UserQuery {
         return userReps;
     }
 
+    /**
+     * @return
+     */
     public List<Long> getIDs() {
         ArrayList<Long> ids = new ArrayList<>();
         for (UserCredentials user : this.filteredUsers) {

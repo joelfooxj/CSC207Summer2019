@@ -1,6 +1,6 @@
 package Control.CommandHandlers;
 
-import Control.Queries.Filter;
+import Control.Queries.Query;
 import Control.SessionData;
 
 import java.time.LocalDate;
@@ -15,12 +15,12 @@ public abstract class CommandHandler {
 
     SessionData sessionData;
     LocalDate sessionDate;
-    public Filter filter;
+    public Query query;
 
     public void setSessionData(SessionData sessionData) {
 
         this.sessionData = sessionData;
-        this.filter = new Filter(sessionData);
+        this.query = new Query(sessionData);
     }
 
     public void setSessionDate(LocalDate sessionDate) {

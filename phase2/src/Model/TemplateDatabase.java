@@ -3,15 +3,10 @@ package Model;
 import java.io.*;
 import java.util.*;
 
-public abstract class TemplateDatabase<T> implements Iterable<T> {
+public abstract class TemplateDatabase<T>{
 
     private HashMap<Long, T> data = new HashMap<>();
     private long currID = 0;
-
-    @Override
-    public Iterator<T> iterator() {
-        return new AbstractDatabaseIterator();
-    }
 
     public void readDatabase(String fileName) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
@@ -48,27 +43,6 @@ public abstract class TemplateDatabase<T> implements Iterable<T> {
 
     public long getCurrID() {
         return this.currID;
-    }
-
-    public class AbstractDatabaseIterator implements Iterator<T> {
-        private int current = 0;
-
-        @Override
-        public boolean hasNext() {
-            return current < getListOfItems().size();
-        }
-
-
-        @Override
-        public T next() {
-            if (hasNext()) {
-                T result = getListOfItems().get(current);
-                current++;
-                return result;
-            }
-            throw new NoSuchElementException();
-        }
-
     }
 
 }

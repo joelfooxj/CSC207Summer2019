@@ -9,5 +9,5 @@ When asked, "Do you want to import default test setup?":
 - No will import data from the <ObjectTypes>.bin files.
 
 When asked, "Do you want to override default test setup?":
-- Yes will override data in the Test<ObjectTypes>.bin files, or new Test<ObjectTypes>.bin files will be created.
-- No will override data from the <ObjecTypes>.bin files, or new <ObjectTypes>.bin files will be created.
+- Yes will override data in the Test<ObjectTypes>.bin files, or new Test<ObjectTypes>.bin files will be created on exit.
+- No will override data from the <ObjecTypes>.bin files, or new <ObjectTypes>.bin files will be created on exit.
